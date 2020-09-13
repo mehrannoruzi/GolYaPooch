@@ -1,9 +1,17 @@
-﻿namespace GolPooch.Domain.Enum
+﻿using System.ComponentModel;
+
+namespace GolPooch.Domain.Enum
 {
     public enum TicketType
     {
-        Enteghadat = 1,
-        Pishnahadat = 2,
+        [Description("سوال")]
+        Soal = 1,
+
+        [Description("انتقاد")]
+        Enteghad = 2,
+
+        [Description("پیشنهاد")]
+        Pishnahad = 3,
 
     }
 }

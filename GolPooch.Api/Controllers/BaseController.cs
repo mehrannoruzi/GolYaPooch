@@ -14,6 +14,7 @@ namespace GolPooch.Api.Controllers
     {
         private readonly IMemoryCacheProvider _cacheProvider;
         private readonly string _regionCacheKey = GlobalVariables.CacheSettings.RegionCacheKey();
+        private readonly string _ticketTypeCacheKey = GlobalVariables.CacheSettings.TiketTypeCacheKey();
 
         public BaseController(IMemoryCacheProvider cacheProvider)
         {
@@ -47,6 +48,34 @@ namespace GolPooch.Api.Controllers
             }
         }
 
+        private List<KeyValue> GetTicketTypes()
+        {
+            var response = new List<KeyValue>();
+            try
+            {
+                response = (List<KeyValue>)_cacheProvider.Get(_ticketTypeCacheKey);
+                if (response == null)
+                {
+                    response = new List<KeyValue>();
+                    EnumExtension.GetEnumElements<TicketType>()
+                        .ForEach(element =>
+                        {
+                            response.Add(new KeyValue { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
+                        });
+
+                    _cacheProvider.Add(_ticketTypeCacheKey, response, DateTime.Now.AddHours(GlobalVariables.CacheSettings.TiketTypeCacheTimeout()));
+                }
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                return response;
+            }
+        }
+
+
 
         /// <summary>
         /// Return Region Enum in key,Value model
@@ -56,6 +85,10 @@ namespace GolPooch.Api.Controllers
         [HttpGet]
         public IActionResult Regions()
             => Ok(GetRegions());
+
+        [HttpGet]
+        public IActionResult TicketTypes()
+            => Ok(GetTicketTypes());
 
     }
 }

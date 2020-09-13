@@ -11,10 +11,12 @@ namespace GolPooch.CrossCutting
             public static int BannerCacheTimeout() => 3;
             public static int ChestCacheTimeout() => 24;
             public static int RegionCacheTimeout() => 24;
+            public static int TiketTypeCacheTimeout() => 24;
 
             public static string BannerCacheKey() => "BannerCache";
             public static string ChestCacheKey() => "ChestCache";
             public static string RegionCacheKey() => "RegionCache";
+            public static string TiketTypeCacheKey() => "TiketTypeCache";
         }
 
 

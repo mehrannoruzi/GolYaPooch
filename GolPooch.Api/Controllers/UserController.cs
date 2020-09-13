@@ -14,6 +14,7 @@ namespace GolPooch.Api.Controllers
         public UserController(IUserService userService)
             => _userService = userService;
 
+
         [HttpPost]
         public async Task<JsonResult> UpdateProfileAsync(User user, [FromBody] UserDto userDto)
             => Json(await _userService.UpdateProfileAsync(user.UserId, userDto));
