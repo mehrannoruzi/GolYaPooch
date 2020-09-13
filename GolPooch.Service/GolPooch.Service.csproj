@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Orchestrate\**" />
+    <EmbeddedResource Remove="Orchestrate\**" />
+    <None Remove="Orchestrate\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elk.Cache" Version="1.1.0" />
+    <PackageReference Include="Elk.Http" Version="1.1.3" />
+    <PackageReference Include="Kavenegar" Version="1.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GolPooch.CrossCutting\GolPooch.CrossCutting.csproj" />
+    <ProjectReference Include="..\GolPooch.DataAccess.Ef\GolPooch.DataAccess.Ef.csproj" />
+    <ProjectReference Include="..\GolPooch.SmsGateway\GolPooch.SmsGateway.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Implements\Auth\" />
+    <Folder Include="Implements\Payment\" />
+    <Folder Include="Interfaces\Auth\" />
+    <Folder Include="Interfaces\Payment\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resourses\ServiceMessage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServiceMessage.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resourses\ServiceMessage.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
