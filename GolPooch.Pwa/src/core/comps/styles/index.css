@@ -1,0 +1,40 @@
+#comp-bottom-up-modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+#comp-bottom-up-modal .content {
+  background-color: #fff;
+  position: absolute;
+  right: 15px;
+  left: 15px;
+  bottom: 0;
+  margin-top: 20%;
+  padding: 0 15px 15px 15px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+#comp-bottom-up-modal .content .header {
+  position: relative;
+}
+
+#comp-bottom-up-modal .content .header .hx {
+  padding: 15px 0;
+  margin: 0;
+}
+
+#comp-bottom-up-modal .content .header .btn-close {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: 0;
+  color: #666;
+}
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,230 @@
+$marginBottom: 15px;
+$primaryColor: #3498db;
+
+* {
+  outline: none !important;
+}
+#root {
+  min-height: 100vh;
+}
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+p {
+  margin: 0;
+}
+button {
+  background: none;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+a {
+  color: #666;
+  text-decoration: none;
+
+  &:hover {
+    color: #666;
+  }
+}
+ul,
+ol {
+  padding: 0;
+}
+.mb-15 {
+  margin-bottom: 15px;
+}
+.ltr-elm {
+  direction: ltr;
+  text-align: left;
+
+  input {
+    direction: ltr;
+    text-align: left;
+  }
+}
+.va-middle {
+  vertical-align: middle;
+}
+/*-----------------------------------
+     remove browser autofill 
+------------------------------------*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  background-color: none;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/*-----------------------------------
+              place holder
+------------------------------------*/
+.ph-c::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.ph-c:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center;
+}
+
+.ph-c::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center;
+}
+
+.ph-c:-ms-input-placeholder {
+  text-align: center;
+}
+.ph-r {
+  &::-webkit-input-placeholder {
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+  input::-webkit-input-placeholder {
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+}
+
+.ph-r {
+  &:-moz-placeholder {
+    /* Firefox 18- */
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+  input:-moz-placeholder {
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+}
+
+.ph-r {
+  &::-moz-placeholder {
+    /* Firefox 19+ */
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+  input::-moz-placeholder {
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+}
+.ph-r {
+  &:-ms-input-placeholder {
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+  input:-ms-input-placeholder {
+    text-align: right;
+    font-family: "iransans";
+    direction: rtl;
+  }
+}
+.form-group {
+  margin-bottom: $marginBottom - 5px;
+  text-align: center;
+  width: 100%;
+}
+.btn-group {
+  margin-bottom: $marginBottom;
+  width: 100%;
+}
+.btn-link {
+  border: none;
+  background-color: transparent;
+  color: $primaryColor;
+  &:hover {
+    border: none;
+    background-color: transparent;
+    color: $primaryColor;
+  }
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.d-none {
+  display: none;
+}
+.page {
+  min-height: 100vh;
+}
+/*==================================
+-- Material UI
+====================================*/
+.MuiFormLabel-root,
+.MuiMenuItem-root {
+  font-family: "iransans" !important;
+}
+.MuiFormControl-root {
+  width: 100%;
+
+  .MuiOutlinedInput-multiline {
+    padding: 0;
+  }
+}
+.MuiFormHelperText-contained {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+.MuiInputBase-root {
+  margin-bottom: 18px;
+  &.Mui-error {
+    margin-bottom: 0;
+  }
+}
+.MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error {
+  height: 15px;
+}
+.MuiTextField-root {
+  .MuiOutlinedInput-input {
+    padding: 14px;
+  }
+  .MuiInputLabel-outlined {
+    transform: translate(-14px, 15px) scale(1);
+  }
+}
+.MuiCircularProgress-colorPrimary {
+  color: #fff !important;
+}
+.MuiAlert-message {
+  display: flex;
+  align-items: center;
+}
+/*==================================
+-- Buttons
+====================================*/
+.btn-primary {
+  color: #fff;
+  background-color: #1976d2;
+  padding: 7px 10px;
+  border-radius: 5px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  min-width: 100px;
+
+  &:hover {
+    background-color: rgb(17, 82, 147);
+    color: #fff;
+  }
+}
