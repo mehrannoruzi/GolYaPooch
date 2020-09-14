@@ -73,10 +73,10 @@ namespace GolPooch.Api
                             $"URL:{filterContext.HttpContext.Request.Path.Value}" + Environment.NewLine +
                             $"UrlReferer:{filterContext.HttpContext.Request.GetTypedHeaders().Referer}");
 
-                        filterContext.HttpContext.Response.StatusCode = 403;
+                        filterContext.HttpContext.Response.StatusCode = 401;
                         filterContext.Result = new JsonResult(new Response<object>
                         {
-                            ResultCode = 403,
+                            ResultCode = 401,
                             IsSuccessful = false,
                             Message = "UnAuthorized Access. Token Not Sent."
                         });

@@ -3,21 +3,20 @@ import config from '../../config';
 import strings from './../strings';
 function parseBody(response) {
     if (response.status === 200)
-        return response;
+        return response.data;
     else
         return Promise.reject(response);
 }
 let instance = Axios.create({
-    withCredentials: true,
     timeout: 60000,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Credentials': '*',
     }
 });
 instance.interceptors.request.use((conf) => {
-    conf.headers.apiKey = config.apiGateway.API_KEY;
+    conf.headers.Token = config.apiGateway.API_KEY;
     return conf;
 }, error => Promise.reject(error));
 

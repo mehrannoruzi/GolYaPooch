@@ -1,7 +1,7 @@
 ﻿const dev = {
     apiGateway: {
-        API_KEY: "5E5AE551-D93E-4801-BC02-22A5CEB71F08",
-        URL: "http://localhost:5032/"
+        API_KEY: "F7192259-AC89-4FBB-8033-ACE703B659FB",
+        URL: "https://localhost:44318/"
     },
     salt: 'shahrooz_bazrafshan',
     keys: {

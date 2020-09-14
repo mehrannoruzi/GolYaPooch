@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import bottomUpModalState from './../../atom/state/bottomUpModalState';
+import buttomUpModalState from './../state/bottomUpModalState';
 
 export default function () {
-    const [rState, setRState] = useRecoilState(bottomUpModalState);
+    const [rState, setRState] = useRecoilState(buttomUpModalState);
     const handleClose = () => {
         setRState({ ...rState, open: false, message: '' });
     }

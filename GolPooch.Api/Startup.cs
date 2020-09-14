@@ -15,6 +15,7 @@ namespace GolPooch.Api
 {
     public class Startup
     {
+        private const string AllowedOrigins = "_Origins";
         private IConfiguration _config { get; }
         private JwtSettings _jwtSettings { set; get; }
         private SwaggerSetting _swaggerSetting { set; get; }
@@ -75,6 +76,19 @@ namespace GolPooch.Api
 
             services.AddElkJwtConfiguration(_jwtSettings);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowedOrigins, builder =>
+                {
+                    builder
+                        .WithOrigins(_config.GetSection("AllowOrigin").Value.Split(";"))
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
             services.AddMemoryCache();
 
             services.Configure<JwtSettings>(_config.GetSection("JwtSetting"));
@@ -92,7 +106,7 @@ namespace GolPooch.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseElkCrossOriginResource();
+             app.UseElkCrossOriginResource();
 
             app.UseElkSwaggerConfiguration(_swaggerSetting);
 
@@ -107,14 +121,12 @@ namespace GolPooch.Api
                     await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
                 });
             });
-
+            
             app.UseMiddleware<JwtParserMiddleware>();
-
             app.UseElkJwtConfiguration();
-
             app.UseRouting();
-
             app.UseMvcWithDefaultRoute();
+            app.UseCors(AllowedOrigins);
         }
     }
 }

@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "src/pages/auth/styles/index.css",
+    "inputFile": "src/pages/auth/styles/index.scss"
+  },
+  {
+    "outputFile": "src/assets/styles/index.css",
+    "inputFile": "src/assets/styles/index.scss"
+  }
+]

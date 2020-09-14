@@ -24,7 +24,7 @@ namespace GolPooch.Api.Controllers
             _authenticateService = authenticateService;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<JsonResult> GetCodeAsync(long mobileNumber)
             => Json(await _authenticateService.GetCodeAsync(mobileNumber));
 

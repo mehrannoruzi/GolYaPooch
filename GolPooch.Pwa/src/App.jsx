@@ -2,8 +2,8 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import EmptyLayout from './layouts/emptyLayout';
 import NavigationLayout from './layouts/navigationLayout';
-import Toast from './core/comps/Toast';
-import BottomUpModal from './core/comps/BottomUpModal';
+import Toast from './atom/comps/Toast';
+import BottomUpModal from './atom/comps/BottomUpModal';
 
 export default class App extends Component {
     render() {
