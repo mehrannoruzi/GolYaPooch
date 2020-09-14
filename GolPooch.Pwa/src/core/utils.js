@@ -15,7 +15,7 @@ export const validate = {
 
 export const decrypt = (txt) => {
     var bytes = CryptoJS.AES.decrypt(txt, config.salt);
-    return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return bytes.toString(CryptoJS.enc.Utf8);
 }
 
-export const encrypt = (infoObj) => CryptoJS.AES.encrypt(JSON.stringify(infoObj), config.salt).toString();
+export const encrypt = (infoStr) => CryptoJS.AES.encrypt(infoStr, config.salt).toString();

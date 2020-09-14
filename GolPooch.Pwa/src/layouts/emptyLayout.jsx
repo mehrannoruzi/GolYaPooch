@@ -5,7 +5,7 @@ import Authorization from '../pages/auth';
 const EmptyLayout = () => {
     return (
             <Switch>
-                <Route path="/" component={Authorization} />
+                <Route exact path="/" component={Authorization} />
             </Switch>
     );
 }

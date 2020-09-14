@@ -51,6 +51,17 @@ ol {
     text-align: left;
   }
 }
+.ltr {
+  direction: ltr;
+  input {
+    direction: ltr;
+  }
+}
+.text-center {
+  input {
+    text-align: center;
+  }
+}
 .va-middle {
   vertical-align: middle;
 }

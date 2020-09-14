@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, FormControlLabel, Checkbox, Link, Box } from '@material-ui/core';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import strings, { validationStrings } from './../../../core/strings';
 import Button from './../../../atom/comps/Button';
 import authSrv from '../../../services/authSrv';
@@ -23,7 +23,7 @@ export default function () {
     //Recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const [bottomUpModal, setBottomUpModalState] = useRecoilState(bottomUpModalState);
-    const setAuthPageState = useSetRecoilState(authPageState);
+    const [rState, setAuthPageState] = useRecoilState(authPageState);
 
     const _submit = async () => {
         if (!mobileNumber.value) {
@@ -43,7 +43,9 @@ export default function () {
         var response = await authSrv.login(mobileNumber.value).finally(() => {
             setInProgress(false);
         });
-        if (response.isSuccessful) setAuthPageState({ activePanel: 'verify' });
+        if (!response.isSuccessful)
+            setToastState({ ...toast, open: true, severity: 'error', message: response.message });
+        else setAuthPageState({ activePanel: 'verify', mobileNumber: mobileNumber.value, transactionId: response.result });
     }
 
     const _showRules = () => {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Options;
+using GolPooch.Api.Models;
 
 namespace GolPooch.Api.Controllers
 {
@@ -29,10 +30,10 @@ namespace GolPooch.Api.Controllers
             => Json(await _authenticateService.GetCodeAsync(mobileNumber));
 
         [HttpPost]
-        public async Task<JsonResult> VerifyCodeAsync(int transactionId, int pinCode)
+        public async Task<JsonResult> VerifyCodeAsync([FromBody]VerifyCodeModel model)
         {
             var response = new Response<JwtToken>();
-            var verifyResult = await _authenticateService.VerifyCodeAsync(transactionId, pinCode, HttpContext);
+            var verifyResult = await _authenticateService.VerifyCodeAsync(model.TransactionId, model.PinCode, HttpContext);
             if (verifyResult.IsSuccessful)
             {
                 var userClaims = new List<Claim> {

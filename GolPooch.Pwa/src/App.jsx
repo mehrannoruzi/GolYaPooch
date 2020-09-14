@@ -10,8 +10,8 @@ export default class App extends Component {
         return (
             <Router className="layout">
                 <Switch>
-                    <Route path="/" component={EmptyLayout} />
-                    <Route path="/Others" component={NavigationLayout} />
+                    <Route exact path="/pages" component={NavigationLayout} />
+                    <Route exact path="/" component={EmptyLayout} />
                 </Switch>
                 <Toast/>
                 <BottomUpModal/>

@@ -1,9 +1,10 @@
 ﻿import React from 'react';
 
 const Store = () => {
+    console.log('fired');
     return (
         <div>
-            store page
+            <h1>store page</h1>
         </div>
     );
 };

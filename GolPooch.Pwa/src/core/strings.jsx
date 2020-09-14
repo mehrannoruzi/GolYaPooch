@@ -11,6 +11,7 @@
 };
 const strings = {
     signInToSystem: 'ورود به سیستم',
+    confirm:'تایید',
     mobileNumber: 'شماره موبایل',
     aggreedWithRules:'با قوانین و مقررات موافقم',
     pleaseEnterVerifyCode:'لطفا کد تایید پیامک شده را وارد نمایید ',
