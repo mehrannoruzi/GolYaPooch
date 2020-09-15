@@ -314,6 +314,17 @@ body[dir="rtl"] .modal-header .close {
     color: #bd272f;
     border-bottom-color: #bd272f; }
 
+.resentIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  transform: none;
+  line-height: 16px;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  vertical-align: middle;
+  text-decoration: inherit; }
+
 #comp-bottom-up-modal {
   position: absolute;
   top: 0;
@@ -325,8 +336,6 @@ body[dir="rtl"] .modal-header .close {
   #comp-bottom-up-modal .content {
     background-color: #fff;
     position: absolute;
-    right: 15px;
-    left: 15px;
     bottom: 0;
     margin-top: 20%;
     padding: 0 15px 15px 15px;
@@ -342,4 +351,5 @@ body[dir="rtl"] .modal-header .close {
         top: 50%;
         transform: translateY(-50%);
         left: 0;
-        color: #666; }
+        color: #666;
+        font-size: 25px; }

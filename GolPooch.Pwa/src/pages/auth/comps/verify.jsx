@@ -8,6 +8,7 @@ import toastState from '../../../atom/state/toastState';
 import authPageState from '../../../atom/state/authPageState';
 import authSrv from '../../../services/authSrv';
 import Countdown from '../../../atom/comps/Countdown';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 const useStyles = makeStyles({
     spanNumber: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
         display: "inline"
     },
     footerBx: {
-        padding: 15,
+        padding: 10,
         minHeight: 50,
         paddingTop: 10,
         paddingBottom: 10,
@@ -130,7 +131,7 @@ export default function () {
                                 <Grid item xs={4}>
                                     <Box>
                                         <Link href="#" className={classes.changeNumber} onClick={() => _resent()}>
-                                            {strings.verifyCode_sendAgain}
+                                            <i className="resentIcon"> <ReplayIcon /></i> {strings.verifyCode_sendAgain} 
                                         </Link>
                                     </Box>
                                 </Grid>
@@ -143,7 +144,7 @@ export default function () {
                                     <span className={classes.countdown}>
                                         <Countdown {...counterSetting} />
                                     </span>
-                                    {strings.resendCodeCountDown}
+                                    {strings.resendCodeCountDown} 
                                 </Grid>
                             </Grid>
                         </Box>

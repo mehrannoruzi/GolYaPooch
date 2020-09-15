@@ -47,3 +47,14 @@
   .inputVerifyCodePanel .inputVerifyCode.invalid {
     color: #bd272f;
     border-bottom-color: #bd272f; }
+
+.resentIcon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  transform: none;
+  line-height: 16px;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  vertical-align: middle;
+  text-decoration: inherit; }
