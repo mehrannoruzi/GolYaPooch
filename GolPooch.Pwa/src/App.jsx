@@ -13,8 +13,8 @@ export default class App extends Component {
                 <Toast />
                 <Switch>
                     <Route exact path="/" component={Start} />
-                    <Route path="/elayout" component={EmptyLayout} />
-                    <Route path="/nlayout" component={NavigationLayout} />
+                    <Route path="/el" component={EmptyLayout} />
+                    <Route path="/nl" component={NavigationLayout} />
                 </Switch>
                
                 <BottomUpModal/>
