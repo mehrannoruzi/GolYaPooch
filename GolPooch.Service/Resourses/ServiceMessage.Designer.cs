@@ -125,6 +125,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ذخیره فایل ارسالی با خطا رو به رو شده است ویا فایل ارسالی معتبر نمی باشد..
+        /// </summary>
+        public static string FileNotSaved {
+            get {
+                return ResourceManager.GetString("FileNotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کد ارسالی معتبر نمی باشد..
         /// </summary>
         public static string InvalidId {

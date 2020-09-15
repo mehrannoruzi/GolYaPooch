@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using System.IO;
 using GolPooch.Domain.Dto;
 using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
@@ -10,18 +11,19 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class UserService : IUserService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
 
-        public UserService(AppUnitOfWork appUnitOfWork)
+        public UserService(AppUnitOfWork appUnitOfWork, IConfiguration configuration)
         {
             _appUow = appUnitOfWork;
+            _configuration = configuration;
         }
 
         public async Task<IResponse<int>> UpdateProfileAsync(int userId, UserDto userDto)
@@ -119,19 +121,20 @@ namespace GolPooch.Service.Implements
 
                 #region Save Profile Awatar
                 var fileExtension = Path.GetExtension(fileName);
-                var fullPath = HttpFileTools.GetPath("Awatar" + fileExtension, root: "UsersFile", objectId: userId.ToString(), fileNamePrefix: "Profile");
-                var saveFileResult = HttpFileTools.Save(fileBytes, fullPath);
+                var createPathResult = HttpFileTools.GetPath("Awatar" + fileExtension, root: "UsersFile", objectId: userId.ToString(), fileNamePrefix: "Profile");
+                var saveFileResult = HttpFileTools.Save(fileBytes, createPathResult.FullPath);
+                if (string.IsNullOrEmpty(saveFileResult)) return new Response<string>() { Message = ServiceMessage.FileNotSaved };
                 #endregion
 
                 #region Update User
-                user.ProfileImgUrl = saveFileResult;
+                user.ProfileImgUrl = createPathResult.RelativePath;
                 _appUow.UserRepo.UpdateUnAttached(user);
                 #endregion
 
                 var saveResult = await _appUow.ElkSaveChangesAsync();
                 response.Message = saveResult.Message;
                 response.IsSuccessful = saveResult.IsSuccessful;
-                response.Result = saveResult.IsSuccessful ? user.ProfileImgUrl : null;
+                response.Result = saveResult.IsSuccessful ? _configuration["CustomSettings:ApiAddress"] + user.ProfileImgUrl : null;
                 return response;
             }
             catch (Exception e)

@@ -139,6 +139,9 @@ Code: {code}</value>
   <data name="ExpiredPinCode" xml:space="preserve">
     <value>این کد منقضی شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید</value>
   </data>
+  <data name="FileNotSaved" xml:space="preserve">
+    <value>ذخیره فایل ارسالی با خطا رو به رو شده است ویا فایل ارسالی معتبر نمی باشد.</value>
+  </data>
   <data name="InvalidId" xml:space="preserve">
     <value>کد ارسالی معتبر نمی باشد.</value>
   </data>
