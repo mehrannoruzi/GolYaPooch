@@ -9,11 +9,12 @@ export default class App extends Component {
     render() {
         return (
             <Router className="layout">
+                <Toast />
                 <Switch>
                     <Route exact path="/pages" component={NavigationLayout} />
                     <Route exact path="/" component={EmptyLayout} />
                 </Switch>
-                <Toast/>
+               
                 <BottomUpModal/>
             </Router>
         );

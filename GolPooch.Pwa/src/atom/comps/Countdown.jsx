@@ -10,6 +10,7 @@ export default class Countdown extends Component {
     }
 
     componentDidMount() {
+        console.log('componentDidMount_counter')
         this.myInterval = setInterval(() => {
             const { seconds, minutes } = this.state
             console.log(this.state);
@@ -42,7 +43,7 @@ export default class Countdown extends Component {
     componentWillUnmount() {
         clearInterval(this.myInterval)
     }
-
+     
     render() {
         const { minutes, seconds } = this.state
         return (

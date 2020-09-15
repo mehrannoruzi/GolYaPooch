@@ -175,7 +175,7 @@
     <value>این کد قبلا استفاده شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید.</value>
   </data>
   <data name="VerificationCode_GetCode" xml:space="preserve">
-    <value>برای ورود به اپ کد زیر را وارد نمایید
-Code= {code}</value>
+    <value>برای ورود به گل یا پوچ کد زیر را وارد نمایید
+Code: {code}</value>
   </data>
 </root>

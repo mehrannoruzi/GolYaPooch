@@ -26,11 +26,11 @@ namespace GolPooch.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetCodeAsync(long mobileNumber)
-            => Json(await _authenticateService.GetCodeAsync(mobileNumber));
+        public async Task<JsonResult> GetCodeAsync([FromBody] VerifyCodeModel model)
+            => Json(await _authenticateService.GetCodeAsync(model.MobileNumber));
 
         [HttpPost]
-        public async Task<JsonResult> VerifyCodeAsync([FromBody]VerifyCodeModel model)
+        public async Task<JsonResult> VerifyCodeAsync([FromBody] VerifyCodeModel model)
         {
             var response = new Response<JwtToken>();
             var verifyResult = await _authenticateService.VerifyCodeAsync(model.TransactionId, model.PinCode, HttpContext);
@@ -54,7 +54,7 @@ namespace GolPooch.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> ResendCodeAsync(long mobileNumber)
-            => Json(await _authenticateService.GetCodeAsync(mobileNumber));
+        public async Task<JsonResult> ResendCodeAsync([FromBody] VerifyCodeModel model)
+            => Json(await _authenticateService.GetCodeAsync(model.MobileNumber));
     }
 }
