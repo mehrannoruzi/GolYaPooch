@@ -40,11 +40,11 @@ const Start = () => {
     let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);
     if (tokenValue)
-        page = 'nlayout/store';
-    else if (visited) page = '/elayout/auth';
+        page = 'nl/store';
+    else if (visited) page = '/el/auth';
     const handleclick = () => {
         localStorage.setItem(config.keys.visitedStartPage, 'true');
-        history.push('/elayout/auth')
+        history.push('/el/auth')
     }
     if (page) return <Redirect to={page} />
     return (
@@ -54,7 +54,7 @@ const Start = () => {
             <ul className={classes.steps}>
                 <li><i className='zmdi zmdi-share'></i>1- در نوار بالا روی دکمه Share تپ کنید</li>
                 <li><i className='zmdi zmdi-plus-square'></i>2- در منوی باز شده روی گزینه Add to Home Screen تپ کنید</li>
-                <li><i className='zmdi zmdi-plus-square'></i>3- در مرجله بعد در قسمت بالا روی  Add تپ کنید</li>
+                <li><i className='zmdi zmdi-smartphone-download'></i>3- در مرجله بعد در قسمت بالا روی  Add تپ کنید</li>
             </ul>
             <Button onClick={handleclick} className='w-100' variant="contained" color="primary">
                 {strings.underestood}

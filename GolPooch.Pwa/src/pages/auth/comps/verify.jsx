@@ -71,7 +71,7 @@ export default function () {
         });
         if (!response.isSuccessful)
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
-        else setRedirectTo('/store');
+        else setRedirectTo('/nl/store');
     }
 
     const _resent = async () => {
@@ -109,7 +109,7 @@ export default function () {
                     />
                 </div>
                 <div className="form-group">
-                    <Button onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.confirm}</Button>
+                    <Button icon='zmdi zmdi-check' onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.confirm}</Button>
                 </div>
             </div>
             <div className="footer">

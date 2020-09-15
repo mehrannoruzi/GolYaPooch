@@ -75,12 +75,12 @@ export default function () {
                 <FormControlLabel
                     control={<Checkbox color="primary" checked={ruleAgreement} onChange={() => setRuleAgreement(!ruleAgreement)} name="ruleAgreement" />}
                     label={strings.aggreedWithRules} />
-                <Link href="#" onClick={_showRules}>
+                <Link onClick={_showRules}>
                     <small>({strings.show})</small>
                 </Link>
             </div>
             <Box textAlign="right" className="form-group">
-                <Button onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.signInToSystem}</Button>
+                <Button icon='zmdi zmdi-sign-in' onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.signInToSystem}</Button>
             </Box>
         </div>
     );

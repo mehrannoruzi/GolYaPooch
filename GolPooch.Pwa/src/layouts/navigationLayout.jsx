@@ -8,13 +8,12 @@ const NavigationLayout = () => {
     return (
         <>
             <Switch>
-                <Route exact path={`/store`} component={Store} />
-                {/* <PrivateRoute exact path={`${path}/store`} component={Store} /> */}
+                <PrivateRoute exact path={`${path}/store`} component={Store} />
             </Switch>
-            <div>
+            {/* <div>
                 <a href='/pages/store'>go</a>
                 bottom navigation
-            </div>
+            </div> */}
         </>
     );
 }
