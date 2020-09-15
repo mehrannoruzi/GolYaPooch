@@ -18,8 +18,6 @@ namespace GolPooch.Domain.Entity
         public User User { get; set; }
         public int UserId { get; set; }
 
-        //[ForeignKey(nameof(AnswerAdminId))]
-        //public Admin AnswerAdmin { get; set; }
         public Guid? AnswerAdminId { get; set; }
 
         [Display(Name = nameof(DisplayNames.Type), ResourceType = typeof(DisplayNames))]

@@ -1,0 +1,60 @@
+﻿using System;
+using Elk.Core;
+using Elk.Cache;
+using System.Linq;
+using GolPooch.CrossCutting;
+using GolPooch.DataAccess.Ef;
+using GolPooch.Domain.Entity;
+using System.Collections.Generic;
+using GolPooch.Service.Resourses;
+using GolPooch.Service.Interfaces;
+
+namespace GolPooch.Service.Implements
+{
+    public class ProductService : IProductService
+    {
+        private AppUnitOfWork _appUow { get; set; }
+        private readonly IMemoryCacheProvider _cacheProvider;
+        private readonly string _productCacheKey = GlobalVariables.CacheSettings.ProductCacheKey();
+
+        public ProductService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider)
+        {
+            _appUow = appUnitOfWork;
+            _cacheProvider = cacheProvider;
+        }
+
+        public IResponse<List<ProductOffer>> GetAllAvailable()
+        {
+            var response = new Response<List<ProductOffer>>();
+            try
+            {
+                var productOffers = (List<ProductOffer>)_cacheProvider.Get(_productCacheKey);
+                if (productOffers == null)
+                {
+                    var now = DateTime.Now;
+                    productOffers = _appUow.ProductOfferRepo.Get(
+                        new QueryFilter<ProductOffer>
+                        {
+                            Conditions = x => x.IsActive,
+                            OrderBy = x => x.OrderBy(x => x.Price),
+                            IncludeProperties = new List<System.Linq.Expressions.Expression<Func<ProductOffer, object>>> { x => x.Product }
+                        }).ToList();
+
+                    _cacheProvider.Add(_productCacheKey, productOffers, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ChestCacheTimeout()));
+                }
+
+                response.IsSuccessful = true;
+                response.Result = productOffers;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+    }
+}

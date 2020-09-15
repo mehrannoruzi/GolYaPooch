@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Enum;
 using GolPooch.Domain.Resources;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace GolPooch.Domain.Entity
         public string MerchantId { get; set; }
 
 
-
+        [JsonIgnore]
         public ICollection<PaymentTransaction> PaymentTransactions { get; set; }
     }
 }
