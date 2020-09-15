@@ -27,6 +27,6 @@ const config = process.env.REACT_APP_STAGE === 'production'
     : dev;
 
 export default {
-    LOGIN_PAGE: "/login",
+    LOGIN_PAGE: "/auth",
     ...config
 };

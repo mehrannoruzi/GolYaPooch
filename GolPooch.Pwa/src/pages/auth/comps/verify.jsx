@@ -20,12 +20,6 @@ const useStyles = makeStyles({
         margin: 5,
         fontWeight: "bold"
     },
-    hide: {
-        display: "none"
-    },
-    show: {
-        display: "inline"
-    },
     footerBx: {
         padding: 10,
         minHeight: 50,
@@ -39,7 +33,6 @@ const useStyles = makeStyles({
     }
 });
 
-
 export default function () {
     const classes = useStyles();
 
@@ -48,7 +41,6 @@ export default function () {
         minutes: 0,
         seconds: 4,
         done: () => { setResendActive(true); }
-
     });
     const [redirectTo, setRedirectTo] = useState('');
     const [inProgress, setInProgress] = useState(false);

@@ -12,7 +12,7 @@ export default class App extends Component {
                 <Toast />
                 <Switch>
                     <Route exact path="/pages" component={NavigationLayout} />
-                    <Route exact path="/" component={EmptyLayout} />
+                    <Route path="/" component={EmptyLayout} />
                 </Switch>
                
                 <BottomUpModal/>
