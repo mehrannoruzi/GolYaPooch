@@ -5,9 +5,9 @@ using GolPooch.SmsGateway;
 using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
+using Microsoft.AspNetCore.Http;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
-using Microsoft.AspNetCore.Http;
 
 namespace GolPooch.Service.Implements
 {
@@ -62,7 +62,7 @@ namespace GolPooch.Service.Implements
                 {
                     try
                     {
-                        var sendResult = await _smsGatway.SendAsync(mobileNumber.ToMobileNumber().ToString(), ServiceMessage.VerificationCode_GetCode.Replace("{code}", randomPinCode.ToString()));
+                        var sendResult = await _smsGatway.SendAsync(mobileNumber.ToMobileNumber().ToString(), ServiceMessage.Authentication_GetCode.Replace("{code}", randomPinCode.ToString()));
                     }
                     catch { }
                     response.Result = authenticate.AuthenticateId;

@@ -35,7 +35,6 @@ namespace GolPooch.Service.Implements
                 var chests = (List<Chest>)_cacheProvider.Get(_chestCacheKey);
                 if (chests == null)
                 {
-                    var now = DateTime.Now;
                     chests = _appUow.ChestRepo.Get(
                         new QueryFilter<Chest>
                         {
@@ -44,7 +43,9 @@ namespace GolPooch.Service.Implements
                         }).ToList();
 
                     foreach (var chest in chests)
-                        chest.ImageUrl = _configuration["CustomSettings:CdnAddress"] + chest.ImageUrl;
+                        chest.ImageUrl = chest.ImageUrl != null 
+                            ? _configuration["CustomSettings:CdnAddress"] + chest.ImageUrl
+                            : null;
 
                     _cacheProvider.Add(_chestCacheKey, chests, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ChestCacheTimeout()));
                 }

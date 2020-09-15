@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class NotificationService : INotificationService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
 
-        public NotificationService(AppUnitOfWork appUnitOfWork)
+        public NotificationService(AppUnitOfWork appUnitOfWork, IConfiguration configuration)
         {
             _appUow = appUnitOfWork;
+            _configuration = configuration;
         }
 
         public async Task<IResponse<int>> AddDeliveryAsync(int userId, int notificationId)
@@ -32,6 +35,34 @@ namespace GolPooch.Service.Implements
                 };
                 await _appUow.NotificationDeliveryRepo.AddAsync(notifDelivery);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
+
+                response.Message = saveResult.Message;
+                response.IsSuccessful = saveResult.IsSuccessful;
+                response.Result = saveResult.IsSuccessful ? notifDelivery.NotificationDeliveryId : 0;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<int>> AddClickAsync(int userId, int notificationId)
+        {
+            var response = new Response<int>();
+            try
+            {
+                var notifDelivery = new NotificationDelivery
+                {
+                    UserId = userId,
+                    NotificationId = notificationId,
+                    Type = NotificationDeliveryType.Click
+                };
+                await _appUow.NotificationDeliveryRepo.AddAsync(notifDelivery);
+                var saveResult = await _appUow.ElkSaveChangesAsync();
+
                 response.Message = saveResult.Message;
                 response.IsSuccessful = saveResult.IsSuccessful;
                 response.Result = saveResult.IsSuccessful ? notifDelivery.NotificationDeliveryId : 0;
@@ -57,6 +88,11 @@ namespace GolPooch.Service.Implements
                         PagingParameter = pagingParameter,
                         OrderBy = x => x.OrderByDescending(x => x.NotificationId)
                     });
+
+                foreach (var notif in notifications.Items)
+                    notif.ImageUrl = notif.ImageUrl != null
+                        ? _configuration["CustomSettings:CdnAddress"] + notif.ImageUrl
+                        : null;
 
                 response.Message = ServiceMessage.Success;
                 response.Result = notifications;

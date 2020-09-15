@@ -14,6 +14,8 @@ namespace GolPooch.Service.Interfaces
         /// <returns>return notification id</returns>
         Task<IResponse<int>> AddDeliveryAsync(int userId, int notificationId);
 
+        Task<IResponse<int>> AddClickAsync(int userId, int notificationId);
+
         /// <summary>
         /// Get top 10 notifications with userid and all notification that sets userid with null value.
         /// </summary>

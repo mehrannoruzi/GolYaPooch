@@ -70,6 +70,25 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to برای ورود به گل یا پوچ کد زیر را وارد نمایید
+        ///Code: {code}.
+        /// </summary>
+        public static string Authentication_GetCode {
+            get {
+                return ResourceManager.GetString("Authentication_GetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CompleteProfile.
+        /// </summary>
+        public static string CompleteProfile {
+            get {
+                return ResourceManager.GetString("CompleteProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رکورد مورد نظر هم اکنون وجود دارد.
         /// </summary>
         public static string DuplicateRecord {
@@ -228,16 +247,6 @@ namespace GolPooch.Service.Resourses {
         public static string UsedPinCode {
             get {
                 return ResourceManager.GetString("UsedPinCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to برای ورود به گل یا پوچ کد زیر را وارد نمایید
-        ///Code: {code}.
-        /// </summary>
-        public static string VerificationCode_GetCode {
-            get {
-                return ResourceManager.GetString("VerificationCode_GetCode", resourceCulture);
             }
         }
     }

@@ -10,6 +10,8 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.IO;
 
 namespace GolPooch.Service.Implements
 {
@@ -25,74 +27,87 @@ namespace GolPooch.Service.Implements
         public async Task<IResponse<int>> UpdateProfileAsync(int userId, UserDto userDto)
         {
             var response = new Response<int>();
-            try
+            using (var trans = await _appUow.Database.BeginTransactionAsync())
             {
-                #region Update User Profile
-                var existedUser = await _appUow.UserRepo.FirstOrDefaultAsync(
-                    new QueryFilter<User>
-                    {
-                        AsNoTracking = false,
-                        Conditions = x => x.UserId == userId
-                    });
-                existedUser.UpdateWith(userDto);
-                _appUow.UserRepo.Update(existedUser);
-                #endregion
-
-                #region Purchase Complete Profile Product
-                var defaultPaymentGateway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
-                    new QueryFilter<PaymentGateway>
-                    {
-                        Conditions = x => x.IsActive
-                    });
-
-                var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
-                    new QueryFilter<ProductOffer>
-                    {
-                        Conditions = x => x.IsActive && x.Product.Type == ProductType.Profile && !x.Product.IsShow && x.Product.ExpirationDate > DateTime.Now,
-                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
-                    });
-
-                var transaction = new PaymentTransaction
+                try
                 {
-                    UserId = existedUser.UserId,
-                    IsSuccess = true,
-                    TrackingId = "0",
-                    Status = ServiceMessage.Success,
-                    Type = TransactionType.Purchase,
-                    Price = productOffer.Price,
-                    ProductOfferId = productOffer.ProductOfferId,
-                    PaymentGatewayId = defaultPaymentGateway.PaymentGatewayId
-                };
-                await _appUow.PaymentTransactionRepo.AddAsync(transaction);
+                    #region Update User Profile
+                    var existedUser = await _appUow.UserRepo.FirstOrDefaultAsync(
+                        new QueryFilter<User>
+                        {
+                            AsNoTracking = false,
+                            Conditions = x => x.UserId == userId
+                        });
+                    if (existedUser.IsNull()) return new Response<int> { Message = ServiceMessage.InvalidParameter };
 
-                var purchase = new Purchase
+                    existedUser.UpdateWith(userDto);
+                    _appUow.UserRepo.Update(existedUser);
+                    #endregion
+
+                    #region Purchase Complete Profile Product
+                    var defaultPaymentGateway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
+                        new QueryFilter<PaymentGateway>
+                        {
+                            Conditions = x => x.IsActive && x.IsDefault
+                        });
+
+                    var now = DateTime.Now;
+                    var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
+                        new QueryFilter<ProductOffer>
+                        {
+                            Conditions = x => x.IsActive && x.Product.Type == ProductType.Profile && !x.Product.IsShow && x.Product.ExpirationDate > now,
+                            IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
+                        });
+
+                    var transaction = new PaymentTransaction
+                    {
+                        UserId = existedUser.UserId,
+                        IsSuccess = true,
+                        TrackingId = "0",
+                        Status = ServiceMessage.Success,
+                        Type = TransactionType.Purchase,
+                        Price = productOffer.Price,
+                        ProductOfferId = productOffer.ProductOfferId,
+                        PaymentGatewayId = defaultPaymentGateway.PaymentGatewayId,
+                        Description = ServiceMessage.CompleteProfile
+                    };
+                    await _appUow.PaymentTransactionRepo.AddAsync(transaction);
+                    await _appUow.ElkSaveChangesAsync();
+
+                    var purchase = new Purchase
+                    {
+                        UserId = existedUser.UserId,
+                        UsedChance = 0,
+                        IsFinished = false,
+                        IsReFoundable = false,
+                        Chance = productOffer.Chance,
+                        ProductOfferId = productOffer.ProductOfferId,
+                        PaymentTransactionId = transaction.PaymentTransactionId
+                    };
+                    await _appUow.PurchaseRepo.AddAsync(purchase);
+                    #endregion
+
+                    var saveResult = await _appUow.ElkSaveChangesAsync();
+                    response.Message = saveResult.Message;
+                    response.IsSuccessful = saveResult.IsSuccessful;
+                    response.Result = saveResult.IsSuccessful ? existedUser.UserId : 0;
+                    return response;
+                }
+                catch (Exception e)
                 {
-                    UserId = existedUser.UserId,
-                    UsedChance = 0,
-                    IsFinished = false,
-                    IsReFoundable = false,
-                    Chance = productOffer.Chance,
-                    ProductOfferId = productOffer.ProductOfferId,
-                    PaymentTransactionId = transaction.PaymentTransactionId
-                };
-                await _appUow.PurchaseRepo.AddAsync(purchase);
-                #endregion
-
-                var saveResult = await _appUow.ElkSaveChangesAsync();
-                response.Message = saveResult.Message;
-                response.IsSuccessful = saveResult.IsSuccessful;
-                response.Result = saveResult.IsSuccessful ? existedUser.UserId : 0;
-                return response;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                response.Message = ServiceMessage.Exception;
-                return response;
+                    FileLoger.Error(e);
+                    await trans.RollbackAsync();
+                    response.Message = ServiceMessage.Exception;
+                    return response;
+                }
+                finally
+                {
+                    await trans.CommitAsync();
+                }
             }
         }
 
-        public async Task<IResponse<string>> UploadAwatarAsync(int userId, string fileExtension, byte[] fileBytes)
+        public async Task<IResponse<string>> UploadAwatarAsync(int userId, string fileName, byte[] fileBytes)
         {
             var response = new Response<string>();
             try
@@ -103,7 +118,8 @@ namespace GolPooch.Service.Implements
                 #endregion
 
                 #region Save Profile Awatar
-                var fullPath = HttpFileTools.GetPath("Awatar" + fileExtension, objectId: userId.ToString(), fileNamePrefix: "Profile");
+                var fileExtension = Path.GetExtension(fileName);
+                var fullPath = HttpFileTools.GetPath("Awatar" + fileExtension, root: "UsersFile", objectId: userId.ToString(), fileNamePrefix: "Profile");
                 var saveFileResult = HttpFileTools.Save(fileBytes, fullPath);
                 #endregion
 

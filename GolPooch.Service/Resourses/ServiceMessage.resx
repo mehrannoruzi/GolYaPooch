@@ -120,6 +120,13 @@
   <data name="AccountIsBlocked" xml:space="preserve">
     <value>حساب کاربری شما مسدود است</value>
   </data>
+  <data name="Authentication_GetCode" xml:space="preserve">
+    <value>برای ورود به گل یا پوچ کد زیر را وارد نمایید
+Code: {code}</value>
+  </data>
+  <data name="CompleteProfile" xml:space="preserve">
+    <value>CompleteProfile</value>
+  </data>
   <data name="DuplicateRecord" xml:space="preserve">
     <value>رکورد مورد نظر هم اکنون وجود دارد</value>
   </data>
@@ -173,9 +180,5 @@
   </data>
   <data name="UsedPinCode" xml:space="preserve">
     <value>این کد قبلا استفاده شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید.</value>
-  </data>
-  <data name="VerificationCode_GetCode" xml:space="preserve">
-    <value>برای ورود به گل یا پوچ کد زیر را وارد نمایید
-Code: {code}</value>
   </data>
 </root>
