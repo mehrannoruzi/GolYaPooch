@@ -4,6 +4,7 @@ import EmptyLayout from './layouts/emptyLayout';
 import NavigationLayout from './layouts/navigationLayout';
 import Toast from './atom/comps/Toast';
 import BottomUpModal from './atom/comps/BottomUpModal';
+import Start from './pages/start';
 
 export default class App extends Component {
     render() {
@@ -11,8 +12,9 @@ export default class App extends Component {
             <Router className="layout">
                 <Toast />
                 <Switch>
-                    <Route exact path="/pages" component={NavigationLayout} />
-                    <Route exact path="/" component={EmptyLayout} />
+                    <Route exact path="/" component={Start} />
+                    <Route path="/elayout" component={EmptyLayout} />
+                    <Route path="/nlayout" component={NavigationLayout} />
                 </Switch>
                
                 <BottomUpModal/>
