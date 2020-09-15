@@ -1,7 +1,7 @@
 ﻿using Elk.Core;
 using GolPooch.Domain.Entity;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace GolPooch.Service.Interfaces
 {

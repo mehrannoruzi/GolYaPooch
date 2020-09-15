@@ -1,12 +1,12 @@
 ﻿using Elk.Core;
 using Elk.AspNetCore;
+using GolPooch.Api.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Options;
-using GolPooch.Api.Models;
 
 namespace GolPooch.Api.Controllers
 {
@@ -52,5 +52,9 @@ namespace GolPooch.Api.Controllers
 
             return Json(response);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> ResendCodeAsync(long mobileNumber)
+            => Json(await _authenticateService.GetCodeAsync(mobileNumber));
     }
 }
