@@ -52,6 +52,7 @@ namespace GolPooch.DependencyResolver.Ioc
             #endregion
 
             #region Product
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
 
             #endregion

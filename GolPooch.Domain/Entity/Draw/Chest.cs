@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Resources;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -48,7 +49,7 @@ namespace GolPooch.Domain.Entity
         public string ImageUrl { get; set; }
 
 
-
+        [JsonIgnore]
         public ICollection<Round> Rounds { get; set; }
     }
 }

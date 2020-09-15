@@ -2,8 +2,10 @@
 {
     public enum NotificationAction : byte
     {
-        VerificationCode_Android = 1,
-        VerificationCode_Ios = 2,
+        VerifyCode = 1,
+        SuccessPurchase = 2,
         SuccessPayment = 3,
+
+        NotifyWinners = 10
     }
 }

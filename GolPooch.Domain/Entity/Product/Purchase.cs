@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Resources;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -55,7 +56,7 @@ namespace GolPooch.Domain.Entity
         public string ModifyDateSh { get; set; }
 
 
-
+        [JsonIgnore]
         public ICollection<DrawChance> DrawChances { get; set; }
     }
 }

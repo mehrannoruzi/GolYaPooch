@@ -1,5 +1,7 @@
 ﻿using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Resources;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +31,7 @@ namespace GolPooch.Domain.Entity
         public string Name { get; set; }
 
 
-        //public ICollection<Banner> Banners { get; set; }
+        [JsonIgnore]
+        public ICollection<Banner> Banners { get; set; }
     }
 }

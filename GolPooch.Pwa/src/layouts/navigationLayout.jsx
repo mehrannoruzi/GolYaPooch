@@ -2,12 +2,13 @@
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Store from '../pages/store';
 import PrivateRoute from '../atom/comps/PrivateRoute';
+
 const NavigationLayout = () => {
     let { path, url } = useRouteMatch();
     return (
         <>
             <Switch>
-                <Route  exact path={`/store`} component={Store}/>
+                <Route exact path={`/store`} component={Store} />
                 {/* <PrivateRoute exact path={`${path}/store`} component={Store} /> */}
             </Switch>
             <div>

@@ -10,6 +10,7 @@ using GolPooch.DependencyResolver.Ioc;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace GolPooch.Api
 {
@@ -58,18 +59,22 @@ namespace GolPooch.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(option =>
+            services.AddMvc(options =>
             {
-                option.EnableEndpointRouting = false;
-                option.ReturnHttpNotAcceptable = true;
+                options.EnableEndpointRouting = false;
+                options.ReturnHttpNotAcceptable = true;
                 // option.Filters.Add(typeof(ModelValidationFilter));
             })
             .AddXmlSerializerFormatters()
-            .AddJsonOptions(opts =>
+            .AddJsonOptions(options =>
             {
-                //opts.JsonSerializerOptions.MaxDepth = 2;
-                opts.JsonSerializerOptions.PropertyNamingPolicy = null;
-                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                //options.JsonSerializerOptions.MaxDepth = 2;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
             services.AddElkAuthentication();
@@ -106,8 +111,7 @@ namespace GolPooch.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           
-             app.UseElkCrossOriginResource();
+            app.UseElkCrossOriginResource();
 
             app.UseElkSwaggerConfiguration(_swaggerSetting);
 
@@ -122,7 +126,7 @@ namespace GolPooch.Api
                     await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
                 });
             });
-            
+
             app.UseMiddleware<JwtParserMiddleware>();
             app.UseElkJwtConfiguration();
             app.UseRouting();

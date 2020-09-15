@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Enum;
 using GolPooch.Domain.Resources;
 using System.Collections.Generic;
@@ -70,11 +71,22 @@ namespace GolPooch.Domain.Entity
 
 
 
+        [JsonIgnore]
         public ICollection<Ticket> Tickets { get; set; }
+        
+        [JsonIgnore]
         public ICollection<DrawChance> DrawChances { get; set; }
+
+        [JsonIgnore]
         public ICollection<Round> Rounds { get; set; }
+
+        [JsonIgnore]
         public ICollection<Purchase> Purchases { get; set; }
-        //public virtual ICollection<Notification> Notifications { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Notification> Notifications { get; set; }
+
+        [JsonIgnore]
         public ICollection<PaymentTransaction> PaymentTransactions { get; set; }
     }
 }

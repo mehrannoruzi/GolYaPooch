@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Resources;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -48,7 +49,9 @@ namespace GolPooch.Domain.Entity
 
 
 
+        [JsonIgnore]
         public ICollection<Purchase> Purchases { get; set; }
+        [JsonIgnore]
         public ICollection<PaymentTransaction> PaymentTransactions { get; set; }
     }
 }
