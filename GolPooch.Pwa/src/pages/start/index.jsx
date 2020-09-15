@@ -5,7 +5,8 @@ import logoImage from '../../assets/images/logo.jpeg';
 import config from './../../config';
 import strings from '../../core/strings';
 import { useHistory } from "react-router-dom";
-
+import token from './../../atom/selectors/token';
+import { useRecoilValue } from 'recoil';
 const useStyles = makeStyles({
     startPage: {
         display: 'flex',
@@ -34,18 +35,22 @@ const useStyles = makeStyles({
 
 const Start = () => {
     const classes = useStyles();
+    const tokenValue = useRecoilValue(token);
     let history = useHistory();
+    let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);
-
+    if (tokenValue)
+        page = 'nlayout/store';
+    else if (visited) page = '/elayout/auth';
     const handleclick = () => {
         localStorage.setItem(config.keys.visitedStartPage, 'true');
-        history.push('/auth')
+        history.push('/elayout/auth')
     }
-    if (visited) return <Redirect to='/auth' />
+    if (page) return <Redirect to={page} />
     return (
         <div id='page-start' className={classes.startPage}>
             <img className={classes.logo} src={logoImage} />
-            <h1 className='mb-15'>وب اپلیکیشن <strong>گل یا پوچ</strong> را به موبایل خود اضافه کنید</h1>
+            <h3 className='mb-15'>وب اپلیکیشن <strong>گل یا پوچ</strong> را به موبایل خود اضافه کنید</h3>
             <ul className={classes.steps}>
                 <li><i className='zmdi zmdi-share'></i>1- در نوار بالا روی دکمه Share تپ کنید</li>
                 <li><i className='zmdi zmdi-plus-square'></i>2- در منوی باز شده روی گزینه Add to Home Screen تپ کنید</li>
