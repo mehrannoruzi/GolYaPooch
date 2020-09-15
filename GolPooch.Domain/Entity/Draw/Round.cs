@@ -22,7 +22,7 @@ namespace GolPooch.Domain.Entity
 
         [ForeignKey(nameof(WinnerUserId))]
         public User WinnerUser { get; set; }
-        public int WinnerUserId { get; set; }
+        public int? WinnerUserId { get; set; }
 
         [Display(Name = nameof(DisplayNames.ParticipantCount), ResourceType = typeof(DisplayNames))]
         public int ParticipantCount { get; set; }
@@ -31,7 +31,7 @@ namespace GolPooch.Domain.Entity
         public RoundState State { get; set; }
 
         [Display(Name = nameof(DisplayNames.StartDate), ResourceType = typeof(DisplayNames))]
-        public DateTime StartDateMi { get; set; }
+        public DateTime? StartDateMi { get; set; }
 
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.StartDate), ResourceType = typeof(DisplayNames))]
@@ -39,7 +39,7 @@ namespace GolPooch.Domain.Entity
         public string StartDateSh { get; set; }
 
         [Display(Name = nameof(DisplayNames.EndDate), ResourceType = typeof(DisplayNames))]
-        public DateTime EndDateMi { get; set; }
+        public DateTime? EndDateMi { get; set; }
 
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.EndDate), ResourceType = typeof(DisplayNames))]

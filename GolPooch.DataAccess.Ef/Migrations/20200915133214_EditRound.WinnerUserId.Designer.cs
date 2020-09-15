@@ -4,14 +4,16 @@ using GolPooch.DataAccess.Ef;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GolPooch.DataAccess.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200915133214_EditRound.WinnerUserId")]
+    partial class EditRoundWinnerUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -628,7 +630,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<DateTime?>("EndDateMi")
+                    b.Property<DateTime>("EndDateMi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EndDateSh")
@@ -652,7 +654,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<int>("ParticipantCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("StartDateMi")
+                    b.Property<DateTime>("StartDateMi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("StartDateSh")
