@@ -1,13 +1,14 @@
 ﻿import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Authorization from '../pages/auth';
 import Start from '../pages/start';
 
 const EmptyLayout = () => {
+    let { path, url } = useRouteMatch();
+    console.log('EmptyLayout');
     return (
         <Switch>
-            <Route exact path='/' component={Start} />
-            <Route exact path="/auth" component={Authorization} />
+            <Route exact path={`${path}/auth`} component={Authorization} />
         </Switch>
     );
 }
