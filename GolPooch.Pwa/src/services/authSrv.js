@@ -5,7 +5,7 @@ import config from '../config';
 
 export default class authSrv {
     static async login(mobNum) {
-        let getCode = await http.post(addr.auth_getVerificationCode, {
+        let getCode = await http.post(addr.auth_getCode, {
             mobileNumber: parseInt(mobNum)
         });
         console.log(getCode);

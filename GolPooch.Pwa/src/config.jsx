@@ -12,7 +12,7 @@
 const prod = {
     apiGateway: {
         API_KEY: "F7192259-AC89-4FBB-8033-ACE703B659FB",
-        URL: "http://golpoosh.avanod.com/"
+        URL: "https://api.golpooch.com/"
     },
     salt: 'shahrooz_bazrafshan',
     keys: {
