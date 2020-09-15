@@ -295,6 +295,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to پیش فرض.
+        /// </summary>
+        public static string IsDefault {
+            get {
+                return ResourceManager.GetString("IsDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to پایان یافته است؟.
         /// </summary>
         public static string IsFinished {

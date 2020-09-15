@@ -4,14 +4,16 @@ using GolPooch.DataAccess.Ef;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GolPooch.DataAccess.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200915150701_AddPaymentGateway.IsDefault")]
+    partial class AddPaymentGatewayIsDefault
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -418,6 +420,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150);
 
@@ -448,10 +451,12 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("varchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("TrackingId")
+                        .IsRequired()
                         .HasColumnType("varchar(36)")
                         .HasMaxLength(36);
 
@@ -462,6 +467,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserSheba")
+                        .IsRequired()
                         .HasColumnType("varchar(21)")
                         .HasMaxLength(21);
 

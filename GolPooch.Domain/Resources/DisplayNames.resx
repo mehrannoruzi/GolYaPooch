@@ -195,6 +195,9 @@
   <data name="IsActive" xml:space="preserve">
     <value>فعال است؟</value>
   </data>
+  <data name="IsDefault" xml:space="preserve">
+    <value>پیش فرض</value>
+  </data>
   <data name="IsFinished" xml:space="preserve">
     <value>پایان یافته است؟</value>
   </data>

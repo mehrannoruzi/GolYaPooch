@@ -24,6 +24,9 @@ namespace GolPooch.Domain.Entity
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public bool IsActive { get; set; }
 
+        [Display(Name = nameof(DisplayNames.IsDefault), ResourceType = typeof(DisplayNames))]
+        public bool IsDefault { get; set; }
+
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
 
