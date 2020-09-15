@@ -1,4 +1,5 @@
 ﻿using GolPooch.Domain.Dto;
+using GolPooch.Api.Models;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace GolPooch.Api.Controllers
             => Json(await _userService.UpdateProfileAsync(user.UserId, userDto));
 
         [HttpPost]
-        public async Task<JsonResult> UploadAwatarAsync(User user, string fileExtension, byte[] fileBytes)
-            => Json(await _userService.UploadAwatarAsync(user.UserId, fileExtension, fileBytes));
+        public async Task<JsonResult> UploadAwatarAsync(User user, FileModel fileModel)
+            => Json(await _userService.UploadAwatarAsync(user.UserId, fileModel.FileExtension, fileModel.FileBytes));
     }
 }

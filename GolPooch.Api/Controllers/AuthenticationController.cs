@@ -52,5 +52,9 @@ namespace GolPooch.Api.Controllers
 
             return Json(response);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> ResendCodeAsync(long mobileNumber)
+            => Json(await _authenticateService.GetCodeAsync(mobileNumber));
     }
 }

@@ -77,11 +77,15 @@ namespace GolPooch.Api.Controllers
 
 
 
-        /// <summary>
-        /// Return Region Enum in key,Value model
-        /// result of this method must be cached.
-        /// </summary>
-        /// <returns>List of Key,Value Object</returns>
+        [HttpGet]
+        public IActionResult AllSettings()
+        {
+            return Ok(new {
+                Regions = GetRegions(),
+                TicketTypes = GetTicketTypes(),
+            });
+        }
+
         [HttpGet]
         public IActionResult Regions()
             => Ok(GetRegions());
