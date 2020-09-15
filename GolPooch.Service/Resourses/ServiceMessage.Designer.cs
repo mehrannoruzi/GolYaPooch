@@ -232,8 +232,8 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to برای ورود به اپ کد زیر را وارد نمایید
-        ///Code= {code}.
+        ///   Looks up a localized string similar to برای ورود به گل یا پوچ کد زیر را وارد نمایید
+        ///Code: {code}.
         /// </summary>
         public static string VerificationCode_GetCode {
             get {

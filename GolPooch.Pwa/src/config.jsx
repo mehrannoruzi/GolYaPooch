@@ -1,11 +1,12 @@
 ﻿const dev = {
     apiGateway: {
         API_KEY: "F7192259-AC89-4FBB-8033-ACE703B659FB",
-        URL: "https://localhost:44367/"
+        URL: "https://localhost:44318/"
     },
     salt: 'shahrooz_bazrafshan',
     keys: {
-        token: 'token'
+        token: 'token',
+        visitedStartPage:'visited_start_page'
     }
 };
 
@@ -16,7 +17,8 @@ const prod = {
     },
     salt: 'shahrooz_bazrafshan',
     keys: {
-        token: 'token'
+        token: 'token',
+        visitedStartPage:'visited_start_page'
     }
 };
 

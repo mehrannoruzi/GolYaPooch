@@ -19,7 +19,7 @@ const Authorization = () => {
 
                 <Grid item xs={12} sm={3} md={4}></Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                    {authState.activePanel === 'login' ? <Login /> : <Verify />}
+                    {authState.activePanel === 'verify' ? <Login /> : <Verify />}
                 </Grid>
             </Grid>
         </div>
