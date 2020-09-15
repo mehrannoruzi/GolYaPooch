@@ -106,6 +106,7 @@ namespace GolPooch.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+           
              app.UseElkCrossOriginResource();
 
             app.UseElkSwaggerConfiguration(_swaggerSetting);

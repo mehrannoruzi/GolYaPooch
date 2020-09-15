@@ -31,13 +31,24 @@ const useStyles = makeStyles({
         paddingTop: 10,
         paddingBottom: 10,
         lineHeight: "30px"
+    },
+    countdown: {
+        marginRight: "7px",
+        fontSize: "15px"
     }
 });
 
 
 export default function () {
-    //Hooks
     const classes = useStyles();
+
+    //Hooks
+    const [counterSetting, setCountSetting] = useState({
+        minutes: 0,
+        seconds: 4,
+        done: () => { setResendActive(true); }
+
+    });
     const [redirectTo, setRedirectTo] = useState('');
     const [inProgress, setInProgress] = useState(false);
     const [verifyCode, setVerifyCode] = useState({
@@ -45,13 +56,13 @@ export default function () {
         error: false,
         errorMessage: ''
     });
-
-    const [resendActive, setresendActive] = useState(false);
+    const [resendActive, setResendActive] = useState(false);
 
     //Recoil
-    const [rState, setAuthPageState] = useRecoilState(authPageState);
+    const [authPage, setAuthPageState] = useRecoilState(authPageState);
     const [toast, setToastState] = useRecoilState(toastState);
 
+    //Events 
     const _submit = async () => {
         if (!verifyCode.value) {
             setVerifyCode({ ...verifyCode, error: true, errorMessage: validationStrings.required });
@@ -62,7 +73,7 @@ export default function () {
             return;
         }
         setInProgress(true);
-        var response = await authSrv.verify(rState.transactionId, verifyCode.value).finally(() => {
+        var response = await authSrv.verify(authPage.transactionId, verifyCode.value).finally(() => {
             setInProgress(false);
         });
         if (!response.isSuccessful)
@@ -70,11 +81,15 @@ export default function () {
         else setRedirectTo('/store');
     }
 
-    const counterSetting = {
-        minutes: 0,
-        seconds: 10,
-        done: () => {
-            setresendActive(true);
+    const _resent = async () => {
+        var response = await authSrv.login(authPage.mobileNumber);
+        if (response.isSuccessful) {
+            setResendActive(false);
+            setCountSetting({
+                ...counterSetting,
+                minutes: 1,
+                seconds: 0,
+            });
         }
     }
 
@@ -84,13 +99,13 @@ export default function () {
             <div id='comp-login' className='container'>
                 <Box mb={4} lineHeight={2}>
                     {strings.send4Digit}
-                    <span className={classes.spanNumber}>{rState.mobileNumber}</span>
+                    <span className={classes.spanNumber}>{authPage.mobileNumber}</span>
                     {strings.send4Digit_2}
-                    <Link href="#" onClick={() => setAuthPageState({ ...rState, activePanel: 'login' })}><span className={classes.changeNumber}>{strings.changeMobileNumber}</span></Link>
+                    <Link href="#" onClick={() => setAuthPageState({ ...authPage, activePanel: 'login' })}><span className={classes.changeNumber}>{strings.changeMobileNumber}</span></Link>
                 </Box>
-                <div className="form-group">
+                <div className="form-group inputVerifyCodePanel">
                     <TextField
-                        className='text-center ltr'
+                        className='text-center ltr verificationCode'
                         error={verifyCode.error}
                         id="verifyCode"
                         name="verifyCode"
@@ -105,30 +120,34 @@ export default function () {
                 </div>
             </div>
             <div className="footer">
-                <Box className={resendActive ? classes.hide : classes.show}>
-                    <Grid container className={classes.footerBx} >
-                        <Grid item xs={12}>
-                            <span>
-                                <Countdown {...counterSetting} />
-                            </span>
-                            {strings.resendCodeCountDown}
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box className={resendActive ? classes.show : classes.hide}>
-                    <Grid container   className={classes.footerBx} >
-                        <Grid item xs={8}>
-                            <Box>{strings.doesntGiveCode}</Box>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Box>
-                                <Link className={classes.changeNumber}>
-                                    {strings.verifyCode_sendAgain}
-                                </Link>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </Box>
+                {
+                    resendActive ?
+                        <Box>
+                            <Grid container className={classes.footerBx} >
+                                <Grid item xs={8}>
+                                    <Box>{strings.doesntGiveCode}</Box>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Box>
+                                        <Link href="#" className={classes.changeNumber} onClick={() => _resent()}>
+                                            {strings.verifyCode_sendAgain}
+                                        </Link>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                        :
+                        <Box>
+                            <Grid container className={classes.footerBx} >
+                                <Grid item xs={12}>
+                                    <span className={classes.countdown}>
+                                        <Countdown {...counterSetting} />
+                                    </span>
+                                    {strings.resendCodeCountDown}
+                                </Grid>
+                            </Grid>
+                        </Box>
+                }
             </div>
         </>
     );

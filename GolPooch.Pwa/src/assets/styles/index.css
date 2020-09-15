@@ -392,6 +392,33 @@ body[dir="rtl"] .modal-header .close {
   border-top: 1px solid #e6e6e6;
 }
 
+.verificationCode input {
+  font-size: 20px;
+  font-weight: bold; }
+
+.inputVerifyCodePanel {
+  display: flex;
+  position: relative;
+  margin-left: 8px;
+  justify-content: center; }
+  .inputVerifyCodePanel .inputVerifyCode {
+    color: #404040;
+    width: 32px;
+    height: 48px;
+    display: flex;
+    position: relative;
+    font-size: 20px;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 8px;
+    justify-content: center;
+    border-bottom-color: #e6e6e6;
+    border-bottom-style: solid;
+    border-bottom-width: 2px; }
+  .inputVerifyCodePanel .inputVerifyCode.invalid {
+    color: #bd272f;
+    border-bottom-color: #bd272f; }
+
 #comp-bottom-up-modal {
   position: absolute;
   top: 0;
