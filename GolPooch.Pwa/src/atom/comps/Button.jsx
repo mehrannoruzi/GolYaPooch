@@ -33,11 +33,11 @@ const useStyles = makeStyles({
 
 const CustomButton = (props) => {
     const classes = useStyles();
-    const { icon } = props;
-    if (icon)
+    const Icon = props.icon;
+    if (Icon)
         return (<Button variant="contained" color={props.color || 'primary'} disabled={props.disabled || props.loading} className={`${props.className} ${classes.btnWithIcon}`} onClick={props.onClick}>
             <span className='text'>{props.children}</span>
-            <span className='icon'>{props.loading ? <CircularProgress size={20} className='va-middle' /> : <i className={icon}></i>}</span>
+            <span className='icon'>{props.loading ? <CircularProgress size={20} className='va-middle' /> : <Icon/>}</span>
         </Button>);
     else
         return (<Button variant="contained" color={props.color || 'primary'} disabled={props.disabled || props.loading} className={props.className} onClick={props.onClick}>

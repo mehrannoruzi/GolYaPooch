@@ -1,15 +1,13 @@
 
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import token from '../selectors/token';
+import authSrv from '../../services/authSrv';
 
-export default  (Component, rest) => {
-    const tokenValue = useRecoilValue(token);
+export default ({ Component: Component, ...rest }) => {
     return (<Route
         {...rest}
         render={({ props }) =>
-        tokenValue ? (
+            authSrv.isAuthenticated() ? (
                 <Component {...props} />
             ) : (
                     <Redirect

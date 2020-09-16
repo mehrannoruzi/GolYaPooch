@@ -3,7 +3,7 @@
 const Store = () => {
     console.log('fired');
     return (
-        <div>
+        <div id='page-store'>
             <h1>store page</h1>
         </div>
     );

@@ -6,7 +6,9 @@
     salt: 'shahrooz_bazrafshan',
     keys: {
         token: 'token',
-        visitedStartPage:'visited_start_page'
+        userInfo:'user_info',
+        visitedStartPage:'visited_start_page',
+        banners:'banners'
     }
 };
 
@@ -18,7 +20,9 @@ const prod = {
     salt: 'shahrooz_bazrafshan',
     keys: {
         token: 'token',
-        visitedStartPage:'visited_start_page'
+        userInfo:'user_info',
+        visitedStartPage:'visited_start_page',
+        banners:'banners'
     }
 };
 

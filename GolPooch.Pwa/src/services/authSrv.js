@@ -1,6 +1,6 @@
 import http from '../core/network';
 import addr from '../core/network/addr';
-import { encrypt } from '../core/utils';
+import { encrypt, decrypt } from '../core/utils';
 import config from '../config';
 
 export default class authSrv {
@@ -24,5 +24,11 @@ export default class authSrv {
         let token = encrypt(verifyCode.result.token);
         localStorage.setItem(config.keys.token, token);
         return verifyCode;
+    }
+
+    static isAuthenticated() {
+        let tokenStr = localStorage.getItem(config.keys.token);
+        if (tokenStr) return decrypt(tokenStr);
+        return null;
     }
 }

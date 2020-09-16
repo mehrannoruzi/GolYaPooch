@@ -8,6 +8,7 @@ import { validate } from './../../../core/utils';
 import toastState from '../../../atom/state/toastState';
 import bottomUpModalState from './../../../atom/state/bottomUpModalState';
 import authPageState from '../../../atom/state/authPageState';
+import { ExitToApp } from '@material-ui/icons';
 
 export default function () {
 
@@ -80,7 +81,7 @@ export default function () {
                 </Link>
             </div>
             <Box textAlign="right" className="form-group">
-                <Button icon='zmdi zmdi-sign-in' onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.signInToSystem}</Button>
+                <Button icon={ExitToApp} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.signInToSystem}</Button>
             </Box>
         </div>
     );
