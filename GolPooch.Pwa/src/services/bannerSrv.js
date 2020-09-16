@@ -3,7 +3,7 @@ import addr from '../core/network/addr';
 import config from '../config';
 
 export default class bannerSrv {
-    static async get(key, ignoreStorage) {
+    static async get(pageName, location, ignoreStorage) {
         let data = localStorage.getItem(config.keys.banners);
         let now = new Date();
         if (data && ignoreStorage) {
@@ -11,7 +11,7 @@ export default class bannerSrv {
             if (now.getTime() < info.exp) {
                 return {
                     isSuccessful: true,
-                    result: info.result.filter(x => x.page.name == key)
+                    result: info.result.filter(x => x.page.name === pageName && x.locationType === location)
                 };
             }
         }
@@ -24,7 +24,7 @@ export default class bannerSrv {
         }))
         return {
             isSuccessful: true,
-            result: call.result.filter(x => x.page.name == key)
+            result: call.result.filter(x => x.page.name === pageName && x.locationType === location)
         };;
     }
 }

@@ -1,23 +1,12 @@
 
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useHistory } from 'react-router-dom';
 import authSrv from '../../services/authSrv';
 
-export default ({ Component: Component, ...rest }) => {
-    return (<Route
-        {...rest}
-        render={({ props }) =>
-            authSrv.isAuthenticated() ? (
-                <Component {...props} />
-            ) : (
-                    <Redirect
-                        to={{
-                            pathname: "/",
-                            state: { from: props.location }
-                        }}
-                    />
-                )
-        }
-    />
+const PrivateRoute = ({ Component: Component, ...rest }) => {
+    let history = useHistory();
+    if (!authSrv.isAuthenticated()) history.push("/el/auth");
+    return (<Route {...rest} render={({ props }) => <Component {...props} />} />
     );
 }
+export default PrivateRoute;
