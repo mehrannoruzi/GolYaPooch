@@ -6,7 +6,6 @@ import authSrv from '../../services/authSrv';
 const PrivateRoute = ({ Component: Component, ...rest }) => {
     let history = useHistory();
     if (!authSrv.isAuthenticated()) history.push("/el/auth");
-    return (<Route {...rest} render={({ props }) => <Component {...props} />} />
-    );
+    return (<Route {...rest} render={({ props }) => <Component {...props} />} />);
 }
 export default PrivateRoute;

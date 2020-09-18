@@ -3,5 +3,6 @@
 export default {
     auth_getCode: `${config.apiGateway.URL}Authentication/GetCode`,
     auth_verifyCode: `${config.apiGateway.URL}Authentication/VerifyCode`,
-    getBanners: `${config.apiGateway.URL}/Banner/All`
+    getBanners: `${config.apiGateway.URL}Banner/All`,
+    getProducts: `${config.apiGateway.URL}Product/All`
 }

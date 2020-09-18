@@ -14,7 +14,8 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 15
+        padding: 15,
+        backgroundColor:'#fff'
     },
     logo: {
         maxWidth: '100%'
@@ -41,7 +42,7 @@ const Start = () => {
     let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);
     if (jwt)
-        page = 'nl/store';
+        page = '/nl/store';
     else if (visited) page = '/el/auth';
     const handleclick = () => {
         localStorage.setItem(config.keys.visitedStartPage, 'true');

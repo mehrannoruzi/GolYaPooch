@@ -68,7 +68,7 @@ const useStyles = makeStyles({
         right: 0,
         '& button': {
             minWidth: 'auto',
-            maxWidth:'auto'
+            maxWidth: 'auto'
         },
         '& .MuiBottomNavigationAction-label': {
             fontSize: '0.9rem',
@@ -86,6 +86,9 @@ const NavigationLayout = () => {
 
     return (
         <div id='layout-nl' className={classes.layoutNL}>
+           {/* ---------------
+            --HEADER
+            ---------------*/}
             <AppBar position="static">
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={4}>
@@ -111,10 +114,16 @@ const NavigationLayout = () => {
                     </Grid>
                 </Grid>
             </AppBar>
+            {/* ---------------
+            --ROUTES
+            ---------------*/}
             <Switch>
                 <PrivateRoute exact path={`${path}/store`} component={StorePage} />
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
             </Switch>
+            {/* ---------------
+            --BUTTONS
+            ---------------*/}
             <div className={classes.btnNavs}>
                 <Grid container spacing={0}>
                     <Grid item xs={12}>

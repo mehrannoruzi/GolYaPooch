@@ -8,7 +8,6 @@ export default class authSrv {
         let getCode = await http.post(addr.auth_getCode, {
             mobileNumber: parseInt(mobNum)
         });
-        console.log(getCode)
         if (!getCode.isSuccessful) return getCode;
         return getCode;
     }
