@@ -8,18 +8,22 @@ using GolPooch.Domain.Entity;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class ProductService : IProductService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
         private readonly IMemoryCacheProvider _cacheProvider;
         private readonly string _productCacheKey = GlobalVariables.CacheSettings.ProductCacheKey();
 
-        public ProductService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider)
+        public ProductService(AppUnitOfWork appUnitOfWork, IConfiguration configuration,
+            IMemoryCacheProvider cacheProvider)
         {
             _appUow = appUnitOfWork;
+            _configuration = configuration;
             _cacheProvider = cacheProvider;
         }
 
@@ -38,6 +42,11 @@ namespace GolPooch.Service.Implements
                             OrderBy = x => x.OrderBy(x => x.Price),
                             IncludeProperties = new List<System.Linq.Expressions.Expression<Func<ProductOffer, object>>> { x => x.Product }
                         }).ToList();
+
+                    foreach (var offer in productOffers)
+                        offer.ImageUrl = offer.ImageUrl != null
+                            ? _configuration["CustomSettings:CdnAddress"] + offer.ImageUrl
+                            : null;
 
                     _cacheProvider.Add(_productCacheKey, productOffers, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ProductCacheTimeout()));
                 }
