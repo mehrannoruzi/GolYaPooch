@@ -2,8 +2,8 @@
 using WebPush;
 using Elk.Core;
 using System.Linq;
-using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
+using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
