@@ -15,7 +15,7 @@ namespace GolPooch.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Subscribe(User user, PushEndpoint model)
+        public async Task<IActionResult> Subscribe(User user, [FromBody] PushEndpoint model)
         {
             model.UserId = user.UserId;
             return Json(await _pushService.Subscribe(model));
