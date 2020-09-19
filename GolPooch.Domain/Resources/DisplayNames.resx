@@ -138,6 +138,9 @@
   <data name="AnswerDate" xml:space="preserve">
     <value>تاریخ پاسخ</value>
   </data>
+  <data name="AuthSecretKey" xml:space="preserve">
+    <value>AuthSecretKey</value>
+  </data>
   <data name="BankName" xml:space="preserve">
     <value>نام بانک</value>
   </data>
@@ -171,6 +174,9 @@
   <data name="EndDate" xml:space="preserve">
     <value>تاریخ پایان</value>
   </data>
+  <data name="Endpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
   <data name="ExpirationDate" xml:space="preserve">
     <value>تاریخ انقضاء</value>
   </data>
@@ -182,6 +188,9 @@
   </data>
   <data name="Gender" xml:space="preserve">
     <value>جنسیت</value>
+  </data>
+  <data name="IconUrl" xml:space="preserve">
+    <value>آدرس آیکون</value>
   </data>
   <data name="ImageUrl" xml:space="preserve">
     <value>آدرس تصویر</value>
@@ -243,6 +252,9 @@
   <data name="OsType" xml:space="preserve">
     <value>نوع سیستم عامل</value>
   </data>
+  <data name="P256DhSecretKey" xml:space="preserve">
+    <value>P256DhSecretKey</value>
+  </data>
   <data name="ParticipantCount" xml:space="preserve">
     <value>تعداد شرکت کننده</value>
   </data>
@@ -269,6 +281,9 @@
   </data>
   <data name="RoundCount" xml:space="preserve">
     <value>تعداد دور</value>
+  </data>
+  <data name="SendResultMessage" xml:space="preserve">
+    <value>نتیجه ارسال نوتیفیکیشن</value>
   </data>
   <data name="SentDate" xml:space="preserve">
     <value>تاریخ ارسال</value>

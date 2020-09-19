@@ -124,6 +124,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AuthSecretKey.
+        /// </summary>
+        public static string AuthSecretKey {
+            get {
+                return ResourceManager.GetString("AuthSecretKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام بانک.
         /// </summary>
         public static string BankName {
@@ -223,6 +232,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Endpoint.
+        /// </summary>
+        public static string Endpoint {
+            get {
+                return ResourceManager.GetString("Endpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تاریخ انقضاء.
         /// </summary>
         public static string ExpirationDate {
@@ -255,6 +273,15 @@ namespace GolPooch.Domain.Resources {
         public static string Gender {
             get {
                 return ResourceManager.GetString("Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to آدرس آیکون.
+        /// </summary>
+        public static string IconUrl {
+            get {
+                return ResourceManager.GetString("IconUrl", resourceCulture);
             }
         }
         
@@ -439,6 +466,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to P256DhSecretKey.
+        /// </summary>
+        public static string P256DhSecretKey {
+            get {
+                return ResourceManager.GetString("P256DhSecretKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تعداد شرکت کننده.
         /// </summary>
         public static string ParticipantCount {
@@ -516,6 +552,15 @@ namespace GolPooch.Domain.Resources {
         public static string RoundCount {
             get {
                 return ResourceManager.GetString("RoundCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نتیجه ارسال نوتیفیکیشن.
+        /// </summary>
+        public static string SendResultMessage {
+            get {
+                return ResourceManager.GetString("SendResultMessage", resourceCulture);
             }
         }
         
