@@ -7,6 +7,7 @@ import strings from '../../core/strings';
 import { useHistory } from "react-router-dom";
 import token from './../../atom/selectors/token';
 import { useRecoilValue } from 'recoil';
+
 const useStyles = makeStyles({
     startPage: {
         display: 'flex',
