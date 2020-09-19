@@ -1,6 +1,7 @@
 ﻿using System;
 using Elk.Core;
 using System.Linq;
+using GolPooch.Domain.Dto;
 using GolPooch.Domain.Enum;
 using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
@@ -76,17 +77,33 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public IResponse<PagingListDetails<Notification>> GetTopNotifications(int userId, PagingParameter pagingParameter)
+        public IResponse<PagingListDetails<NotificationDto>> GetTopNotifications(int userId, PagingParameter pagingParameter)
         {
-            var response = new Response<PagingListDetails<Notification>>();
+            var response = new Response<PagingListDetails<NotificationDto>>();
             try
             {
                 var notifications = _appUow.NotificationRepo.GetPaging(
-                    new PagingQueryFilter<Notification>
+                    new PagingQueryFilterWithSelector<Notification, NotificationDto>
                     {
-                        Conditions = x => x.UserId == userId,
+                        Conditions = x => x.UserId == userId && x.IsActive,
                         PagingParameter = pagingParameter,
-                        OrderBy = x => x.OrderByDescending(x => x.NotificationId)
+                        OrderBy = x => x.OrderByDescending(x => x.NotificationId),
+                        Selector = x => new NotificationDto
+                        {
+                            #region Set Notification Property
+                            NotificationId = x.NotificationId,
+                            UserId = x.UserId,
+                            Type = x.Type,
+                            Action = x.Action,
+                            IsRead = x.IsRead,
+                            ActionText = x.ActionText,
+                            Subject = x.Subject,
+                            ImageUrl = x.ImageUrl,
+                            IconUrl = x.IconUrl,
+                            ActionUrl = x.ActionUrl,
+                            Text = x.Text
+                            #endregion
+                        }
                     });
 
                 foreach (var notif in notifications.Items)

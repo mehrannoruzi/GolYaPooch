@@ -163,8 +163,14 @@ Code: {code}</value>
   <data name="InvalidTransactionId" xml:space="preserve">
     <value>شماره تراکنش معتبر نمی باشد</value>
   </data>
+  <data name="InvalidUserId" xml:space="preserve">
+    <value>کاربر مورد نظر پیدا نشد ویا کد ارسالی معتبر نمی باشد.</value>
+  </data>
   <data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>نام کاربری یا رمز عبور اشتباه است</value>
+  </data>
+  <data name="PushSubscriberNotExist" xml:space="preserve">
+    <value>دستگاهی برای ارسال پوش پیدا نشد</value>
   </data>
   <data name="RecordNotExist" xml:space="preserve">
     <value>{0}مورد نظر یافت نشد</value>

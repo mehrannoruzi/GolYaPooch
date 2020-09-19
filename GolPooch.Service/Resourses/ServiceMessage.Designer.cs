@@ -197,11 +197,29 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کاربر مورد نظر پیدا نشد ویا کد ارسالی معتبر نمی باشد..
+        /// </summary>
+        public static string InvalidUserId {
+            get {
+                return ResourceManager.GetString("InvalidUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام کاربری یا رمز عبور اشتباه است.
         /// </summary>
         public static string InvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to دستگاهی برای ارسال پوش پیدا نشد.
+        /// </summary>
+        public static string PushSubscriberNotExist {
+            get {
+                return ResourceManager.GetString("PushSubscriberNotExist", resourceCulture);
             }
         }
         

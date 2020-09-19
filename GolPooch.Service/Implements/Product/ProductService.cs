@@ -31,7 +31,6 @@ namespace GolPooch.Service.Implements
                 var productOffers = (List<ProductOffer>)_cacheProvider.Get(_productCacheKey);
                 if (productOffers == null)
                 {
-                    var now = DateTime.Now;
                     productOffers = _appUow.ProductOfferRepo.Get(
                         new QueryFilter<ProductOffer>
                         {
@@ -40,7 +39,7 @@ namespace GolPooch.Service.Implements
                             IncludeProperties = new List<System.Linq.Expressions.Expression<Func<ProductOffer, object>>> { x => x.Product }
                         }).ToList();
 
-                    _cacheProvider.Add(_productCacheKey, productOffers, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ChestCacheTimeout()));
+                    _cacheProvider.Add(_productCacheKey, productOffers, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ProductCacheTimeout()));
                 }
 
                 response.IsSuccessful = true;
