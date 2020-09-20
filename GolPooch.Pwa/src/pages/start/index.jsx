@@ -8,6 +8,9 @@ import { useHistory } from "react-router-dom";
 import { Share, TouchApp, AddBox } from '@material-ui/icons';
 import userSrv from '../../services/userSrv';
 
+import token from './../../atom/selectors/token';
+import { useRecoilValue } from 'recoil';
+
 const useStyles = makeStyles({
     startPage: {
         display: 'flex',
