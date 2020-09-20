@@ -19,10 +19,11 @@ const strings = {
     region:'شهر',
     gender:'جنسیت',
     women:'زن',
-    men:'مزد',
+    men:'مرد',
     birthday:'تاریخ تولد',
     intruducerId:'کد معرف',
     edit:'ویرایش',
+    profile:'پروفایل',
     aggreedWithRules: 'با قوانین و مقررات موافقم',
     pleaseEnterVerifyCode: 'لطفا کد تایید پیامک شده را وارد نمایید ',
     unknownError: 'خطایی رخ داده است، لطفا دوباره تلاش نمایید',
@@ -38,6 +39,8 @@ const strings = {
     send4Digit_2: 'ارسال شد. کد را اینجا وارد کنید.',
     verifyCode_sendAgain: 'ارسال مجدد کد',
     doesntGiveCode: 'کد فعال‌سازی را دریافت نکردید؟',
-    moneyCurrency:'ریال'
+    moneyCurrency:'ریال',
+    return:'بازگشت',
+    profileSuccessUpdate:'تکمیل پروفایل با موفقیت انجام شد'
 };
 export default strings;

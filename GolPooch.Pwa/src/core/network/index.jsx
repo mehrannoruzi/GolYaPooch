@@ -1,7 +1,7 @@
 ﻿import Axios from 'axios';
 import config from '../../config';
 import strings from './../strings';
-import authSrv from './../../services/authSrv';
+import userSrv from '../../services/userSrv';
 
 function parseBody(response) {
     if (response.status === 200)
@@ -19,7 +19,7 @@ let instance = Axios.create({
 });
 instance.interceptors.request.use((conf) => {
     conf.headers.Token = config.apiGateway.API_KEY;
-    let jwt = authSrv.isAuthenticated();
+    let jwt = userSrv.isAuthenticated();
     if (jwt) conf.headers.Authorization = `Bearer ${jwt}`;
     return conf;
 }, error => Promise.reject(error));
