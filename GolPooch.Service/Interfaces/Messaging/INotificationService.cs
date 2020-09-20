@@ -1,5 +1,5 @@
 ﻿using Elk.Core;
-using GolPooch.Domain.Entity;
+using GolPooch.Domain.Dto;
 using System.Threading.Tasks;
 
 namespace GolPooch.Service.Interfaces
@@ -14,12 +14,14 @@ namespace GolPooch.Service.Interfaces
         /// <returns>return notification id</returns>
         Task<IResponse<int>> AddDeliveryAsync(int userId, int notificationId);
 
+        Task<IResponse<int>> AddClickAsync(int userId, int notificationId);
+
         /// <summary>
         /// Get top 10 notifications with userid and all notification that sets userid with null value.
         /// </summary>
         /// <param name="userId">userid in jwt</param>
         /// <returns>Top 10 records of Notification</returns>
-        IResponse<PagingListDetails<Notification>> GetTopNotifications(int userId, PagingParameter pagingParameter);
+        IResponse<PagingListDetails<NotificationDto>> GetTopNotifications(int userId, PagingParameter pagingParameter);
 
         /// <summary>
         /// When user tapped in a notification, this method called to set isread field with true status.

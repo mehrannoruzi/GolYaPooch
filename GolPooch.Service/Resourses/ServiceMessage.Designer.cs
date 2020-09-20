@@ -70,6 +70,25 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to برای ورود به گل یا پوچ کد زیر را وارد نمایید
+        ///Code: {code}.
+        /// </summary>
+        public static string Authentication_GetCode {
+            get {
+                return ResourceManager.GetString("Authentication_GetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CompleteProfile.
+        /// </summary>
+        public static string CompleteProfile {
+            get {
+                return ResourceManager.GetString("CompleteProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رکورد مورد نظر هم اکنون وجود دارد.
         /// </summary>
         public static string DuplicateRecord {
@@ -102,6 +121,15 @@ namespace GolPooch.Service.Resourses {
         public static string ExpiredPinCode {
             get {
                 return ResourceManager.GetString("ExpiredPinCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ذخیره فایل ارسالی با خطا رو به رو شده است ویا فایل ارسالی معتبر نمی باشد..
+        /// </summary>
+        public static string FileNotSaved {
+            get {
+                return ResourceManager.GetString("FileNotSaved", resourceCulture);
             }
         }
         
@@ -169,11 +197,29 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کاربر مورد نظر پیدا نشد ویا کد ارسالی معتبر نمی باشد..
+        /// </summary>
+        public static string InvalidUserId {
+            get {
+                return ResourceManager.GetString("InvalidUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام کاربری یا رمز عبور اشتباه است.
         /// </summary>
         public static string InvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to دستگاهی برای ارسال پوش پیدا نشد.
+        /// </summary>
+        public static string PushSubscriberNotExist {
+            get {
+                return ResourceManager.GetString("PushSubscriberNotExist", resourceCulture);
             }
         }
         
@@ -228,16 +274,6 @@ namespace GolPooch.Service.Resourses {
         public static string UsedPinCode {
             get {
                 return ResourceManager.GetString("UsedPinCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to برای ورود به گل یا پوچ کد زیر را وارد نمایید
-        ///Code: {code}.
-        /// </summary>
-        public static string VerificationCode_GetCode {
-            get {
-                return ResourceManager.GetString("VerificationCode_GetCode", resourceCulture);
             }
         }
     }

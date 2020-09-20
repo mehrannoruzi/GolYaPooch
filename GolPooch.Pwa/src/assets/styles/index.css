@@ -5,7 +5,7 @@ html {
 
 body {
   min-height: 100vh;
-  background-color: #fff;
+  background-color: #eee;
   padding: 0;
   margin: 0;
 }
@@ -364,6 +364,10 @@ body[dir="rtl"] .modal-header .close {
   margin-right: 0.5rem !important;
 }
 
+#page-auth {
+  background-color: #fff;
+}
+
 .rules {
   text-align: justify;
 }
@@ -394,41 +398,59 @@ body[dir="rtl"] .modal-header .close {
 
 .verificationCode input {
   font-size: 20px;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .inputVerifyCodePanel {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   position: relative;
   margin-left: 8px;
-  justify-content: center; }
-  .inputVerifyCodePanel .inputVerifyCode {
-    color: #404040;
-    width: 32px;
-    height: 48px;
-    display: flex;
-    position: relative;
-    font-size: 20px;
-    align-items: center;
-    font-weight: bold;
-    margin-right: 8px;
-    justify-content: center;
-    border-bottom-color: #e6e6e6;
-    border-bottom-style: solid;
-    border-bottom-width: 2px; }
-  .inputVerifyCodePanel .inputVerifyCode.invalid {
-    color: #bd272f;
-    border-bottom-color: #bd272f; }
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.inputVerifyCodePanel .inputVerifyCode {
+  color: #404040;
+  width: 32px;
+  height: 48px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  font-size: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: bold;
+  margin-right: 8px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-bottom-color: #e6e6e6;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+.inputVerifyCodePanel .inputVerifyCode.invalid {
+  color: #bd272f;
+  border-bottom-color: #bd272f;
+}
 
 .resentIcon {
   width: 16px;
   height: 16px;
   display: inline-block;
-  transform: none;
+  -webkit-transform: none;
+          transform: none;
   line-height: 16px;
   margin-left: 0.2em;
   margin-right: 0.2em;
   vertical-align: middle;
-  text-decoration: inherit; }
+  text-decoration: inherit;
+}
 
 #comp-bottom-up-modal {
   position: absolute;
@@ -443,8 +465,6 @@ body[dir="rtl"] .modal-header .close {
 #comp-bottom-up-modal .content {
   background-color: #fff;
   position: absolute;
-  right: 15px;
-  left: 15px;
   bottom: 0;
   margin-top: 20%;
   padding: 0 15px 15px 15px;
@@ -468,5 +488,6 @@ body[dir="rtl"] .modal-header .close {
           transform: translateY(-50%);
   left: 0;
   color: #666;
+  font-size: 25px;
 }
 /*# sourceMappingURL=index.css.map */

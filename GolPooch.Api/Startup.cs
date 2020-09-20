@@ -2,6 +2,7 @@ using System;
 using Elk.Core;
 using System.Text;
 using Elk.AspNetCore;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +11,6 @@ using GolPooch.DependencyResolver.Ioc;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace GolPooch.Api
 {
@@ -65,7 +65,6 @@ namespace GolPooch.Api
                 options.ReturnHttpNotAcceptable = true;
                 // option.Filters.Add(typeof(ModelValidationFilter));
             })
-            .AddXmlSerializerFormatters()
             .AddJsonOptions(options =>
             {
                 //options.JsonSerializerOptions.MaxDepth = 2;
@@ -75,7 +74,8 @@ namespace GolPooch.Api
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+            })
+            .AddXmlSerializerFormatters();
 
             services.AddElkAuthentication();
 

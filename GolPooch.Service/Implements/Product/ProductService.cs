@@ -8,18 +8,22 @@ using GolPooch.Domain.Entity;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class ProductService : IProductService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
         private readonly IMemoryCacheProvider _cacheProvider;
         private readonly string _productCacheKey = GlobalVariables.CacheSettings.ProductCacheKey();
 
-        public ProductService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider)
+        public ProductService(AppUnitOfWork appUnitOfWork, IConfiguration configuration,
+            IMemoryCacheProvider cacheProvider)
         {
             _appUow = appUnitOfWork;
+            _configuration = configuration;
             _cacheProvider = cacheProvider;
         }
 
@@ -31,7 +35,6 @@ namespace GolPooch.Service.Implements
                 var productOffers = (List<ProductOffer>)_cacheProvider.Get(_productCacheKey);
                 if (productOffers == null)
                 {
-                    var now = DateTime.Now;
                     productOffers = _appUow.ProductOfferRepo.Get(
                         new QueryFilter<ProductOffer>
                         {
@@ -40,7 +43,12 @@ namespace GolPooch.Service.Implements
                             IncludeProperties = new List<System.Linq.Expressions.Expression<Func<ProductOffer, object>>> { x => x.Product }
                         }).ToList();
 
-                    _cacheProvider.Add(_productCacheKey, productOffers, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ChestCacheTimeout()));
+                    foreach (var offer in productOffers)
+                        offer.ImageUrl = offer.ImageUrl != null
+                            ? _configuration["CustomSettings:CdnAddress"] + offer.ImageUrl
+                            : null;
+
+                    _cacheProvider.Add(_productCacheKey, productOffers, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ProductCacheTimeout()));
                 }
 
                 response.IsSuccessful = true;

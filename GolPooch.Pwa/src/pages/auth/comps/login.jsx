@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { TextField, FormControlLabel, Checkbox, Link, Box } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import strings, { validationStrings } from './../../../core/strings';
+import { validate } from './../../../core/utils';
 import Button from './../../../atom/comps/Button';
 import authSrv from '../../../services/authSrv';
-import { validate } from './../../../core/utils';
 import toastState from '../../../atom/state/toastState';
 import bottomUpModalState from './../../../atom/state/bottomUpModalState';
 import authPageState from '../../../atom/state/authPageState';
+import { ExitToApp } from '@material-ui/icons';
 
 export default function () {
 
@@ -75,12 +76,12 @@ export default function () {
                 <FormControlLabel
                     control={<Checkbox color="primary" checked={ruleAgreement} onChange={() => setRuleAgreement(!ruleAgreement)} name="ruleAgreement" />}
                     label={strings.aggreedWithRules} />
-                <Link href="#" onClick={_showRules}>
+                <Link onClick={_showRules}>
                     <small>({strings.show})</small>
                 </Link>
             </div>
             <Box textAlign="right" className="form-group">
-                <Button onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.signInToSystem}</Button>
+                <Button icon={ExitToApp} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.signInToSystem}</Button>
             </Box>
         </div>
     );

@@ -27,6 +27,7 @@ namespace GolPooch.DataAccess.Ef
         public IGenericRepo<Banner> BannerRepo => _serviceProvider.GetService<IGenericRepo<Banner>>();
         public IGenericRepo<Notification> NotificationRepo => _serviceProvider.GetService<IGenericRepo<Notification>>();
         public IGenericRepo<NotificationDelivery> NotificationDeliveryRepo => _serviceProvider.GetService<IGenericRepo<NotificationDelivery>>();
+        public IGenericRepo<PushEndpoint> PushEndpointRepo => _serviceProvider.GetService<IGenericRepo<PushEndpoint>>();
         #endregion
 
         #region Payment

@@ -5,6 +5,9 @@ import logoImage from '../../assets/images/logo.jpeg';
 import config from './../../config';
 import strings from '../../core/strings';
 import { useHistory } from "react-router-dom";
+import { Share, TouchApp, AddBox } from '@material-ui/icons';
+import authSrv from '../../services/authSrv';
+
 import token from './../../atom/selectors/token';
 import { useRecoilValue } from 'recoil';
 
@@ -14,7 +17,8 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 15
+        padding: 15,
+        backgroundColor:'#fff'
     },
     logo: {
         maxWidth: '100%'
@@ -24,10 +28,10 @@ const useStyles = makeStyles({
         marginBottom: 15,
         '& li': {
             marginBottom: 10,
-            '& i': {
+            '& svg': {
                 fontSize: 30,
                 verticalAlign: 'middle',
-                marginRight: 10
+                marginRight: 5
             }
         }
 
@@ -36,16 +40,16 @@ const useStyles = makeStyles({
 
 const Start = () => {
     const classes = useStyles();
-    const tokenValue = useRecoilValue(token);
+    let jwt = authSrv.isAuthenticated();
     let history = useHistory();
     let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);
-    if (tokenValue)
-        page = 'nlayout/store';
-    else if (visited) page = '/elayout/auth';
+    if (jwt)
+        page = '/nl/store';
+    else if (visited) page = '/el/auth';
     const handleclick = () => {
         localStorage.setItem(config.keys.visitedStartPage, 'true');
-        history.push('/elayout/auth')
+        history.push('/el/auth')
     }
     if (page) return <Redirect to={page} />
     return (
@@ -53,9 +57,9 @@ const Start = () => {
             <img className={classes.logo} src={logoImage} />
             <h3 className='mb-15'>وب اپلیکیشن <strong>گل یا پوچ</strong> را به موبایل خود اضافه کنید</h3>
             <ul className={classes.steps}>
-                <li><i className='zmdi zmdi-share'></i>1- در نوار بالا روی دکمه Share تپ کنید</li>
-                <li><i className='zmdi zmdi-plus-square'></i>2- در منوی باز شده روی گزینه Add to Home Screen تپ کنید</li>
-                <li><i className='zmdi zmdi-plus-square'></i>3- در مرجله بعد در قسمت بالا روی  Add تپ کنید</li>
+                <li><Share />1- در نوار بالا روی دکمه Share تپ کنید</li>
+                <li><TouchApp />2- در منوی باز شده روی گزینه Add to Home Screen تپ کنید</li>
+                <li><AddBox />3- در مرجله بعد در قسمت بالا روی  Add تپ کنید</li>
             </ul>
             <Button onClick={handleclick} className='w-100' variant="contained" color="primary">
                 {strings.underestood}

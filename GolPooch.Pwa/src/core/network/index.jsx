@@ -1,6 +1,8 @@
 ﻿import Axios from 'axios';
 import config from '../../config';
 import strings from './../strings';
+import authSrv from './../../services/authSrv';
+
 function parseBody(response) {
     if (response.status === 200)
         return response.data;
@@ -17,6 +19,8 @@ let instance = Axios.create({
 });
 instance.interceptors.request.use((conf) => {
     conf.headers.Token = config.apiGateway.API_KEY;
+    let jwt = authSrv.isAuthenticated();
+    if (jwt) conf.headers.Authorization = `Bearer ${jwt}`;
     return conf;
 }, error => Promise.reject(error));
 
@@ -26,8 +30,11 @@ instance.interceptors.response.use((response) => {
     console.log(error);
     if (error.config && error.config.hasOwnProperty('errorHandle') && error.config.errorHandle === false)
         return Promise.reject(error);
-    if (error.response && error.response.status == 401)
+    if (error.response && error.response.status == 401){
+        localStorage.removeItem(config.keys.token);
         window.location.href = config.LOGIN_PAGE;
+    }
+
     return { IsSuccessful: false, Message: strings.unknownError };
     //return Promise.reject(error);
 });

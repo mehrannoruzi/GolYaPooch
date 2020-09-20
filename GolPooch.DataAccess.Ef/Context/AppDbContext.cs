@@ -16,6 +16,7 @@ namespace GolPooch.DataAccess.Ef
         {
             builder.Entity<User>().HasIndex(x => x.MobileNumber).IsUnique();
             builder.Entity<Page>().HasIndex(x => x.Address).IsUnique();
+            builder.Entity<PushEndpoint>().HasIndex(x => x.P256DhSecretKey).IsUnique();
 
             builder.OverrideDeleteBehavior();
             builder.RegisterAllEntities<IEntity>(typeof(User).Assembly);

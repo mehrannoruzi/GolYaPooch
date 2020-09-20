@@ -8,19 +8,23 @@ using GolPooch.DataAccess.Ef;
 using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class ChestService : IChestService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
         private readonly IMemoryCacheProvider _cacheProvider;
         private readonly string _chestCacheKey = GlobalVariables.CacheSettings.ChestCacheKey();
 
-        public ChestService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider)
+        public ChestService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider,
+            IConfiguration configuration)
         {
             _appUow = appUnitOfWork;
             _cacheProvider = cacheProvider;
+            _configuration = configuration;
         }
 
         public IResponse<List<Chest>> GetAllAvailable()
@@ -31,13 +35,17 @@ namespace GolPooch.Service.Implements
                 var chests = (List<Chest>)_cacheProvider.Get(_chestCacheKey);
                 if (chests == null)
                 {
-                    var now = DateTime.Now;
                     chests = _appUow.ChestRepo.Get(
                         new QueryFilter<Chest>
                         {
                             Conditions = x => x.IsActive,
                             OrderBy = x => x.OrderByDescending(x => x.ParticipantCount)
                         }).ToList();
+
+                    foreach (var chest in chests)
+                        chest.ImageUrl = chest.ImageUrl != null 
+                            ? _configuration["CustomSettings:CdnAddress"] + chest.ImageUrl
+                            : null;
 
                     _cacheProvider.Add(_chestCacheKey, chests, DateTime.Now.AddHours(GlobalVariables.CacheSettings.ChestCacheTimeout()));
                 }

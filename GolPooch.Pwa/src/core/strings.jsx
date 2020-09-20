@@ -13,6 +13,16 @@ const strings = {
     signInToSystem: 'ورود به سیستم',
     confirm: 'تایید',
     mobileNumber: 'شماره موبایل',
+    firstName:'نام',
+    lastName:'نام خانوادگی',
+    email:'ایمیل',
+    region:'شهر',
+    gender:'جنسیت',
+    women:'زن',
+    men:'مزد',
+    birthday:'تاریخ تولد',
+    intruducerId:'کد معرف',
+    edit:'ویرایش',
     aggreedWithRules: 'با قوانین و مقررات موافقم',
     pleaseEnterVerifyCode: 'لطفا کد تایید پیامک شده را وارد نمایید ',
     unknownError: 'خطایی رخ داده است، لطفا دوباره تلاش نمایید',
@@ -27,6 +37,7 @@ const strings = {
     send4Digit: 'کد 4 رقمی به شماره',
     send4Digit_2: 'ارسال شد. کد را اینجا وارد کنید.',
     verifyCode_sendAgain: 'ارسال مجدد کد',
-    doesntGiveCode: 'کد فعال‌سازی را دریافت نکردید؟'
+    doesntGiveCode: 'کد فعال‌سازی را دریافت نکردید؟',
+    moneyCurrency:'ریال'
 };
 export default strings;

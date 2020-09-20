@@ -47,6 +47,13 @@ namespace GolPooch.Domain.Entity
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string InsertDateSh { get; set; }
 
+        [Column(TypeName = "varchar(250)")]
+        [Display(Name = nameof(DisplayNames.ImageUrl), ResourceType = typeof(DisplayNames))]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string ImageUrl { get; set; }
+
 
 
         [JsonIgnore]

@@ -159,7 +159,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("varchar(250)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(250);
 
                     b.Property<DateTime>("InsertDateMi")
                         .HasColumnType("datetime2");
@@ -243,17 +243,18 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("ActionText")
-                        .IsRequired()
                         .HasColumnType("varchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("ActionUrl")
-                        .IsRequired()
+                        .HasColumnType("varchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("IconUrl")
                         .HasColumnType("varchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("varchar(250)")
                         .HasMaxLength(250);
 
@@ -275,6 +276,11 @@ namespace GolPooch.DataAccess.Ef.Migrations
 
                     b.Property<bool?>("IsSuccess")
                         .HasColumnType("bit");
+
+                    b.Property<string>("SendResultMessage")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("SentDateMi")
                         .HasColumnType("datetime2");
@@ -382,6 +388,9 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
                     b.Property<string>("MerchantId")
                         .IsRequired()
                         .HasColumnType("varchar(36)")
@@ -415,7 +424,6 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("varchar(150)")
                         .HasMaxLength(150);
 
@@ -446,12 +454,10 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("varchar(30)")
                         .HasMaxLength(30);
 
                     b.Property<string>("TrackingId")
-                        .IsRequired()
                         .HasColumnType("varchar(36)")
                         .HasMaxLength(36);
 
@@ -462,7 +468,6 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserSheba")
-                        .IsRequired()
                         .HasColumnType("varchar(21)")
                         .HasMaxLength(21);
 
@@ -527,6 +532,11 @@ namespace GolPooch.DataAccess.Ef.Migrations
 
                     b.Property<int>("Discount")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("varchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<DateTime>("InsertDateMi")
                         .HasColumnType("datetime2");
@@ -613,6 +623,46 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.ToTable("Purchase","Product");
                 });
 
+            modelBuilder.Entity("GolPooch.Domain.Entity.PushEndpoint", b =>
+                {
+                    b.Property<int>("PushEndpointId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthSecretKey")
+                        .IsRequired()
+                        .HasColumnType("varchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasColumnType("varchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<DateTime>("InsertDateMi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InsertDateSh")
+                        .HasColumnType("char(10)")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("P256DhSecretKey")
+                        .IsRequired()
+                        .HasColumnType("varchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PushEndpointId");
+
+                    b.HasIndex("P256DhSecretKey")
+                        .IsUnique();
+
+                    b.ToTable("PushEndpoint","Messaging");
+                });
+
             modelBuilder.Entity("GolPooch.Domain.Entity.Round", b =>
                 {
                     b.Property<int>("RoundId")
@@ -628,7 +678,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<DateTime>("EndDateMi")
+                    b.Property<DateTime?>("EndDateMi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EndDateSh")
@@ -652,7 +702,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<int>("ParticipantCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDateMi")
+                    b.Property<DateTime?>("StartDateMi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("StartDateSh")
@@ -662,7 +712,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<byte>("State")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("WinnerUserId")
+                    b.Property<int?>("WinnerUserId")
                         .HasColumnType("int");
 
                     b.HasKey("RoundId");
@@ -825,9 +875,9 @@ namespace GolPooch.DataAccess.Ef.Migrations
             modelBuilder.Entity("GolPooch.Domain.Entity.Banner", b =>
                 {
                     b.HasOne("GolPooch.Domain.Entity.Page", "Page")
-                        .WithMany()
+                        .WithMany("Banners")
                         .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -854,22 +904,23 @@ namespace GolPooch.DataAccess.Ef.Migrations
             modelBuilder.Entity("GolPooch.Domain.Entity.Notification", b =>
                 {
                     b.HasOne("GolPooch.Domain.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GolPooch.Domain.Entity.NotificationDelivery", b =>
                 {
                     b.HasOne("GolPooch.Domain.Entity.Notification", "Notification")
-                        .WithMany()
+                        .WithMany("NotificationDeliveries")
                         .HasForeignKey("NotificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GolPooch.Domain.Entity.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -935,8 +986,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.HasOne("GolPooch.Domain.Entity.User", "WinnerUser")
                         .WithMany("Rounds")
                         .HasForeignKey("WinnerUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GolPooch.Domain.Entity.Ticket", b =>

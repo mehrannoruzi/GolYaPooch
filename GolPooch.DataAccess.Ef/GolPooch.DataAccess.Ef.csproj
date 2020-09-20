@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200912140617_EditTicket.cs" />
     <Compile Remove="Migrations\20200912140617_EditTicket.Designer.cs" />
+    <Compile Remove="Migrations\20200919104351_AddPushEndpoint.cs" />
+    <Compile Remove="Migrations\20200919104351_AddPushEndpoint.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

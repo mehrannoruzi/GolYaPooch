@@ -1,4 +1,5 @@
-﻿using Elk.Core;
+﻿using WebPush;
+using Elk.Core;
 using Elk.Cache;
 using GolPooch.SmsGateway;
 using GolPooch.DataAccess.Ef;
@@ -26,6 +27,7 @@ namespace GolPooch.DependencyResolver.Ioc
             services.AddContext<AppDbContext>(_configuration.GetConnectionString("AppDbContext"));
             services.AddScoped<AppUnitOfWork>();
 
+            services.AddScoped<WebPushClient>();
             services.AddScoped<ISmsGatway, SmsGatway>();
 
             #region Base
@@ -43,11 +45,12 @@ namespace GolPooch.DependencyResolver.Ioc
             #region Messaging
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IPushService, PushService>();
 
             #endregion
 
             #region Payment
-            //services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             #endregion
 
@@ -78,7 +81,7 @@ namespace GolPooch.DependencyResolver.Ioc
                                 sqlServerOption.CommandTimeout(null);
                                 sqlServerOption.UseRelationalNulls(false);
                             });
-                            //.AddInterceptors(new DbContextInterceptors());
+                //.AddInterceptors(new DbContextInterceptors());
             });
 
             return serviceCollection;

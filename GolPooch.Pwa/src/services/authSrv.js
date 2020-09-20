@@ -1,6 +1,6 @@
 import http from '../core/network';
 import addr from '../core/network/addr';
-import { encrypt } from '../core/utils';
+import { encrypt, decrypt } from '../core/utils';
 import config from '../config';
 
 export default class authSrv {
@@ -8,12 +8,8 @@ export default class authSrv {
         let getCode = await http.post(addr.auth_getCode, {
             mobileNumber: parseInt(mobNum)
         });
-        console.log(getCode);
-        if (!getCode.IsSuccessful) return { isSuccessful: false, message: getCode.Message };
-        return {
-            isSuccessful: true,
-            result: getCode.Result
-        }
+        if (!getCode.isSuccessful) return getCode;
+        return getCode;
     }
 
 
@@ -23,12 +19,15 @@ export default class authSrv {
             pinCode: parseInt(pinCode)
         });
         console.log(verifyCode);
-        if (!verifyCode.IsSuccessful) return { isSuccessful: false, message: verifyCode.Message };
-        let token = encrypt(verifyCode.result);
+        if (!verifyCode.isSuccessful) return verifyCode;
+        let token = encrypt(verifyCode.result.token);
         localStorage.setItem(config.keys.token, token);
-        return {
-            isSuccessful: true,
-            result: verifyCode.Result
-        }
+        return verifyCode;
+    }
+
+    static isAuthenticated() {
+        let tokenStr = localStorage.getItem(config.keys.token);
+        if (tokenStr) return decrypt(tokenStr);
+        return null;
     }
 }

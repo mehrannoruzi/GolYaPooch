@@ -9,6 +9,7 @@ import authPageState from '../../../atom/state/authPageState';
 import authSrv from '../../../services/authSrv';
 import Countdown from '../../../atom/comps/Countdown';
 import ReplayIcon from '@material-ui/icons/Replay';
+import { Check } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     spanNumber: {
@@ -71,7 +72,7 @@ export default function () {
         });
         if (!response.isSuccessful)
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
-        else setRedirectTo('/store');
+        else setRedirectTo('/nl/store');
     }
 
     const _resent = async () => {
@@ -109,7 +110,7 @@ export default function () {
                     />
                 </div>
                 <div className="form-group">
-                    <Button onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.confirm}</Button>
+                    <Button icon={Check} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.confirm}</Button>
                 </div>
             </div>
             <div className="footer">
