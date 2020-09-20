@@ -88,22 +88,24 @@ const Items = (props) => {
     const classes = useStyles();
     return (
         <React.Fragment>
-            {props.items.map((item, idx) => <div key={idx} className='product'>
-                <Link to={`/nl/product/${item.productOfferId}`}>
-                    <figure>
-                        <img className='w-100' src={item.imageUrl} />
-                        <figcaption>
-                            <label className='name'>{item.product.text}</label>
-                            <label className='chance'>{item.chance} شانس برنده شدن</label>
-                            {item.discount > 0 ? <label className='discount'>{item.discount}% تخفیف</label> : null}
-                            <label className='price'>
-                                {item.discount > 0 ? <span className={classes.rawPrice}>{commaThousondSeperator(item.price)}</span> : null}
-                                {commaThousondSeperator(item.totalPrice)}{strings.moneyCurrency}</label>
-                        </figcaption>
-                    </figure>
-                </Link>
+            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='product'><Skeleton variant=' rect' className='w-100 mb-15' height={300} /></div>) :
+                props.items.map((item, idx) => <div key={idx} className='product'>
+                    <Link to={`/bl/product/${item.productOfferId}`}>
+                        <figure>
+                            <img className='w-100' src={item.imageUrl} />
+                            <figcaption>
+                                <label className='name'>{item.product.text}</label>
+                                <label className='chance'>{item.chance} شانس برنده شدن</label>
+                                {item.discount > 0 ? <label className='discount'>{item.discount}% تخفیف</label> : null}
+                                <label className='price'>
+                                    {item.discount > 0 ? <span className={classes.rawPrice}>{commaThousondSeperator(item.price)}</span> : null}
+                                    {commaThousondSeperator(item.totalPrice)}{strings.moneyCurrency}</label>
+                            </figcaption>
+                        </figure>
+                    </Link>
 
-            </div>)}
+                </div>)
+            }
         </React.Fragment>
     );
 }
@@ -132,18 +134,16 @@ const Store = () => {
         }
         getDate();
     }, [query]);
-    
+
     return (
         <div id='page-store' className={classes.storePage}>
             <Banners pageName="Store" location="top" />
             <Container className={classes.products}>
                 <div className={`r-col ${classes.col2}`}>
-                    {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='product'><Skeleton variant=' rect' className='w-100 mb-15' height={100} /></div>) :
-                        <Items items={items1} />}
+                    {<Items items={items1} inProgress={inProgress} />}
                 </div>
                 <div className={`l-col ${classes.col2}`}>
-                    {inProgress ? [0, 1, 2].map((x, idx) => <div className='product'><Skeleton variant=' rect' className='w - 100 mb - 15' height={100} /></div>) :
-                        <Items items={items2} />}
+                    {<Items items={items2} inProgress={inProgress} />}
                 </div>
             </Container>
             <Banners pageName="Store" location="bottom" />

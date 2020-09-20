@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
-import ProductPage from '../pages/product';
 import ActivitiesPage from '../pages/activities';
 import PrivateRoute from '../atom/comps/PrivateRoute';
 import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography } from '@material-ui/core';
@@ -120,7 +119,6 @@ const NavigationLayout = () => {
             ---------------*/}
             <Switch>
                 <PrivateRoute exact path={`${path}/store`} component={StorePage} />
-                <PrivateRoute exact path={`${path}/product/:id`} component={ProductPage} />
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
             </Switch>
             {/* ---------------
