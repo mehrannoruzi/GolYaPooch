@@ -16,7 +16,7 @@ const actions = {
 const useStyles = makeStyles({
     textBanner: {
         textAlign: 'center',
-        margin: '15px 0'
+        margin: '7.5px 0'
     },
     skeleton: {
     }

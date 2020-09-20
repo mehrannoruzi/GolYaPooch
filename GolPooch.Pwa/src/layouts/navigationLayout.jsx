@@ -3,7 +3,7 @@ import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
 import ActivitiesPage from '../pages/activities';
 import PrivateRoute from '../atom/comps/PrivateRoute';
-import { Box, Grid, AppBar, Toolbar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography } from '@material-ui/core';
+import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";

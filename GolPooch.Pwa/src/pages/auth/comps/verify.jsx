@@ -6,7 +6,7 @@ import Button from './../../../atom/comps/Button';
 import { useRecoilState } from 'recoil';
 import toastState from '../../../atom/state/toastState';
 import authPageState from '../../../atom/state/authPageState';
-import authSrv from '../../../services/authSrv';
+import userSrv from '../../../services/userSrv';
 import Countdown from '../../../atom/comps/Countdown';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { Check } from '@material-ui/icons';
@@ -67,16 +67,19 @@ export default function () {
             return;
         }
         setInProgress(true);
-        var response = await authSrv.verify(authPage.transactionId, verifyCode.value).finally(() => {
+        var response = await userSrv.verify(authPage.transactionId, verifyCode.value).finally(() => {
             setInProgress(false);
         });
         if (!response.isSuccessful)
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
-        else setRedirectTo('/nl/store');
+        else {
+            userSrv.saveInfo({ mobileNumber: authPage.mobileNumber });
+            setRedirectTo('/nl/store');
+        }
     }
 
     const _resent = async () => {
-        var response = await authSrv.login(authPage.mobileNumber);
+        var response = await userSrv.login(authPage.mobileNumber);
         if (response.isSuccessful) {
             setResendActive(false);
             setCountSetting({
@@ -124,7 +127,7 @@ export default function () {
                                 <Grid item xs={4}>
                                     <Box>
                                         <Link href="#" className={classes.changeNumber} onClick={() => _resent()}>
-                                            <i className="resentIcon"> <ReplayIcon /></i> {strings.verifyCode_sendAgain} 
+                                            <i className="resentIcon"> <ReplayIcon /></i> {strings.verifyCode_sendAgain}
                                         </Link>
                                     </Box>
                                 </Grid>
@@ -137,7 +140,7 @@ export default function () {
                                     <span className={classes.countdown}>
                                         <Countdown {...counterSetting} />
                                     </span>
-                                    {strings.resendCodeCountDown} 
+                                    {strings.resendCodeCountDown}
                                 </Grid>
                             </Grid>
                         </Box>

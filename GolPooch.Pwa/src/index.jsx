@@ -7,7 +7,6 @@ import { MuiThemeProvider, createMuiTheme, StylesProvider, jssPreset } from '@ma
 import './assets/styles/index.css';
 import './assets/styles/material-design-iconic-font.min.css';
 import './assets/styles/animate.css';
-
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 

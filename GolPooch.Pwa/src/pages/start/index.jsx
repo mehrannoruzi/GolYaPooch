@@ -6,7 +6,7 @@ import config from './../../config';
 import strings from '../../core/strings';
 import { useHistory } from "react-router-dom";
 import { Share, TouchApp, AddBox } from '@material-ui/icons';
-import authSrv from '../../services/authSrv';
+import userSrv from '../../services/userSrv';
 
 import token from './../../atom/selectors/token';
 import { useRecoilValue } from 'recoil';
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 
 const Start = () => {
     const classes = useStyles();
-    let jwt = authSrv.isAuthenticated();
+    let jwt = userSrv.isAuthenticated();
     let history = useHistory();
     let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);

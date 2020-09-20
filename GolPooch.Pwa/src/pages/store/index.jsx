@@ -6,15 +6,20 @@ import strings from '../../core/strings';
 import productSrv from '../../services/productSrv';
 
 const useStyles = makeStyles({
+    storePage: {
+        paddingTop: 7.5,
+        paddingBottom: 7.5
+    },
     product: {
-        marginBottom: 15,
+        marginTop: 7.5,
+        marginBottom: 7.5,
         '& .MuiPaper-root': {
             display: 'flex',
             flexDirection: 'column',
             padding: '0 15px',
 
             '& .name': {
-                textAlign:'center',
+                textAlign: 'center',
                 fontWeight: 800,
                 padding: '15px 0',
             }
@@ -44,7 +49,7 @@ const Store = () => {
 
     }
     return (
-        <div id='page-store'>
+        <div id='page-store' className={classes.storePage}>
             <Banners pageName="Store" location="top" />
             <Container>
                 <Grid container spacing={0}>
