@@ -7,32 +7,34 @@ import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, Ico
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";
-import { Store, HowToReg, AddBox, CardGiftcard, Settings, Mail, Notifications, AccountCircle } from '@material-ui/icons';
+import { FiUser, FiMessageSquare, FiPlusSquare } from 'react-icons/fi';
+import { RiNotification3Line, RiDashboardFill, RiBarChart2Line, RiMedalLine } from 'react-icons/ri';
+import { AiOutlineSetting } from 'react-icons/ai';
 
 const navs = [
     {
         label: 'فروشگاه',
-        icon: Store,
+        icon: RiDashboardFill,
         path: 'store'
     },
     {
         label: 'فعالیت ها',
-        icon: HowToReg,
+        icon: RiBarChart2Line,
         path: 'activities'
     },
     {
         label: 'بسته ها',
-        icon: AddBox,
+        icon: FiPlusSquare,
         path: 'packages'
     },
     {
         label: 'برنده ها',
-        icon: CardGiftcard,
+        icon: RiMedalLine,
         path: 'winners'
     },
     {
         label: 'تنظیمات',
-        icon: Settings,
+        icon: AiOutlineSetting,
         path: 'settings'
     }
 ];
@@ -49,19 +51,19 @@ const useStyles = makeStyles({
                 alignItems: 'center',
 
                 '& .hx': {
-                    fontSize: '1.4rem'
+                    fontSize: '14px',
+                    fontWeight: 'normal'
                 },
             },
             '& .l-col': {
                 display: 'flex',
                 justifyContent: 'flex-end'
             }
-
         }
     },
     btnNavs: {
         width: '100%',
-        boxShadow: '0px -1px 3px 0px rgba(0,0,0,0.5)',
+        boxShadow: '0px 1px 7px 0px rgb(167 167 167 / 50%)',
         position: 'fixed',
         bottom: 0,
         left: 0,
@@ -86,10 +88,10 @@ const NavigationLayout = () => {
 
     return (
         <div id='layout-nl' className={classes.layoutNL}>
-           {/* ---------------
+            {/* ---------------
             --HEADER
             ---------------*/}
-            <AppBar position="static">
+            <AppBar position="static" className="appbar">
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={4}>
                         <IconButton
@@ -98,7 +100,7 @@ const NavigationLayout = () => {
                             aria-haspopup="true"
                             onClick={() => history.push('/bl/profile')}
                             color="inherit">
-                            <AccountCircle fontSize="large" />
+                            <FiUser />
                         </IconButton>
                     </Grid>
                     <Grid item xs={4} className='c-col'>
@@ -106,10 +108,10 @@ const NavigationLayout = () => {
                     </Grid>
                     <Grid item xs={4} className='l-col'>
                         <IconButton edge="start" aria-label="show 4 new mails" color="inherit">
-                            <Mail fontSize="large" />
+                            <FiMessageSquare />
                         </IconButton>
-                        <IconButton edge="start" color="inherit">
-                            <Notifications fontSize="large" />
+                        <IconButton color="inherit" >
+                            <RiNotification3Line className="hx" />
                         </IconButton>
                     </Grid>
                 </Grid>

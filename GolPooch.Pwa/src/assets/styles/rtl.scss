@@ -3,45 +3,61 @@
     src: url(../fonts/iransans.eot) format("embedded-opentype"), url(../fonts/iransans.ttf) format("truetype");
     font-weight: normal;
     font-style: normal;
-  }
-  * {
+}
+
+* {
     font-family: "iransans";
     direction: rtl;
     text-align: right;
-  }
-  .MuiFormHelperText-root,.MuiInputBase-input,.MuiTypography-body2,.MuiTypography-body1{
-    font-family: "iransans"!important;
-  }
-  
-  body[dir="rtl"] {
+}
+
+.MuiFormHelperText-root, .MuiInputBase-input, .MuiTypography-body2, .MuiTypography-body1 {
+    font-family: "iransans" !important;
+}
+
+body[dir="rtl"] {
     .modal-title {
-      font-size: 1rem;
+        font-size: 1rem;
     }
+
     .modal-header {
-      .close {
-        margin: -1rem auto -1rem -1rem;
-      }
+        .close {
+            margin: -1rem auto -1rem -1rem;
+        }
     }
-  }
-  
-  .dropdown-toggle::after {
+}
+
+.dropdown-toggle::after {
     margin-right: 0.255em;
     margin-left: unset;
     vertical-align: middle;
-  }
-  .dropdown-menu {
+}
+
+.dropdown-menu {
     text-align: unset;
-  }
-  
-  .toast {
+}
+
+.toast {
     .toast-header {
-      justify-content: space-between;
-  
-      .close {
-        margin-left: 0!important;
-        margin-right: 0.5rem !important;
-      }
+        justify-content: space-between;
+
+        .close {
+            margin-left: 0 !important;
+            margin-right: 0.5rem !important;
+        }
     }
-  }
-  
- 
+}
+
+
+#layout-nl {
+    .MuiIconButton-label {
+        font-size: 20px;
+    }
+
+    .appbar {
+        box-shadow: 0px 8px 12px -3px #eee !important;
+        color: rgba(0, 0, 0, 0.87);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: #fff;
+    }
+}

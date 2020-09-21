@@ -1,4 +1,6 @@
-﻿export const validationStrings = {
+﻿import React from 'react';
+
+export const validationStrings = {
     required: 'این فیلد اجباری است',
     mustBeNumber: 'این فیلد باید عددی باشد',
     invalidMobileNumber: 'شماره موبایل ورودی صحیح نیست',
@@ -10,20 +12,22 @@
     atleastOneFileRequired: 'حداقل یک فایل مورد نیاز است'
 };
 const strings = {
+    appName: 'appName',
+    webApp: 'وب اپلیکیشن',
     signInToSystem: 'ورود به سیستم',
     confirm: 'تایید',
     mobileNumber: 'شماره موبایل',
-    firstName:'نام',
-    lastName:'نام خانوادگی',
-    email:'ایمیل',
-    region:'شهر',
-    gender:'جنسیت',
-    women:'زن',
-    men:'مرد',
-    birthday:'تاریخ تولد',
-    intruducerId:'کد معرف',
-    edit:'ویرایش',
-    profile:'پروفایل',
+    firstName: 'نام',
+    lastName: 'نام خانوادگی',
+    email: 'ایمیل',
+    region: 'شهر',
+    gender: 'جنسیت',
+    women: 'زن',
+    men: 'مرد',
+    birthday: 'تاریخ تولد',
+    intruducerId: 'کد معرف',
+    edit: 'ویرایش',
+    profile: 'پروفایل',
     aggreedWithRules: 'با قوانین و مقررات موافقم',
     pleaseEnterVerifyCode: 'لطفا کد تایید پیامک شده را وارد نمایید ',
     unknownError: 'خطایی رخ داده است، لطفا دوباره تلاش نمایید',
@@ -32,15 +36,19 @@ const strings = {
     ruleAgreementRequired: 'موافقت با قوانین جهت عضویت اجباری می باشد',
     ruelsText: `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
     rules: 'قوانین و مقررات',
-    underestood:'متوجه شدم',
-    resendCodeCountDown:'ثانیه تا درخواست مجدد کد',
+    underestood: 'متوجه شدم !',
+    resendCodeCountDown: 'ثانیه تا درخواست مجدد کد',
     changeMobileNumber: 'تغییر شماره تلفن همراه',
     send4Digit: 'کد 4 رقمی به شماره',
     send4Digit_2: 'ارسال شد. کد را اینجا وارد کنید.',
     verifyCode_sendAgain: 'ارسال مجدد کد',
     doesntGiveCode: 'کد فعال‌سازی را دریافت نکردید؟',
-    moneyCurrency:'ریال',
-    return:'بازگشت',
-    profileSuccessUpdate:'تکمیل پروفایل با موفقیت انجام شد'
+    moneyCurrency: 'تومان',
+    return: 'بازگشت',
+    profileSuccessUpdate: 'تکمیل پروفایل با موفقیت انجام شد',
+    addHomeScreen: 'را به موبایل خود اضافه کنید',
+    addHomeScreenStep1: <>در نوار بالا روی دکمه <strong>Share</strong> تپ کنید</>,
+    addHomeScreenStep2: <>در منوی باز شده، در قسمت پایین، گزینه <strong>Add to Home Screen</strong> را انتخاب کنید</>,
+    addHomeScreenStep3: <>در مرجله بعد در قسمت بالا روی <strong>Add</strong> تپ کنید</>,
 };
 export default strings;

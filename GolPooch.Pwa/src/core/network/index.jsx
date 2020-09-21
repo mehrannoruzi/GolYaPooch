@@ -30,12 +30,12 @@ instance.interceptors.response.use((response) => {
     console.log(error);
     if (error.config && error.config.hasOwnProperty('errorHandle') && error.config.errorHandle === false)
         return Promise.reject(error);
-    if (error.response && error.response.status == 401){
+    if (error.response && error.response.status == 401) {
         localStorage.removeItem(config.keys.token);
         window.location.href = config.LOGIN_PAGE;
     }
-
-    return { IsSuccessful: false, Message: strings.unknownError };
+    console.log('return default message');
+    return { isSuccessful: false, message: strings.unknownError };
     //return Promise.reject(error);
 });
 

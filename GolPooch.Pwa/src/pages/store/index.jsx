@@ -6,6 +6,8 @@ import { Button, makeStyles, Paper, Container, Grid, Box } from '@material-ui/co
 import strings from '../../core/strings';
 import productSrv from '../../services/productSrv';
 import { commaThousondSeperator } from '../../core/utils';
+
+
 const useStyles = makeStyles({
     storePage: {
         paddingTop: 7.5,
@@ -78,17 +80,12 @@ const useStyles = makeStyles({
             transform: 'translateY(-50%)'
         }
     }
-
-
-
-
 });
-
 const Items = (props) => {
     const classes = useStyles();
     return (
-        <React.Fragment>
-            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='product'><Skeleton variant=' rect' className='w-100 mb-15' height={300} /></div>) :
+        <>
+            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='product'><Skeleton variant='rect' className='w-100 mb-15' height={300} /></div>) :
                 props.items.map((item, idx) => <div key={idx} className='product'>
                     <Link to={`/bl/product/${item.productOfferId}`}>
                         <figure>
@@ -106,10 +103,9 @@ const Items = (props) => {
 
                 </div>)
             }
-        </React.Fragment>
+        </>
     );
 }
-
 const Store = () => {
     const classes = useStyles();
     const [inProgress, setInProgress] = useState(true);
