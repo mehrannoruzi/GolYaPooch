@@ -41,6 +41,7 @@ const strings = {
     doesntGiveCode: 'کد فعال‌سازی را دریافت نکردید؟',
     moneyCurrency:'ریال',
     return:'بازگشت',
-    profileSuccessUpdate:'تکمیل پروفایل با موفقیت انجام شد'
+    profileSuccessUpdate:'تکمیل پروفایل با موفقیت انجام شد',
+    purchase:'خرید'
 };
 export default strings;

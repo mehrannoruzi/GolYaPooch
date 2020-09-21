@@ -8,7 +8,8 @@
         token: 'token',
         userInfo:'user_info',
         visitedStartPage:'visited_start_page',
-        banners:'banners'
+        banners:'banners',
+        products:'products'
     }
 };
 
@@ -22,7 +23,8 @@ const prod = {
         token: 'token',
         userInfo:'user_info',
         visitedStartPage:'visited_start_page',
-        banners:'banners'
+        banners:'banners',
+        products:'products'
     }
 };
 

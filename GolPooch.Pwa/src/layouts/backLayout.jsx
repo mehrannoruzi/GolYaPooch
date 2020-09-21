@@ -13,7 +13,6 @@ import PrivateRoute from '../atom/comps/PrivateRoute';
 const useStyles = makeStyles({
     layoutBL: {
         minHeight: '100vh',
-        paddingBottom: '60px',
         boxSizing: 'border-box',
         '& header': {
             backgroundColor: '#fff',
