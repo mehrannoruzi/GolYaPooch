@@ -5,6 +5,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useRecoilValue } from 'recoil';
 import bLState from '../atom/state/bLState';
 import Profile from '../pages/profile';
+import ProductPage from '../pages/product';
 import { useHistory } from "react-router-dom";
 import strings from '../core/strings';
 import PrivateRoute from '../atom/comps/PrivateRoute';
@@ -59,6 +60,7 @@ const BackLayout = () => {
             </AppBar>
             <Switch>
                 <PrivateRoute exact path={`${path}/profile`} component={Profile} />
+                <PrivateRoute exact path={`${path}/product/:id`} component={ProductPage} />
             </Switch>
         </div >
 

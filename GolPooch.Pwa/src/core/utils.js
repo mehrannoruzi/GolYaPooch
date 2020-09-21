@@ -20,6 +20,11 @@ export const decrypt = (txt) => {
 
 export const encrypt = (infoStr) => CryptoJS.AES.encrypt(infoStr, config.salt).toString();
 
+export function commaThousondSeperator(input) {
+    let str = isNaN(input) ? input : input.toString();
+    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 function gregorian_to_jalali(gy, gm, gd) {
     let g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
     let jy;

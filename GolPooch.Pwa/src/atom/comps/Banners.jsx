@@ -57,7 +57,6 @@ const Banners = (props) => {
             setInProgress(true);
             let get = await bannerService.get(pageName, location);
             setInProgress(false);
-            console.log(get);
             if (get.isSuccessful) {
                 setItems(get.result);
             }
