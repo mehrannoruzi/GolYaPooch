@@ -7,6 +7,7 @@ import Toast from './atom/comps/Toast';
 import BottomUpModal from './atom/comps/BottomUpModal';
 import Start from './pages/start';
 import config from './config';
+import * as firebase from "firebase/app";
 
 export default function () {
     localStorage.removeItem(config.keys.banners);

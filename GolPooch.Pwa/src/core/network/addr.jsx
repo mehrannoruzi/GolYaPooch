@@ -6,5 +6,6 @@ export default {
     getBanners: `${config.apiGateway.URL}Banner/All`,
     getProducts: `${config.apiGateway.URL}Product/All`,
     uploadAvatar: `${config.apiGateway.URL}User/UploadAwatar`,
-    updateProfile: `${config.apiGateway.URL}User/UpdateProfile`
+    updateProfile: `${config.apiGateway.URL}User/UpdateProfile`,
+    getChests: `${config.apiGateway.URL}Chest/All`,
 }
