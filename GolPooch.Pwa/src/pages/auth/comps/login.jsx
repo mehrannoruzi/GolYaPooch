@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import strings, { validationStrings } from './../../../core/strings';
 import { validate } from './../../../core/utils';
 import Button from './../../../atom/comps/Button';
-import authSrv from '../../../services/authSrv';
+import userSrv from '../../../services/userSrv';
 import toastState from '../../../atom/state/toastState';
 import bottomUpModalState from './../../../atom/state/bottomUpModalState';
 import authPageState from '../../../atom/state/authPageState';
@@ -41,10 +41,10 @@ export default function () {
         }
 
         setInProgress(true);
-        var response = await authSrv.login(mobileNumber.value).finally(() => {
+        var response = await userSrv.login(mobileNumber.value).finally(() => {
             setInProgress(false);
         });
-        if (!response.isSuccessful)
+        if (!response.isSuccessful) 
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
         else setAuthPageState({ activePanel: 'verify', mobileNumber: mobileNumber.value, transactionId: response.result });
     }

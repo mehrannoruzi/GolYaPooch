@@ -45,7 +45,7 @@ ol {
 }
 
 .mb-15 {
-  margin-bottom: 15px;
+  margin-bottom: 15px !important;
 }
 
 .ltr-elm {
@@ -277,5 +277,15 @@ input:-webkit-autofill:active {
 .btn-primary:hover {
   background-color: #115293;
   color: #fff;
+}
+
+.tether-element {
+  -webkit-transform: translateX(0px) !important;
+          transform: translateX(0px) !important;
+  z-index: 999;
+}
+
+.tether-element .calendarContainer .heading {
+  text-align: center;
 }
 /*# sourceMappingURL=utils.css.map */

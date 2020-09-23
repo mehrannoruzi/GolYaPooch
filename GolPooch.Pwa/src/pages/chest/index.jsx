@@ -1,13 +1,11 @@
 ﻿import React, { useState, useEffect } from 'react';
 import Banners from '../../atom/comps/Banners';
-
 import { makeStyles, Container } from '@material-ui/core';
-import productSrv from '../../services/productSrv';
-import notificationSrv from '../../services/notificationSrv';
+import chestSrv from '../../services/chestSrv';
 import Items from './comps/items';
 
 const useStyles = makeStyles({
-    storePage: {
+    chestPage: {
         paddingTop: 7.5,
         paddingBottom: 7.5
     },
@@ -25,19 +23,33 @@ const useStyles = makeStyles({
             paddingRight: '7.5px'
         }
     },
+    rawPrice: {
+        position: 'relative',
+        marginRight: 10,
+        '&:after': {
+            content: "''",
+            backgroundColor: 'red',
+            position: 'absolute',
+            height: '1px',
+            left: 0,
+            right: 0,
+            top: '50%',
+            transform: 'translateY(-50%)'
+        }
+    }
 });
 
-const Store = () => {
+const Chest = () => {
     const classes = useStyles();
     const [inProgress, setInProgress] = useState(true);
     const [items1, setItems1] = useState([]);
     const [items2, setItems2] = useState([]);
     const [query, setQuery] = useState('');
-
+    console.log('chest')
     useEffect(() => {
         const getDate = async () => {
             setInProgress(true);
-            let get = await productSrv.get();
+            let get = await chestSrv.get();
             setInProgress(false);
             if (get.isSuccessful) {
                 let tempItems1 = [], tempItems2 = [];
@@ -49,18 +61,12 @@ const Store = () => {
                 setItems2(tempItems2);
             }
         }
-        const requestNotification = async () => {
-            console.log(process.env.NODE_ENV);
-            let res = await notificationSrv.requestPermission();
-            console.log(res);
-        }
-        requestNotification();
         getDate();
     }, [query]);
 
     return (
-        <div id='page-store' className={classes.storePage}>
-            <Banners pageName="Store" location="top" />
+        <div id='page-chest' className={classes.chestPage}>
+            <Banners pageName="Chest" location="top" />
             <Container className={classes.products}>
                 <div className={`r-col ${classes.col2}`}>
                     {<Items items={items1} inProgress={inProgress} />}
@@ -69,10 +75,10 @@ const Store = () => {
                     {<Items items={items2} inProgress={inProgress} />}
                 </div>
             </Container>
-            <Banners pageName="Store" location="bottom" />
+            <Banners pageName="Chest" location="bottom" />
 
         </div>
     );
 };
 
-export default Store;
+export default Chest;

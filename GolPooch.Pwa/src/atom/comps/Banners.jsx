@@ -16,7 +16,7 @@ const actions = {
 const useStyles = makeStyles({
     textBanner: {
         textAlign: 'center',
-        margin: '15px 0'
+        margin: '7.5px 0'
     },
     skeleton: {
     }
@@ -57,7 +57,6 @@ const Banners = (props) => {
             setInProgress(true);
             let get = await bannerService.get(pageName, location);
             setInProgress(false);
-            console.log(get);
             if (get.isSuccessful) {
                 setItems(get.result);
             }

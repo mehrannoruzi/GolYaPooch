@@ -5,17 +5,23 @@ import logoImage from '../../assets/images/logo.jpeg';
 import config from './../../config';
 import strings from '../../core/strings';
 import { useHistory } from "react-router-dom";
-import { Share, TouchApp, AddBox } from '@material-ui/icons';
-import authSrv from '../../services/authSrv';
+import userSrv from '../../services/userSrv';
+import { TouchApp, AddBox, ShareOutlined } from '@material-ui/icons';
+import { FiShare, FiPlusSquare } from 'react-icons/fi';
+import { blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
+    app: {
+        borderBottom: "1px solid #eee",
+        paddingBottom: "25px"
+    },
     startPage: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
-        backgroundColor:'#fff'
+        backgroundColor: '#fff'
     },
     logo: {
         maxWidth: '100%'
@@ -24,20 +30,37 @@ const useStyles = makeStyles({
         listStyle: 'none',
         marginBottom: 15,
         '& li': {
-            marginBottom: 10,
+            padding: "15px 10px",
             '& svg': {
-                fontSize: 30,
+                fontSize: 24,
                 verticalAlign: 'middle',
-                marginRight: 5
+                marginRight: 5,
+            },
+            '& span': {
+                fontSize: 15,
+                verticalAlign: 'middle',
+                marginRight: 5,
             }
         }
-
+    },
+    blue: {
+        color: "#2196F3"
+    },
+    gray: {
+        color: "#6d6d6d"
+    },
+    addHomeScreenButton: {
+        height: 48,
+        fontSize: 13,
+        color: "#fff",
+        backgroundColor: "#03A9F4",
+        width: "100%"
     }
 });
 
 const Start = () => {
     const classes = useStyles();
-    let jwt = authSrv.isAuthenticated();
+    let jwt = userSrv.isAuthenticated();
     let history = useHistory();
     let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);
@@ -52,15 +75,25 @@ const Start = () => {
     return (
         <div id='page-start' className={classes.startPage}>
             <img className={classes.logo} src={logoImage} />
-            <h3 className='mb-15'>وب اپلیکیشن <strong>گل یا پوچ</strong> را به موبایل خود اضافه کنید</h3>
+            <h3 className={classes.app}>{strings.webApp} <strong>{strings.appName}</strong> {strings.addHomeScreen}</h3>
             <ul className={classes.steps}>
-                <li><Share />1- در نوار بالا روی دکمه Share تپ کنید</li>
-                <li><TouchApp />2- در منوی باز شده روی گزینه Add to Home Screen تپ کنید</li>
-                <li><AddBox />3- در مرجله بعد در قسمت بالا روی  Add تپ کنید</li>
+                <li>
+                    <FiShare className={classes.blue} />
+                    {strings.addHomeScreenStep1}</li>
+                <li>
+                    <FiPlusSquare className={classes.gray} />{strings.addHomeScreenStep2}
+                </li>
+                <li>
+                    <span className={classes.blue}>Add</span>
+                    {strings.addHomeScreenStep3}
+                </li>
             </ul>
-            <Button onClick={handleclick} className='w-100' variant="contained" color="primary">
-                {strings.underestood}
-            </Button>
+
+            <footer className="addHomeScreenFooter">
+                <Button onClick={handleclick} className={classes.addHomeScreenButton} variant="contained" color="primary">
+                    {strings.underestood}
+                </Button>
+            </footer>
         </div>
     );
 };

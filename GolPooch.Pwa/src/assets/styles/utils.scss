@@ -40,7 +40,7 @@ ol {
   padding: 0;
 }
 .mb-15 {
-  margin-bottom: 15px;
+  margin-bottom: 15px !important;
 }
 .ltr-elm {
   direction: ltr;
@@ -65,8 +65,8 @@ ol {
 .va-middle {
   vertical-align: middle;
 }
-.w-100{
-  width:100%;
+.w-100 {
+  width: 100%;
 }
 /*-----------------------------------
      remove browser autofill 
@@ -242,3 +242,14 @@ input:-webkit-autofill:active {
     color: #fff;
   }
 }
+.tether-element{
+  transform:translateX(0px)!important;
+  z-index: 999;
+
+  .calendarContainer {
+    .heading {
+      text-align: center;
+    }
+  }
+}
+
