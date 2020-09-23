@@ -14,7 +14,7 @@ export default class notificationSrv {
                 localStorage.setItem(config.keys.fcmToken, token);
                 console.log(token);
 
-                let call = await http.post(addr.registerForNotification, { id: token });
+                let call = await http.post(addr.registerForNotification, { pushKey: token });
                 return { isSuccessful: true, result: token };;
             })
             .catch(function (err) {

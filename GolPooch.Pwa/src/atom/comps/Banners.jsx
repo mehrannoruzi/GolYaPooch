@@ -16,7 +16,11 @@ const actions = {
 const useStyles = makeStyles({
     textBanner: {
         textAlign: 'center',
-        margin: '7.5px 0'
+        margin: '7.5px 0',
+        borderRadius: 5,
+        minHeight: 30,
+        paddingLeft: 5,
+        paddingRight: 5
     },
     skeleton: {
     }
@@ -51,16 +55,15 @@ const Banners = (props) => {
     const [query, setQuery] = useState('');
     const { pageName, location } = props;
 
-
-    useEffect(() => {
-        const getDate = async () => {
-            setInProgress(true);
-            let get = await bannerService.get(pageName, location);
-            setInProgress(false);
-            if (get.isSuccessful) {
-                setItems(get.result);
-            }
+    const getDate = async () => {
+        setInProgress(true);
+        let get = await bannerService.get(pageName, location);
+        setInProgress(false);
+        if (get.isSuccessful) {
+            setItems(get.result);
         }
+    }
+    useEffect(() => {
         getDate();
     }, [query]);
     if (!inProgress && items.length === 0) return null;
