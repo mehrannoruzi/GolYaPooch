@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Carousel from 'react-material-ui-carousel';
+import Slider from "react-slick";
 import { Contaner, Button, makeStyles, Paper, Container } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import bannerService from '../../services/bannerSrv';
@@ -75,10 +75,16 @@ const Banners = (props) => {
     useEffect(() => {
         getDate();
     }, [query]);
+    const settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+    };
     if (!inProgress && items.length === 0) return null;
     return (
         <Container className="Banner">
-            <Carousel navButtonsAlwaysInvisible={items.length < 2} indicators={false}>
+            <Slider {...settings}>
                 {
                     inProgress ? <Skeleton vcariant='rect' height={50} className={`w-100 mb-15 ${classes.skeleton}`} /> :
                         items.map((item, i) => {
@@ -88,7 +94,7 @@ const Banners = (props) => {
                             }
                         })
                 }
-            </Carousel>
+            </Slider>
         </Container>
 
     )

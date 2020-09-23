@@ -1,25 +1,16 @@
 import * as firebase from "firebase/app";
 import "firebase/messaging";
-const config = process.env.NODE_ENV === 'production' ? {
-    apiKey: "AIzaSyA495LicYX9kfjOB68whYoq7VoJf7AKkCA",
-    authDomain: "test1-a6acf.firebaseapp.com",
-    databaseURL: "https://test1-a6acf.firebaseio.com",
-    projectId: "test1-a6acf",
-    storageBucket: "test1-a6acf.appspot.com",
-    messagingSenderId: "156105196573",
-    appId: "1:156105196573:web:49848ff8f12ef9760d72f4"
-} : {
-        apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
-        authDomain: "golyapooch-70712.firebaseapp.com",
-        databaseURL: "https://golyapooch-70712.firebaseio.com",
-        projectId: "golyapooch-70712",
-        storageBucket: "golyapooch-70712.appspot.com",
-        messagingSenderId: "873210377614",
-        appId: "1:873210377614:web:284744c8f3e250cf80e0df",
-        measurementId: "G-27TEL4NS4E"
-    };
+const config =  {
+    apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
+    authDomain: "golyapooch-70712.firebaseapp.com",
+    databaseURL: "https://golyapooch-70712.firebaseio.com",
+    projectId: "golyapooch-70712",
+    storageBucket: "golyapooch-70712.appspot.com",
+    messagingSenderId: "873210377614",
+    appId: "1:873210377614:web:284744c8f3e250cf80e0df",
+    measurementId: "G-27TEL4NS4E"
+  };
 const initializedFirebaseApp = firebase.initializeApp(config);
-
 
 let messaging;
 
