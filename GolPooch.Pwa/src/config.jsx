@@ -10,7 +10,8 @@
         visitedStartPage:'visited_start_page',
         banners:'banners',
         products:'products',
-        chests:'chests'
+        chests:'chests',
+        fcmToken:'fcmToken'
     }
 };
 
@@ -26,7 +27,8 @@ const prod = {
         visitedStartPage:'visited_start_page',
         banners:'banners',
         products:'products',
-        chests:'chests'
+        chests:'chests',
+        fcmToken:'fcmToken'
     }
 };
 

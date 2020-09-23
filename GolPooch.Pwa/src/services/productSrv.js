@@ -20,7 +20,6 @@ export default class productSrv {
     static async getSingle(id, ignoreStorage) {
         function find(data) {
             let result = data.result.find(x => x.productOfferId == id);
-            console.log(result);
             return {
                 result: result,
                 isSuccessful: result ? true : false,

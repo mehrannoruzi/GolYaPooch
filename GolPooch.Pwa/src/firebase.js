@@ -1,16 +1,24 @@
 import * as firebase from "firebase/app";
 import "firebase/messaging";
-const initializedFirebaseApp = firebase.initializeApp({
-    apiKey: "AIzaSyAKNbXvUP69rqFGFNMtBKb2CNq5SLjBw_k",
-    authDomain: "golpooch-814c3.firebaseapp.com",
-    databaseURL: "https://golpooch-814c3.firebaseio.com",
-    projectId: "golpooch-814c3",
-    storageBucket: "golpooch-814c3.appspot.com",
-    messagingSenderId: "225229029648",
-    appId: "1:225229029648:web:3178f60ed29fd37a21a595",
-    measurementId: "G-52X9ZF9Y3X"
-});
-//const messaging = initializedFirebaseApp.messaging();
+const config = process.env.NODE_ENV === 'production' ? {
+    apiKey: "AIzaSyA495LicYX9kfjOB68whYoq7VoJf7AKkCA",
+    authDomain: "test1-a6acf.firebaseapp.com",
+    databaseURL: "https://test1-a6acf.firebaseio.com",
+    projectId: "test1-a6acf",
+    storageBucket: "test1-a6acf.appspot.com",
+    messagingSenderId: "156105196573",
+    appId: "1:156105196573:web:49848ff8f12ef9760d72f4"
+} : {
+        apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
+        authDomain: "golyapooch-70712.firebaseapp.com",
+        databaseURL: "https://golyapooch-70712.firebaseio.com",
+        projectId: "golyapooch-70712",
+        storageBucket: "golyapooch-70712.appspot.com",
+        messagingSenderId: "873210377614",
+        appId: "1:873210377614:web:284744c8f3e250cf80e0df",
+        measurementId: "G-27TEL4NS4E"
+    };
+const initializedFirebaseApp = firebase.initializeApp(config);
 
 
 let messaging;
@@ -25,7 +33,6 @@ if (('serviceWorker' in navigator) && ('PushManager' in window) && firebase.mess
             const registration = await navigator.serviceWorker.register(process.env.PUBLIC_URL + '/sw.js', {
                 updateViaCache: 'none'
             });
-            console.log(registration);
             messaging.useServiceWorker(registration);
             messaging.onMessage((payload) => {
                 const title = payload.notification.title;
@@ -39,15 +46,15 @@ if (('serviceWorker' in navigator) && ('PushManager' in window) && firebase.mess
                         }
                     ]
                 };
-                registration.showNotification(title, options);           
+                registration.showNotification(title, options);
             });
 
 
         }
-        catch (err){
+        catch (err) {
             console.log('Worker registration failed: ', err);
         }
-       
+
     });
 }
 

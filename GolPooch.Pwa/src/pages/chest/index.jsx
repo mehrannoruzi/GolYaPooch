@@ -66,7 +66,7 @@ const Chest = () => {
 
     return (
         <div id='page-chest' className={classes.chestPage}>
-            <Banners pageName="Store" location="top" />
+            <Banners pageName="Chest" location="top" />
             <Container className={classes.products}>
                 <div className={`r-col ${classes.col2}`}>
                     {<Items items={items1} inProgress={inProgress} />}
@@ -75,7 +75,7 @@ const Chest = () => {
                     {<Items items={items2} inProgress={inProgress} />}
                 </div>
             </Container>
-            <Banners pageName="Store" location="bottom" />
+            <Banners pageName="Chest" location="bottom" />
 
         </div>
     );

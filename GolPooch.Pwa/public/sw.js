@@ -1,5 +1,5 @@
-importScripts("https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/7.21.0/firebase-messaging.js");
+importScripts("https://www.gstatic.com/firebasejs/6.6.2/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/6.6.2/firebase-messaging.js");
 // importScripts('https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js');
 // importScripts('https://www.gstatic.com/firebasejs/5.7.2/firebase-messaging.js');
 
@@ -8,22 +8,30 @@ var urlsToCache = [
   '/',
   './favicon.ico',
 ];
-// const baseUrl = 'https://pharma.hillavas.com';
-// const apiUrl = 'https://pharma.hillavas.com/api/';
 
-const baseUrl = 'localhost:3000';
-const apiUrl = 'https://localhost:44367/';
-
+//--development
+const baseUrl = 'http://localhost:3000/';
 const firebaseConfig = {
-  apiKey: "AIzaSyAKNbXvUP69rqFGFNMtBKb2CNq5SLjBw_k",
-  authDomain: "golpooch-814c3.firebaseapp.com",
-  databaseURL: "https://golpooch-814c3.firebaseio.com",
-  projectId: "golpooch-814c3",
-  storageBucket: "golpooch-814c3.appspot.com",
-  messagingSenderId: "225229029648",
-  appId: "1:225229029648:web:3178f60ed29fd37a21a595",
-  measurementId: "G-52X9ZF9Y3X"
+  apiKey: "AIzaSyA495LicYX9kfjOB68whYoq7VoJf7AKkCA",
+  authDomain: "test1-a6acf.firebaseapp.com",
+  databaseURL: "https://test1-a6acf.firebaseio.com",
+  projectId: "test1-a6acf",
+  storageBucket: "test1-a6acf.appspot.com",
+  messagingSenderId: "156105196573",
+  appId: "1:156105196573:web:49848ff8f12ef9760d72f4"
 };
+//--production
+// const baseUrl = 'https://golpooch.com';
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
+//   authDomain: "golyapooch-70712.firebaseapp.com",
+//   databaseURL: "https://golyapooch-70712.firebaseio.com",
+//   projectId: "golyapooch-70712",
+//   storageBucket: "golyapooch-70712.appspot.com",
+//   messagingSenderId: "873210377614",
+//   appId: "1:873210377614:web:284744c8f3e250cf80e0df",
+//   measurementId: "G-27TEL4NS4E"
+// };
 
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();

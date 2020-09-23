@@ -3,9 +3,8 @@ import Banners from '../../atom/comps/Banners';
 
 import { makeStyles, Container } from '@material-ui/core';
 import productSrv from '../../services/productSrv';
+import notificationSrv from '../../services/notificationSrv';
 import Items from './comps/items';
-
-import { messaging } from "../../firebase";
 
 const useStyles = makeStyles({
     storePage: {
@@ -51,15 +50,9 @@ const Store = () => {
             }
         }
         const requestNotification = async () => {
-            if(!messaging) return;
-            messaging.requestPermission()
-                .then(async function () {
-                    const token = await messaging.getToken();
-                })
-                .catch(function (err) {
-                    console.log("Unable to get permission to notify.", err);
-                });
-            navigator.serviceWorker.addEventListener("message", (message) => console.log(message));
+            console.log(process.env.NODE_ENV);
+            let res = await notificationSrv.requestPermission();
+            console.log(res);
         }
         requestNotification();
         getDate();
