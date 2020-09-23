@@ -23,5 +23,6 @@ namespace GolPooch.Api.Controllers
         [HttpPost]
         public async Task<JsonResult> UploadAwatarAsync(User user, [FromBody] FileModel fileModel)
             => Json(await _userService.UploadAwatarAsync(user.UserId, fileModel.FileName, fileModel.FileBytes));
+
     }
 }
