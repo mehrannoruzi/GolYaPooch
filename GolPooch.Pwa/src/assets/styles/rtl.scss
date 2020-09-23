@@ -62,4 +62,22 @@ body[dir="rtl"] {
     }
 }
 
- 
+
+.Banner {
+    .Ctr {
+
+        .icon {
+            font-size: 25px;
+            margin-left: 5px;
+        }
+
+        .text {
+            width: -webkit-fill-available;
+            text-align: center;
+        }
+
+        .arrow {
+            font-size: 25px;
+        }
+    }
+}

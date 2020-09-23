@@ -34,26 +34,29 @@ const Store = () => {
     const [items2, setItems2] = useState([]);
     const [query, setQuery] = useState('');
 
-    useEffect(() => {
-        const getDate = async () => {
-            setInProgress(true);
-            let get = await productSrv.get();
-            setInProgress(false);
-            if (get.isSuccessful) {
-                let tempItems1 = [], tempItems2 = [];
-                for (let i = 0; i < get.result.length; i++) {
-                    if (i % 2 === 0) tempItems1.push(get.result[i]);
-                    else tempItems2.push(get.result[i]);
-                }
-                setItems1(tempItems1);
-                setItems2(tempItems2);
+
+    const getDate = async () => {
+        setInProgress(true);
+        let get = await productSrv.get();
+        setInProgress(false);
+        if (get.isSuccessful) {
+            let tempItems1 = [], tempItems2 = [];
+            for (let i = 0; i < get.result.length; i++) {
+                if (i % 2 === 0) tempItems1.push(get.result[i]);
+                else tempItems2.push(get.result[i]);
             }
+            setItems1(tempItems1);
+            setItems2(tempItems2);
         }
-        const requestNotification = async () => {
-            console.log(process.env.NODE_ENV);
-            let res = await notificationSrv.requestPermission();
-            console.log(res);
-        }
+    }
+
+    const requestNotification = async () => {
+        console.log(process.env.NODE_ENV);
+        let res = await notificationSrv.requestPermission();
+        console.log(res);
+    }
+
+    useEffect(() => {
         requestNotification();
         getDate();
     }, [query]);
