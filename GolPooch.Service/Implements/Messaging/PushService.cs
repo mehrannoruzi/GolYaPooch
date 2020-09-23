@@ -1,6 +1,6 @@
 ﻿using System;
-using WebPush;
 using Elk.Core;
+using Elk.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using GolPooch.DataAccess.Ef;
@@ -8,35 +8,28 @@ using GolPooch.Domain.Entity;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace GolPooch.Service.Implements
 {
     public class PushService : IPushService
     {
         private AppUnitOfWork _appUow { get; set; }
-        private readonly WebPushClient _webPushClient;
         private readonly IConfiguration _configuration;
 
-        public PushService(AppUnitOfWork appUnitOfWork, IConfiguration configuration,
-            WebPushClient webPushClient)
+        public PushService(AppUnitOfWork appUnitOfWork, IConfiguration configuration)
         {
             _appUow = appUnitOfWork;
-            _webPushClient = webPushClient;
             _configuration = configuration;
         }
 
-        public async Task<IResponse<bool>> Subscribe(PushEndpoint model)
+        public async Task<IResponse<bool>> Subscribe(PushEndpoint endpoint)
         {
             var response = new Response<bool>();
             try
             {
-                var endpoint = new PushEndpoint
-                {
-                    UserId = model.UserId,
-                    Endpoint = model.Endpoint,
-                    AuthSecretKey = model.AuthSecretKey,
-                    P256DhSecretKey = model.P256DhSecretKey
-                };
+                if (string.IsNullOrEmpty(endpoint.PushKey)) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
                 await _appUow.PushEndpointRepo.AddAsync(endpoint);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
 
@@ -77,12 +70,12 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<bool>> Unsubscribe(string P256DhSecretKey)
+        public async Task<IResponse<bool>> Unsubscribe(string pushKey)
         {
             var response = new Response<bool>();
             try
             {
-                var endpoint = await _appUow.PushEndpointRepo.FirstOrDefaultAsync(new QueryFilter<PushEndpoint> { Conditions = x => x.P256DhSecretKey == P256DhSecretKey, AsNoTracking = false });
+                var endpoint = await _appUow.PushEndpointRepo.FirstOrDefaultAsync(new QueryFilter<PushEndpoint> { Conditions = x => x.PushKey == pushKey, AsNoTracking = false });
                 if (endpoint.IsNull()) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
 
                 _appUow.PushEndpointRepo.Delete(endpoint);
@@ -115,15 +108,49 @@ namespace GolPooch.Service.Implements
                     if (endPoints.IsNull() || endPoints.Count() == 0) return new Response<bool> { Message = ServiceMessage.InvalidUserId };
                     allPushCount = endPoints.Count();
 
-                    foreach (var endpoint in endPoints)
+                    foreach (var endPoint in endPoints)
                     {
                         try
                         {
-                            var subscribtion = new PushSubscription(endpoint.Endpoint, endpoint.P256DhSecretKey, endpoint.AuthSecretKey);
-                            var vapidDetails = new VapidDetails { PublicKey = _configuration["PushNotificationSetting:PublicKey"], PrivateKey = _configuration["PushNotificationSetting:PrivateKey"] };
-                            await _webPushClient.SendNotificationAsync(subscribtion, notification.SerializeToJson(), vapidDetails);
+                            var requestBody = new
+                            {
+                                body = new
+                                {
+                                    collapse_key = "type_a",
+                                    notification = new
+                                    {
+                                        body = notification.Text,
+                                        title = notification.Subject,
+                                        icon = notification.IconUrl,
+                                    }
+                                },
+                                data = new
+                                {
+                                    notification.NotificationId,
+                                    notification.UserId,
+                                    notification.Type,
+                                    notification.Action,
+                                    notification.IsRead,
+                                    notification.ActionText,
+                                    notification.Subject,
+                                    notification.ImageUrl,
+                                    notification.IconUrl,
+                                    notification.ActionUrl,
+                                    notification.Text
+                                },
+                                to = endPoint.PushKey
+                            };
+                            var requestHeader = new Dictionary<string, string>
+                            {
+                                { "authorization", "key=" + _configuration["PushNotificationSetting:ServerKey"] },
+                                { "content-type", "application/json" }
+                            };
+                            var pushResult = await HttpRequestTools.PostJsonAsync(
+                                url: _configuration["PushNotificationSetting:FcmAddress"],
+                                values: requestBody,
+                                header: requestHeader);
                         }
-                        catch (WebPushException e)
+                        catch (Exception e)
                         {
                             failedSentCounter++;
                             FileLoger.Error(e);
@@ -143,15 +170,49 @@ namespace GolPooch.Service.Implements
                     {
                         try
                         {
-                            var subscribtion = new PushSubscription(endPoint.Endpoint, endPoint.P256DhSecretKey, endPoint.AuthSecretKey);
-                            var vapidDetails = new VapidDetails { PublicKey = _configuration["PushNotificationSetting:PublicKey"], PrivateKey = _configuration["PushNotificationSetting:PrivateKey"] };
-                            await _webPushClient.SendNotificationAsync(subscribtion, notification.SerializeToJson(), vapidDetails);
+                            var requestBody = new
+                            {
+                                body = new
+                                {
+                                    collapse_key = "type_a",
+                                    notification = new
+                                    {
+                                        body = notification.Text,
+                                        title = notification.Subject,
+                                        icon = notification.IconUrl,
+                                    }
+                                },
+                                data = new
+                                {
+                                    notification.NotificationId,
+                                    notification.UserId,
+                                    notification.Type,
+                                    notification.Action,
+                                    notification.IsRead,
+                                    notification.ActionText,
+                                    notification.Subject,
+                                    notification.ImageUrl,
+                                    notification.IconUrl,
+                                    notification.ActionUrl,
+                                    notification.Text
+                                },
+                                to = endPoint.PushKey
+                            };
+                            var requestHeader = new Dictionary<string, string>
+                            {
+                                { "authorization", "key=" + _configuration["PushNotificationSetting:ServerKey"] },
+                                { "content-type", "application/json" }
+                            };
+                            var pushResult = await HttpRequestTools.PostJsonAsync(
+                                url: _configuration["PushNotificationSetting:FcmAddress"],
+                                values: requestBody,
+                                header: requestHeader);
                         }
-                        catch (WebPushException e)
+                        catch (Exception e)
                         {
                             failedSentCounter++;
                             FileLoger.Error(e);
-                            if (e.Message == "Subscription no longer valid") await Unsubscribe((int)notification.UserId);
+                            if (e.Message == "Subscription no longer valid") await Unsubscribe(endPoint.PushKey);
                         }
                     }
                     #endregion

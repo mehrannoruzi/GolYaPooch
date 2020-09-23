@@ -290,6 +290,17 @@ body[dir="rtl"] .modal-header .close {
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: #fff; }
 
+.Banner .Ctr .icon {
+  font-size: 25px;
+  margin-left: 5px; }
+
+.Banner .Ctr .text {
+  width: -webkit-fill-available;
+  text-align: center; }
+
+.Banner .Ctr .arrow {
+  font-size: 25px; }
+
 #page-auth {
   background-color: #fff; }
 

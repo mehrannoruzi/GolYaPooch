@@ -3,11 +3,13 @@ import { Skeleton } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 import strings from '../../../core/strings';
 import { commaThousondSeperator } from '../../../core/utils';
-import { makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     product: {
-        marginTop: 7.5,
+        boxShadow: "0px 3px 10px 2px #bbbbbb",
+        borderRadius: 15,
+        marginTop: 5,
         marginBottom: 7.5,
 
         '& figure': {
@@ -65,7 +67,8 @@ const Items = (props) => {
     const classes = useStyles();
     return (
         <>
-            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product}><Skeleton variant='rect' className='w-100 mb-15' height={300} /></div>) :
+            {props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product} >
+                <Skeleton variant='rect' className='w-100 mb-15' height={300} /></div>) :
                 props.items.map((item, idx) => <div key={idx} className={classes.product}>
                     <Link to={`/bl/product/${item.productOfferId}`}>
                         <figure>
