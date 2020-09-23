@@ -45,9 +45,14 @@ namespace GolPooch.Service.Implements
                         }).ToList();
 
                     foreach (var banner in banners)
+                    {
+                        banner.IconUrl = banner.IconUrl != null
+                              ? _configuration["CustomSettings:CdnAddress"] + banner.IconUrl
+                              : null;
                         banner.ImageUrl = banner.ImageUrl != null
-                            ? _configuration["CustomSettings:CdnAddress"] + banner.ImageUrl
-                            : null;
+                                ? _configuration["CustomSettings:CdnAddress"] + banner.ImageUrl
+                                : null;
+                    }
 
                     _cacheProvider.Add(_bannerCacheKey, banners, DateTime.Now.AddHours(GlobalVariables.CacheSettings.BannerCacheTimeout()));
                 }

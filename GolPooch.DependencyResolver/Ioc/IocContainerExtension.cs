@@ -1,5 +1,4 @@
-﻿using WebPush;
-using Elk.Core;
+﻿using Elk.Core;
 using Elk.Cache;
 using GolPooch.SmsGateway;
 using GolPooch.DataAccess.Ef;
@@ -27,7 +26,6 @@ namespace GolPooch.DependencyResolver.Ioc
             services.AddContext<AppDbContext>(_configuration.GetConnectionString("AppDbContext"));
             services.AddScoped<AppUnitOfWork>();
 
-            services.AddScoped<WebPushClient>();
             services.AddScoped<ISmsGatway, SmsGatway>();
 
             #region Base

@@ -46,7 +46,6 @@ namespace GolPooch.Domain.Entity
 
         [Column(TypeName = "varchar(30)")]
         [Display(Name = nameof(DisplayNames.ActionText), ResourceType = typeof(DisplayNames))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(30, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(30, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ActionText { get; set; }
@@ -58,16 +57,32 @@ namespace GolPooch.Domain.Entity
         [StringLength(50, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Subject { get; set; }
 
+        [Column(TypeName = "varchar(50)")]
+        [Display(Name = nameof(DisplayNames.ActionUrl), ResourceType = typeof(DisplayNames))]
+        [MaxLength(50, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(50, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string FontColor { get; set; }
+
+        [Column(TypeName = "varchar(100)")]
+        [Display(Name = nameof(DisplayNames.ActionUrl), ResourceType = typeof(DisplayNames))]
+        [MaxLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string BackColor { get; set; }
+
+        [Column(TypeName = "varchar(250)")]
+        [Display(Name = nameof(DisplayNames.IconUrl), ResourceType = typeof(DisplayNames))]
+        [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string IconUrl { get; set; }
+
         [Column(TypeName = "varchar(250)")]
         [Display(Name = nameof(DisplayNames.ImageUrl), ResourceType = typeof(DisplayNames))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ImageUrl { get; set; }
 
         [Column(TypeName = "varchar(250)")]
         [Display(Name = nameof(DisplayNames.ActionUrl), ResourceType = typeof(DisplayNames))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Href { get; set; }
