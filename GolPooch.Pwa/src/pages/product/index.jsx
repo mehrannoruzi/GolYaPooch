@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
-import { Paper, makeStyles, Container, Grid, Badge } from '@material-ui/core';
+import { makeStyles, Container, Grid } from '@material-ui/core';
 import config from './../../config';
 import strings from '../../core/strings';
 import { useHistory, useParams } from "react-router-dom";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { useRecoilState } from 'recoil';
 import productSrv from '../../services/productSrv';
+import gatewaySrv from '../../services/gatewaySrv';
 import { commaThousondSeperator } from '../../core/utils';
 import Button from '../../atom/comps/Button';
+import toastState from '../../atom/state/toastState';
+import Gateways from './comps/gateways';
+import productAtom from '../../atom/state/productState';
 
 const useStyles = makeStyles({
     productPage: {
@@ -22,7 +26,7 @@ const useStyles = makeStyles({
             padding: '15px 15px 0 0',
 
             '& .info': {
-                width:'100%',
+                width: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 color: '#666',
@@ -79,27 +83,33 @@ const Product = () => {
     let { id } = useParams();
     //HOOKS
     const [item, setProduct] = useState({});
+    const [gateways, setGateways] = useState([]);
     const [query, setQuery] = useState('');
     const [inProgress, setInProgress] = useState(true);
+    //recoil
+    const [toast, setToastState] = useRecoilState(toastState);
+    const [rState, setProductState] = useRecoilState(productAtom);
 
     useEffect(() => {
         const getDate = async () => {
             setInProgress(true);
-            console.log(id);
             let get = await productSrv.getSingle(parseInt(id));
-            if (get.isSuccessful)
-                setProduct(get.result);
+            if (get.isSuccessful) setProduct(get.result);
+            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
             setInProgress(false);
         }
+
         getDate();
-    }, []);
+
+
+    }, [setQuery]);
 
     const _handlePurchase = () => {
-
+        console.log(rState.gatewatId)
     }
 
     return (
-        <Paper id='page-product' className={`page ${classes.productPage}`}>
+        <div id='page-product' className={classes.productPage}>
             <Container>
                 <Grid container className='mb-15'>
                     <Grid item xs={6} className='info-wrapper'>
@@ -122,14 +132,17 @@ const Product = () => {
                 </Grid>
                 <Grid container>
                     <Grid item xs={12}>
-                        {inProgress ? [0, 1, 2].map((x, idx) => <Skeleton  key={idx} className='w-100' />) : <p>{`در صورتی که شانس خود را به تعداد ${item.unUseDay} روز در سبد های قرعه کشی مصرف نکنید، مبلغ ${commaThousondSeperator(item.totalPrice)} تومن حساب شما شارژ خواهد شد`}</p>}
+                        {inProgress ? [0, 1, 2].map((x, idx) => <Skeleton key={idx} className='w-100' />) : <p>{`در صورتی که شانس خود را به تعداد ${item.unUseDay} روز در سبد های قرعه کشی مصرف نکنید، مبلغ ${commaThousondSeperator(item.totalPrice)} تومن حساب شما شارژ خواهد شد`}</p>}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Gateways />
                     </Grid>
                     <Grid item xs={12} className='btn-wrapper'>
                         <Button disabled={inProgress} className='btn-purchase' icon={ShoppingCartIcon} onClick={_handlePurchase}>{strings.purchase}</Button>
                     </Grid>
                 </Grid>
             </Container >
-        </Paper>
+        </div>
     );
 };
 

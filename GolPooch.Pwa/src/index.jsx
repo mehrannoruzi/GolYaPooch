@@ -1,12 +1,13 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
 import App from './App';
 import { RecoilRoot } from 'recoil';
 import { MuiThemeProvider, createMuiTheme, StylesProvider, jssPreset } from '@material-ui/core/styles';
 import './assets/styles/index.css';
 import './assets/styles/material-design-iconic-font.min.css';
 import './assets/styles/animate.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 

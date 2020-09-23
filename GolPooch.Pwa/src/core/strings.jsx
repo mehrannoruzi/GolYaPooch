@@ -50,6 +50,7 @@ const strings = {
     addHomeScreenStep1: <>در نوار بالا روی دکمه <strong>Share</strong> تپ کنید</>,
     addHomeScreenStep2: <>در منوی باز شده، در قسمت پایین، گزینه <strong>Add to Home Screen</strong> را انتخاب کنید</>,
     addHomeScreenStep3: <>در مرجله بعد در قسمت بالا روی <strong>Add</strong> تپ کنید</>,
-    purchase:'خرید'
+    purchase:'خرید',
+    gateways:'درگاه ها'
 };
 export default strings;

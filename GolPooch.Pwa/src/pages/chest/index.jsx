@@ -3,6 +3,9 @@ import Banners from '../../atom/comps/Banners';
 import { makeStyles, Container } from '@material-ui/core';
 import chestSrv from '../../services/chestSrv';
 import Items from './comps/items';
+import toastState from '../../atom/state/toastState';
+import { useRecoilState } from 'recoil';
+
 
 const useStyles = makeStyles({
     chestPage: {
@@ -45,7 +48,9 @@ const Chest = () => {
     const [items1, setItems1] = useState([]);
     const [items2, setItems2] = useState([]);
     const [query, setQuery] = useState('');
-    console.log('chest')
+    //recoil
+    const [toast, setToastState] = useRecoilState(toastState);
+    
     useEffect(() => {
         const getDate = async () => {
             setInProgress(true);
@@ -60,6 +65,7 @@ const Chest = () => {
                 setItems1(tempItems1);
                 setItems2(tempItems2);
             }
+            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
         }
         getDate();
     }, [query]);

@@ -9,4 +9,5 @@ export default {
     updateProfile: `${config.apiGateway.URL}User/UpdateProfile`,
     getChests: `${config.apiGateway.URL}Chest/All`,
     registerForNotification:`${config.apiGateway.URL}Notification/AddClick`,
+    getGateways:`${config.apiGateway.URL}Payment/AllGateway`
 }

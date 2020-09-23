@@ -5,6 +5,8 @@ import { makeStyles, Container } from '@material-ui/core';
 import productSrv from '../../services/productSrv';
 import notificationSrv from '../../services/notificationSrv';
 import Items from './comps/items';
+import toastState from '../../atom/state/toastState';
+import { useRecoilState } from 'recoil';
 
 const useStyles = makeStyles({
     storePage: {
@@ -33,6 +35,8 @@ const Store = () => {
     const [items1, setItems1] = useState([]);
     const [items2, setItems2] = useState([]);
     const [query, setQuery] = useState('');
+    //recoil
+    const [toast, setToastState] = useRecoilState(toastState);
 
     useEffect(() => {
         const getDate = async () => {
@@ -48,6 +52,7 @@ const Store = () => {
                 setItems1(tempItems1);
                 setItems2(tempItems2);
             }
+            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
         }
         const requestNotification = async () => {
             console.log(process.env.NODE_ENV);
