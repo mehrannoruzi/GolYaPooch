@@ -120,12 +120,27 @@
   <data name="AccountIsBlocked" xml:space="preserve">
     <value>حساب کاربری شما مسدود است</value>
   </data>
+  <data name="AllChestRoundHasFinished" xml:space="preserve">
+    <value>تمام راندهای قرعه کشی صندوق مورد نظر به پایان رسیده است، لطفا صندوق دیگری را انتخاب کنید.</value>
+  </data>
   <data name="Authentication_GetCode" xml:space="preserve">
     <value>برای ورود به گل یا پوچ کد زیر را وارد نمایید
 Code: {code}</value>
   </data>
+  <data name="ChestNotActive" xml:space="preserve">
+    <value>صندوق قرعه کشی مورد نظر فعال نمی باشد.</value>
+  </data>
+  <data name="ClosedRoundBySystem" xml:space="preserve">
+    <value>ClosedRoundBySystem</value>
+  </data>
   <data name="CompleteProfile" xml:space="preserve">
     <value>CompleteProfile</value>
+  </data>
+  <data name="CreateFirstRoundBySystem" xml:space="preserve">
+    <value>CreateFirstRoundBySystem</value>
+  </data>
+  <data name="CreateNewRoundBySystem" xml:space="preserve">
+    <value>CreateNewRoundBySystem</value>
   </data>
   <data name="DuplicateRecord" xml:space="preserve">
     <value>رکورد مورد نظر هم اکنون وجود دارد</value>
@@ -142,6 +157,9 @@ Code: {code}</value>
   <data name="FileNotSaved" xml:space="preserve">
     <value>ذخیره فایل ارسالی با خطا رو به رو شده است ویا فایل ارسالی معتبر نمی باشد.</value>
   </data>
+  <data name="InvalidChest" xml:space="preserve">
+    <value>صندوق قرعه کشی مورد نظر معتبر نمی باشد ویا کد صندوق ارسالی اشتباه می باشد.</value>
+  </data>
   <data name="InvalidId" xml:space="preserve">
     <value>کد ارسالی معتبر نمی باشد.</value>
   </data>
@@ -157,6 +175,12 @@ Code: {code}</value>
   <data name="InvalidProductOfferId" xml:space="preserve">
     <value>بسته مورد نظر وجود ندارد ویا فعال نمی باشد، لطفا مجدد تلاش کنید.</value>
   </data>
+  <data name="InvalidPurchase" xml:space="preserve">
+    <value>محصول خریداری شده معتبر نمی باشد ویا کد محصول خریداری شده اشتباه می باشد.</value>
+  </data>
+  <data name="InvalidRound" xml:space="preserve">
+    <value>راند قرعه کشی صندوق مورد نظر معتبر نمی باشد ویا کد راند قرعه کشی اشتباه می باشد.</value>
+  </data>
   <data name="InvalidTicketId" xml:space="preserve">
     <value>تیکت مورد نظر وجود ندارد ویا کد ارسالی معتبر نمی باشد.</value>
   </data>
@@ -168,6 +192,15 @@ Code: {code}</value>
   </data>
   <data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>نام کاربری یا رمز عبور اشتباه است</value>
+  </data>
+  <data name="PuchaseNotForCurrentUser" xml:space="preserve">
+    <value>محصول خریداری شده برای کاربر جاری نمی باشد.</value>
+  </data>
+  <data name="PurchaseHasFinished" xml:space="preserve">
+    <value>تاریخ مصرف استفاده از محصول خریداری شده تمام شده است.</value>
+  </data>
+  <data name="PurchaseNotAnyChanse" xml:space="preserve">
+    <value>محصول خریداری شده شانس استفاده نشده ای ندارد.</value>
   </data>
   <data name="PushSubscriberNotExist" xml:space="preserve">
     <value>دستگاهی برای ارسال پوش پیدا نشد</value>

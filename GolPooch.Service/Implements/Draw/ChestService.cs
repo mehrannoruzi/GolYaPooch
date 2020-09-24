@@ -9,6 +9,8 @@ using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using GolPooch.Domain.Enum;
 
 namespace GolPooch.Service.Implements
 {
@@ -43,7 +45,7 @@ namespace GolPooch.Service.Implements
                         }).ToList();
 
                     foreach (var chest in chests)
-                        chest.ImageUrl = chest.ImageUrl != null 
+                        chest.ImageUrl = chest.ImageUrl != null
                             ? _configuration["CustomSettings:CdnAddress"] + chest.ImageUrl
                             : null;
 
@@ -60,6 +62,146 @@ namespace GolPooch.Service.Implements
                 FileLoger.Error(e);
                 response.Message = ServiceMessage.Exception;
                 return response;
+            }
+        }
+
+        public async Task<IResponse<string>> SpendChanceAsync(int userId, int purchaseId, int ChestId)
+        {
+            var response = new Response<string>();
+            using (var trans = await _appUow.Database.BeginTransactionAsync())
+            {
+                var now = DateTime.Now;
+                try
+                {
+                    #region Get Purchase
+                    var purchase = await _appUow.PurchaseRepo.FirstOrDefaultAsync(
+                        new QueryFilter<Purchase>
+                        {
+                            Conditions = x => x.PurchaseId == purchaseId,
+                            AsNoTracking = false
+                        });
+                    if (purchase.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPurchase };
+                    if (purchase.IsFinished) return new Response<string> { Message = ServiceMessage.PurchaseHasFinished };
+                    if (purchase.UserId != userId) return new Response<string> { Message = ServiceMessage.PuchaseNotForCurrentUser };
+                    if (purchase.UsedChance >= purchase.Chance) return new Response<string> { Message = ServiceMessage.PurchaseNotAnyChanse };
+
+                    purchase.UsedChance += 1;
+                    #endregion
+
+                    #region Get Chest
+                    var chest = await _appUow.ChestRepo.FirstOrDefaultAsync(
+                        new QueryFilter<Chest>
+                        {
+                            Conditions = x => x.ChestId == ChestId
+                        });
+                    if (chest.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidChest };
+                    if (!chest.IsActive) return new Response<string> { Message = ServiceMessage.ChestNotActive };
+                    #endregion
+
+                    #region Get Round
+                    var rounds = _appUow.RoundRepo.Get(
+                        new QueryFilter<Round>
+                        {
+                            Conditions = x => x.ChestId == ChestId
+                        }).ToList();
+
+                    Round newRound, currentRound;
+                    var roundCounter = 0;
+                    var participantCount = chest.ParticipantCount;
+                    if (rounds.IsNull() || rounds.Count() == 0)
+                    {
+                        newRound = new Round
+                        {
+                            ChestId = ChestId,
+                            WinnerUserId = null,
+                            ParticipantCount = chest.ParticipantCount,
+                            State = RoundState.Open,
+                            OpenDateMi = now,
+                            OpenDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
+                            CloseDateMi = null,
+                            CloseDateSh = null,
+                            Description = ServiceMessage.CreateFirstRoundBySystem
+                        };
+                        await _appUow.RoundRepo.AddAsync(newRound);
+                        var roundSaveResult = await _appUow.ElkSaveChangesAsync();
+                        if (!roundSaveResult.IsSuccessful) return new Response<string> { Message = ServiceMessage.InvalidRound };
+                        currentRound = newRound;
+                    }
+                    else
+                    {
+                        currentRound = rounds.FirstOrDefault(x => x.State == RoundState.Open);
+                        if (currentRound.IsNull() && rounds.Count() == chest.RoundCount)
+                        {
+                            await trans.RollbackAsync();
+                            return new Response<string> { Message = ServiceMessage.AllChestRoundHasFinished };
+                        }
+                        else if (currentRound.IsNull() && rounds.Count() < chest.RoundCount)
+                        {
+                            newRound = new Round
+                            {
+                                ChestId = ChestId,
+                                WinnerUserId = null,
+                                ParticipantCount = chest.ParticipantCount,
+                                State = RoundState.Open,
+                                OpenDateMi = now,
+                                OpenDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
+                                CloseDateMi = null,
+                                CloseDateSh = null,
+                                Description = ServiceMessage.CreateNewRoundBySystem
+                            };
+                            await _appUow.RoundRepo.AddAsync(newRound);
+                            var roundSaveResult = await _appUow.ElkSaveChangesAsync();
+                            if (!roundSaveResult.IsSuccessful) return new Response<string> { Message = ServiceMessage.InvalidRound };
+                            currentRound = newRound;
+                        }
+                    }
+                    #endregion
+
+                    #region Save Draw Chest
+                    var lastDrawChance = await _appUow.DrawChanceRepo.FirstOrDefaultAsync(
+                        new QueryFilter<DrawChance>
+                        {
+                            Conditions = x => x.RoundId == currentRound.RoundId,
+                            OrderBy = x => x.OrderByDescending(x => x.DrawChanceId)
+                        });
+                    if (lastDrawChance.IsNotNull()) roundCounter = lastDrawChance.Counter;
+
+                    var drawChest = new DrawChance
+                    {
+                        UserId = userId,
+                        RoundId = currentRound.RoundId,
+                        PurchaseId = purchaseId,
+                        Counter = roundCounter + 1,
+                        Code = Randomizer.GetRandomString(16)
+                    };
+                    await _appUow.DrawChanceRepo.AddAsync(drawChest);
+
+                    if (currentRound.ParticipantCount == drawChest.Counter)
+                    {
+                        currentRound.State = RoundState.End;
+                        currentRound.CloseDateMi = now;
+                        currentRound.CloseDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
+                        currentRound.Description += $" | {ServiceMessage.ClosedRoundBySystem}";
+
+                        _appUow.RoundRepo.UpdateUnAttached(currentRound);
+                    }
+
+                    var saveResult = await _appUow.ElkSaveChangesAsync();
+                    #endregion
+
+                    response.IsSuccessful = saveResult.IsSuccessful;
+                    response.Result = saveResult.IsSuccessful ? drawChest.Code : string.Empty;
+                    response.Message = saveResult.IsSuccessful ? ServiceMessage.Success : ServiceMessage.Error;
+                    await trans.CommitAsync();
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    FileLoger.Error(e);
+                    await trans.RollbackAsync();
+                    response.Message = ServiceMessage.Exception;
+                    return response;
+                }
             }
         }
     }

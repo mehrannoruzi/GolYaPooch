@@ -70,6 +70,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تمام راندهای قرعه کشی صندوق مورد نظر به پایان رسیده است، لطفا صندوق دیگری را انتخاب کنید..
+        /// </summary>
+        public static string AllChestRoundHasFinished {
+            get {
+                return ResourceManager.GetString("AllChestRoundHasFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to برای ورود به گل یا پوچ کد زیر را وارد نمایید
         ///Code: {code}.
         /// </summary>
@@ -80,11 +89,47 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to صندوق قرعه کشی مورد نظر فعال نمی باشد..
+        /// </summary>
+        public static string ChestNotActive {
+            get {
+                return ResourceManager.GetString("ChestNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ClosedRoundBySystem.
+        /// </summary>
+        public static string ClosedRoundBySystem {
+            get {
+                return ResourceManager.GetString("ClosedRoundBySystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CompleteProfile.
         /// </summary>
         public static string CompleteProfile {
             get {
                 return ResourceManager.GetString("CompleteProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CreateFirstRoundBySystem.
+        /// </summary>
+        public static string CreateFirstRoundBySystem {
+            get {
+                return ResourceManager.GetString("CreateFirstRoundBySystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CreateNewRoundBySystem.
+        /// </summary>
+        public static string CreateNewRoundBySystem {
+            get {
+                return ResourceManager.GetString("CreateNewRoundBySystem", resourceCulture);
             }
         }
         
@@ -134,6 +179,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to صندوق قرعه کشی مورد نظر معتبر نمی باشد ویا کد صندوق ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidChest {
+            get {
+                return ResourceManager.GetString("InvalidChest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کد ارسالی معتبر نمی باشد..
         /// </summary>
         public static string InvalidId {
@@ -179,6 +233,24 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to محصول خریداری شده معتبر نمی باشد ویا کد محصول خریداری شده اشتباه می باشد..
+        /// </summary>
+        public static string InvalidPurchase {
+            get {
+                return ResourceManager.GetString("InvalidPurchase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to راند قرعه کشی صندوق مورد نظر معتبر نمی باشد ویا کد راند قرعه کشی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidRound {
+            get {
+                return ResourceManager.GetString("InvalidRound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تیکت مورد نظر وجود ندارد ویا کد ارسالی معتبر نمی باشد..
         /// </summary>
         public static string InvalidTicketId {
@@ -211,6 +283,33 @@ namespace GolPooch.Service.Resourses {
         public static string InvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to محصول خریداری شده برای کاربر جاری نمی باشد..
+        /// </summary>
+        public static string PuchaseNotForCurrentUser {
+            get {
+                return ResourceManager.GetString("PuchaseNotForCurrentUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تاریخ مصرف استفاده از محصول خریداری شده تمام شده است..
+        /// </summary>
+        public static string PurchaseHasFinished {
+            get {
+                return ResourceManager.GetString("PurchaseHasFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to محصول خریداری شده شانس استفاده نشده ای ندارد..
+        /// </summary>
+        public static string PurchaseNotAnyChanse {
+            get {
+                return ResourceManager.GetString("PurchaseNotAnyChanse", resourceCulture);
             }
         }
         

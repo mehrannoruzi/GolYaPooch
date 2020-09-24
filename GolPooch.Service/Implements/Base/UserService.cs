@@ -93,6 +93,7 @@ namespace GolPooch.Service.Implements
                     response.Message = saveResult.Message;
                     response.IsSuccessful = saveResult.IsSuccessful;
                     response.Result = saveResult.IsSuccessful ? existedUser.UserId : 0;
+                    await trans.CommitAsync();
                     return response;
                 }
                 catch (Exception e)
@@ -101,10 +102,6 @@ namespace GolPooch.Service.Implements
                     await trans.RollbackAsync();
                     response.Message = ServiceMessage.Exception;
                     return response;
-                }
-                finally
-                {
-                    await trans.CommitAsync();
                 }
             }
         }

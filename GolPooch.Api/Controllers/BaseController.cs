@@ -23,19 +23,19 @@ namespace GolPooch.Api.Controllers
             _cacheProvider = cacheProvider;
         }
 
-        private List<KeyValue> GetRegions()
+        private List<KeyValueModel> GetRegions()
         {
-            var response = new List<KeyValue>();
+            var response = new List<KeyValueModel>();
             try
             {
-                response = (List<KeyValue>)_cacheProvider.Get(_regionCacheKey);
+                response = (List<KeyValueModel>)_cacheProvider.Get(_regionCacheKey);
                 if (response == null)
                 {
-                    response = new List<KeyValue>();
+                    response = new List<KeyValueModel>();
                     EnumExtension.GetEnumElements<RegionNames>()
                         .ForEach(element =>
                         {
-                            response.Add(new KeyValue { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
+                            response.Add(new KeyValueModel { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
                         });
 
                     _cacheProvider.Add(_regionCacheKey, response, DateTime.Now.AddHours(GlobalVariables.CacheSettings.RegionCacheTimeout()));
@@ -50,19 +50,19 @@ namespace GolPooch.Api.Controllers
             }
         }
 
-        private List<KeyValue> BankNames()
+        private List<KeyValueModel> BankNames()
         {
-            var response = new List<KeyValue>();
+            var response = new List<KeyValueModel>();
             try
             {
-                response = (List<KeyValue>)_cacheProvider.Get(_bankNameCacheKey);
+                response = (List<KeyValueModel>)_cacheProvider.Get(_bankNameCacheKey);
                 if (response == null)
                 {
-                    response = new List<KeyValue>();
+                    response = new List<KeyValueModel>();
                     EnumExtension.GetEnumElements<BankNames>()
                         .ForEach(element =>
                         {
-                            response.Add(new KeyValue { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
+                            response.Add(new KeyValueModel { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
                         });
 
                     _cacheProvider.Add(_bankNameCacheKey, response, DateTime.Now.AddHours(GlobalVariables.CacheSettings.BankNameCacheTimeout()));
@@ -77,19 +77,19 @@ namespace GolPooch.Api.Controllers
             }
         }
 
-        private List<KeyValue> GetTicketTypes()
+        private List<KeyValueModel> GetTicketTypes()
         {
-            var response = new List<KeyValue>();
+            var response = new List<KeyValueModel>();
             try
             {
-                response = (List<KeyValue>)_cacheProvider.Get(_ticketTypeCacheKey);
+                response = (List<KeyValueModel>)_cacheProvider.Get(_ticketTypeCacheKey);
                 if (response == null)
                 {
-                    response = new List<KeyValue>();
+                    response = new List<KeyValueModel>();
                     EnumExtension.GetEnumElements<TicketType>()
                         .ForEach(element =>
                         {
-                            response.Add(new KeyValue { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
+                            response.Add(new KeyValueModel { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
                         });
 
                     _cacheProvider.Add(_ticketTypeCacheKey, response, DateTime.Now.AddHours(GlobalVariables.CacheSettings.TiketTypeCacheTimeout()));
@@ -104,19 +104,19 @@ namespace GolPooch.Api.Controllers
             }
         }
 
-        private List<KeyValue> GetBannerTypes()
+        private List<KeyValueModel> GetBannerTypes()
         {
-            var response = new List<KeyValue>();
+            var response = new List<KeyValueModel>();
             try
             {
-                response = (List<KeyValue>)_cacheProvider.Get(_bannerTypeCacheKey);
+                response = (List<KeyValueModel>)_cacheProvider.Get(_bannerTypeCacheKey);
                 if (response == null)
                 {
-                    response = new List<KeyValue>();
+                    response = new List<KeyValueModel>();
                     EnumExtension.GetEnumElements<BannerType>()
                         .ForEach(element =>
                         {
-                            response.Add(new KeyValue { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
+                            response.Add(new KeyValueModel { Title = element.Description, Name = element.Name, Value = int.Parse(element.Value.ToString()) });
                         });
 
                     _cacheProvider.Add(_bannerTypeCacheKey, response, DateTime.Now.AddHours(GlobalVariables.CacheSettings.BannerTypeCacheTimeout()));
