@@ -14,6 +14,7 @@ namespace GolPooch.CrossCutting
             public static int RegionCacheTimeout() => 24;
             public static int BankNameCacheTimeout() => 24;
             public static int TiketTypeCacheTimeout() => 24;
+            public static int BannerTypeCacheTimeout() => 24;
             public static int PaymentGatewayCacheTimeout() => 24;
 
             public static string BannerCacheKey() => "BannerCache";
@@ -22,6 +23,7 @@ namespace GolPooch.CrossCutting
             public static string RegionCacheKey() => "RegionCache";
             public static string BankNameCacheKey() => "BankNameCache";
             public static string TiketTypeCacheKey() => "TiketTypeCache";
+            public static string BannerTypeCacheKey() => "BannerTypeCache";
             public static string PaymentGatewayCacheKey() => "PaymentGatewayCache";
         }
 
