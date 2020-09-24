@@ -2,9 +2,11 @@
 using Elk.Core;
 using Elk.Cache;
 using System.Linq;
+using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
@@ -38,9 +40,9 @@ namespace GolPooch.Service.Implements
                     productOffers = _appUow.ProductOfferRepo.Get(
                         new QueryFilter<ProductOffer>
                         {
-                            Conditions = x => x.IsActive,
+                            Conditions = x => x.IsActive && x.Product.IsShow && x.Product.Type == ProductType.General,
                             OrderBy = x => x.OrderBy(x => x.Price),
-                            IncludeProperties = new List<System.Linq.Expressions.Expression<Func<ProductOffer, object>>> { x => x.Product }
+                            IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
                         }).ToList();
 
                     foreach (var offer in productOffers)
