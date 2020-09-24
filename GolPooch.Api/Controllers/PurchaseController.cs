@@ -16,6 +16,10 @@ namespace GolPooch.Api.Controllers
             _purchaseService = purchaseService;
         }
 
+        [HttpGet]
+        public JsonResult Top(User user, [FromBody] PagingParameter pagingParameter)
+            => Json(_purchaseService.GetTopPurchases(user.UserId, pagingParameter));
+
 
     }
 }
