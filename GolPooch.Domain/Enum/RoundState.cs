@@ -2,8 +2,8 @@
 {
     public enum RoundState : byte
     {
-        PreStart = 1,
-        Start = 2,
+        Preparation = 1,
+        Open = 2,
         Close = 3,
         waitForPay = 4,
 

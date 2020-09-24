@@ -31,20 +31,20 @@ namespace GolPooch.Domain.Entity
         public RoundState State { get; set; }
 
         [Display(Name = nameof(DisplayNames.StartDate), ResourceType = typeof(DisplayNames))]
-        public DateTime? StartDateMi { get; set; }
+        public DateTime? OpenDateMi { get; set; }
 
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.StartDate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string StartDateSh { get; set; }
+        public string OpenDateSh { get; set; }
 
         [Display(Name = nameof(DisplayNames.EndDate), ResourceType = typeof(DisplayNames))]
-        public DateTime? EndDateMi { get; set; }
+        public DateTime? CloseDateMi { get; set; }
 
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.EndDate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string EndDateSh { get; set; }
+        public string CloseDateSh { get; set; }
 
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
