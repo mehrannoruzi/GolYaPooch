@@ -10,6 +10,8 @@
     <Compile Remove="Migrations\20200912140617_EditTicket.Designer.cs" />
     <Compile Remove="Migrations\20200919104351_AddPushEndpoint.cs" />
     <Compile Remove="Migrations\20200919104351_AddPushEndpoint.Designer.cs" />
+    <Compile Remove="Migrations\20200924174908_AddDrowDate2Round.cs" />
+    <Compile Remove="Migrations\20200924174908_AddDrowDate2Round.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,5 +15,6 @@ namespace GolPooch.Service.Interfaces
         IResponse<List<Chest>> GetAllAvailable();
 
         Task<IResponse<string>> SpendChanceAsync(int userId, int purchaseId, int ChestId);
+
     }
 }

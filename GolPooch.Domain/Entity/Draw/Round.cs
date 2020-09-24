@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GolPooch.Domain.Entity
 {
     [Table(nameof(Round), Schema = "Draw")]
-    public class Round : IEntity, IInsertDateProperties, IModifyDateProperties
+    public class Round : IEntity, IInsertDateProperties
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -38,11 +38,11 @@ namespace GolPooch.Domain.Entity
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string OpenDateSh { get; set; }
 
-        [Display(Name = nameof(DisplayNames.EndDate), ResourceType = typeof(DisplayNames))]
+        [Display(Name = nameof(DisplayNames.CloseDate), ResourceType = typeof(DisplayNames))]
         public DateTime? CloseDateMi { get; set; }
 
         [Column(TypeName = "char(10)")]
-        [Display(Name = nameof(DisplayNames.EndDate), ResourceType = typeof(DisplayNames))]
+        [Display(Name = nameof(DisplayNames.CloseDate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string CloseDateSh { get; set; }
 
@@ -54,13 +54,13 @@ namespace GolPooch.Domain.Entity
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string InsertDateSh { get; set; }
 
-        [Display(Name = nameof(DisplayNames.ModifyDate), ResourceType = typeof(DisplayNames))]
-        public DateTime ModifyDateMi { get; set; }
+        [Display(Name = nameof(DisplayNames.DrawDate), ResourceType = typeof(DisplayNames))]
+        public DateTime DrawDateMi { get; set; }
 
         [Column(TypeName = "char(10)")]
-        [Display(Name = nameof(DisplayNames.ModifyDate), ResourceType = typeof(DisplayNames))]
+        [Display(Name = nameof(DisplayNames.DrawDate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string ModifyDateSh { get; set; }
+        public string DrawDateSh { get; set; }
 
         [Display(Name = nameof(DisplayNames.Description), ResourceType = typeof(DisplayNames))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]

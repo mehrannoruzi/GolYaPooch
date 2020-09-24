@@ -169,6 +169,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تاریخ بسته شدن.
+        /// </summary>
+        public static string CloseDate {
+            get {
+                return ResourceManager.GetString("CloseDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کد.
         /// </summary>
         public static string Code {
@@ -210,6 +219,15 @@ namespace GolPooch.Domain.Resources {
         public static string DisplayType {
             get {
                 return ResourceManager.GetString("DisplayType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تاریخ قرعه کشی.
+        /// </summary>
+        public static string DrawDate {
+            get {
+                return ResourceManager.GetString("DrawDate", resourceCulture);
             }
         }
         

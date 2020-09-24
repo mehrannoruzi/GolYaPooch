@@ -143,6 +143,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EndDrawBySystem.
+        /// </summary>
+        public static string EndDrawBySystem {
+            get {
+                return ResourceManager.GetString("EndDrawBySystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عملیات مورد نظر با خطا رو به رو شده است، لطفا مجددا تلاش نمایید..
         /// </summary>
         public static string Error {
@@ -283,6 +292,33 @@ namespace GolPooch.Service.Resourses {
         public static string InvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assets/NotificationIcon/Draw.svg.
+        /// </summary>
+        public static string NotifyWinnerIconUrl {
+            get {
+                return ResourceManager.GetString("NotifyWinnerIconUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نتیجه قرعه کشی.
+        /// </summary>
+        public static string NotifyWinnerSubject {
+            get {
+                return ResourceManager.GetString("NotifyWinnerSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قرعه کشی صندوق {0} انجام شد و آقا/خانوم {1} به عنوان برنده این قرعه کشی انتخاب شد. برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید..
+        /// </summary>
+        public static string NotifyWinnerText {
+            get {
+                return ResourceManager.GetString("NotifyWinnerText", resourceCulture);
             }
         }
         

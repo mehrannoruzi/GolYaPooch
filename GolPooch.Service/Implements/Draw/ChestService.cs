@@ -2,15 +2,15 @@
 using Elk.Core;
 using Elk.Cache;
 using System.Linq;
+using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
 using GolPooch.Domain.Entity;
 using GolPooch.DataAccess.Ef;
+using System.Threading.Tasks;
 using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
-using GolPooch.Domain.Enum;
 
 namespace GolPooch.Service.Implements
 {
@@ -158,7 +158,7 @@ namespace GolPooch.Service.Implements
                     }
                     #endregion
 
-                    #region Save Draw Chest
+                    #region Save DrawChest
                     var lastDrawChance = await _appUow.DrawChanceRepo.FirstOrDefaultAsync(
                         new QueryFilter<DrawChance>
                         {
@@ -185,6 +185,8 @@ namespace GolPooch.Service.Implements
                         currentRound.Description += $" | {ServiceMessage.ClosedRoundBySystem}";
 
                         _appUow.RoundRepo.UpdateUnAttached(currentRound);
+
+                        await DoDrawAsync(chest, currentRound);
                     }
 
                     var saveResult = await _appUow.ElkSaveChangesAsync();
@@ -204,6 +206,54 @@ namespace GolPooch.Service.Implements
                     return response;
                 }
             }
+        }
+
+        private async Task DoDrawAsync(Chest chest, Round closedRound)
+        {
+            #region Do Draw & Save Round
+            var now = DateTime.Now;
+            var drawChances = _appUow.DrawChanceRepo.Get(
+                new QueryFilter<DrawChance>
+                {
+                    Conditions = x => x.RoundId == closedRound.RoundId,
+                    OrderBy = x => x.OrderBy(x => Guid.NewGuid())
+                });
+
+            var skip = new Random().Next(1, drawChances.Count());
+            var drawWinner = drawChances.Skip(skip).Take(1).FirstOrDefault();
+
+            closedRound.WinnerUserId = drawWinner.UserId;
+            closedRound.State = RoundState.waitForPay;
+            closedRound.DrawDateMi = now;
+            closedRound.DrawDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
+            closedRound.Description += " | " + ServiceMessage.EndDrawBySystem;
+
+            _appUow.RoundRepo.UpdateUnAttached(closedRound);
+            #endregion
+
+            #region Insert Draw Result Notification
+            var winner = await _appUow.UserRepo.FindAsync(drawWinner.UserId);
+            var winnerNotif = new Notification
+            {
+                UserId = winner.UserId,
+                Type = NotificationType.Sms,
+                Action = NotificationAction.NotifyWinners,
+                IsActive = true,
+                IsSent = false,
+                IsSuccess = false,
+                IsRead = false,
+                Subject = ServiceMessage.NotifyWinnerSubject,
+                Text = ServiceMessage.NotifyWinnerText.Fill(winner.FirstName + winner.LastName).Fill(chest.Title),
+                IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
+            };
+            await _appUow.NotificationRepo.AddAsync(winnerNotif);
+
+            winnerNotif.UserId = null;
+            winnerNotif.Type = NotificationType.PushNotification;
+            await _appUow.NotificationRepo.AddAsync(winnerNotif);
+            #endregion
+
+            await _appUow.ElkSaveChangesAsync();
         }
     }
 }

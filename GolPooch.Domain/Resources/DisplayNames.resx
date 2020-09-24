@@ -153,6 +153,9 @@
   <data name="Changes" xml:space="preserve">
     <value>تغییرات</value>
   </data>
+  <data name="CloseDate" xml:space="preserve">
+    <value>تاریخ بسته شدن</value>
+  </data>
   <data name="Code" xml:space="preserve">
     <value>کد</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="DisplayType" xml:space="preserve">
     <value>نوع نمایش</value>
+  </data>
+  <data name="DrawDate" xml:space="preserve">
+    <value>تاریخ قرعه کشی</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>ایمیل</value>

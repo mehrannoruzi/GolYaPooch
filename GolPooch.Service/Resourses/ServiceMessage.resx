@@ -145,6 +145,9 @@ Code: {code}</value>
   <data name="DuplicateRecord" xml:space="preserve">
     <value>رکورد مورد نظر هم اکنون وجود دارد</value>
   </data>
+  <data name="EndDrawBySystem" xml:space="preserve">
+    <value>EndDrawBySystem</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>عملیات مورد نظر با خطا رو به رو شده است، لطفا مجددا تلاش نمایید.</value>
   </data>
@@ -192,6 +195,15 @@ Code: {code}</value>
   </data>
   <data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>نام کاربری یا رمز عبور اشتباه است</value>
+  </data>
+  <data name="NotifyWinnerIconUrl" xml:space="preserve">
+    <value>Assets/NotificationIcon/Draw.svg</value>
+  </data>
+  <data name="NotifyWinnerSubject" xml:space="preserve">
+    <value>نتیجه قرعه کشی</value>
+  </data>
+  <data name="NotifyWinnerText" xml:space="preserve">
+    <value>قرعه کشی صندوق {0} انجام شد و آقا/خانوم {1} به عنوان برنده این قرعه کشی انتخاب شد. برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید.</value>
   </data>
   <data name="PuchaseNotForCurrentUser" xml:space="preserve">
     <value>محصول خریداری شده برای کاربر جاری نمی باشد.</value>
