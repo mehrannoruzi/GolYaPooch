@@ -46,6 +46,30 @@ namespace GolPooch.Service.Implements
                     _appUow.UserRepo.Update(existedUser);
                     #endregion
 
+                    #region Check Profile Is Complete
+                    var profilePurchase = await _appUow.PurchaseRepo.AnyAsync(
+                        new QueryFilter<Purchase>
+                        {
+                            Conditions = x => x.ProductOffer.Product.Type == ProductType.Profile,
+                            IncludeProperties = new List<Expression<Func<Purchase, object>>> {
+                                x=> x.ProductOffer,
+                                x=> x.ProductOffer.Product
+                            }
+                        });
+
+                    if (profilePurchase)
+                    {
+                        await _appUow.SaveChangesAsync();
+                        await trans.CommitAsync();
+                        return new Response<int>
+                        {
+                            IsSuccessful = true,
+                            Result = existedUser.UserId,
+                            Message = ServiceMessage.Success
+                        };
+                    }
+                    #endregion
+
                     #region Purchase Complete Profile Product
                     var defaultPaymentGateway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
                         new QueryFilter<PaymentGateway>
