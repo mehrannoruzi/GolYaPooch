@@ -7,6 +7,10 @@ using GolPooch.Service.Implements;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz.Spi;
+using GolPooch.Service.Quartz;
+using Quartz;
+using Quartz.Impl;
 
 namespace GolPooch.DependencyResolver.Ioc
 {
@@ -64,6 +68,15 @@ namespace GolPooch.DependencyResolver.Ioc
         public static IServiceCollection AddSingleton(this IServiceCollection services, IConfiguration _configuration)
         {
             services.AddSingleton<IMemoryCacheProvider, MemoryCacheProvider>();
+
+            services.AddSingleton<IJobFactory, JobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
+            services.AddSingleton<SendPushJob>();
+            services.AddSingleton(new JobSchedule(
+                                    jobType: typeof(SendPushJob),
+                                    cronExpression: _configuration["PushNotificationSetting:SendPushCron"]));
+
 
             return services;
         }
