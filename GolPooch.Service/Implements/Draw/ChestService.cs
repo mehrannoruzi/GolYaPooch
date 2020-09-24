@@ -86,6 +86,8 @@ namespace GolPooch.Service.Implements
                     if (purchase.UsedChance >= purchase.Chance) return new Response<string> { Message = ServiceMessage.PurchaseNotAnyChanse };
 
                     purchase.UsedChance += 1;
+                    purchase.IsReFoundable = false;
+                    if (purchase.UsedChance == purchase.Chance) purchase.IsFinished = true;
                     #endregion
 
                     #region Get Chest
@@ -107,7 +109,6 @@ namespace GolPooch.Service.Implements
 
                     Round newRound, currentRound;
                     var roundCounter = 0;
-                    var participantCount = chest.ParticipantCount;
                     if (rounds.IsNull() || rounds.Count() == 0)
                     {
                         newRound = new Round
@@ -178,7 +179,7 @@ namespace GolPooch.Service.Implements
 
                     if (currentRound.ParticipantCount == drawChest.Counter)
                     {
-                        currentRound.State = RoundState.End;
+                        currentRound.State = RoundState.Close;
                         currentRound.CloseDateMi = now;
                         currentRound.CloseDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
                         currentRound.Description += $" | {ServiceMessage.ClosedRoundBySystem}";

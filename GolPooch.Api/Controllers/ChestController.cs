@@ -25,7 +25,7 @@ namespace GolPooch.Api.Controllers
 
         [HttpPost]
         public async Task<JsonResult> SpendChance(User user, [FromBody] SpendChanseModel spendChanse)
-            => Json(await _chestService.SpendChanceAsync(user.UserId, spendChanse.purchaseId, spendChanse.ChestId));
+            => Json(await _chestService.SpendChanceAsync(user.UserId, spendChanse.PurchaseId, spendChanse.ChestId));
 
     }
 }

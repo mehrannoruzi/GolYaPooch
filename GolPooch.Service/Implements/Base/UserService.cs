@@ -81,7 +81,7 @@ namespace GolPooch.Service.Implements
                         UserId = existedUser.UserId,
                         UsedChance = 0,
                         IsFinished = false,
-                        IsReFoundable = false,
+                        IsReFoundable = true,
                         Chance = productOffer.Chance,
                         ProductOfferId = productOffer.ProductOfferId,
                         PaymentTransactionId = transaction.PaymentTransactionId
