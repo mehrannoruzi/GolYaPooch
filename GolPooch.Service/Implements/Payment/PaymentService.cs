@@ -9,19 +9,23 @@ using GolPooch.Domain.Entity;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class PaymentService : IPaymentService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
         private readonly IMemoryCacheProvider _cacheProvider;
         private readonly string _paymentGatewayCacheKey = GlobalVariables.CacheSettings.PaymentGatewayCacheKey();
 
-        public PaymentService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider)
+        public PaymentService(AppUnitOfWork appUnitOfWork, IMemoryCacheProvider cacheProvider,
+            IConfiguration configuration)
         {
             _appUow = appUnitOfWork;
             _cacheProvider = cacheProvider;
+            _configuration = configuration;
         }
 
         public IResponse<List<PaymentGatwayDto>> GetAllGateway()
@@ -43,7 +47,8 @@ namespace GolPooch.Service.Implements
                                 BankName = x.BankName,
                                 IsActive = x.IsActive,
                                 IsDefault = x.IsDefault,
-                                PaymentGatewayId = x.PaymentGatewayId
+                                PaymentGatewayId = x.PaymentGatewayId,
+                                ImageUrl = _configuration["CustomSettings:CdnAddress"] + $"Assets/BanksImage/{x.BankName}.png"
                             }
                         }).ToList();
 
