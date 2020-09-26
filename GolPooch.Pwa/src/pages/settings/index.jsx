@@ -7,6 +7,8 @@ import toastState from '../../atom/state/toastState';
 import { useRecoilState } from 'recoil';
 import { FiChevronLeft } from 'react-icons/fi';
 import { BsFileEarmarkRuled } from 'react-icons/bs';
+import { BiUser } from 'react-icons/bi';
+import strings from '../../core/strings';
 
 const useStyles = makeStyles({
     settingsPage: {
@@ -15,7 +17,8 @@ const useStyles = makeStyles({
             listStyle: 'none',
             '& li': {
                 '&.profile': {
-                    marginBottom: 30
+                    marginBottom: 30,
+               
                 },
                 borderBottom: 'solid 1px #eee',
                 '& .MuiContainer-root': {
@@ -59,17 +62,16 @@ const Settings = () => {
                 <li className='profile'>
                     <Container>
                         <Link to='/bl/profile'>
-                            {userInfo.avatar ? <Avatar src={userInfo.avatar} /> : null}
+                            {userInfo.avatar ? <Avatar src={userInfo.avatar} /> : <BiUser className='icon' />}
                             <h5 className='hx'>
                                 {userInfo.firstName ? <span>{userInfo.firstName} {userInfo.lastName}</span> : null}
-                                <span>{userInfo.mobileNumber}</span>
+                                <span>{strings.profileEdit}</span>
                             </h5>
 
                             <FiChevronLeft className='arrow-left' />
 
                         </Link>
                     </Container>
-
                 </li>
                 <li>
                     <Container>

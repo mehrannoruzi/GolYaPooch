@@ -3,9 +3,8 @@ import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
 import ActivitiesPage from '../pages/activities';
 import ChestPage from '../pages/chest';
-import SettingsPage from '../pages/settings';
+import SettingsPage from '../pages/settings'
 import PrivateRoute from '../atom/comps/PrivateRoute';
-
 import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
@@ -13,30 +12,31 @@ import { useHistory } from "react-router-dom";
 import { FiUser, FiMessageSquare, FiPlusSquare } from 'react-icons/fi';
 import { RiNotification3Line, RiDashboardFill, RiBarChart2Line, RiMedalLine } from 'react-icons/ri';
 import { AiOutlineSetting } from 'react-icons/ai';
+import strings from '../core/strings';
 
 const navs = [
     {
-        label: 'فروشگاه',
+        label: strings.pageName_store,
         icon: RiDashboardFill,
         path: 'store'
     },
     {
-        label: 'فعالیت ها',
+        label: strings.pageName_activities,
         icon: RiBarChart2Line,
         path: 'activities'
     },
     {
-        label: 'بسته ها',
+        label: strings.pageName_chest,
         icon: FiPlusSquare,
         path: 'chest'
     },
     {
-        label: 'برنده ها',
+        label: strings.pageName_leaderboard,
         icon: RiMedalLine,
         path: 'winners'
     },
     {
-        label: 'تنظیمات',
+        label: strings.pageName_setting,
         icon: AiOutlineSetting,
         path: 'settings'
     }
@@ -127,6 +127,7 @@ const NavigationLayout = () => {
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
                 <PrivateRoute exact path={`${path}/chest`} component={ChestPage} />
                 <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
+            
             </Switch>
             {/* ---------------
             --BUTTONS

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Slider from "react-slick";
 import { Contaner, Button, makeStyles, Paper, Container } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
@@ -30,13 +30,19 @@ const useStyles = makeStyles({
 
 const TextBanner = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     const [visile, setVisibility] = useState(true);
     const { item } = props;
+ 
     switch (item.actionType) {
         case actions.openLink:
             return (
-                <Paper className={`Ctr comp-text-banner ${visile ? null : 'd-none'} ${classes.textBanner}`}>
-                    <a href={item.href} className="txt">{item.text}</a>
+                <Paper className={`Ctr comp-text-banner ${visile ? null : 'd-none'} ${classes.textBanner}`} style={{ backgroundColor: `${item.backColor}` }}>
+                    <Button onClick={() => history.push(props.item.href)} className="txt w-100" style={{ color: `${item.fontColor}` }} >
+                        <AiOutlineGift className="icon" />
+                        <span className="text">{item.text}</span>
+                        <MdKeyboardArrowLeft className="arrow" />
+                    </Button>
                 </Paper>);
         case actions.openApp:
         case actions.openPage:
@@ -50,7 +56,7 @@ const TextBanner = (props) => {
                     <Button onClick={() => setVisibility(false)} className="txt w-100" style={{ color: `${item.fontColor}` }} >
                         <AiOutlineGift className="icon" />
                         <span className="text">{item.text}</span>
-                        <MdKeyboardArrowLeft className="arrow"/>
+                        <MdKeyboardArrowLeft className="arrow" />
                     </Button>
                 </Paper>);
     }

@@ -28,6 +28,7 @@ const strings = {
     intruducerId: 'کد معرف',
     edit: 'ویرایش',
     profile: 'پروفایل',
+    profileEdit:'ویرایش اطلاعات کاربری',
     aggreedWithRules: 'با قوانین و مقررات موافقم',
     pleaseEnterVerifyCode: 'لطفا کد تایید پیامک شده را وارد نمایید ',
     unknownError: 'خطایی رخ داده است، لطفا دوباره تلاش نمایید',
@@ -56,6 +57,12 @@ const strings = {
     yourProfit: 'سود شما',
     chance: 'شانس برنده شدن',
     discount: 'تخفیف',
-    detailProduct:'جزییات سفارش'
+    detailProduct: 'جزییات سفارش',
+
+    pageName_store: 'فروشگاه',
+    pageName_activities: 'فعالیت ها',
+    pageName_chest: 'بسته ها',
+    pageName_leaderboard: 'برنده ها',
+    pageName_setting: 'تنظیمات',
 };
 export default strings;

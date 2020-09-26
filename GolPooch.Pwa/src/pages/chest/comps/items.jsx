@@ -61,7 +61,7 @@ const Items = (props) => {
                             <figcaption>
                                 <label className='name'>{item.title}</label>
                                 <label className='winners'>{item.winnerCount} برنده</label>
-                                <label className='participants'>{item.participantCount} شرکت کننده تا الان </label>
+                                <label className='participants'>{item.participantCount} شرکت کننده تا الان</label>
                             </figcaption>
                         </figure>
                     </Link>
