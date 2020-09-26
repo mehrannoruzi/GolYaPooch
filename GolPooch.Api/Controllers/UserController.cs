@@ -4,6 +4,8 @@ using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace GolPooch.Api.Controllers
 {
@@ -21,8 +23,18 @@ namespace GolPooch.Api.Controllers
             => Json(await _userService.UpdateProfileAsync(user.UserId, userDto));
 
         [HttpPost]
-        public async Task<JsonResult> UploadAwatarAsync(User user, [FromBody] FileModel fileModel)
-            => Json(await _userService.UploadAwatarAsync(user.UserId, fileModel.FileName, fileModel.FileBytes));
+        public async Task<JsonResult> UploadAwatarAsync(User user, IFormFile Avatar)
+        {
+            if (Avatar.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    Avatar.CopyTo(ms);
+                    return Json(await _userService.UploadAwatarAsync(user.UserId, Avatar.FileName, ms.ToArray()));
+                }
+            }
+            else return Json(new { IsSuccessful = false, Message = "هیچ فایلی آپلود نشده است" });
+        }
 
     }
 }

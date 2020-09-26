@@ -1,4 +1,6 @@
-﻿namespace GolPooch.Api.Models
+﻿using Microsoft.AspNetCore.Http;
+
+namespace GolPooch.Api.Models
 {
     public class FileModel
     {
