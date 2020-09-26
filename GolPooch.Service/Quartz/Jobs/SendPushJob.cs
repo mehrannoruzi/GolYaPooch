@@ -21,8 +21,8 @@ namespace GolPooch.Service.Quartz
         {
             using (var scope = _serviceProvider.CreateScope())
             {
-                var pushService = scope.ServiceProvider.GetService<IPushService>();
-                await pushService.SendPush();
+                var NotificationService = scope.ServiceProvider.GetService<INotificationService>();
+                await NotificationService.SendNotificationsAsync();
             }
 
             await Task.CompletedTask;

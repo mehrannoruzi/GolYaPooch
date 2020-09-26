@@ -30,5 +30,7 @@ namespace GolPooch.Service.Interfaces
         /// <param name="notification">notification primary key</param>
         /// <returns>return notification id</returns>
         Task<IResponse<bool>> ReadAsync(int notificationId);
+
+        Task SendNotificationsAsync();
     }
 }

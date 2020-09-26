@@ -2,7 +2,6 @@
 using Elk.Core;
 using Elk.Http;
 using System.Linq;
-using GolPooch.Domain.Enum;
 using System.Threading.Tasks;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
@@ -237,39 +236,6 @@ namespace GolPooch.Service.Implements
                 FileLoger.Error(e);
                 response.Message = ServiceMessage.Exception;
                 return response;
-            }
-        }
-
-        public async Task SendPush()
-        {
-            try
-            {
-                var pushes = _appUow.NotificationRepo.Get(
-                    new QueryFilter<Notification>
-                    {
-                        AsNoTracking = false,
-                        OrderBy = x => x.OrderBy(x => x.NotificationId),
-                        Conditions = x => x.Type == NotificationType.PushNotification && x.IsActive && !x.IsSent
-                    });
-
-                if (pushes.IsNotNull() && pushes.Count() > 0)
-                {
-                    foreach (var push in pushes)
-                        push.IsSent = true;
-
-                    _appUow.NotificationRepo.UpdateRange(pushes);
-                    await _appUow.SaveChangesAsync();
-
-                    foreach (var push in pushes)
-                        await Send(push);
-                }
-
-                await Task.CompletedTask;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                await Task.FromException(e);
             }
         }
 

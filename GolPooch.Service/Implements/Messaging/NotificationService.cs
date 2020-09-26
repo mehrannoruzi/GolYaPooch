@@ -154,5 +154,37 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public async Task SendNotificationsAsync()
+        {
+            try
+            {
+                var notifs = _appUow.NotificationRepo.Get(
+                    new QueryFilter<Notification>
+                    {
+                        AsNoTracking = false,
+                        OrderBy = x => x.OrderBy(x => x.NotificationId),
+                        Conditions = x => x.IsActive && !x.IsSent
+                    });
+
+                if (notifs.IsNotNull() && notifs.Count() > 0)
+                {
+                    foreach (var notif in notifs)
+                        notif.IsSent = true;
+
+                    _appUow.NotificationRepo.UpdateRange(notifs);
+                    await _appUow.SaveChangesAsync();
+
+                    foreach (var notif in notifs)
+                        await SendNotifStrategy.GetStrategy(notif.Type, _appUow).SendAsync(notif);
+                }
+
+                await Task.CompletedTask;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                await Task.FromException(e);
+            }
+        }
     }
 }
