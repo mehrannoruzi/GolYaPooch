@@ -47,8 +47,8 @@ export default function (props) {
         }
         setInProgress(true);
         let upload = await userSrv.updateAvatar(file);
+        setInProgress(false);
         if (upload.isSuccessful) {
-            setInProgress(false);
             let reader = new FileReader();
             reader.onload = function (e) {
                 setAvatar(e.target.result);

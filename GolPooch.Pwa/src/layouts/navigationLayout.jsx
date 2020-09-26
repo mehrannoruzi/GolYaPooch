@@ -3,7 +3,9 @@ import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
 import ActivitiesPage from '../pages/activities';
 import ChestPage from '../pages/chest';
+import SettingsPage from '../pages/settings';
 import PrivateRoute from '../atom/comps/PrivateRoute';
+
 import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
@@ -124,6 +126,7 @@ const NavigationLayout = () => {
                 <PrivateRoute exact path={`${path}/store`} component={StorePage} />
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
                 <PrivateRoute exact path={`${path}/chest`} component={ChestPage} />
+                <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
             </Switch>
             {/* ---------------
             --BUTTONS
