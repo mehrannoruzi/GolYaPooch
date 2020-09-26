@@ -4,8 +4,9 @@ import { useRecoilState } from 'recoil';
 import toastState from '../../../atom/state/toastState';
 import avatarImage from '../../../assets/images/avatar.png';
 import { validationStrings } from '../../../core/strings';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import userSrv from '../../../services/userSrv';
+import { BiPlusCircle } from 'react-icons/bi';
+
 const useStyles = makeStyles({
     avatar: {
         display: 'flex',
@@ -23,9 +24,10 @@ const useStyles = makeStyles({
         '& .MuiAvatar-root': {
             width: 48,
             height: 48,
-
+            boxShadow: " 0px 0px 3px 1px #d4d4d4",
+            backgroundColor: '#eee',
+            marginRight:10
         }
-
     }
 });
 
@@ -65,7 +67,10 @@ export default function (props) {
                 <Badge anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
-                }} badgeContent={inProgress ? <CircularProgress /> : <PhotoCameraIcon style={{ fontSize: 15 }} />} color="error"><Avatar src={avatar} alt='avatar' /></Badge>&nbsp;{props.mobileNumber}
+                }} badgeContent={inProgress ? <CircularProgress /> : <BiPlusCircle style={{ fontSize: 15 }} />}>
+                    <Avatar src={avatar} alt='avatar'  />
+                </Badge>
+                {props.mobileNumber}
             </Link>
             <input type='file'
                 className='d-none'

@@ -38,6 +38,7 @@ const strings = {
     rules: 'قوانین و مقررات',
     underestood: 'متوجه شدم !',
     resendCodeCountDown: 'ثانیه تا درخواست مجدد کد',
+    resentSuccess: 'کد ورود مجددا ارسال گردید',
     changeMobileNumber: 'تغییر شماره تلفن همراه',
     send4Digit: 'کد 4 رقمی به شماره',
     send4Digit_2: 'ارسال شد. کد را اینجا وارد کنید.',
@@ -50,7 +51,11 @@ const strings = {
     addHomeScreenStep1: <>در نوار بالا روی دکمه <strong>Share</strong> تپ کنید</>,
     addHomeScreenStep2: <>در منوی باز شده، در قسمت پایین، گزینه <strong>Add to Home Screen</strong> را انتخاب کنید</>,
     addHomeScreenStep3: <>در مرجله بعد در قسمت بالا روی <strong>Add</strong> تپ کنید</>,
-    purchase:'خرید',
-    gateways:'درگاه ها'
+    purchase: 'خرید',
+    gateways: 'برای پرداخت درگاه خود را انتخاب نمایید',
+    yourProfit: 'سود شما',
+    chance: 'شانس برنده شدن',
+    discount: 'تخفیف',
+    detailProduct:'جزییات سفارش'
 };
 export default strings;

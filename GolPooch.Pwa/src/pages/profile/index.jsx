@@ -14,7 +14,8 @@ import { toPersianDate } from '../../core/utils';
 
 const useStyles = makeStyles({
     profilePage: {
-        padding: '15px 0',
+        padding: '50px 0',
+        background: 'transparent',
         '& .date-picker': {
             marginTop: '15px',
             overflow: 'hidden',
@@ -208,6 +209,7 @@ const Profile = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group date-picker">
+
                             <DatePicker
                                 isGregorian={false}
                                 timePicker={false}
@@ -230,12 +232,10 @@ const Profile = () => {
                         </div>
                     </Grid>
                 </Grid>
-
-                <Box textAlign="right" className="form-group">
-                    <Button icon={EditIcon} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.edit}</Button>
-                </Box>
             </Container>
-
+            <Box textAlign="right" className='btn-wrapper btn-BottomFixed'>
+                <Button icon={EditIcon} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.edit}</Button>
+            </Box>
         </Paper>
     );
 };

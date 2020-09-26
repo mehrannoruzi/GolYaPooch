@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles, Container, Grid } from '@material-ui/core';
-import config from './../../config';
 import strings from '../../core/strings';
 import { useHistory, useParams } from "react-router-dom";
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useRecoilState } from 'recoil';
 import productSrv from '../../services/productSrv';
-import gatewaySrv from '../../services/gatewaySrv';
 import { commaThousondSeperator } from '../../core/utils';
 import Button from '../../atom/comps/Button';
 import toastState from '../../atom/state/toastState';
 import Gateways from './comps/gateways';
 import productAtom from '../../atom/state/productState';
+import bLState from '../../atom/state/bLState';
+import { useSetRecoilState } from 'recoil';
 
 const useStyles = makeStyles({
     productPage: {
         position: 'relative',
         paddingTop: '15px',
         '& .img-main': {
-            width: '100%'
+            width: '100%',
+            height: 200
         },
         '& .info-wrapper': {
             display: 'flex',
@@ -89,19 +89,19 @@ const Product = () => {
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const [rState, setProductState] = useRecoilState(productAtom);
+    const setTitle = useSetRecoilState(bLState);
+
+    const getDate = async () => {
+        setInProgress(true);
+        let get = await productSrv.getSingle(parseInt(id));
+        if (get.isSuccessful) setProduct(get.result);
+        else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+        setInProgress(false);
+    }
 
     useEffect(() => {
-        const getDate = async () => {
-            setInProgress(true);
-            let get = await productSrv.getSingle(parseInt(id));
-            if (get.isSuccessful) setProduct(get.result);
-            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
-            setInProgress(false);
-        }
-
         getDate();
-
-
+        setTitle({ title: strings.detailProduct });
     }, [setQuery]);
 
     const _handlePurchase = () => {
@@ -121,9 +121,9 @@ const Product = () => {
                             {[0, 1, 2].map((x, idx) => <Skeleton key={idx} className='w-100 mb-15' />)}
                         </div> : <div className='info'>
                                 <label className='name'>{item.product.text}</label>
-                                <label className='chance'>{item.chance} شانس برنده شدن</label>
-                                {item.discount > 0 ? <label className='discount'><span>{item.discount}% تخفیف</span></label> : null}
-                                {item.discount > 0 ? <label className='profit'><span>سود شما : {commaThousondSeperator(item.profit)}{strings.moneyCurrency}</span></label> : null}
+                                <label className='chance'>{item.chance} {strings.chance}</label>
+                                {item.discount > 0 ? <label className='discount'><span>{item.discount}% {strings.discount}</span></label> : null}
+                                {item.discount > 0 ? <label className='profit'><span>{strings.yourProfit} : {commaThousondSeperator(item.profit)}{strings.moneyCurrency}</span></label> : null}
                                 <label className='price'>
                                     {item.discount > 0 ? <span className={classes.rawPrice}>{commaThousondSeperator(item.price)}</span> : null}
                                     {commaThousondSeperator(item.totalPrice)}{strings.moneyCurrency}</label>
@@ -137,11 +137,12 @@ const Product = () => {
                     <Grid item xs={12}>
                         <Gateways />
                     </Grid>
-                    <Grid item xs={12} className='btn-wrapper'>
-                        <Button disabled={inProgress} className='btn-purchase' icon={ShoppingCartIcon} onClick={_handlePurchase}>{strings.purchase}</Button>
-                    </Grid>
+
                 </Grid>
-            </Container >
+            </Container>
+            <div className='btn-wrapper btn-BottomFixed'>
+                <Button disabled={inProgress} className='btn-purchase' onClick={_handlePurchase}>{strings.purchase}</Button>
+            </div>
         </div>
     );
 };

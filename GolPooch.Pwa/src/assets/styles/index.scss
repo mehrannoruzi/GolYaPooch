@@ -9,6 +9,13 @@ body {
     padding: 0;
     margin: 0;
 
+    .btn-BottomFixed {
+        margin: 20px !important;
+        position: fixed;
+        bottom: 0;
+        width: -webkit-fill-available;
+    }
+
     button {
         font-size: 12px;
         text-align: center;
@@ -21,6 +28,14 @@ body {
     button.btn-primary {
         min-height: 40px;
         min-width: 160px;
+    }
+
+    button.btn-purchase {
+        width: 100%;
+        height: 40px;
+        font-size: 13px;
+        padding: 0;
+        background-color: #8BC34A;
     }
 
     .MuiFormLabel-root {
@@ -47,7 +62,13 @@ body {
 }
 
 
- 
+.MuiIconButton-root {
+    font-size: 14px !important;
+}
+.MuiAvatar-img {
+    width: 30px !important;
+    height: 30px !important;
+}
 @import "./utils.scss";
 @import "./rtl.scss";
 @import "./../../pages/auth/styles/index.scss";

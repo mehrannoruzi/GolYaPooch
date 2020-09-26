@@ -18,7 +18,7 @@ const useStyles = makeStyles({
             backgroundColor: '#fff',
             color: '#666',
             '& .title': {
-                fontSize: '1.2rem',
+                fontSize: '13px',
                 padding: '12px 0'
             },
             '& .l-col': {

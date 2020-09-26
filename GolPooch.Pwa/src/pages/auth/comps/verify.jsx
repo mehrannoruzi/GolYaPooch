@@ -19,7 +19,11 @@ const useStyles = makeStyles({
     changeNumber: {
         color: "#4caf50",
         margin: 5,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        backgroundColor: "#FFF !important",
+        padding: 3,
+        boxShadow: "none !important",
+        border: "none"
     },
     footerBx: {
         padding: 10,
@@ -87,6 +91,7 @@ export default function () {
                 minutes: 1,
                 seconds: 0,
             });
+            setToastState({ ...toast, open: true, severity: 'info', message: strings.resentSuccess });
         }
     }
 
@@ -126,9 +131,9 @@ export default function () {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Box>
-                                        <Link href="#" className={classes.changeNumber} onClick={() => _resent()}>
+                                        <Button className={classes.changeNumber} onClick={() => _resent()}>
                                             <i className="resentIcon"> <ReplayIcon /></i> {strings.verifyCode_sendAgain}
-                                        </Link>
+                                        </Button>
                                     </Box>
                                 </Grid>
                             </Grid>

@@ -11,6 +11,11 @@ import Heading from '../../../atom/comps/Heading';
 import { BsCheckCircle } from 'react-icons/bs';
 
 const useStyles = makeStyles({
+    gatewayHead: {
+        marginTop: 15,
+        marginBottom: 15,
+        fontSize: 13
+    },
     gateways: {
         '& .gateway': {
             padding: 10,
@@ -53,22 +58,20 @@ const Gateways = () => {
     const [productState, setProductState] = useRecoilState(productAtom);
     const [toast, setToastState] = useRecoilState(toastState);
 
-    useEffect(() => {
-        const getGateways = async () => {
-            setInProgress(true);
-            let getGateways = await gatewaySrv.get();
-            if (getGateways.isSuccessful) {
-                let defItem = getGateways.result.find(x => x.isDefault);
-                if (defItem) setProductState({ ...productState, gatewatId: defItem.paymentGatewayId })
-                setGateways(getGateways.result);
-            }
-            else setToastState({ ...toast, open: true, severity: 'error', message: getGateways.message });
-            setInProgress(false);
+    const getGateways = async () => {
+        setInProgress(true);
+        let getGateways = await gatewaySrv.get();
+        if (getGateways.isSuccessful) {
+            let defItem = getGateways.result.find(x => x.isDefault);
+            if (defItem) setProductState({ ...productState, gatewatId: defItem.paymentGatewayId })
+            setGateways(getGateways.result);
         }
+        else setToastState({ ...toast, open: true, severity: 'error', message: getGateways.message });
+        setInProgress(false);
+    }
 
+    useEffect(() => {
         getGateways();
-
-
     }, [setQuery]);
 
     const _handleSelect = (id) => {
@@ -83,11 +86,11 @@ const Gateways = () => {
     };
     return (
         <div id='comp-gateways' className={classes.gateways}>
-            <Heading>{strings.gateways}</Heading>
+            <h3 className={classes.gatewayHead}>{strings.gateways}</h3>
             <Slider
                 {...settings}>
                 {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='gateway'>
-                    <Skeleton key={idx} className='w-100' height={40} variant='rect'/>
+                    <Skeleton key={idx} className='w-100' height={40} variant='rect' />
                 </div>)
                     : gateways.map((x, idx) => <div key={idx} className='gateway'>
                         <Box onClick={() => _handleSelect(x.paymentGatewayId)} className={`box  ${(x.paymentGatewayId === productState.gatewatId ? 'selected' : '')}`}>
