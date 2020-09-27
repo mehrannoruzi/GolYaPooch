@@ -89,7 +89,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<bool>> Read(int ticketId)
+        public async Task<IResponse<bool>> Read(int userId, int ticketId)
         {
             var response = new Response<bool>();
             try
@@ -101,7 +101,7 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.TicketId == ticketId
                     });
                 if (ticket == null) return new Response<bool> { Message = ServiceMessage.InvalidTicketId };
-
+                if (ticket.UserId != userId) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
 
                 ticket.IsRead = true;
                 _appUow.TicketRepo.Update(ticket);

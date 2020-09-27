@@ -29,7 +29,7 @@ namespace GolPooch.Api.Controllers
             => Json(await _ticketService.Get(ticketId));
 
         [HttpPost]
-        public async Task<JsonResult> Read(int ticketId)
-            => Json(await _ticketService.Read(ticketId));
+        public async Task<JsonResult> Read(User user, int ticketId)
+            => Json(await _ticketService.Read(user.UserId, ticketId));
     }
 }

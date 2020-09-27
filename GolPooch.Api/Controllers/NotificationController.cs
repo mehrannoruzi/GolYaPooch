@@ -29,7 +29,7 @@ namespace GolPooch.Api.Controllers
             => Json(_notificationService.GetTopNotifications(user.UserId, pagingParameter));
 
         [HttpPost]
-        public async Task<JsonResult> Read(int notificationId)
-            => Json(await _notificationService.ReadAsync(notificationId));
+        public async Task<JsonResult> Read(User user, int notificationId)
+            => Json(await _notificationService.ReadAsync(user.UserId, notificationId));
     }
 }

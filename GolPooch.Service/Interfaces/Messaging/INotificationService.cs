@@ -29,7 +29,7 @@ namespace GolPooch.Service.Interfaces
         /// <param name="userId">read from jwt</param>
         /// <param name="notification">notification primary key</param>
         /// <returns>return notification id</returns>
-        Task<IResponse<bool>> ReadAsync(int notificationId);
+        Task<IResponse<bool>> ReadAsync(int userId, int notificationId);
 
         Task SendNotificationsAsync();
     }

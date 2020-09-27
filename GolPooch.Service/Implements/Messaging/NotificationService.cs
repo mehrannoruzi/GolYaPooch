@@ -124,7 +124,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<bool>> ReadAsync(int notificationId)
+        public async Task<IResponse<bool>> ReadAsync(int userId, int notificationId)
         {
             var response = new Response<bool>();
             try
@@ -136,6 +136,7 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.NotificationId == notificationId
                     });
                 if (notification == null) return new Response<bool> { Message = ServiceMessage.InvalidNotificationId };
+                if (notification.UserId != userId) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
 
                 notification.IsRead = true;
                 _appUow.NotificationRepo.Update(notification);

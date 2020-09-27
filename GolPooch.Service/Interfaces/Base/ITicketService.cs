@@ -35,6 +35,6 @@ namespace GolPooch.Service.Interfaces
         /// <param name="userId"></param>
         /// <param name="ticketId"></param>
         /// <returns></returns>
-        Task<IResponse<bool>> Read(int ticketId);
+        Task<IResponse<bool>> Read(int userId, int ticketId);
     }
 }
