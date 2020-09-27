@@ -6,6 +6,8 @@ import avatarImage from '../../../assets/images/avatar.png';
 import { validationStrings } from '../../../core/strings';
 import userSrv from '../../../services/userSrv';
 import { BiPlusCircle } from 'react-icons/bi';
+import { BsPlusCircleFill } from 'react-icons/bs';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles({
     avatar: {
@@ -13,9 +15,11 @@ const useStyles = makeStyles({
         alignItems: 'center',
         textDecoration: 'none',
         '& .MuiBadge-badge': {
-            width: '27px',
+            width: '32px',
             height: '27px',
             borderRadius: '50%',
+            top: 12,
+            left: 5,
             '& .MuiCircularProgress-root': {
                 width: '12px!important',
                 height: '12px!important'
@@ -26,7 +30,7 @@ const useStyles = makeStyles({
             height: 48,
             boxShadow: " 0px 0px 3px 1px #d4d4d4",
             backgroundColor: '#eee',
-            marginRight:10
+            marginRight: 10
         }
     }
 });
@@ -67,8 +71,8 @@ export default function (props) {
                 <Badge anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
-                }} badgeContent={inProgress ? <CircularProgress /> : <BiPlusCircle style={{ fontSize: 15 }} />}>
-                    <Avatar src={avatar} alt='avatar'  />
+                }} badgeContent={inProgress ? <CircularProgress /> : <BsPlusCircleFill style={{ fontSize: 20, color: red[600] }} />}>
+                    <Avatar src={avatar} alt='avatar' />
                 </Badge>
                 {props.mobileNumber}
             </Link>

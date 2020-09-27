@@ -26,15 +26,18 @@ const useStyles = makeStyles({
 
             '& .box': {
                 border: 'solid 1px #ccc',
-                padding: '10px 0',
+                padding: '12px',
                 borderRadius: '3px',
                 textAlign: 'center',
                 position: 'relative',
                 '&.selected': {
                     color: 'green',
                     border: 'solid 1px green',
+                    boxShadow: '0px 0px 3px 0px #8BC34A'
                 },
                 '& svg': {
+                    top: '-8px',
+                    right: '-5px',
                     color: 'green',
                     fontSize: '20px',
                     position: 'absolute',
@@ -95,7 +98,7 @@ const Gateways = () => {
                     : gateways.map((x, idx) => <div key={idx} className='gateway'>
                         <Box onClick={() => _handleSelect(x.paymentGatewayId)} className={`box  ${(x.paymentGatewayId === productState.gatewatId ? 'selected' : '')}`}>
                             {x.paymentGatewayId === productState.gatewatId ? <BsCheckCircle /> : null}
-                            {x.name}
+                            <img src={x.imageUrl} style={{ width: 64 }} />
                         </Box>
                     </div>)}
 

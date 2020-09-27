@@ -65,10 +65,27 @@ body {
 .MuiIconButton-root {
     font-size: 14px !important;
 }
+
 .MuiAvatar-img {
     width: 30px !important;
     height: 30px !important;
 }
+
+.MuiBadge-anchorOriginTopRightRectangle {
+    top: 12px !important;
+    right: 5px;
+    left: unset !important;
+    transform: scale(1) translate(-50%, -50%) !important;
+    transform-origin: 0% 0% !important;
+}
+
+.successBadge {
+    .MuiBadge-dot {
+        color: #fff;
+        background-color: #8BC34A;
+    }
+}
+
 @import "./utils.scss";
 @import "./rtl.scss";
 @import "./../../pages/auth/styles/index.scss";

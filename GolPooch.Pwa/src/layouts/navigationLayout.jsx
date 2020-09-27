@@ -5,7 +5,7 @@ import ActivitiesPage from '../pages/activities';
 import ChestPage from '../pages/chest';
 import SettingsPage from '../pages/settings'
 import PrivateRoute from '../atom/comps/PrivateRoute';
-import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography } from '@material-ui/core';
+import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";
@@ -113,9 +113,11 @@ const NavigationLayout = () => {
                         <IconButton edge="start" aria-label="show 4 new mails" color="inherit">
                             <FiMessageSquare />
                         </IconButton>
-                        <IconButton color="inherit" >
-                            <RiNotification3Line className="hx" />
-                        </IconButton>
+                        <Badge className='successBadge' variant="dot">
+                            <IconButton color="inherit" >
+                                <RiNotification3Line className="hx" />
+                            </IconButton>
+                        </Badge>
                     </Grid>
                 </Grid>
             </AppBar>
@@ -127,7 +129,7 @@ const NavigationLayout = () => {
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
                 <PrivateRoute exact path={`${path}/chest`} component={ChestPage} />
                 <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
-            
+
             </Switch>
             {/* ---------------
             --BUTTONS
