@@ -16,7 +16,6 @@ let messaging;
 
 // we need to check if messaging is supported by the browser
 if (('serviceWorker' in navigator) && ('PushManager' in window) && firebase.messaging.isSupported()) {
-    console.log('messaging');
     messaging = firebase.messaging();
 
     window.addEventListener('load', async () => {

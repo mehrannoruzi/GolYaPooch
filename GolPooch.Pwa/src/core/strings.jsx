@@ -64,5 +64,7 @@ const strings = {
     pageName_chest: 'بسته ها',
     pageName_leaderboard: 'برنده ها',
     pageName_setting: 'تنظیمات',
+    successfulPayment:'پرداخت با موفقیت انجام شد',
+    failedPayment:'پرداخت با خطا مواجه شد'
 };
 export default strings;

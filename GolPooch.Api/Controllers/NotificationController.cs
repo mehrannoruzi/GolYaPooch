@@ -25,7 +25,7 @@ namespace GolPooch.Api.Controllers
             => Json(await _notificationService.AddClickAsync(user.UserId, notificationId));
 
         [HttpGet]
-        public JsonResult Top(User user, [FromBody] PagingParameter pagingParameter)
+        public JsonResult Top(User user, [FromQuery] PagingParameter pagingParameter)
             => Json(_notificationService.GetTopNotifications(user.UserId, pagingParameter));
 
         [HttpPost]

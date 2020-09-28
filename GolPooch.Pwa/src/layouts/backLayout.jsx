@@ -60,7 +60,6 @@ const BackLayout = () => {
             <Switch>
                 <PrivateRoute exact path={`${path}/profile`} component={Profile} />
                 <PrivateRoute exact path={`${path}/product/:id`} component={ProductPage} />
-              
             </Switch>
         </div >
 

@@ -43,4 +43,33 @@ body[dir="rtl"] .modal-header .close {
   margin-left: 0 !important;
   margin-right: 0.5rem !important;
 }
+
+#layout-nl .MuiIconButton-label {
+  font-size: 20px;
+}
+
+#layout-nl .appbar {
+  -webkit-box-shadow: 0px 8px 12px -3px #eee !important;
+          box-shadow: 0px 8px 12px -3px #eee !important;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #fff;
+}
+
+.Banner .Ctr .icon {
+  font-size: 25px;
+  margin-left: 5px;
+}
+
+.Banner .Ctr .text {
+  width: -webkit-fill-available;
+  text-align: center;
+}
+
+.Banner .Ctr .arrow {
+  font-size: 25px;
+}
 /*# sourceMappingURL=rtl.css.map */

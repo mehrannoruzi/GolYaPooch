@@ -11,29 +11,21 @@ var urlsToCache = [
 
 //--development
 const baseUrl = 'http://localhost:3000/';
-const firebaseConfig =  {
-    apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
-    authDomain: "golyapooch-70712.firebaseapp.com",
-    databaseURL: "https://golyapooch-70712.firebaseio.com",
-    projectId: "golyapooch-70712",
-    storageBucket: "golyapooch-70712.appspot.com",
-    messagingSenderId: "873210377614",
-    appId: "1:873210377614:web:284744c8f3e250cf80e0df",
-    measurementId: "G-27TEL4NS4E"
-  };
+const apiUrl='https://localhost:44367/';
 //--production
 // const baseUrl = 'https://golpooch.com';
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
-//   authDomain: "golyapooch-70712.firebaseapp.com",
-//   databaseURL: "https://golyapooch-70712.firebaseio.com",
-//   projectId: "golyapooch-70712",
-//   storageBucket: "golyapooch-70712.appspot.com",
-//   messagingSenderId: "873210377614",
-//   appId: "1:873210377614:web:284744c8f3e250cf80e0df",
-//   measurementId: "G-27TEL4NS4E"
-// };
+//const apiUrl='https://localhost:44367/';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
+  authDomain: "golyapooch-70712.firebaseapp.com",
+  databaseURL: "https://golyapooch-70712.firebaseio.com",
+  projectId: "golyapooch-70712",
+  storageBucket: "golyapooch-70712.appspot.com",
+  messagingSenderId: "873210377614",
+  appId: "1:873210377614:web:284744c8f3e250cf80e0df",
+  measurementId: "G-27TEL4NS4E"
+};
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function (payload) {
@@ -54,8 +46,29 @@ messaging.setBackgroundMessageHandler(function (payload) {
   return promiseChain;
 });
 
-self.addEventListener("notificationclick", function (event) {
+self.addEventListener('notificationclick', (event) => {
   console.log(event);
+  if (event.action) {
+    clients.openWindow(event.action);
+  }
+
+  fetch(`${apiUrl}notification/read`,{
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization':`Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify({
+      notificationId:event.id
+    })
+  })
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
+      console.log(data);
+      return data;
+    });
+    event.notification.close();
 });
 
 // Install a service worker

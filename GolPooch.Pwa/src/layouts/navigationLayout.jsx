@@ -13,7 +13,9 @@ import { FiUser, FiMessageSquare, FiPlusSquare } from 'react-icons/fi';
 import { RiNotification3Line, RiDashboardFill, RiBarChart2Line, RiMedalLine } from 'react-icons/ri';
 import { AiOutlineSetting } from 'react-icons/ai';
 import strings from '../core/strings';
-
+import FullBottomUpModal from '../atom/comps/FullBottomUpModal';
+import fullBottomUpModalState from '../atom/state/fullBottomUpModalState';
+import NotificationsPage from '../pages/notifications';
 const navs = [
     {
         label: strings.pageName_store,
@@ -87,8 +89,9 @@ const NavigationLayout = () => {
     let { path, url } = useRouteMatch();
     let history = useHistory();
     const classes = useStyles();
+    //Recoil
     const [rState, setNLState] = useRecoilState(nLState);
-
+    const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     return (
         <div id='layout-nl' className={classes.layoutNL}>
             {/* ---------------
@@ -110,11 +113,18 @@ const NavigationLayout = () => {
                         <h1 className='hx'> {navs[rState.activeBotton].label}</h1>
                     </Grid>
                     <Grid item xs={4} className='l-col'>
-                        <IconButton edge="start" aria-label="show 4 new mails" color="inherit">
+                        <IconButton edge="start" aria-label="show 4 new mails" color="inherit" onClick={() => setModalState({
+                            ...modal,
+                            open: true
+                        })}>
                             <FiMessageSquare />
                         </IconButton>
                         <Badge className='successBadge' variant="dot">
-                            <IconButton color="inherit" >
+                            <IconButton color="inherit" onClick={() => setModalState({
+                                ...modal,
+                                open: true,
+                                children: NotificationsPage
+                            })}>
                                 <RiNotification3Line className="hx" />
                             </IconButton>
                         </Badge>
@@ -144,14 +154,13 @@ const NavigationLayout = () => {
                                 let nav = navs[newValue];
                                 history.push(`${url}/${nav.path}`);
                             }}
-                            showLabels
-                        >
+                            showLabels>
                             {navs.map((n, idx) => (<BottomNavigationAction key={idx} label={n.label} icon={<n.icon fontSize="large" />} />))}
                         </BottomNavigation>
                     </Grid>
                 </Grid>
             </div>
-
+            <FullBottomUpModal />
         </div>
     );
 }

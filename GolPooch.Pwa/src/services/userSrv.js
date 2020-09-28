@@ -64,4 +64,15 @@ export default class userSrv {
         return update;
 
     }
+
+    static async getChances() {
+        return {
+            isSuccessful: true,
+            result: {
+                beforeChance: 12,
+                addedChance: 3,
+                chance: 15
+            }
+        };
+    }
 }

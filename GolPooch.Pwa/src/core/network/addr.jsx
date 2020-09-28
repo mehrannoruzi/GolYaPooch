@@ -8,6 +8,7 @@ export default {
     uploadAvatar: `${config.apiGateway.URL}User/UploadAwatar`,
     updateProfile: `${config.apiGateway.URL}User/UpdateProfile`,
     getChests: `${config.apiGateway.URL}Chest/All`,
-    registerForNotification:`${config.apiGateway.URL}Push/Subscribe`,
-    getGateways:`${config.apiGateway.URL}Payment/AllGateway`
+    registerForNotification: `${config.apiGateway.URL}Push/Subscribe`,
+    getGateways: `${config.apiGateway.URL}Payment/AllGateway`,
+    getNotifications: (pageSize, pageNumber) => `${config.apiGateway.URL}Notification/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
 }
