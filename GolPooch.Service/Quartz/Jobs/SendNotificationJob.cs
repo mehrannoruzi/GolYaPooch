@@ -7,11 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 namespace GolPooch.Service.Quartz
 {
     [DisallowConcurrentExecution]
-    public class SendPushJob : IJob
+    public class SendNotificationJob : IJob
     {
         private IServiceProvider _serviceProvider { get; }
 
-        public SendPushJob(IServiceProvider serviceProvider)
+        public SendNotificationJob(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }

@@ -1,16 +1,15 @@
-﻿using Elk.Core;
+﻿using Quartz;
+using Elk.Core;
 using Elk.Cache;
-using GolPooch.SmsGateway;
+using Quartz.Spi;
+using Quartz.Impl;
 using GolPooch.DataAccess.Ef;
+using GolPooch.Service.Quartz;
 using GolPooch.Service.Interfaces;
 using GolPooch.Service.Implements;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Quartz.Spi;
-using GolPooch.Service.Quartz;
-using Quartz;
-using Quartz.Impl;
 
 namespace GolPooch.DependencyResolver.Ioc
 {
@@ -29,8 +28,6 @@ namespace GolPooch.DependencyResolver.Ioc
         {
             services.AddContext<AppDbContext>(_configuration.GetConnectionString("AppDbContext"));
             services.AddScoped<AppUnitOfWork>();
-
-            services.AddScoped<ISmsGatway, SmsGatway>();
 
             #region Base
             services.AddScoped<IAuthenticateService, AuthenticateService>();
@@ -72,10 +69,10 @@ namespace GolPooch.DependencyResolver.Ioc
             services.AddSingleton<IJobFactory, JobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
-            services.AddSingleton<SendPushJob>();
+            services.AddSingleton<SendNotificationJob>();
             services.AddSingleton(new JobSchedule(
-                                    jobType: typeof(SendPushJob),
-                                    cronExpression: _configuration["PushNotificationSetting:SendPushCron"]));
+                                    jobType: typeof(SendNotificationJob),
+                                    cronExpression: _configuration["CustomSettings:SendNotificationCron"]));
 
 
             return services;

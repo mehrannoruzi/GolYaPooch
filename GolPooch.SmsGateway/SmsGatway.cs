@@ -7,20 +7,14 @@ using System.Collections.Generic;
 
 namespace GolPooch.SmsGateway
 {
-    public class SmsGatway : ISmsGatway
+    public class SmsGatway
     {
-        private readonly KavenegarApi _smsGateWay;
-
-        public SmsGatway()
-        {
-            _smsGateWay = new KavenegarApi(GlobalVariables.SmsGatewaySettings.ApiKey);
-        }
-
-        public async Task<IResponse<bool>> SendAsync(string receiver, string text)
+        public static async Task<IResponse<bool>> SendAsync(string receiver, string text)
         {
             var response = new Response<bool>();
             try
             {
+                var _smsGateWay = new KavenegarApi(GlobalVariables.SmsGatewaySettings.ApiKey);
                 var sendResult = await _smsGateWay.Send(GlobalVariables.SmsGatewaySettings.Sender, receiver, text);
                 if (sendResult.Messageid > 0)
                 {
@@ -44,11 +38,12 @@ namespace GolPooch.SmsGateway
             }
         }
 
-        public async Task<IResponse<List<bool>>> SendMultipleAsync(List<string> receiver, string text)
+        public static async Task<IResponse<List<bool>>> SendMultipleAsync(List<string> receiver, string text)
         {
             var response = new Response<List<bool>> { IsSuccessful = true, Message = SmsGatewayMessage.Success };
             try
             {
+                var _smsGateWay = new KavenegarApi(GlobalVariables.SmsGatewaySettings.ApiKey);
                 var sendResult = await _smsGateWay.Send(GlobalVariables.SmsGatewaySettings.Sender, receiver, text);
 
                 var result = new List<bool>();

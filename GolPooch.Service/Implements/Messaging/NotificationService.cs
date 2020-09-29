@@ -6,6 +6,8 @@ using GolPooch.Domain.Enum;
 using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +18,7 @@ namespace GolPooch.Service.Implements
     {
         private AppUnitOfWork _appUow { get; set; }
         private readonly IConfiguration _configuration;
+        private static object lockObject = new object();
 
         public NotificationService(AppUnitOfWork appUnitOfWork, IConfiguration configuration)
         {
@@ -155,28 +158,56 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public PagingListDetails<Notification> GetUnProccesedNotifications()
+        {
+            var notifs = new PagingListDetails<Notification>();
+            try
+            {
+                lock (lockObject)
+                {
+                    notifs = _appUow.NotificationRepo.GetPaging(
+                    new PagingQueryFilter<Notification>
+                    {
+                        AsNoTracking = false,
+                        OrderBy = x => x.OrderByDescending(x => x.Priority),
+                        Conditions = x => x.IsActive && !x.IsSent,
+                        IncludeProperties = new List<Expression<Func<Notification, object>>> { x => x.User },
+                        PagingParameter = new PagingParameter { PageNumber = 1, PageSize = int.Parse(_configuration["CustomSettings:SendNotificationThreadCount"]) }
+                    });
+
+                    if (notifs.Items.Any())
+                    {
+                        foreach (var notif in notifs.Items)
+                            notif.IsSent = true;
+
+                        _appUow.NotificationRepo.UpdateRange(notifs.Items);
+                        _appUow.SaveChanges();
+                    }
+
+                    return notifs;
+                }
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                return notifs;
+            }
+        }
+
         public async Task SendNotificationsAsync()
         {
             try
             {
-                var notifs = _appUow.NotificationRepo.Get(
-                    new QueryFilter<Notification>
+                var notifs = GetUnProccesedNotifications();
+                if (notifs.Items.Any())
+                {
+                    Parallel.ForEach(notifs.Items, async notif =>
                     {
-                        AsNoTracking = false,
-                        OrderBy = x => x.OrderBy(x => x.NotificationId),
-                        Conditions = x => x.IsActive && !x.IsSent
+                        await SendNotifFactory.GetStrategy(notif.Type).SendAsync(notif, _appUow);
                     });
 
-                if (notifs.IsNotNull() && notifs.Count() > 0)
-                {
-                    foreach (var notif in notifs)
-                        notif.IsSent = true;
-
-                    _appUow.NotificationRepo.UpdateRange(notifs);
-                    await _appUow.SaveChangesAsync();
-
-                    foreach (var notif in notifs)
-                        await SendNotifStrategy.GetStrategy(notif.Type, _appUow).SendAsync(notif);
+                    //foreach (var notif in notifs.Items)
+                    //    await SendNotifFactory.GetStrategy(notif.Type).SendAsync(notif, _appUow);
                 }
 
                 await Task.CompletedTask;

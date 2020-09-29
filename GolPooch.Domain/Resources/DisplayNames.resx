@@ -273,6 +273,9 @@
   <data name="Price" xml:space="preserve">
     <value>مبلغ</value>
   </data>
+  <data name="Priority" xml:space="preserve">
+    <value>اولویت</value>
+  </data>
   <data name="ProfileImgUrl" xml:space="preserve">
     <value>آدرس تصویر پروفایل</value>
   </data>
