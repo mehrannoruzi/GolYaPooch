@@ -1,10 +1,10 @@
-﻿using GolPooch.Domain.Entity;
+﻿using GolPooch.DataAccess.Ef;
+using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
-using GolPooch.DataAccess.Ef;
 
 namespace GolPooch.Service.Implements
 {
-    public class SendTelegramStrategy : ISendNotifStrategy
+    public class NoActionStrategy : ISendNotifStrategy
     {
         public async Task SendAsync(Notification notification, AppUnitOfWork _appUow)
         {

@@ -34,5 +34,19 @@ namespace GolPooch.CrossCutting
 
             public static string Sender = "1000596446";
         }
+
+
+        public static class PushNotificationSetting
+        {
+            public static string SenderID = "873210377614";
+
+            public static string AppID = "1:873210377614:web:284744c8f3e250cf80e0df";
+            
+            public static string FcmAddress = "https://fcm.googleapis.com/fcm/send";
+
+            public static string WebAPIKey = "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc";
+
+            public static string ServerKey = "AAAAy09k9Y4:APA91bHHC7Nj-QPL1NZAM7xzVLVEBWoggsT_BSkhwiz8sk5aMc_57DqsPGxAD8h-3yRR5NmLAckz9iM4Kc4ShY2mPeR0Q5yCXgWeDO16_yoAQaa8H2O85zvVjqq6KVnkGL5VB6XJwaVu";
+        }
     }
 }

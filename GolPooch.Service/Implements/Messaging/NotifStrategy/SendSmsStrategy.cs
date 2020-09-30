@@ -1,22 +1,23 @@
 ﻿using System;
+using GolPooch.SmsGateway;
 using GolPooch.Domain.Entity;
-using System.Threading.Tasks;
 using GolPooch.DataAccess.Ef;
+using System.Threading.Tasks;
 
 namespace GolPooch.Service.Implements
 {
     public class SendSmsStrategy : ISendNotifStrategy
     {
-        private AppUnitOfWork _appUow { get; set; }
-
-        public SendSmsStrategy(AppUnitOfWork appUow)
+        public async Task SendAsync(Notification notification, AppUnitOfWork _appUow)
         {
-            _appUow = appUow;
-        }
+            var sendResult = await SmsGatway.SendAsync(notification.User.MobileNumber.ToString(), notification.Text);
 
-        public async Task SendAsync(Notification notification)
-        {
-            throw new NotImplementedException();
+            notification.SentDateMi = DateTime.Now;
+            notification.IsSuccess = sendResult.Result;
+            notification.SendResultMessage = sendResult.Message;
+
+            _appUow.NotificationRepo.Update(notification);
+            await _appUow.SaveChangesAsync();
         }
     }
 }

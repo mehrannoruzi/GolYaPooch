@@ -15,7 +15,8 @@ namespace GolPooch.Domain.Entity
         public int PushEndpointId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public int? UserId { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
 
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
