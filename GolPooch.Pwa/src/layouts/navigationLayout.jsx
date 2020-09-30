@@ -123,6 +123,7 @@ const NavigationLayout = () => {
                             <IconButton color="inherit" onClick={() => setModalState({
                                 ...modal,
                                 open: true,
+                                title:'اعلان ها',
                                 children: NotificationsPage
                             })}>
                                 <RiNotification3Line className="hx" />

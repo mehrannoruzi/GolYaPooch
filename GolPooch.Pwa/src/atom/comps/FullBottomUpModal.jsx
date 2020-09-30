@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Container } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import fullBottomUpModalState from './../state/fullBottomUpModalState';
 
@@ -14,7 +14,9 @@ const useStyles = makeStyles({
         zIndex: 999,
         '& .header': {
             position: 'relative',
-
+            '& .MuiContainer-root':{
+                borderBottom: 'solid 1px #ccc'
+            },
             '& .hx': {
                 padding: '15px 0',
                 margin: 0
@@ -37,8 +39,8 @@ export default function (props) {
     const [rState, setRState] = useRecoilState(fullBottomUpModalState);
     return (<div id="comp-full-bottom-up-modal" className={`animate__animated  animate__slideInUp ${classes.compFullBottomUpModal} ${(rState.open ? '' : 'd-none')}`}>
         <div className='header'>
-            <h4 className='hx'>{rState.title}</h4>
-            <button className='btn-close' onClick={() =>setRState({ ...rState, open: false, message: '' })}><i className='icon zmdi zmdi-close'></i></button>
+            <Container><h4 className='hx'>{rState.title}</h4></Container>
+            <button className='btn-close' onClick={() => setRState({ ...rState, open: false, message: '' })}><i className='icon zmdi zmdi-close'></i></button>
         </div>
         {rState.children ? <rState.children /> : null}
     </div>);

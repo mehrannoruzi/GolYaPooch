@@ -11,20 +11,29 @@ var urlsToCache = [
 
 //--development
 const baseUrl = 'http://localhost:3000/';
-const apiUrl='https://localhost:44367/';
+const apiUrl = 'https://localhost:44367/';
 //--production
 // const baseUrl = 'https://golpooch.com';
 //const apiUrl='https://localhost:44367/';
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
+//   authDomain: "golyapooch-70712.firebaseapp.com",
+//   databaseURL: "https://golyapooch-70712.firebaseio.com",
+//   projectId: "golyapooch-70712",
+//   storageBucket: "golyapooch-70712.appspot.com",
+//   messagingSenderId: "873210377614",
+//   appId: "1:873210377614:web:284744c8f3e250cf80e0df",
+//   measurementId: "G-27TEL4NS4E"
+// };
 const firebaseConfig = {
-  apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
-  authDomain: "golyapooch-70712.firebaseapp.com",
-  databaseURL: "https://golyapooch-70712.firebaseio.com",
-  projectId: "golyapooch-70712",
-  storageBucket: "golyapooch-70712.appspot.com",
-  messagingSenderId: "873210377614",
-  appId: "1:873210377614:web:284744c8f3e250cf80e0df",
-  measurementId: "G-27TEL4NS4E"
+  apiKey: "AIzaSyBn60BEx3DUs4zFRMeYslZs-6PSu1q-9k0",
+  authDomain: "golpooch2.firebaseapp.com",
+  databaseURL: "https://golpooch2.firebaseio.com",
+  projectId: "golpooch2",
+  storageBucket: "golpooch2.appspot.com",
+  messagingSenderId: "79314841229",
+  appId: "1:79314841229:web:658578adcbf41e5250fcc4"
 };
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
@@ -41,26 +50,41 @@ messaging.setBackgroundMessageHandler(function (payload) {
       }
     })
     .then(() => {
-      return registration.showNotification("my notification title");
+      return self.registration.showNotification("my notification title");
     });
   return promiseChain;
 });
 
+// messaging.onMessage((payload) => {
+//   console.log(payload);
+//   const title = payload.notification.title;
+//   const options = {
+//     body: payload.notification.body,
+//     icon: payload.notification.icon,
+//     actions: [
+//       {
+//         action: payload.fcmOptions.link,
+//         title: 'Book Appointment'
+//       }
+//     ]
+//   };
+//   self.registration.showNotification(title, options);
+// });
 self.addEventListener('notificationclick', (event) => {
   console.log(event);
   if (event.action) {
     clients.openWindow(event.action);
   }
 
-  fetch(`${apiUrl}notification/read`,{
+  fetch(`${apiUrl}notification/read`, {
     method: 'POST',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization':`Bearer ${localStorage.getItem('token')}`
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
     body: JSON.stringify({
-      notificationId:event.id
+      notificationId: event.id
     })
   })
     .then(function (response) { return response.json(); })
@@ -68,7 +92,7 @@ self.addEventListener('notificationclick', (event) => {
       console.log(data);
       return data;
     });
-    event.notification.close();
+  event.notification.close();
 });
 
 // Install a service worker

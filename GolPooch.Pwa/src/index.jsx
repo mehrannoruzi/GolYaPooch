@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { RecoilRoot } from 'recoil';
@@ -19,6 +19,18 @@ const theme = createMuiTheme({
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 function RTL(props) {
+  useEffect(() => {
+    // navigator.serviceWorker.addEventListener("message", (payload) => {
+    //   console.log(payload);
+    //   navigator.serviceWorker.ready.then(registration => {
+    //     registration.showNotification(payload);
+    //   });
+    // });
+
+    return function () {
+      console.log('here');
+    };
+  });
   return (
     <StylesProvider jss={jss}>
       {props.children}

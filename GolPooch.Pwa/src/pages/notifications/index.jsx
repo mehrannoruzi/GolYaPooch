@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, List, ListItem, ListItemAvatar, ListItemText} from '@material-ui/core';
+import { makeStyles, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import notificationSrv from '../../services/notificationSrv';
 import toastState from '../../atom/state/toastState';
@@ -9,7 +9,10 @@ import Item from './comps/item';
 const useStyles = makeStyles({
     notificationComp: {
         paddingTop: 7.5,
-        paddingBottom: 7.5
+        paddingBottom: 7.5,
+        '& .MuiDivider-inset': {
+            marginRight: 15
+        }
     },
     inline: {
         display: 'inline',
