@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         paddingTop: 7.5,
         paddingBottom: 7.5,
         '& .MuiDivider-inset': {
-            marginRight: 15
+            marginRight: 16
         }
     },
     inline: {

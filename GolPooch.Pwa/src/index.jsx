@@ -20,12 +20,13 @@ const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 function RTL(props) {
   useEffect(() => {
-    // navigator.serviceWorker.addEventListener("message", (payload) => {
-    //   console.log(payload);
-    //   navigator.serviceWorker.ready.then(registration => {
-    //     registration.showNotification(payload);
-    //   });
-    // });
+    navigator.serviceWorker.addEventListener("message", (payload) => {
+      console.log(payload);
+      let notif = payload.data['firebase-messaging-msg-data'].notification;
+      navigator.serviceWorker.ready.then(registration => {
+        registration.showNotification(notif.title, payload.data['firebase-messaging-msg-data'].notification);
+      });
+    });
 
     return function () {
       console.log('here');

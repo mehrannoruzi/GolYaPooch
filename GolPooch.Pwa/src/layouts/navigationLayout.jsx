@@ -2,7 +2,7 @@
 import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
 import ActivitiesPage from '../pages/activities';
-import ChestPage from '../pages/chest';
+import ChestsPage from '../pages/chests';
 import SettingsPage from '../pages/settings'
 import PrivateRoute from '../atom/comps/PrivateRoute';
 import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge } from '@material-ui/core';
@@ -30,7 +30,7 @@ const navs = [
     {
         label: strings.pageName_chest,
         icon: FiPlusSquare,
-        path: 'chest'
+        path: 'chests'
     },
     {
         label: strings.pageName_leaderboard,
@@ -138,7 +138,7 @@ const NavigationLayout = () => {
             <Switch>
                 <PrivateRoute exact path={`${path}/store`} component={StorePage} />
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
-                <PrivateRoute exact path={`${path}/chest`} component={ChestPage} />
+                <PrivateRoute exact path={`${path}/chests`} component={ChestsPage} />
                 <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
 
             </Switch>
