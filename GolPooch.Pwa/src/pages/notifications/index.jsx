@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
+import { makeStyles, Container } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import notificationSrv from '../../services/notificationSrv';
 import toastState from '../../atom/state/toastState';
 import Item from './comps/item';
 
 const useStyles = makeStyles({
-    notificationComp: {
+    notificationsComp: {
         paddingTop: 7.5,
         paddingBottom: 7.5,
-        '& .MuiDivider-inset': {
-            marginRight: 16
-        }
     },
     inline: {
         display: 'inline',
+    },
+    loaderItem: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 15,
+        '& .subject': {
+            margin: '0 10px',
+            width: '100%'
+        }
     }
 });
 
@@ -31,13 +37,13 @@ const Notifications = () => {
 
 
     function handleScroll() {
-        const scrollTop = (document.documentElement
-            && document.documentElement.scrollTop)
-            || document.body.scrollTop;
-        const scrollHeight = (document.documentElement
-            && document.documentElement.scrollHeight)
-            || document.body.scrollHeight;
-        if (scrollTop + window.innerHeight + 50 >= scrollHeight) {
+        const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+            document.body.scrollTop;
+        const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) ||
+            document.body.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+        console.log(`scrollTop:${scrollTop}-scrollHeight:${scrollHeight}-clientHeight:${clientHeight}`)
+        if (Math.ceil(scrollTop + clientHeight) + 10 >= scrollHeight) {
             setIsBottom(true);
         }
     }
@@ -48,15 +54,15 @@ const Notifications = () => {
     }, []);
 
     useEffect(() => {
-        if (isBottom) {
+        console.log('fired');
+        if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);
-                let get = await notificationSrv.get(10, pageNumber);
+                let get = await notificationSrv.get(12, pageNumber);
                 console.log(get);
                 if (get.isSuccessful) {
-                    setItems(get.result.items);
-                    if (get.result.items.hasNext)
-                        setPageNumber(++pageNumber);
+                    setItems([...items, ...get.result.items]);
+                    setPageNumber(pageNumber + 1);
                 }
                 else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
                 setInProgress(false);
@@ -68,16 +74,12 @@ const Notifications = () => {
     }, [isBottom]);
 
     return (
-        <List id='comp-notifications' className={classes.notificationComp}>
-            {inProgress ? [0, 1, 2].map((x, idx) => <ListItem key={idx}>
-                <ListItemAvatar>
-                    <Skeleton variant='circle' height={35} width={35} />
-                </ListItemAvatar>
-                <ListItemText
-                    primary={<Skeleton />}
-                    secondary={<Skeleton />} />
-            </ListItem>) : items.map((item, idx) => <Item key={idx} item={item} />)}
-        </List>
+        <div id='comp-notifications' className={classes.notificationsComp}>
+            {items.map((item, idx) => <Item key={idx} item={item} />)}
+            {inProgress ? [0, 1, 2].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
+                <Skeleton variant='rect' height={35} width={50} className='avatar' />
+                <Skeleton className='subject' /></Container>) : null}
+        </div>
 
     );
 };
