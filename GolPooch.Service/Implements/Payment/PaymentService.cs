@@ -3,6 +3,7 @@ using Elk.Core;
 using Elk.Cache;
 using System.Linq;
 using GolPooch.Domain.Dto;
+using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
@@ -12,7 +13,6 @@ using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
-using GolPooch.Domain.Enum;
 
 namespace GolPooch.Service.Implements
 {
@@ -99,9 +99,9 @@ namespace GolPooch.Service.Implements
                 var redirectUrl = string.Empty;
                 if (saveResult.IsSuccessful)
                 {
-                   // response.Result = $"https://localhost:44349/Payment/ZarinPalVerify?"+
-                    response.Result = $"{_configuration["PaymentGatewaySettings:GatwayCallbackUrl_Zarinpal"]}"+
-                        $"PaymentTransactionId={paymentTransaction.PaymentTransactionId}&"+
+                    // response.Result = $"https://localhost:44349/Payment/ZarinPalVerify?"+
+                    response.Result = $"{_configuration["PaymentGatewaySettings:GatwayCallbackUrl_Zarinpal"]}" +
+                        $"PaymentTransactionId={paymentTransaction.PaymentTransactionId}&" +
                         $"Status=OK&Authority=123456789";
                     response.IsSuccessful = true;
                     response.Message = saveResult.Message;
@@ -137,6 +137,7 @@ namespace GolPooch.Service.Implements
                 var paymentTransaction = await _appUow.PaymentTransactionRepo.FirstOrDefaultAsync(
                     new QueryFilter<PaymentTransaction>
                     {
+                        AsNoTracking = false,
                         Conditions = x => x.PaymentTransactionId == paymentTransactionId
                     });
                 if (paymentTransaction.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentTransaction };

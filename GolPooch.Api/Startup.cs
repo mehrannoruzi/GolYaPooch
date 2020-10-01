@@ -106,6 +106,8 @@ namespace GolPooch.Api
             services.AddScoped(_config);
             services.AddSingleton(_config);
 
+            //services.AddHostedService<QuartzHostedService>();
+
             services.AddElkSwagger(_swaggerSetting);
         }
 

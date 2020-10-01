@@ -2,7 +2,7 @@
 {
     public class SpendChanseModel
     {
-        public int ChanseCount { get; set; }
+        public byte ChanceCount { get; set; }
         public int PurchaseId { get; set; }
         public int ChestId { get; set; }
     }
