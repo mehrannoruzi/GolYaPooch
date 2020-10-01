@@ -70,7 +70,6 @@ namespace GolPooch.Domain.Entity
 
         [Column(TypeName = "varchar(100)")]
         [Display(Name = nameof(DisplayNames.SendResultMessage), ResourceType = typeof(DisplayNames))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string SendResultMessage { get; set; }
