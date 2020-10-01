@@ -66,7 +66,7 @@ const Gateways = () => {
         let getGateways = await gatewaySrv.get();
         if (getGateways.isSuccessful) {
             let defItem = getGateways.result.find(x => x.isDefault);
-            if (defItem) setProductState({ ...productState, gatewatId: defItem.paymentGatewayId })
+            if (defItem) setProductState({ ...productState, gatewatId: defItem.paymentGatewayId });
             setGateways(getGateways.result);
         }
         else setToastState({ ...toast, open: true, severity: 'error', message: getGateways.message });

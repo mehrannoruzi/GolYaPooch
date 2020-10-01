@@ -17,7 +17,7 @@ namespace GolPooch.Api.Controllers
         }
 
         [HttpGet]
-        public JsonResult Top(User user, [FromBody] PagingParameter pagingParameter)
+        public JsonResult Top(User user, [FromQuery] PagingParameter pagingParameter)
             => Json(_purchaseService.GetTopPurchases(user.UserId, pagingParameter));
 
 
