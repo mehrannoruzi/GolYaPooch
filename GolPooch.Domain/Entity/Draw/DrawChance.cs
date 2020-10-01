@@ -15,7 +15,7 @@ namespace GolPooch.Domain.Entity
 
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey(nameof(PurchaseId))]
         public Purchase Purchase { get; set; }

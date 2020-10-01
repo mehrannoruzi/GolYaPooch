@@ -84,6 +84,9 @@ namespace GolPooch.Domain.Entity
         public ICollection<Round> Rounds { get; set; }
 
         [JsonIgnore]
+        public ICollection<RoundWinner> RoundWinners { get; set; }
+
+        [JsonIgnore]
         public ICollection<Purchase> Purchases { get; set; }
 
         [JsonIgnore]
