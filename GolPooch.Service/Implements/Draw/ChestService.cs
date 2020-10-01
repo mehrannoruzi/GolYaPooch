@@ -7,6 +7,7 @@ using GolPooch.CrossCutting;
 using GolPooch.Domain.Entity;
 using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
@@ -54,6 +55,41 @@ namespace GolPooch.Service.Implements
 
                 response.Result = chests;
                 response.IsSuccessful = true;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public IResponse<int> MyChanceAsync(int userId, int ChestId)
+        {
+            var response = new Response<int>();
+            try
+            {
+                var drawChance = _appUow.DrawChanceRepo.Get(
+                    new QueryFilterWithSelector<DrawChance, object>
+                    {
+                        Conditions = x => x.UserId == userId && x.Round.Chest.ChestId == ChestId,
+                        IncludeProperties = new List<Expression<Func<DrawChance, object>>>
+                        {
+                            x=> x.Round,
+                            x=> x.Round.Chest
+                        },
+                        Selector = x => new
+                        {
+                            x.UserId,
+                            x.RoundId,
+                            x.Round.ChestId
+                        }
+                    });
+
+                response.IsSuccessful = true;
+                response.Result = drawChance.Count();
                 response.Message = ServiceMessage.Success;
                 return response;
             }

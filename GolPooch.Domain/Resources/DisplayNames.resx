@@ -258,9 +258,6 @@
   <data name="OsType" xml:space="preserve">
     <value>نوع سیستم عامل</value>
   </data>
-  <data name="P256DhSecretKey" xml:space="preserve">
-    <value>P256DhSecretKey</value>
-  </data>
   <data name="ParticipantCount" xml:space="preserve">
     <value>تعداد شرکت کننده</value>
   </data>

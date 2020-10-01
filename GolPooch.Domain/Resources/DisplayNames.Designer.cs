@@ -484,15 +484,6 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to P256DhSecretKey.
-        /// </summary>
-        public static string P256DhSecretKey {
-            get {
-                return ResourceManager.GetString("P256DhSecretKey", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to تعداد شرکت کننده.
         /// </summary>
         public static string ParticipantCount {

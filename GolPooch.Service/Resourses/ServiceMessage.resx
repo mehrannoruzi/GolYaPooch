@@ -172,8 +172,17 @@ Code: {code}</value>
   <data name="InvalidParameter" xml:space="preserve">
     <value>پارامترهای ارسالی اشتباه می باشد، لطفا مجدد تلاش کنید.</value>
   </data>
+  <data name="InvalidPaymentGateway" xml:space="preserve">
+    <value>درگاه بانک مورد نظر معتبر نمی باشد ویا کد درگاه ارسالی اشتباه می باشد.</value>
+  </data>
+  <data name="InvalidPaymentTransaction" xml:space="preserve">
+    <value>تراکنش مورد نظر معتبر نمی باشد ویا کد تراکنش ارسالی اشتباه می باشد.</value>
+  </data>
   <data name="InvalidPinCode" xml:space="preserve">
     <value>کد وارد شده صحیح نمی باشد، لطفا کد دریافتی از طریق پیامک را وارد نمایید.</value>
+  </data>
+  <data name="InvalidProductOffer" xml:space="preserve">
+    <value>محصول مورد نظر معتبر نمی باشد ویا کد محصول ارسالی اشتباه می باشد.</value>
   </data>
   <data name="InvalidProductOfferId" xml:space="preserve">
     <value>بسته مورد نظر وجود ندارد ویا فعال نمی باشد، لطفا مجدد تلاش کنید.</value>

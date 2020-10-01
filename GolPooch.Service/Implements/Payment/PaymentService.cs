@@ -6,6 +6,8 @@ using GolPooch.Domain.Dto;
 using GolPooch.CrossCutting;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
+using System.Threading.Tasks;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
@@ -68,6 +70,96 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public async Task<IResponse<string>> CreateAsync(PaymentTransaction paymentTransaction)
+        {
+            var response = new Response<string>();
+            try
+            {
+                var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
+                    new QueryFilter<PaymentGateway>
+                    {
+                        Conditions = x => x.IsActive && x.PaymentGatewayId == paymentTransaction.PaymentGatewayId
+                    });
+                if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
 
+                var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
+                                    new QueryFilter<ProductOffer>
+                                    {
+                                        Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
+                                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
+                                    });
+                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
+
+                await _appUow.PaymentTransactionRepo.AddAsync(paymentTransaction);
+                var saveResult = await _appUow.ElkSaveChangesAsync();
+
+                var redirectUrl = string.Empty;
+                if (saveResult.IsSuccessful)
+                {
+                    var createPaymentResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
+                        .CreateAsync(_appUow, paymentGatway, paymentTransaction);
+
+                    response.Result = createPaymentResult.Result;
+                    response.Message = createPaymentResult.Message;
+                    response.IsSuccessful = createPaymentResult.IsSuccessful;
+                }
+                else
+                {
+                    response.Message = saveResult.Message;
+                    response.IsSuccessful = saveResult.IsSuccessful;
+                }
+                
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<string>> VerifyAsync(int paymentTransactionId, string Status, string Authority)
+        {
+            var response = new Response<string>();
+            try
+            {
+                var paymentTransaction = await _appUow.PaymentTransactionRepo.FirstOrDefaultAsync(
+                    new QueryFilter<PaymentTransaction>
+                    {
+                        Conditions = x => x.PaymentTransactionId == paymentTransactionId
+                    });
+                if (paymentTransaction.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentTransaction };
+
+                var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
+                    new QueryFilter<PaymentGateway>
+                    {
+                        Conditions = x => x.IsActive && x.PaymentGatewayId == paymentTransaction.PaymentGatewayId
+                    });
+                if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
+
+                var verifyResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
+                    .VerifyAsync(_appUow, paymentGatway, paymentTransaction);
+                if (verifyResult.IsSuccessful)
+                {
+                    response.Result = verifyResult.Result;
+                    response.Message = verifyResult.Message;
+                    response.IsSuccessful = verifyResult.IsSuccessful;
+                }
+                else
+                {
+                    response.Message = verifyResult.Message;
+                    response.IsSuccessful = verifyResult.IsSuccessful;
+                }
+                
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
     }
 }

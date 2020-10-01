@@ -13,8 +13,7 @@ namespace GolPooch.Service.Interfaces
         /// </summary>
         /// <returns>list of available chest</returns>
         IResponse<List<Chest>> GetAllAvailable();
-
+        IResponse<int> MyChanceAsync(int userId, int ChestId);
         Task<IResponse<string>> SpendChanceAsync(int userId, int purchaseId, int ChestId);
-
     }
 }

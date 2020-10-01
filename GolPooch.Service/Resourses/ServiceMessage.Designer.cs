@@ -224,11 +224,38 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to درگاه بانک مورد نظر معتبر نمی باشد ویا کد درگاه ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidPaymentGateway {
+            get {
+                return ResourceManager.GetString("InvalidPaymentGateway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تراکنش مورد نظر معتبر نمی باشد ویا کد تراکنش ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidPaymentTransaction {
+            get {
+                return ResourceManager.GetString("InvalidPaymentTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کد وارد شده صحیح نمی باشد، لطفا کد دریافتی از طریق پیامک را وارد نمایید..
         /// </summary>
         public static string InvalidPinCode {
             get {
                 return ResourceManager.GetString("InvalidPinCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to محصول مورد نظر معتبر نمی باشد ویا کد محصول ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidProductOffer {
+            get {
+                return ResourceManager.GetString("InvalidProductOffer", resourceCulture);
             }
         }
         
