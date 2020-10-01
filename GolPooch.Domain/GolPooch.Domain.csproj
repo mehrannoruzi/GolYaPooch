@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="elk.core" Version="1.1.6" />
+    <PackageReference Include="elk.core" Version="1.1.8" />
   </ItemGroup>
 
   <ItemGroup>
