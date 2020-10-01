@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
+using GolPooch.Domain.Enum;
 
 namespace GolPooch.Service.Implements
 {
@@ -83,32 +84,41 @@ namespace GolPooch.Service.Implements
                 if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
 
                 var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
-                                    new QueryFilter<ProductOffer>
-                                    {
-                                        Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
-                                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
-                                    });
+                    new QueryFilter<ProductOffer>
+                    {
+                        Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
+                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
+                    });
                 if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
 
+                paymentTransaction.Price = productOffer.TotalPrice;
+                paymentTransaction.Type = TransactionType.Purchase;
                 await _appUow.PaymentTransactionRepo.AddAsync(paymentTransaction);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
 
                 var redirectUrl = string.Empty;
                 if (saveResult.IsSuccessful)
                 {
-                    var createPaymentResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
-                        .CreateAsync(_appUow, paymentGatway, paymentTransaction);
+                   // response.Result = $"https://localhost:44349/Payment/ZarinPalVerify?"+
+                    response.Result = $"{_configuration["PaymentGatewaySettings:GatwayCallbackUrl_Zarinpal"]}"+
+                        $"PaymentTransactionId={paymentTransaction.PaymentTransactionId}&"+
+                        $"Status=OK&Authority=123456789";
+                    response.IsSuccessful = true;
+                    response.Message = saveResult.Message;
 
-                    response.Result = createPaymentResult.Result;
-                    response.Message = createPaymentResult.Message;
-                    response.IsSuccessful = createPaymentResult.IsSuccessful;
+                    //var createPaymentResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
+                    //    .CreateAsync(_appUow, paymentTransaction, _configuration);
+
+                    //response.Result = createPaymentResult.Result;
+                    //response.Message = createPaymentResult.Message;
+                    //response.IsSuccessful = createPaymentResult.IsSuccessful;
                 }
                 else
                 {
                     response.Message = saveResult.Message;
                     response.IsSuccessful = saveResult.IsSuccessful;
                 }
-                
+
                 return response;
             }
             catch (Exception e)
@@ -138,11 +148,34 @@ namespace GolPooch.Service.Implements
                     });
                 if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
 
-                var verifyResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
-                    .VerifyAsync(_appUow, paymentGatway, paymentTransaction);
+                var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
+                    new QueryFilter<ProductOffer>
+                    {
+                        Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
+                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
+                    });
+                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
+
+                //var verifyResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
+                //    .VerifyAsync(_appUow, paymentTransaction, _configuration);
+
+                paymentTransaction.IsSuccess = true;
+                paymentTransaction.Status = Status;
+                paymentTransaction.TrackingId = Randomizer.GetUniqueKey(12);
+                _appUow.PaymentTransactionRepo.Update(paymentTransaction);
+                var verifyResult = await _appUow.ElkSaveChangesAsync();
+
                 if (verifyResult.IsSuccessful)
                 {
-                    response.Result = verifyResult.Result;
+                    response.Result = $"{_configuration["CustomSettings:ReactPaymentGatewayResultUrl"]}" +
+                        $"IsSuccessful={verifyResult.IsSuccessful}&" +
+                        $"TrackingId={paymentTransaction.TrackingId}&" +
+                        $"ProductSubject={productOffer.Product.Subject}&" +
+                        $"ProductText={productOffer.Product.Text}&" +
+                        $"Date={paymentTransaction.ModifyDateSh}&" +
+                        $"Time={paymentTransaction.ModifyDateMi.ToLongTimeString()}&" +
+                        $"Price={paymentTransaction.Price}&" +
+                        $"Chance={productOffer.Chance}";
                     response.Message = verifyResult.Message;
                     response.IsSuccessful = verifyResult.IsSuccessful;
                 }
@@ -151,7 +184,7 @@ namespace GolPooch.Service.Implements
                     response.Message = verifyResult.Message;
                     response.IsSuccessful = verifyResult.IsSuccessful;
                 }
-                
+
                 return response;
             }
             catch (Exception e)

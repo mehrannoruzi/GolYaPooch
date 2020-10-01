@@ -2,15 +2,16 @@
 using Elk.Core;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using GolPooch.Domain.Entity;
 using GolPooch.DataAccess.Ef;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class ZarinPalStrategy : IPaymentStrategy
     {
-        public async Task<IResponse<string>> CreateAsync(AppUnitOfWork _appUow, PaymentGateway gateway, PaymentTransaction model)
+        public async Task<IResponse<string>> CreateAsync(AppUnitOfWork _appUow, PaymentTransaction model, IConfiguration configuration)
         {
             //var currentUser = _userBusiness.Find(model.UserId);
             //ServicePointManager.Expect100Continue = false;
@@ -56,7 +57,7 @@ namespace GolPooch.Service.Implements
             throw new NotImplementedException();
         }
 
-        public async Task<IResponse<string>> VerifyAsync(AppUnitOfWork _appUow, PaymentGateway gateway, PaymentTransaction model, object responseGateway = null)
+        public async Task<IResponse<string>> VerifyAsync(AppUnitOfWork _appUow, PaymentTransaction model, IConfiguration configuration)
         {
             throw new NotImplementedException();
         }
