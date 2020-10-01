@@ -62,12 +62,12 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public IResponse<PagingListDetails<PurchaseDto>> GetTopPurchases(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetTopPurchases(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<PurchaseDto>>();
             try
             {
-                var purchases = _appUow.PurchaseRepo.GetPaging(
+                var purchases = await _appUow.PurchaseRepo.GetPagingAsync(
                     new PagingQueryFilterWithSelector<Purchase, PurchaseDto>
                     {
                         Conditions = x => x.UserId == userId && !x.IsFinished && x.UsedChance < x.Chance,

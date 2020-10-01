@@ -31,7 +31,7 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
-        public IResponse<List<PaymentGatwayDto>> GetAllGateway()
+        public async Task<IResponse<List<PaymentGatwayDto>>> GetAllGateway()
         {
             var response = new Response<List<PaymentGatwayDto>>();
             try
@@ -39,7 +39,7 @@ namespace GolPooch.Service.Implements
                 var gatways = (List<PaymentGatwayDto>)_cacheProvider.Get(_paymentGatewayCacheKey);
                 if (gatways == null)
                 {
-                    gatways = _appUow.PaymentGatewayRepo.Get(
+                    gatways = await _appUow.PaymentGatewayRepo.GetAsync(
                         new QueryFilterWithSelector<PaymentGateway, PaymentGatwayDto>
                         {
                             Conditions = x => x.IsActive,
@@ -53,7 +53,7 @@ namespace GolPooch.Service.Implements
                                 PaymentGatewayId = x.PaymentGatewayId,
                                 ImageUrl = _configuration["CustomSettings:CdnAddress"] + $"Assets/BanksImage/{x.BankName}.png"
                             }
-                        }).ToList();
+                        });
 
                     _cacheProvider.Add(_paymentGatewayCacheKey, gatways, DateTime.Now.AddHours(GlobalVariables.CacheSettings.PaymentGatewayCacheTimeout()));
                 }

@@ -39,12 +39,12 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public IResponse<PagingListDetails<Ticket>> Get(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<Ticket>>> GetAsync(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<Ticket>>();
             try
             {
-                var tickets = _appUow.TicketRepo.GetPaging(
+                var tickets = await _appUow.TicketRepo.GetPagingAsync(
                     new PagingQueryFilter<Ticket>
                     {
                         Conditions = x => x.UserId == userId,

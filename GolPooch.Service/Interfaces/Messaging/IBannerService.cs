@@ -1,4 +1,5 @@
 ﻿using Elk.Core;
+using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
 using System.Collections.Generic;
 
@@ -12,6 +13,6 @@ namespace GolPooch.Service.Interfaces
         /// each record must be included with page property (include Page) 
         /// </summary>
         /// <returns>list of banner</returns>
-        IResponse<List<Banner>> GetAllAvailable();
+        Task<IResponse<List<Banner>>> GetAllAvailable();
     }
 }

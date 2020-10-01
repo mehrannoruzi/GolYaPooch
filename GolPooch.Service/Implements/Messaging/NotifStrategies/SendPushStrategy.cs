@@ -30,7 +30,7 @@ namespace GolPooch.Service.Implements
             var allPushCount = 0;
             var failedSentCounter = 0;
 
-            var endPoints = _appUow.PushEndpointRepo.Get(new QueryFilter<PushEndpoint> { Conditions = x => x.UserId == notification.UserId });
+            var endPoints = await _appUow.PushEndpointRepo.GetAsync(new QueryFilter<PushEndpoint> { Conditions = x => x.UserId == notification.UserId });
             if (!endPoints.Any()) await Task.CompletedTask;
 
             allPushCount = endPoints.Count();

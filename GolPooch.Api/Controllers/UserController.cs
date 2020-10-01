@@ -1,11 +1,10 @@
-﻿using GolPooch.Domain.Dto;
-using GolPooch.Api.Models;
+﻿using System.IO;
+using GolPooch.Domain.Dto;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using GolPooch.Service.Interfaces;
-using System.IO;
 using Microsoft.AspNetCore.Http;
+using GolPooch.Service.Interfaces;
 
 namespace GolPooch.Api.Controllers
 {

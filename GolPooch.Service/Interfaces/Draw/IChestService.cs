@@ -13,8 +13,8 @@ namespace GolPooch.Service.Interfaces
         /// this method must be cached
         /// </summary>
         /// <returns>list of available chest</returns>
-        IResponse<List<Chest>> GetAllAvailable();
-        IResponse<int> MyChanceAsync(int userId, int ChestId);
+        Task<IResponse<List<Chest>>> GetAllAvailable();
+        Task<IResponse<int>> MyChanceAsync(int userId, int ChestId);
         Task<IResponse<SpendChanceResultDto>> SpendChanceAsync(int userId, int purchaseId, int ChestId, byte chanceCount);
     }
 }

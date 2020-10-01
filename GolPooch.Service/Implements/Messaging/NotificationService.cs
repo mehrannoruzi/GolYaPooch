@@ -80,12 +80,12 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public IResponse<PagingListDetails<NotificationDto>> GetTopNotifications(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<NotificationDto>>();
             try
             {
-                var notifications = _appUow.NotificationRepo.GetPaging(
+                var notifications = await _appUow.NotificationRepo.GetPagingAsync(
                     new PagingQueryFilterWithSelector<Notification, NotificationDto>
                     {
                         Conditions = x => x.UserId == userId && x.IsActive,
@@ -165,7 +165,7 @@ namespace GolPooch.Service.Implements
             {
                 lock (lockObject)
                 {
-                    notifs = _appUow.NotificationRepo.GetPaging(
+                    notifs = _appUow.NotificationRepo.GetPagingAsync(
                     new PagingQueryFilter<Notification>
                     {
                         AsNoTracking = false,
@@ -173,7 +173,7 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.IsActive && !x.IsSent,
                         IncludeProperties = new List<Expression<Func<Notification, object>>> { x => x.User },
                         PagingParameter = new PagingParameter { PageNumber = 1, PageSize = int.Parse(_configuration["CustomSettings:SendNotificationThreadCount"]) }
-                    });
+                    }).Result;
 
                     if (notifs.Items.Any())
                     {
