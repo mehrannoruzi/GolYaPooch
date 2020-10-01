@@ -1,47 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
+import { makeStyles, Container, Grid, Divider, Paper } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
-import notificationSrv from '../../services/notificationSrv';
 import toastState from '../../atom/state/toastState';
-import Item from './comps/item';
-import Slider from "react-slick";
+import Chances from './comps/chances';
+import Button from '../../atom/comps/Button';
+import strings from '../../core/strings';
+import Heading from '../../atom/comps/Heading';
+import chestSrv from '../../services/chestSrv';
+import fullBottomUpModalState from '../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
-    notificationComp: {
-        paddingTop: 7.5,
-        paddingBottom: 7.5,
-        '& .MuiDivider-inset': {
-            marginRight: 16
+    chestComp: {
+        '& .heading': {
+            textAlign: 'center'
+        },
+        '& .chance': {
+            textAlign: 'center',
+            fontWeight: 800,
+            fontSize: '1.5rem'
+        },
+        '& .btns': {
+            padding: '10px 0',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            boxShadow: '0px 0px 4px 1px rgba(0,0,0,0.7)',
+            '& button': {
+                padding: '10px',
+                textAlign: 'center',
+                fontSize: '1.2rem',
+                width: '130px'
+            },
+            '& .reject': {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                '& button':{
+
+                    backgroundColor:'red'
+                }
+            }
         }
-    },
-    inline: {
-        display: 'inline',
     }
 });
 
-const Chest = () => {
+const Chest = (props) => {
     //Hooks
     const classes = useStyles();
+    const [agreed, setAgreement] = useState(null);
     const [inProgress, setInProgress] = useState(true);
     const [item, setItem] = useState([]);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
-
+    const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     useEffect(() => {
-
-
+        const getData = async () => {
+            setInProgress(true);
+            let get = await chestSrv.getSingle(parseInt(props.id));
+            if (get.isSuccessful) {
+                setItem(get.result.items);
+            }
+            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+            setInProgress(false);
+        }
+        getData();
     }, []);
 
     return (
-        <div id='comp-chest'>
-            <h4 classsName='heading'>
-                {inProgress ? <Skeleton className='w-100' /> : 'میزان شانس شما در این قرعه کشی'}
-            </h4>
-            <h5 classsName='heading'>
-                {inProgress ? <Skeleton className='w-100' /> : item.chance}
+        <div id='comp-chest' className={classes.chestComp}>
+            <Container>
+                <h4 className='heading'>
+                    {inProgress ? <Skeleton className='w-100' /> : 'میزان شانس شما در این قرعه کشی'}
+                </h4>
+            </Container>
+            <h5 className='chance'>
+                {inProgress ? <Skeleton className='w-100' /> : 2}
             </h5>
+            <Divider component="div" />
+            <Container>
+                <Grid container>
+                    <Heading>برای افزایش شانس بسته خود را انتخاب کنید</Heading>
+                </Grid>
+                <Chances />
+            </Container>
+            <Paper className='btns'>
+                <Container>
+                    <Grid container>
+                        <Grid item xs={6} className='agree'>
+                            <Button>{strings.iAgree}</Button>
+                        </Grid>
+                        <Grid item xs={6} className='reject'>
+                            <Button onClick={() => setModalState({ ...modal, open: false })}>{strings.iReject}</Button>
+                        </Grid>
+                    </Grid>
 
+                </Container>
+
+            </Paper>
         </div>
 
     );

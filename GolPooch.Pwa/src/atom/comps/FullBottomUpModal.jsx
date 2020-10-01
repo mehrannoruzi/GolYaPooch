@@ -5,7 +5,7 @@ import fullBottomUpModalState from './../state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
     compFullBottomUpModal: {
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         bottom: 0,
         right: 0,
@@ -42,6 +42,6 @@ export default function (props) {
             <Container><h4 className='hx'>{rState.title}</h4></Container>
             <button className='btn-close' onClick={() => setRState({ ...rState, open: false, message: '' })}><i className='icon zmdi zmdi-close'></i></button>
         </div>
-        {rState.children ? <rState.children /> : null}
+        {rState.children ? <rState.children {...rState.props} /> : null}
     </div>);
 }

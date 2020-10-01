@@ -62,7 +62,8 @@ const Notifications = () => {
                 console.log(get);
                 if (get.isSuccessful) {
                     setItems([...items, ...get.result.items]);
-                    setPageNumber(pageNumber + 1);
+                    if (get.result.items.length > 0)
+                        setPageNumber(pageNumber + 1);
                 }
                 else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
                 setInProgress(false);

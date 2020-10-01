@@ -20,8 +20,7 @@ export default class chestSrv {
 
     static async getSingle(id, ignoreStorage) {
         function find(data) {
-            let result = data.result.find(x => x.productOfferId == id);
-            console.log(result);
+            let result = data.result.find(x => x.chestId === id);
             return {
                 result: result,
                 isSuccessful: result ? true : false,
@@ -34,7 +33,7 @@ export default class chestSrv {
         let call = await http.get(addr.chests);
         if (!call.isSuccessful) return call;
 
-        localStorage.setItem(config.keys.products, JSON.stringify(call));
+        localStorage.setItem(config.keys.chests, JSON.stringify(call));
         return find(call);
     }
 
