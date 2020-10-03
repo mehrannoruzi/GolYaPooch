@@ -1,10 +1,10 @@
 ﻿using System;
 using Elk.Core;
 using Elk.Cache;
-using System.Linq;
 using GolPooch.CrossCutting;
 using GolPooch.Domain.Entity;
 using GolPooch.DataAccess.Ef;
+using System.Threading.Tasks;
 using System.Linq.Expressions;
 using GolPooch.Service.Resourses;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
-        public IResponse<List<Banner>> GetAllAvailable()
+        public async Task<IResponse<List<Banner>>> GetAllAvailable()
         {
             var response = new Response<List<Banner>>();
             try
@@ -37,12 +37,12 @@ namespace GolPooch.Service.Implements
                 if (banners == null)
                 {
                     var now = DateTime.Now;
-                    banners = _appUow.BannerRepo.Get(
+                    banners = await _appUow.BannerRepo.GetAsync(
                         new QueryFilter<Banner>
                         {
                             Conditions = x => x.IsActive && x.ExpirationDate > now,
                             IncludeProperties = new List<Expression<Func<Banner, object>>> { x => x.Page },
-                        }).ToList();
+                        });
 
                     foreach (var banner in banners)
                         banner.ImageUrl = banner.ImageUrl == null ? null

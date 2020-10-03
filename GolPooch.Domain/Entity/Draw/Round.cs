@@ -20,10 +20,6 @@ namespace GolPooch.Domain.Entity
         public Chest Chest { get; set; }
         public int ChestId { get; set; }
 
-        [ForeignKey(nameof(WinnerUserId))]
-        public User WinnerUser { get; set; }
-        public int? WinnerUserId { get; set; }
-
         [Display(Name = nameof(DisplayNames.ParticipantCount), ResourceType = typeof(DisplayNames))]
         public int ParticipantCount { get; set; }
 
@@ -71,5 +67,8 @@ namespace GolPooch.Domain.Entity
 
         [JsonIgnore]
         public ICollection<DrawChance> DrawChances { get; set; }
+
+        [JsonIgnore]
+        public ICollection<RoundWinner> RoundWinners { get; set; }
     }
 }

@@ -1,10 +1,10 @@
-﻿using GolPooch.Api.Models;
+﻿using Elk.Core;
+using GolPooch.Api.Models;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Elk.Core;
 
 namespace GolPooch.Api.Controllers
 {
@@ -18,8 +18,8 @@ namespace GolPooch.Api.Controllers
 
 
         [HttpGet]
-        public IActionResult AllGateway()
-            => Ok(_paymentService.GetAllGateway());
+        public async Task<IActionResult> AllGateway()
+            => Ok(await _paymentService.GetAllGateway());
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(User user, [FromBody] PaymentTransaction paymentTransaction)

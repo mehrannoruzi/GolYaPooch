@@ -21,7 +21,7 @@ namespace GolPooch.Service.Interfaces
         /// </summary>
         /// <param name="userId">userid in jwt</param>
         /// <returns>Top 10 records of Notification</returns>
-        IResponse<PagingListDetails<NotificationDto>> GetTopNotifications(int userId, PagingParameter pagingParameter);
+        Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter);
 
         /// <summary>
         /// When user tapped in a notification, this method called to set isread field with true status.

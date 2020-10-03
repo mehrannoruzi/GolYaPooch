@@ -8,7 +8,7 @@ namespace GolPooch.Service.Interfaces
 {
     public interface IPaymentService
     {
-        IResponse<List<PaymentGatwayDto>> GetAllGateway();
+        Task<IResponse<List<PaymentGatwayDto>>> GetAllGateway();
         Task<IResponse<string>> CreateAsync(PaymentTransaction paymentTransaction);
         Task<IResponse<string>> VerifyAsync(int paymentTransactionId, string Status, string Authority);
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
 
 namespace GolPooch.Api.Controllers
@@ -14,7 +15,7 @@ namespace GolPooch.Api.Controllers
         }
 
         [HttpGet]
-        public JsonResult All()
-            => Json(_bannerService.GetAllAvailable());
+        public async Task<JsonResult> All()
+            => Json(await _bannerService.GetAllAvailable());
     }
 }

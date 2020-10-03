@@ -6,6 +6,7 @@
         SuccessPurchase = 2,
         SuccessPayment = 3,
 
+        SpendChance = 9,
         NotifyWinners = 10
     }
 }

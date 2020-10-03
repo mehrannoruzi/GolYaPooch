@@ -3,6 +3,7 @@ using Elk.Core;
 using Elk.Cache;
 using System.Linq;
 using GolPooch.Domain.Dto;
+using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
@@ -12,7 +13,6 @@ using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
-using GolPooch.Domain.Enum;
 
 namespace GolPooch.Service.Implements
 {
@@ -31,7 +31,7 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
-        public IResponse<List<PaymentGatwayDto>> GetAllGateway()
+        public async Task<IResponse<List<PaymentGatwayDto>>> GetAllGateway()
         {
             var response = new Response<List<PaymentGatwayDto>>();
             try
@@ -39,7 +39,7 @@ namespace GolPooch.Service.Implements
                 var gatways = (List<PaymentGatwayDto>)_cacheProvider.Get(_paymentGatewayCacheKey);
                 if (gatways == null)
                 {
-                    gatways = _appUow.PaymentGatewayRepo.Get(
+                    gatways = await _appUow.PaymentGatewayRepo.GetAsync(
                         new QueryFilterWithSelector<PaymentGateway, PaymentGatwayDto>
                         {
                             Conditions = x => x.IsActive,
@@ -53,7 +53,7 @@ namespace GolPooch.Service.Implements
                                 PaymentGatewayId = x.PaymentGatewayId,
                                 ImageUrl = _configuration["CustomSettings:CdnAddress"] + $"Assets/BanksImage/{x.BankName}.png"
                             }
-                        }).ToList();
+                        });
 
                     _cacheProvider.Add(_paymentGatewayCacheKey, gatways, DateTime.Now.AddHours(GlobalVariables.CacheSettings.PaymentGatewayCacheTimeout()));
                 }
@@ -99,9 +99,9 @@ namespace GolPooch.Service.Implements
                 var redirectUrl = string.Empty;
                 if (saveResult.IsSuccessful)
                 {
-                   // response.Result = $"https://localhost:44349/Payment/ZarinPalVerify?"+
-                    response.Result = $"{_configuration["PaymentGatewaySettings:GatwayCallbackUrl_Zarinpal"]}"+
-                        $"PaymentTransactionId={paymentTransaction.PaymentTransactionId}&"+
+                    // response.Result = $"https://localhost:44349/Payment/ZarinPalVerify?"+
+                    response.Result = $"{_configuration["PaymentGatewaySettings:GatwayCallbackUrl_Zarinpal"]}" +
+                        $"PaymentTransactionId={paymentTransaction.PaymentTransactionId}&" +
                         $"Status=OK&Authority=123456789";
                     response.IsSuccessful = true;
                     response.Message = saveResult.Message;
@@ -137,6 +137,7 @@ namespace GolPooch.Service.Implements
                 var paymentTransaction = await _appUow.PaymentTransactionRepo.FirstOrDefaultAsync(
                     new QueryFilter<PaymentTransaction>
                     {
+                        AsNoTracking = false,
                         Conditions = x => x.PaymentTransactionId == paymentTransactionId
                     });
                 if (paymentTransaction.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentTransaction };
