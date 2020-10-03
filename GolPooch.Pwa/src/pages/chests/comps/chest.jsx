@@ -8,6 +8,8 @@ import Button from '../../../atom/comps/Button';
 import strings from '../../../core/strings';
 import Heading from '../../../atom/comps/Heading';
 import chestSrv from '../../../services/chestSrv';
+import chestState from '../../../atom/state/chestState';
+import Agreed from './agreed';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({

@@ -86,6 +86,7 @@ const Product = () => {
     const [gateways, setGateways] = useState([]);
     const [query, setQuery] = useState('');
     const [inProgress, setInProgress] = useState(true);
+    const [sending, setIsSending] = useState(false);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const [rState, setProductState] = useRecoilState(productAtom);
@@ -104,8 +105,17 @@ const Product = () => {
         setTitle({ title: strings.detailProduct });
     }, [setQuery]);
 
-    const _handlePurchase = () => {
-        console.log(rState.gatewatId)
+    const _handlePurchase = async () => {
+        console.log(rState.gatewatId);
+        setIsSending(true);
+        let call = await productSrv.purchase({
+            ProductOfferId: parseInt(id),
+            PaymentGatewayId: parseInt(rState.gatewatId)
+        });
+        console.log(call.result);
+        if (call.isSuccessful) window.location.href = call.result;
+        else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
+        setIsSending(false);
     }
 
     return (

@@ -36,4 +36,10 @@ export default class productSrv {
         return find(call);
     }
 
+    static async purchase(info){
+        let call = await http.post(addr.purchaseProduct, info);
+        if (!call.isSuccessful) return call;
+        return call;
+    }
+
 }

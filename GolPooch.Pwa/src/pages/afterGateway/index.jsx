@@ -41,8 +41,9 @@ const AfterGateway = (props) => {
     const location = useLocation();
     let history = useHistory();
     const values = queryString.parse(location);
+    const success = values.IsSuccessful.toLowerCase()==='true';
     return (
-        <div id='page-after-gateway' className={`page ${classes.afterGatewayPage} ${(values.isSuccessful ? 'success' : 'failed')}`}>
+        <div id='page-after-gateway' className={`page ${classes.afterGatewayPage} ${(success ? 'success' : 'failed')}`}>
             <AppBar position="static">
                 <Container>
                     <IconButton edge="start" color="inherit" onClick={() => history.push('/nl/store')}>
@@ -52,7 +53,7 @@ const AfterGateway = (props) => {
             </AppBar>
             <Container className={classes.products}>
 
-                {values.isSuccessful ? <Success traceId='123456' insertDateSh='1399/07/10' time='20:15' /> : <Failed traceId='123456'/>}
+                {success ? <Success info={values} /> : <Failed info={values} />}
             </Container>
 
         </div>

@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         },
         '& .val': {
             paddingRight: 50,
-            textAlign:'right'
+            textAlign: 'right'
         }
     },
     linkToStore: {
@@ -62,7 +62,7 @@ const Success = (props) => {
     const [query, setQuery] = useState('');
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
-
+    const { info } = props;
     useEffect(() => {
         const getDate = async () => {
             setInProgress(true);
@@ -88,7 +88,7 @@ const Success = (props) => {
                     <Grid xs={7} item className='lbl'>
                         کد رهگیری:
                      </Grid>
-                    <Grid xs={5} item className='val'>{props.traceId}</Grid>
+                    <Grid xs={5} item className='val'>{info.TrackingId}</Grid>
                 </Grid>
             </Grid>
             <Grid xs={12} item className='info mb-15'>
@@ -96,11 +96,11 @@ const Success = (props) => {
                     <Grid xs={7} item className='lbl'>
                         تاریخ پرداخت:
                     </Grid>
-                    <Grid xs={5} item className='val'>{props.insertDateSh}</Grid>
+                    <Grid xs={5} item className='val'>{info.Date}</Grid>
                     <Grid xs={7} item className='lbl'>
                         ساعت پرداخت:
                     </Grid>
-                    <Grid xs={5} item className='val'>{props.time}</Grid>
+                    <Grid xs={5} item className='val'>{info.Time}</Grid>
                 </Grid>
             </Grid>
             <Grid xs={12} item className='chance'>

@@ -61,25 +61,26 @@ const useStyles = makeStyles({
 const Failed = (props) => {
     //HOOKS
     const classes = useStyles();
-    const [inProgress, setInProgress] = useState(true);
-    const [product, setProduct] = useState(null);
-    const [query, setQuery] = useState('');
+    // const [inProgress, setInProgress] = useState(true);
+    // const [query, setQuery] = useState('');
+    //const [product, setProduct] = useState(null);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
 
-    useEffect(() => {
-        const getDate = async () => {
-            setInProgress(true);
-            let info = await orderSrv.getProductInfo();
-            console.log(info);
-            if (info.isSuccessful) {
-                setProduct(info.result);
-            }
-            else setToastState({ ...toast, open: true, severity: 'error', message: info.message });
-            setInProgress(false);
-        }
-        getDate();
-    }, [query]);
+    const {info} = props;
+    // useEffect(() => {
+    //     const getDate = async () => {
+    //         setInProgress(true);
+    //         let info = await orderSrv.getProductInfo();
+    //         console.log(info);
+    //         if (info.isSuccessful) {
+    //             setProduct(info.result);
+    //         }
+    //         else setToastState({ ...toast, open: true, severity: 'error', message: info.message });
+    //         setInProgress(false);
+    //     }
+    //     getDate();
+    // }, [query]);
 
     return (
         <Grid container className={classes.failedComp}>
@@ -93,14 +94,18 @@ const Failed = (props) => {
                         <h4>جزییات خرید</h4>
                     </Grid>
                     <Grid xs={4} item className='pic'>
-                        {inProgress ? <Skeleton className='img' animation='wave' variant='rect' heioght={100} /> : <img className='img' src={product.imageUrl} />}
+                        {/* {inProgress ? <Skeleton className='img' animation='wave' variant='rect' heioght={100} /> : <img className='img' src={info.ImageUrl} />} */}
+                        <img className='img' src={info.ImageUrl} />
                     </Grid>
                     <Grid xs={5} item className='info'>
-                        {inProgress ? [0, 1].map((x, idx) => <Skeleton key={idx} className='w-100 mb-15' />) : <><label className='mb-15'>{product.name}</label>
-                            <label>تعداد شانس: {product.chance}</label></>}
+                        {/* {inProgress ? [0, 1].map((x, idx) => <Skeleton key={idx} className='w-100 mb-15' />) : <><label className='mb-15'>{product.name}</label>
+                            <label>تعداد شانس: {product.chance}</label></>} */}
+                            <label className='mb-15'>{info.ProductText}</label>
+                            <label>تعداد شانس: {info.Chance}</label>
                     </Grid>
                     <Grid item xs={12} className='price'>
-                        {inProgress ? <Skeleton variant='rect' height={20} /> : <label>مبلغ قابل پرداخت: {commaThousondSeperator(product.price)} {strings.moneyCurrency}</label>}
+                        {/* {inProgress ? <Skeleton variant='rect' height={20} /> : <label>مبلغ قابل پرداخت: {commaThousondSeperator(product.price)} {strings.moneyCurrency}</label>} */}
+                        <label>مبلغ قابل پرداخت: {commaThousondSeperator(info.Price)} {strings.moneyCurrency}</label>
                     </Grid>
                 </Grid>
             </Grid>

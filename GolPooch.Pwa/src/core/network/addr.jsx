@@ -14,5 +14,6 @@ export default {
     readNotification: (id) => `${config.apiGateway.URL}Notification/Read?notificationId=${id}`,
     getPurchase: (pageSize, pageNumber) => `${config.apiGateway.URL}Purchase/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     spendChance: `${config.apiGateway.URL}chest/SpendChance`,
-    getChestInChance: (chestId) => `${config.apiGateway.URL}chest/MyChance?chestId=${chestId}`
+    getChestInChance: (chestId) => `${config.apiGateway.URL}chest/MyChance?chestId=${chestId}`,
+    purchaseProduct: `${config.apiGateway.URL}Payment/Create`,
 }
