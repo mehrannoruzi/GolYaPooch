@@ -36,5 +36,14 @@ export default class chestSrv {
         localStorage.setItem(config.keys.chests, JSON.stringify(call));
         return find(call);
     }
-
+    static async getChance(chestId) {
+        let call = await http.get(addr.getChestInChance(chestId));
+        if (!call.isSuccessful) return call;
+        return call;
+    }
+    static async spendChance(info) {
+        let call = await http.post(addr.spendChance, info);
+        if (!call.isSuccessful) return call;
+        return call;
+    }
 }

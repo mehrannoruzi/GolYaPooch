@@ -28,6 +28,15 @@ const useStyles = makeStyles({
             color: '#666!important'
         }
     },
+    btnWithoutIcon:{
+        '& .MuiCircularProgress-root':{
+            position: 'absolute',
+            right: 'calc(50% - 10px)',
+            color:'#666!important',
+            zIndex:990
+        }
+
+    }
 });
 
 
@@ -40,7 +49,7 @@ const CustomButton = (props) => {
             <span className='icon'>{props.loading ? <CircularProgress size={20} className='va-middle' /> : <Icon/>}</span>
         </Button>);
     else
-        return (<Button variant="contained" color={props.color || 'primary'} disabled={props.disabled || props.loading} className={props.className} onClick={props.onClick}>
+        return (<Button variant="contained" color={props.color || 'primary'} disabled={props.disabled || props.loading} className={`${classes.btnWithoutIcon} ${props.className}`} onClick={props.onClick}>
             {props.children}&nbsp;{props.loading ? <CircularProgress size={20} className='va-middle' /> : ''}
         </Button>);
 }
