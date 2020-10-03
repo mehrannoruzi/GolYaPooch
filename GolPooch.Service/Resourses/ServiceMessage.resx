@@ -142,6 +142,9 @@ Code: {code}</value>
   <data name="CreateNewRoundBySystem" xml:space="preserve">
     <value>CreateNewRoundBySystem</value>
   </data>
+  <data name="DrawChestCode" xml:space="preserve">
+    <value>کد</value>
+  </data>
   <data name="DuplicateRecord" xml:space="preserve">
     <value>رکورد مورد نظر هم اکنون وجود دارد</value>
   </data>
@@ -160,6 +163,9 @@ Code: {code}</value>
   <data name="FileNotSaved" xml:space="preserve">
     <value>ذخیره فایل ارسالی با خطا رو به رو شده است ویا فایل ارسالی معتبر نمی باشد.</value>
   </data>
+  <data name="InvalidChanceCount" xml:space="preserve">
+    <value>تعداد شانس های انتخابی معتبر نمی باشد ویا تعداد شانس های انتخابی بیشتر از تعداد شانس های باقیمانده شما می باشد.</value>
+  </data>
   <data name="InvalidChest" xml:space="preserve">
     <value>صندوق قرعه کشی مورد نظر معتبر نمی باشد ویا کد صندوق ارسالی اشتباه می باشد.</value>
   </data>
@@ -172,8 +178,17 @@ Code: {code}</value>
   <data name="InvalidParameter" xml:space="preserve">
     <value>پارامترهای ارسالی اشتباه می باشد، لطفا مجدد تلاش کنید.</value>
   </data>
+  <data name="InvalidPaymentGateway" xml:space="preserve">
+    <value>درگاه بانک مورد نظر معتبر نمی باشد ویا کد درگاه ارسالی اشتباه می باشد.</value>
+  </data>
+  <data name="InvalidPaymentTransaction" xml:space="preserve">
+    <value>تراکنش مورد نظر معتبر نمی باشد ویا کد تراکنش ارسالی اشتباه می باشد.</value>
+  </data>
   <data name="InvalidPinCode" xml:space="preserve">
     <value>کد وارد شده صحیح نمی باشد، لطفا کد دریافتی از طریق پیامک را وارد نمایید.</value>
+  </data>
+  <data name="InvalidProductOffer" xml:space="preserve">
+    <value>محصول مورد نظر معتبر نمی باشد ویا کد محصول ارسالی اشتباه می باشد.</value>
   </data>
   <data name="InvalidProductOfferId" xml:space="preserve">
     <value>بسته مورد نظر وجود ندارد ویا فعال نمی باشد، لطفا مجدد تلاش کنید.</value>
@@ -205,6 +220,9 @@ Code: {code}</value>
   <data name="NotifyWinnerText" xml:space="preserve">
     <value>قرعه کشی صندوق {0} انجام شد و آقا/خانوم {1} به عنوان برنده این قرعه کشی انتخاب شد. برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید.</value>
   </data>
+  <data name="ParticipantCountOverflow" xml:space="preserve">
+    <value>تعداد شانس های انتخابی شما بیشتر از تعداد شانس های باقیمانده در این صندوق می باشد. تعداد شانس های باقیمانده در این صندوق {0} عدد می باشد.</value>
+  </data>
   <data name="PuchaseNotForCurrentUser" xml:space="preserve">
     <value>محصول خریداری شده برای کاربر جاری نمی باشد.</value>
   </data>
@@ -222,6 +240,12 @@ Code: {code}</value>
   </data>
   <data name="RecoverPassword" xml:space="preserve">
     <value>بازیابی رمز عبور</value>
+  </data>
+  <data name="SpendChanceSubject" xml:space="preserve">
+    <value>شرکت در قرعه کشی</value>
+  </data>
+  <data name="SpendChanceText" xml:space="preserve">
+    <value>کاربر گرامی، شما در قرعه کشی سبد {0} شرکت کرده اید. شانس های قرعه کشی شما عبارتند از : {1}</value>
   </data>
   <data name="SubscriptionAllReadyExist" xml:space="preserve">
     <value>کاربری با این مشخصات قبلا ثبت نام کرده است.</value>

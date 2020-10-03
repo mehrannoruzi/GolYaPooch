@@ -6,6 +6,7 @@ using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
+using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
@@ -29,7 +30,7 @@ namespace GolPooch.Service.Implements
             _cacheProvider = cacheProvider;
         }
 
-        public IResponse<List<ProductOffer>> GetAllAvailable()
+        public async Task<IResponse<List<ProductOffer>>> GetAllAvailable()
         {
             var response = new Response<List<ProductOffer>>();
             try
@@ -37,13 +38,13 @@ namespace GolPooch.Service.Implements
                 var productOffers = (List<ProductOffer>)_cacheProvider.Get(_productCacheKey);
                 if (productOffers == null)
                 {
-                    productOffers = _appUow.ProductOfferRepo.Get(
+                    productOffers = await _appUow.ProductOfferRepo.GetAsync(
                         new QueryFilter<ProductOffer>
                         {
                             Conditions = x => x.IsActive && x.Product.IsShow && x.Product.Type == ProductType.General,
                             OrderBy = x => x.OrderBy(x => x.Price),
                             IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
-                        }).ToList();
+                        });
 
                     foreach (var offer in productOffers)
                         offer.ImageUrl = offer.ImageUrl != null

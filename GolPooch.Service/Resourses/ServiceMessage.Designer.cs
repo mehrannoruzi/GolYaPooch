@@ -134,6 +134,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کد.
+        /// </summary>
+        public static string DrawChestCode {
+            get {
+                return ResourceManager.GetString("DrawChestCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رکورد مورد نظر هم اکنون وجود دارد.
         /// </summary>
         public static string DuplicateRecord {
@@ -188,6 +197,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تعداد شانس های انتخابی معتبر نمی باشد ویا تعداد شانس های انتخابی بیشتر از تعداد شانس های باقیمانده شما می باشد..
+        /// </summary>
+        public static string InvalidChanceCount {
+            get {
+                return ResourceManager.GetString("InvalidChanceCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to صندوق قرعه کشی مورد نظر معتبر نمی باشد ویا کد صندوق ارسالی اشتباه می باشد..
         /// </summary>
         public static string InvalidChest {
@@ -224,11 +242,38 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to درگاه بانک مورد نظر معتبر نمی باشد ویا کد درگاه ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidPaymentGateway {
+            get {
+                return ResourceManager.GetString("InvalidPaymentGateway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تراکنش مورد نظر معتبر نمی باشد ویا کد تراکنش ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidPaymentTransaction {
+            get {
+                return ResourceManager.GetString("InvalidPaymentTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کد وارد شده صحیح نمی باشد، لطفا کد دریافتی از طریق پیامک را وارد نمایید..
         /// </summary>
         public static string InvalidPinCode {
             get {
                 return ResourceManager.GetString("InvalidPinCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to محصول مورد نظر معتبر نمی باشد ویا کد محصول ارسالی اشتباه می باشد..
+        /// </summary>
+        public static string InvalidProductOffer {
+            get {
+                return ResourceManager.GetString("InvalidProductOffer", resourceCulture);
             }
         }
         
@@ -323,6 +368,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تعداد شانس های انتخابی شما بیشتر از تعداد شانس های باقیمانده در این صندوق می باشد. تعداد شانس های باقیمانده در این صندوق {0} عدد می باشد..
+        /// </summary>
+        public static string ParticipantCountOverflow {
+            get {
+                return ResourceManager.GetString("ParticipantCountOverflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to محصول خریداری شده برای کاربر جاری نمی باشد..
         /// </summary>
         public static string PuchaseNotForCurrentUser {
@@ -373,6 +427,24 @@ namespace GolPooch.Service.Resourses {
         public static string RecoverPassword {
             get {
                 return ResourceManager.GetString("RecoverPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to شرکت در قرعه کشی.
+        /// </summary>
+        public static string SpendChanceSubject {
+            get {
+                return ResourceManager.GetString("SpendChanceSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کاربر گرامی، شما در قرعه کشی سبد {0} شرکت کرده اید. شانس های قرعه کشی شما عبارتند از : {1}.
+        /// </summary>
+        public static string SpendChanceText {
+            get {
+                return ResourceManager.GetString("SpendChanceText", resourceCulture);
             }
         }
         

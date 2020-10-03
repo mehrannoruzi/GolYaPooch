@@ -22,4 +22,14 @@ export default class notificationSrv {
             });
 
     }
+    
+    static async get(pageSize, pageNumber) {
+        let call = await http.get(addr.getNotifications(pageSize, pageNumber));
+        return call;
+    }
+
+    static async read(id) {
+        let call = await http.post(addr.readNotification(id));
+        return call;
+    }
 }

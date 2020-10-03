@@ -19,7 +19,7 @@ namespace GolPooch.Service.Interfaces
         /// </summary>
         /// <param name="userId">userid that is filled from jwt</param>
         /// <returns>lsit of tickets model</returns>
-        IResponse<PagingListDetails<Ticket>> Get(int userId, PagingParameter pagingParameter);
+        Task<IResponse<PagingListDetails<Ticket>>> GetAsync(int userId, PagingParameter pagingParameter);
 
         /// <summary>
         /// Get ticket with userid and ticket parameter

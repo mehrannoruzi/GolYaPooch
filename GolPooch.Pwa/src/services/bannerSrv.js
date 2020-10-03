@@ -7,10 +7,10 @@ const bannerLocation = {
 }
 export default class bannerSrv {
     static async get(pageName, location, ignoreStorage) {
-        console.log(`${pageName},${location}`)
         let data = localStorage.getItem(config.keys.banners);
         if (data && !ignoreStorage) {
             let info = JSON.parse(data);
+            console.log(info);
             return {
                 isSuccessful: true,
                 result: info.result.filter(x => x.page.name === pageName && x.locationType === bannerLocation[location])
@@ -19,7 +19,6 @@ export default class bannerSrv {
         let call = await http.get(addr.getBanners);
         if (!call.isSuccessful) return call;
         localStorage.setItem(config.keys.banners, JSON.stringify(call));
-        console.log(call);
         return {
             isSuccessful: true,
             result: call.result.filter(x => x.page.name === pageName && x.locationType === bannerLocation[location])

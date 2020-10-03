@@ -57,7 +57,7 @@ const Settings = () => {
     const userInfo = userSrv.getInfo();
     console.log(userInfo);
     return (
-        <div id='page-settings' className={`page ${classes.settingsPage}`}>
+        <div id='page-settings' className={`${classes.settingsPage}`}>
             <ul>
                 <li className='profile'>
                     <Container>

@@ -13,12 +13,10 @@ namespace GolPooch.Service.Implements
 {
     public class AuthenticateService : IAuthenticateService
     {
-        private ISmsGatway _smsGatway { get; set; }
         private AppUnitOfWork _appUow { get; set; }
 
-        public AuthenticateService(AppUnitOfWork appUnitOfWork, ISmsGatway smsGatway)
+        public AuthenticateService(AppUnitOfWork appUnitOfWork)
         {
-            _smsGatway = smsGatway;
             _appUow = appUnitOfWork;
         }
 
@@ -62,7 +60,7 @@ namespace GolPooch.Service.Implements
                 {
                     try
                     {
-                        var sendResult = await _smsGatway.SendAsync(mobileNumber.ToMobileNumber().ToString(), ServiceMessage.Authentication_GetCode.Replace("{code}", randomPinCode.ToString()));
+                        var sendResult = await SmsGatway.SendAsync(mobileNumber.ToMobileNumber().ToString(), ServiceMessage.Authentication_GetCode.Replace("{code}", randomPinCode.ToString()));
                     }
                     catch { }
                     response.Result = authenticate.AuthenticateId;

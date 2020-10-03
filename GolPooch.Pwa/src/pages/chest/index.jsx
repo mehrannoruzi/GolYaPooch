@@ -1,89 +1,105 @@
-﻿import React, { useState, useEffect } from 'react';
-import Banners from '../../atom/comps/Banners';
-import { makeStyles, Container } from '@material-ui/core';
-import chestSrv from '../../services/chestSrv';
-import Items from './comps/items';
-import toastState from '../../atom/state/toastState';
+import React, { useState, useEffect } from 'react';
+import { Skeleton } from '@material-ui/lab';
+import { makeStyles, Container, Grid, Divider, Paper } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
-
+import toastState from '../../atom/state/toastState';
+import Chances from './comps/chances';
+import Button from '../../atom/comps/Button';
+import strings from '../../core/strings';
+import Heading from '../../atom/comps/Heading';
+import chestSrv from '../../services/chestSrv';
+import fullBottomUpModalState from '../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
-    chestPage: {
-        paddingTop: 7.5,
-        paddingBottom: 7.5
-    },
-    col2: {
-        width: '50%',
-        display: 'inline-block',
-        verticalAlign: 'top',
-        boxSizing: 'border-box'
-    },
-    products: {
-        '& .l-col': {
-            paddingLeft: '7.5px'
+    chestComp: {
+        '& .heading': {
+            textAlign: 'center'
         },
-        '& .r-col': {
-            paddingRight: '7.5px'
-        }
-    },
-    rawPrice: {
-        position: 'relative',
-        marginRight: 10,
-        '&:after': {
-            content: "''",
-            backgroundColor: 'red',
+        '& .chance': {
+            textAlign: 'center',
+            fontWeight: 800,
+            fontSize: '1.5rem'
+        },
+        '& .btns': {
+            padding: '10px 0',
             position: 'absolute',
-            height: '1px',
+            bottom: 0,
             left: 0,
             right: 0,
-            top: '50%',
-            transform: 'translateY(-50%)'
+            boxShadow: '0px 0px 4px 1px rgba(0,0,0,0.7)',
+            '& button': {
+                padding: '10px',
+                textAlign: 'center',
+                fontSize: '1.2rem',
+                width: '130px'
+            },
+            '& .reject': {
+                display: 'flex',
+                justifyContent: 'flex-end',
+                '& button':{
+
+                    backgroundColor:'red'
+                }
+            }
         }
     }
 });
 
-const Chest = () => {
+const Chest = (props) => {
+    //Hooks
     const classes = useStyles();
+    const [agreed, setAgreement] = useState(null);
     const [inProgress, setInProgress] = useState(true);
-    const [items1, setItems1] = useState([]);
-    const [items2, setItems2] = useState([]);
-    const [query, setQuery] = useState('');
+    const [item, setItem] = useState([]);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
-    
+    const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     useEffect(() => {
-        const getDate = async () => {
+        const getData = async () => {
             setInProgress(true);
-            let get = await chestSrv.get();
-            setInProgress(false);
+            let get = await chestSrv.getSingle(parseInt(props.id));
             if (get.isSuccessful) {
-                let tempItems1 = [], tempItems2 = [];
-                for (let i = 0; i < get.result.length; i++) {
-                    if (i % 2 === 0) tempItems1.push(get.result[i]);
-                    else tempItems2.push(get.result[i]);
-                }
-                setItems1(tempItems1);
-                setItems2(tempItems2);
+                setItem(get.result.items);
             }
             else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+            setInProgress(false);
         }
-        getDate();
-    }, [query]);
+        getData();
+    }, []);
 
     return (
-        <div id='page-chest' className={classes.chestPage}>
-            <Banners pageName="Chest" location="top" />
-            <Container className={classes.products}>
-                <div className={`r-col ${classes.col2}`}>
-                    {<Items items={items1} inProgress={inProgress} />}
-                </div>
-                <div className={`l-col ${classes.col2}`}>
-                    {<Items items={items2} inProgress={inProgress} />}
-                </div>
+        <div id='comp-chest' className={classes.chestComp}>
+            <Container>
+                <h4 className='heading'>
+                    {inProgress ? <Skeleton className='w-100' /> : 'میزان شانس شما در این قرعه کشی'}
+                </h4>
             </Container>
-            <Banners pageName="Chest" location="bottom" />
+            <h5 className='chance'>
+                {inProgress ? <Skeleton className='w-100' /> : 2}
+            </h5>
+            <Divider component="div" />
+            <Container>
+                <Grid container>
+                    <Heading>برای افزایش شانس بسته خود را انتخاب کنید</Heading>
+                </Grid>
+                <Chances />
+            </Container>
+            <Paper className='btns'>
+                <Container>
+                    <Grid container>
+                        <Grid item xs={6} className='agree'>
+                            <Button>{strings.iAgree}</Button>
+                        </Grid>
+                        <Grid item xs={6} className='reject'>
+                            <Button onClick={() => setModalState({ ...modal, open: false })}>{strings.iReject}</Button>
+                        </Grid>
+                    </Grid>
 
+                </Container>
+
+            </Paper>
         </div>
+
     );
 };
 

@@ -2,11 +2,13 @@
 using Elk.Core;
 using Elk.Cache;
 using System.Linq;
+using GolPooch.Domain.Dto;
 using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
 using GolPooch.Domain.Entity;
 using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
@@ -29,7 +31,7 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
-        public IResponse<List<Chest>> GetAllAvailable()
+        public async Task<IResponse<List<Chest>>> GetAllAvailable()
         {
             var response = new Response<List<Chest>>();
             try
@@ -37,12 +39,12 @@ namespace GolPooch.Service.Implements
                 var chests = (List<Chest>)_cacheProvider.Get(_chestCacheKey);
                 if (chests == null)
                 {
-                    chests = _appUow.ChestRepo.Get(
+                    chests = await _appUow.ChestRepo.GetAsync(
                         new QueryFilter<Chest>
                         {
                             Conditions = x => x.IsActive,
                             OrderBy = x => x.OrderByDescending(x => x.ParticipantCount)
-                        }).ToList();
+                        });
 
                     foreach (var chest in chests)
                         chest.ImageUrl = chest.ImageUrl != null
@@ -65,9 +67,38 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<string>> SpendChanceAsync(int userId, int purchaseId, int ChestId)
+        public async Task<IResponse<int>> MyChanceAsync(int userId, int ChestId)
         {
-            var response = new Response<string>();
+            var response = new Response<int>();
+            try
+            {
+                var drawChance = await _appUow.DrawChanceRepo.CountAsync(
+                    new QueryFilter<DrawChance>
+                    {
+                        Conditions = x => x.UserId == userId && x.Round.Chest.ChestId == ChestId,
+                        IncludeProperties = new List<Expression<Func<DrawChance, object>>>
+                        {
+                            x=> x.Round,
+                            x=> x.Round.Chest
+                        }
+                    });
+
+                response.Result = drawChance;
+                response.IsSuccessful = true;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<SpendChanceResultDto>> SpendChanceAsync(int userId, int purchaseId, int chestId, byte chanceCount)
+        {
+            var response = new Response<SpendChanceResultDto>();
             using (var trans = await _appUow.Database.BeginTransactionAsync())
             {
                 var now = DateTime.Now;
@@ -77,44 +108,42 @@ namespace GolPooch.Service.Implements
                     var purchase = await _appUow.PurchaseRepo.FirstOrDefaultAsync(
                         new QueryFilter<Purchase>
                         {
-                            Conditions = x => x.PurchaseId == purchaseId,
-                            AsNoTracking = false
+                            AsNoTracking = false,
+                            Conditions = x => x.PurchaseId == purchaseId
                         });
-                    if (purchase.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPurchase };
-                    if (purchase.IsFinished) return new Response<string> { Message = ServiceMessage.PurchaseHasFinished };
-                    if (purchase.UserId != userId) return new Response<string> { Message = ServiceMessage.PuchaseNotForCurrentUser };
-                    if (purchase.UsedChance >= purchase.Chance) return new Response<string> { Message = ServiceMessage.PurchaseNotAnyChanse };
+                    if (purchase.IsNull()) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidPurchase };
+                    if (purchase.IsFinished) return new Response<SpendChanceResultDto> { Message = ServiceMessage.PurchaseHasFinished };
+                    if (purchase.UserId != userId) return new Response<SpendChanceResultDto> { Message = ServiceMessage.PuchaseNotForCurrentUser };
+                    if (purchase.UsedChance >= purchase.Chance) return new Response<SpendChanceResultDto> { Message = ServiceMessage.PurchaseNotAnyChanse };
 
-                    purchase.UsedChance += 1;
                     purchase.IsReFoundable = false;
+                    purchase.UsedChance += chanceCount;
                     if (purchase.UsedChance == purchase.Chance) purchase.IsFinished = true;
+                    else if (purchase.UsedChance >= purchase.Chance) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidChanceCount };
                     #endregion
 
-                    #region Get Chest
+                    #region Get Chest & Round
                     var chest = await _appUow.ChestRepo.FirstOrDefaultAsync(
                         new QueryFilter<Chest>
                         {
-                            Conditions = x => x.ChestId == ChestId
+                            Conditions = x => x.ChestId == chestId
                         });
-                    if (chest.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidChest };
-                    if (!chest.IsActive) return new Response<string> { Message = ServiceMessage.ChestNotActive };
-                    #endregion
+                    if (chest.IsNull()) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidChest };
+                    if (!chest.IsActive) return new Response<SpendChanceResultDto> { Message = ServiceMessage.ChestNotActive };
 
-                    #region Get Round
-                    var rounds = _appUow.RoundRepo.Get(
+                    var rounds = await _appUow.RoundRepo.GetAsync(
                         new QueryFilter<Round>
                         {
-                            Conditions = x => x.ChestId == ChestId
-                        }).ToList();
+                            Conditions = x => x.ChestId == chestId
+                        });
 
                     Round newRound, currentRound;
                     var roundCounter = 0;
-                    if (rounds.IsNull() || rounds.Count() == 0)
+                    if (!rounds.Any())
                     {
                         newRound = new Round
                         {
-                            ChestId = ChestId,
-                            WinnerUserId = null,
+                            ChestId = chestId,
                             ParticipantCount = chest.ParticipantCount,
                             State = RoundState.Open,
                             OpenDateMi = now,
@@ -125,23 +154,18 @@ namespace GolPooch.Service.Implements
                         };
                         await _appUow.RoundRepo.AddAsync(newRound);
                         var roundSaveResult = await _appUow.ElkSaveChangesAsync();
-                        if (!roundSaveResult.IsSuccessful) return new Response<string> { Message = ServiceMessage.InvalidRound };
+                        if (!roundSaveResult.IsSuccessful) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidRound };
                         currentRound = newRound;
                     }
                     else
                     {
                         currentRound = rounds.FirstOrDefault(x => x.State == RoundState.Open);
-                        if (currentRound.IsNull() && rounds.Count() == chest.RoundCount)
-                        {
-                            await trans.RollbackAsync();
-                            return new Response<string> { Message = ServiceMessage.AllChestRoundHasFinished };
-                        }
+                        if (currentRound.IsNull() && rounds.Count() == chest.RoundCount) return new Response<SpendChanceResultDto> { Message = ServiceMessage.AllChestRoundHasFinished };
                         else if (currentRound.IsNull() && rounds.Count() < chest.RoundCount)
                         {
                             newRound = new Round
                             {
-                                ChestId = ChestId,
-                                WinnerUserId = null,
+                                ChestId = chestId,
                                 ParticipantCount = chest.ParticipantCount,
                                 State = RoundState.Open,
                                 OpenDateMi = now,
@@ -152,7 +176,7 @@ namespace GolPooch.Service.Implements
                             };
                             await _appUow.RoundRepo.AddAsync(newRound);
                             var roundSaveResult = await _appUow.ElkSaveChangesAsync();
-                            if (!roundSaveResult.IsSuccessful) return new Response<string> { Message = ServiceMessage.InvalidRound };
+                            if (!roundSaveResult.IsSuccessful) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidRound };
                             currentRound = newRound;
                         }
                     }
@@ -165,19 +189,30 @@ namespace GolPooch.Service.Implements
                             Conditions = x => x.RoundId == currentRound.RoundId,
                             OrderBy = x => x.OrderByDescending(x => x.DrawChanceId)
                         });
+
                     if (lastDrawChance.IsNotNull()) roundCounter = lastDrawChance.Counter;
+                    if ((roundCounter + chanceCount) > currentRound.ParticipantCount) return new Response<SpendChanceResultDto> { Message = ServiceMessage.ParticipantCountOverflow.Fill($"{(roundCounter + chanceCount) - currentRound.ParticipantCount}") };
 
-                    var drawChest = new DrawChance
+                    var drawChestCode = new List<string>();
+                    var drawChestList = new List<DrawChance>();
+                    for (int i = 0; i < chanceCount; i++)
                     {
-                        UserId = userId,
-                        RoundId = currentRound.RoundId,
-                        PurchaseId = purchaseId,
-                        Counter = roundCounter + 1,
-                        Code = Randomizer.GetRandomString(16)
-                    };
-                    await _appUow.DrawChanceRepo.AddAsync(drawChest);
+                        roundCounter += 1;
+                        var drawChest = new DrawChance
+                        {
+                            UserId = userId,
+                            RoundId = currentRound.RoundId,
+                            PurchaseId = purchaseId,
+                            Counter = roundCounter,
+                            Code = Randomizer.GetRandomString(8)
+                        };
 
-                    if (currentRound.ParticipantCount == drawChest.Counter)
+                        drawChestList.Add(drawChest);
+                        drawChestCode.Add(drawChest.Code);
+                    }
+                    await _appUow.DrawChanceRepo.AddRangeAsync(drawChestList);
+
+                    if (currentRound.ParticipantCount == roundCounter)
                     {
                         currentRound.State = RoundState.Close;
                         currentRound.CloseDateMi = now;
@@ -185,6 +220,7 @@ namespace GolPooch.Service.Implements
                         currentRound.Description += $" | {ServiceMessage.ClosedRoundBySystem}";
 
                         _appUow.RoundRepo.UpdateUnAttached(currentRound);
+                        await _appUow.SaveChangesAsync();
 
                         await DoDrawAsync(chest, currentRound);
                     }
@@ -192,10 +228,55 @@ namespace GolPooch.Service.Implements
                     var saveResult = await _appUow.ElkSaveChangesAsync();
                     #endregion
 
+                    var result = new SpendChanceResultDto();
+                    if (saveResult.IsSuccessful)
+                    {
+                        #region Add Spend Chance Notif
+                        var drawCodes = Environment.NewLine;
+                        foreach (var code in drawChestCode)
+                            drawCodes += $"{ServiceMessage.DrawChestCode}:{code} {Environment.NewLine}";
+
+                        var spendChanceNotif = new Notification
+                        {
+                            UserId = userId,
+                            Type = NotificationType.PushNotification,
+                            Action = NotificationAction.SpendChance,
+                            Priority = Priority.Low,
+                            IsActive = true,
+                            IsSent = false,
+                            IsSuccess = false,
+                            IsRead = false,
+                            Subject = ServiceMessage.SpendChanceSubject,
+                            Text = ServiceMessage.SpendChanceText.Fill(chest.Title, drawCodes),
+                            IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
+                            ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
+                        };
+                        await _appUow.NotificationRepo.AddAsync(spendChanceNotif);
+                        await _appUow.SaveChangesAsync();
+                        #endregion
+
+                        #region Create Result
+                        result = new SpendChanceResultDto
+                        {
+                            AllParticipantCount = chest.ParticipantCount,
+                            CurrentParticipantCount = roundCounter,
+                            ChanceOnRound = await _appUow.DrawChanceRepo.CountAsync(
+                                                new QueryFilter<DrawChance>
+                                                {
+                                                    Conditions = x => x.UserId == userId && x.RoundId == currentRound.RoundId
+                                                }),
+                            DrawCodes = drawChestCode
+                        }; 
+                        #endregion
+
+                        await trans.CommitAsync();
+                    }
+                    else
+                        await trans.RollbackAsync();
+
                     response.IsSuccessful = saveResult.IsSuccessful;
-                    response.Result = saveResult.IsSuccessful ? drawChest.Code : string.Empty;
+                    response.Result = saveResult.IsSuccessful ? result : null;
                     response.Message = saveResult.IsSuccessful ? ServiceMessage.Success : ServiceMessage.Error;
-                    await trans.CommitAsync();
                     return response;
                 }
                 catch (Exception e)
@@ -210,19 +291,30 @@ namespace GolPooch.Service.Implements
 
         private async Task DoDrawAsync(Chest chest, Round closedRound)
         {
-            #region Do Draw & Save Round
+            #region Do Draw & Update Closed Round
             var now = DateTime.Now;
-            var drawChances = _appUow.DrawChanceRepo.Get(
+            var allParticipants = await _appUow.DrawChanceRepo.GetAsync(
                 new QueryFilter<DrawChance>
                 {
                     Conditions = x => x.RoundId == closedRound.RoundId,
                     OrderBy = x => x.OrderBy(x => Guid.NewGuid())
                 });
 
-            var skip = new Random().Next(1, drawChances.Count());
-            var drawWinner = drawChances.Skip(skip).Take(1).FirstOrDefault();
+            var winnerList = new List<RoundWinner>();
+            for (int i = 0; i < chest.WinnerCount; i++)
+            {
+                var skip = new Random().Next(0, allParticipants.Count() - 1);
+                var drawWinner = allParticipants.Skip(skip).Take(1).FirstOrDefault();
 
-            closedRound.WinnerUserId = drawWinner.UserId;
+                var newWinner = new RoundWinner
+                {
+                    RoundId = drawWinner.RoundId,
+                    UserId = drawWinner.UserId
+                };
+                winnerList.Add(newWinner);
+            }
+            await _appUow.RoundWinnerRepo.AddRangeAsync(winnerList);
+
             closedRound.State = RoundState.waitForPay;
             closedRound.DrawDateMi = now;
             closedRound.DrawDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
@@ -232,25 +324,48 @@ namespace GolPooch.Service.Implements
             #endregion
 
             #region Insert Draw Result Notification
-            var winner = await _appUow.UserRepo.FindAsync(drawWinner.UserId);
-            var winnerNotif = new Notification
+            foreach (var user in winnerList)
             {
-                UserId = winner.UserId,
-                Type = NotificationType.Sms,
-                Action = NotificationAction.NotifyWinners,
-                IsActive = true,
-                IsSent = false,
-                IsSuccess = false,
-                IsRead = false,
-                Subject = ServiceMessage.NotifyWinnerSubject,
-                Text = ServiceMessage.NotifyWinnerText.Fill(winner.FirstName + winner.LastName).Fill(chest.Title),
-                IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
-            };
-            await _appUow.NotificationRepo.AddAsync(winnerNotif);
+                var winnerNotifList = new List<Notification>();
+                var winner = await _appUow.UserRepo.FindAsync(user.UserId);
+                foreach (var participant in allParticipants)
+                {
+                    var winnerNotif = new Notification
+                    {
+                        UserId = participant.UserId,
+                        Type = NotificationType.PushNotification,
+                        Action = NotificationAction.NotifyWinners,
+                        Priority = Priority.Low,
+                        IsActive = true,
+                        IsSent = false,
+                        IsSuccess = false,
+                        IsRead = false,
+                        Subject = ServiceMessage.NotifyWinnerSubject,
+                        Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, $"{winner.FirstName} {winner.LastName}"),
+                        IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
+                        ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
+                    };
+                    winnerNotifList.Add(winnerNotif);
+                }
+                await _appUow.NotificationRepo.AddRangeAsync(winnerNotifList);
 
-            winnerNotif.UserId = null;
-            winnerNotif.Type = NotificationType.PushNotification;
-            await _appUow.NotificationRepo.AddAsync(winnerNotif);
+                var userWinnerNotif = new Notification
+                {
+                    UserId = winner.UserId,
+                    Type = NotificationType.Sms,
+                    Action = NotificationAction.NotifyWinners,
+                    Priority = Priority.High,
+                    IsActive = true,
+                    IsSent = false,
+                    IsSuccess = false,
+                    IsRead = false,
+                    Subject = ServiceMessage.NotifyWinnerSubject,
+                    Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, $"{winner.FirstName} {winner.LastName}"),
+                    IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
+                    ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
+                };
+                await _appUow.NotificationRepo.AddAsync(userWinnerNotif);
+            }
             #endregion
 
             await _appUow.ElkSaveChangesAsync();
