@@ -14,7 +14,7 @@ const useStyles = makeStyles({
         zIndex: 999,
         '& .header': {
             position: 'relative',
-            '& .MuiContainer-root':{
+            '& .MuiContainer-root': {
                 borderBottom: 'solid 1px #ccc'
             },
             '& .hx': {
@@ -40,7 +40,7 @@ export default function (props) {
     return (<div id="comp-full-bottom-up-modal" className={`animate__animated  animate__slideInUp ${classes.compFullBottomUpModal} ${(rState.open ? '' : 'd-none')}`}>
         <div className='header'>
             <Container><h4 className='hx'>{rState.title}</h4></Container>
-            <button className='btn-close' onClick={() => setRState({ ...rState, open: false, message: '' })}><i className='icon zmdi zmdi-close'></i></button>
+            <button className='btn-close' onClick={() => setRState({ ...rState, open: false, message: '', children: null })}><i className='icon zmdi zmdi-close'></i></button>
         </div>
         {rState.children ? <rState.children {...rState.props} /> : null}
     </div>);
