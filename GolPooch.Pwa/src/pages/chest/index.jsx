@@ -18,7 +18,8 @@ const useStyles = makeStyles({
             textAlign: 'center'
         },
         '& .chance': {
-            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
             fontWeight: 800,
             fontSize: '1.5rem',
             margin: '0 0 15px 0'
@@ -67,7 +68,7 @@ const useStyles = makeStyles({
 const Chest = (props) => {
     //Hooks
     const classes = useStyles();
-    const [agreed, setAgreement] = useState(null);
+    const [spendChanceResult, setSpendChanceResult] = useState(null);
     const [inProgress, setInProgress] = useState(true);
     const [sending, setIsSending] = useState(false);
     const [item, setItem] = useState(null);
@@ -98,9 +99,10 @@ const Chest = (props) => {
         let call = await chestSrv.spendChance({
             chestId: props.id,
             purchaseId: rState.purchaseId,
-            ChanseCount: count
+            ChanceCount: count
         });
-        if (call.isSuccessful) setAgreement(true);
+        console.log(call.result);
+        if (call.isSuccessful) setSpendChanceResult(call.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
         setIsSending(false);
     }
@@ -109,17 +111,17 @@ const Chest = (props) => {
         if (newCount > (item.chance - item.usedChanse)) return;
         setCount(newCount);
     }
-    if (agreed) return <Agreed />;
+    if (spendChanceResult) return <Agreed info={spendChanceResult} />;
     return (
         <div id='comp-chest' className={classes.chestComp}>
             <Container>
                 <h4 className='heading'>
                     {inProgress ? <Skeleton className='w-100' /> : 'میزان شانس شما در این قرعه کشی'}
                 </h4>
+                <h5 className='chance'>
+                    {inProgress ? <Skeleton width={100} /> : <span>{totalChance}</span>}
+                </h5>
             </Container>
-            <h5 className='chance'>
-                {inProgress ? <Skeleton width={100} /> : <span>{totalChance}</span>}
-            </h5>
             <Divider component="div" />
             <Container>
                 <Grid container>
@@ -127,7 +129,7 @@ const Chest = (props) => {
                 </Grid>
                 <Chances />
                 <div className={classes.counter}>
-                    {inProgress ? <Skeleton className='w-100' variant='rect' height={30} /> : <>
+                    {inProgress ? <Skeleton className='w-100' variant='rect' height={30} width={120} /> : <>
                         <button className='btn-plus' onClick={() => _handleCount(count + 1)}>+</button>
                         <span className='count'>{count}</span>
                         <button className='btn-minus' onClick={() => _handleCount(count - 1)}>-</button>
