@@ -9,6 +9,8 @@ import strings from '../../core/strings';
 import Heading from '../../atom/comps/Heading';
 import chestSrv from '../../services/chestSrv';
 import fullBottomUpModalState from '../../atom/state/fullBottomUpModalState';
+import chestState from '../../atom/state/chestState';
+import Agreed from './comps/agreed';
 
 const useStyles = makeStyles({
     chestComp: {
@@ -18,7 +20,8 @@ const useStyles = makeStyles({
         '& .chance': {
             textAlign: 'center',
             fontWeight: 800,
-            fontSize: '1.5rem'
+            fontSize: '1.5rem',
+            margin: '0 0 15px 0'
         },
         '& .btns': {
             padding: '10px 0',
@@ -36,11 +39,27 @@ const useStyles = makeStyles({
             '& .reject': {
                 display: 'flex',
                 justifyContent: 'flex-end',
-                '& button':{
+                '& button': {
 
-                    backgroundColor:'red'
+                    backgroundColor: 'red'
                 }
             }
+        }
+    },
+    counter: {
+        display: 'flex',
+        '& *': {
+            width: '30px',
+            height: '30px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '20px'
+        },
+        '& .btn-minus,& .btn-plus':
+        {
+            border: 'solid 1px #ccc',
+            borderRadius: '50%'
         }
     }
 });
@@ -50,16 +69,23 @@ const Chest = (props) => {
     const classes = useStyles();
     const [agreed, setAgreement] = useState(null);
     const [inProgress, setInProgress] = useState(true);
-    const [item, setItem] = useState([]);
+    const [sending, setIsSending] = useState(false);
+    const [item, setItem] = useState(null);
+    const [count, setCount] = useState(1);
+    const [totalChance, setTotalChance] = useState(0);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
+    const [rState, setRState] = useRecoilState(chestState);
     useEffect(() => {
         const getData = async () => {
             setInProgress(true);
             let get = await chestSrv.getSingle(parseInt(props.id));
             if (get.isSuccessful) {
                 setItem(get.result.items);
+                let getChance = await chestSrv.getChance(props.id);
+                if (getChance.isSuccessful) setTotalChance(getChance.result);
+                else setToastState({ ...toast, open: true, severity: 'error', message: getChance.message });
             }
             else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
             setInProgress(false);
@@ -67,6 +93,23 @@ const Chest = (props) => {
         getData();
     }, []);
 
+    const _handleSpendChance = async () => {
+        setIsSending(true);
+        let call = await chestSrv.spendChance({
+            chestId: props.id,
+            purchaseId: rState.purchaseId,
+            ChanseCount: count
+        });
+        if (call.isSuccessful) setAgreement(true);
+        else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
+        setIsSending(false);
+    }
+    const _handleCount = (newCount) => {
+        if (newCount <= 0) return;
+        if (newCount > (item.chance - item.usedChanse)) return;
+        setCount(newCount);
+    }
+    if (agreed) return <Agreed />;
     return (
         <div id='comp-chest' className={classes.chestComp}>
             <Container>
@@ -75,7 +118,7 @@ const Chest = (props) => {
                 </h4>
             </Container>
             <h5 className='chance'>
-                {inProgress ? <Skeleton className='w-100' /> : 2}
+                {inProgress ? <Skeleton width={100} /> : <span>{totalChance}</span>}
             </h5>
             <Divider component="div" />
             <Container>
@@ -83,15 +126,22 @@ const Chest = (props) => {
                     <Heading>برای افزایش شانس بسته خود را انتخاب کنید</Heading>
                 </Grid>
                 <Chances />
+                <div className={classes.counter}>
+                    {inProgress ? <Skeleton className='w-100' variant='rect' height={30} /> : <>
+                        <button className='btn-plus' onClick={() => _handleCount(count + 1)}>+</button>
+                        <span className='count'>{count}</span>
+                        <button className='btn-minus' onClick={() => _handleCount(count - 1)}>-</button>
+                    </>}
+                </div>
             </Container>
             <Paper className='btns'>
                 <Container>
                     <Grid container>
                         <Grid item xs={6} className='agree'>
-                            <Button>{strings.iAgree}</Button>
+                            <Button loading={sending} disabled={inProgress} onClick={() => _handleSpendChance()}>{strings.iAgree}</Button>
                         </Grid>
                         <Grid item xs={6} className='reject'>
-                            <Button onClick={() => setModalState({ ...modal, open: false })}>{strings.iReject}</Button>
+                            <Button onClick={() => setModalState({ ...modal, open: false })} disabled={inProgress}>{strings.iReject}</Button>
                         </Grid>
                     </Grid>
 

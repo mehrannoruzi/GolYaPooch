@@ -22,8 +22,8 @@ namespace GolPooch.Api.Controllers
             => Ok(_chestService.GetAllAvailable());
 
         [HttpGet]
-        public IActionResult MyChanceAsync(User user, [FromBody] MyChanceModel myChanceModel)
-            => Ok(_chestService.MyChanceAsync(user.UserId, myChanceModel.ChestId));
+        public IActionResult MyChanceAsync(User user, int chestId)
+            => Ok(_chestService.MyChanceAsync(user.UserId, chestId));
 
         [HttpPost]
         public async Task<JsonResult> SpendChanceAsync(User user, [FromBody] SpendChanseModel spendChanse)

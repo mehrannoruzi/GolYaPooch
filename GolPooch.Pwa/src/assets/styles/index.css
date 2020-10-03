@@ -389,6 +389,11 @@ input:-webkit-autofill:active {
   text-align: right;
 }
 
+.slick-slider, .slick-list, .slick-track {
+  direction: ltr;
+  text-align: left;
+}
+
 .MuiFormHelperText-root, .MuiInputBase-input, .MuiTypography-body2, .MuiTypography-body1 {
   font-family: "iransans" !important;
 }

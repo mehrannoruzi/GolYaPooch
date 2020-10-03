@@ -58,7 +58,7 @@ const Items = (props) => {
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     return (
         <>
-            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product}><Skeleton variant='rect' className='w-100 mb-15' height={300} /></div>) :
+            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product}><Skeleton variant='rect' className='w-100 mb-15' height={150} /></div>) :
                 props.items.map((item, idx) => <div key={idx} className={classes.product}>
                     <Link onClick={() => setModalState({
                         ...modal,
