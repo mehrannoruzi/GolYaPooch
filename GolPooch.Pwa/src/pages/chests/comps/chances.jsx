@@ -68,24 +68,24 @@ const Chances = (props) => {
     const [chestState, setChestState] = useRecoilState(chestAtom);
     const [toast, setToastState] = useRecoilState(toastState);
 
+    const getChances = async () => {
+        setInProgress(true);
+        let get = await chanceSrv.getPurchase(12, pageNumber);
+        console.log(get);
+        if (get.isSuccessful) {
+            if (get.result.items.length === 0 && pageNumber === 1) history.push('/nl/store');
+            else {
+                setChestState({ ...chestState, purchaseId: get.result.items[0].purchaseId });
+                setItems(get.result.items);
+                if (get.result.items.length > 0)
+                    setPageNumber(pageNumber + 1);
+            }
+        }
+        else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+        setInProgress(false);
+    };
 
     useEffect(() => {
-        const getChances = async () => {
-            setInProgress(true);
-            let get = await chanceSrv.get(12, pageNumber);
-            console.log(get);
-            if (get.isSuccessful) {
-                if (get.result.items.length === 0 && pageNumber === 1) history.push('/nl/store');
-                else {
-                    setChestState({ ...chestState, purchaseId: get.result.items[0].purchaseId });
-                    setItems([...items, ...get.result.items, , ...get.result.items, , ...get.result.items]);
-                    if (get.result.items.length > 0)
-                        setPageNumber(pageNumber + 1);
-                }
-            }
-            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
-            setInProgress(false);
-        }
         getChances();
     }, []);
 

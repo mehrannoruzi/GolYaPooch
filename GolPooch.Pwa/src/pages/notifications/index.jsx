@@ -8,8 +8,8 @@ import Item from './comps/item';
 
 const useStyles = makeStyles({
     notificationsComp: {
-        paddingTop: 7.5,
-        paddingBottom: 7.5,
+       
+       
     },
     inline: {
         display: 'inline',
@@ -78,7 +78,7 @@ const Notifications = () => {
         <div id='comp-notifications' className={classes.notificationsComp}>
             {items.map((item, idx) => <Item key={idx} item={item} />)}
             {inProgress ? [0, 1, 2].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
-                <Skeleton variant='rect' height={35} width={50} className='avatar' />
+                <Skeleton variant='rect' height={36} width={36} className='avatar' />
                 <Skeleton className='subject' /></Container>) : null}
         </div>
 

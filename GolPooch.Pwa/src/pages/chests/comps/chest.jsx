@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles, Container, Grid, Divider, Paper } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
-import toastState from '../../atom/state/toastState';
-import Chances from './comps/chances';
-import Button from '../../atom/comps/Button';
-import strings from '../../core/strings';
-import Heading from '../../atom/comps/Heading';
-import chestSrv from '../../services/chestSrv';
-import fullBottomUpModalState from '../../atom/state/fullBottomUpModalState';
+import toastState from '../../../atom/state/toastState';
+import Chances from './chances';
+import Button from '../../../atom/comps/Button';
+import strings from '../../../core/strings';
+import Heading from '../../../atom/comps/Heading';
+import chestSrv from '../../../services/chestSrv';
+import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
     chestComp: {
@@ -26,7 +26,9 @@ const useStyles = makeStyles({
             bottom: 0,
             left: 0,
             right: 0,
-            boxShadow: '0px 0px 4px 1px rgba(0,0,0,0.7)',
+            border: '1px solid #eee',
+            borderRadius: 0,
+
             '& button': {
                 padding: '10px',
                 textAlign: 'center',
@@ -36,9 +38,8 @@ const useStyles = makeStyles({
             '& .reject': {
                 display: 'flex',
                 justifyContent: 'flex-end',
-                '& button':{
-
-                    backgroundColor:'red'
+                '& button': {
+                    backgroundColor: 'red'
                 }
             }
         }
@@ -51,19 +52,23 @@ const Chest = (props) => {
     const [agreed, setAgreement] = useState(null);
     const [inProgress, setInProgress] = useState(true);
     const [item, setItem] = useState([]);
+
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
+
+    //functions
+    const getData = async () => {
+        setInProgress(true);
+        let get = await chestSrv.getSingle(parseInt(props.id));
+        if (get.isSuccessful)
+            setItem(get.result.items);
+
+        else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+        setInProgress(false);
+    }
+
     useEffect(() => {
-        const getData = async () => {
-            setInProgress(true);
-            let get = await chestSrv.getSingle(parseInt(props.id));
-            if (get.isSuccessful) {
-                setItem(get.result.items);
-            }
-            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
-            setInProgress(false);
-        }
         getData();
     }, []);
 
@@ -94,12 +99,9 @@ const Chest = (props) => {
                             <Button onClick={() => setModalState({ ...modal, open: false })}>{strings.iReject}</Button>
                         </Grid>
                     </Grid>
-
                 </Container>
-
             </Paper>
         </div>
-
     );
 };
 

@@ -5,8 +5,8 @@ import { Skeleton } from '@material-ui/lab';
 //import { commaThousondSeperator } from '../../../core/utils';
 import { makeStyles, Link } from '@material-ui/core';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
-import Chest from '../../chest';
 import { useRecoilState } from 'recoil';
+import Chest from './chest';
 
 const useStyles = makeStyles({
     product: {
@@ -69,11 +69,6 @@ const Items = (props) => {
                     })}>
                         <figure>
                             <img className='w-100' src={item.imageUrl} />
-                            <figcaption>
-                                <label className='name'>{item.title}</label>
-                                <label className='winners'>{item.winnerCount} برنده</label>
-                                <label className='participants'>{item.participantCount} شرکت کننده تا الان</label>
-                            </figcaption>
                         </figure>
                     </Link>
 

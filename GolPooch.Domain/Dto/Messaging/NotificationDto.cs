@@ -25,5 +25,6 @@ namespace GolPooch.Domain.Dto
         public string ActionUrl { get; set; }
 
         public string Text { get; set; }
+        public string InsertDate { get; set; }
     }
 }

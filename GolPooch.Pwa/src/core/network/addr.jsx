@@ -12,5 +12,5 @@ export default {
     getGateways: `${config.apiGateway.URL}Payment/AllGateway`,
     getNotifications: (pageSize, pageNumber) => `${config.apiGateway.URL}Notification/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     readNotification: (id) => `${config.apiGateway.URL}Notification/Read?notificationId=${id}`,
-    getChances: (pageSize, pageNumber) => `${config.apiGateway.URL}Purchase/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`
+    getPurchase: (pageSize, pageNumber) => `${config.apiGateway.URL}Purchase/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`
 }
