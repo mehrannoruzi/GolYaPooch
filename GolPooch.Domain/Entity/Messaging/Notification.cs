@@ -29,6 +29,9 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.Action), ResourceType = typeof(DisplayNames))]
         public NotificationAction Action { get; set; }
 
+        [Display(Name = nameof(DisplayNames.Priority), ResourceType = typeof(DisplayNames))]
+        public Priority Priority { get; set; }
+
         [Display(Name = nameof(DisplayNames.IsActive), ResourceType = typeof(DisplayNames))]
         public bool IsActive { get; set; }
 
@@ -67,7 +70,6 @@ namespace GolPooch.Domain.Entity
 
         [Column(TypeName = "varchar(100)")]
         [Display(Name = nameof(DisplayNames.SendResultMessage), ResourceType = typeof(DisplayNames))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string SendResultMessage { get; set; }

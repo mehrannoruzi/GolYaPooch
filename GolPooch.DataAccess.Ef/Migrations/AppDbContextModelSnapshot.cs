@@ -15,7 +15,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -227,7 +227,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<int>("RoundId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("DrawChanceId");
@@ -286,8 +286,10 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<bool?>("IsSuccess")
                         .HasColumnType("bit");
 
+                    b.Property<byte>("Priority")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("SendResultMessage")
-                        .IsRequired()
                         .HasColumnType("varchar(100)")
                         .HasMaxLength(100);
 
@@ -651,13 +653,15 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("PushEndpointId");
 
                     b.HasIndex("PushKey")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PushEndpoint","Messaging");
                 });
@@ -711,16 +715,40 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.Property<byte>("State")
                         .HasColumnType("tinyint");
 
-                    b.Property<int?>("WinnerUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("RoundId");
 
                     b.HasIndex("ChestId");
 
-                    b.HasIndex("WinnerUserId");
-
                     b.ToTable("Round","Draw");
+                });
+
+            modelBuilder.Entity("GolPooch.Domain.Entity.RoundWinner", b =>
+                {
+                    b.Property<int>("RoundWinnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("InsertDateMi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InsertDateSh")
+                        .HasColumnType("char(10)")
+                        .HasMaxLength(10);
+
+                    b.Property<int>("RoundId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoundWinnerId");
+
+                    b.HasIndex("RoundId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RoundWinner","Draw");
                 });
 
             modelBuilder.Entity("GolPooch.Domain.Entity.Ticket", b =>
@@ -897,7 +925,8 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.HasOne("GolPooch.Domain.Entity.User", "User")
                         .WithMany("DrawChances")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GolPooch.Domain.Entity.Notification", b =>
@@ -974,6 +1003,15 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GolPooch.Domain.Entity.PushEndpoint", b =>
+                {
+                    b.HasOne("GolPooch.Domain.Entity.User", "User")
+                        .WithMany("PushEndpoints")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GolPooch.Domain.Entity.Round", b =>
                 {
                     b.HasOne("GolPooch.Domain.Entity.Chest", "Chest")
@@ -981,11 +1019,21 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasForeignKey("ChestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
 
-                    b.HasOne("GolPooch.Domain.Entity.User", "WinnerUser")
-                        .WithMany("Rounds")
-                        .HasForeignKey("WinnerUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity("GolPooch.Domain.Entity.RoundWinner", b =>
+                {
+                    b.HasOne("GolPooch.Domain.Entity.Round", "Round")
+                        .WithMany("RoundWinners")
+                        .HasForeignKey("RoundId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GolPooch.Domain.Entity.User", "User")
+                        .WithMany("RoundWinners")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GolPooch.Domain.Entity.Ticket", b =>

@@ -12,13 +12,12 @@ namespace GolPooch.Api.Controllers
         private IPurchaseService _purchaseService { get; set; }
 
         public PurchaseController(IPurchaseService purchaseService)
-        {
-            _purchaseService = purchaseService;
-        }
+            => _purchaseService = purchaseService;
+
 
         [HttpGet]
-        public JsonResult Top(User user, [FromBody] PagingParameter pagingParameter)
-            => Json(_purchaseService.GetTopPurchases(user.UserId, pagingParameter));
+        public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _purchaseService.GetTopPurchases(user.UserId, pagingParameter));
 
 
     }

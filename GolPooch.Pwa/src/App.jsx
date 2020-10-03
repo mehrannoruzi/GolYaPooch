@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import EmptyLayout from './layouts/emptyLayout';
 import NavigationLayout from './layouts/navigationLayout';
@@ -7,10 +7,9 @@ import Toast from './atom/comps/Toast';
 import BottomUpModal from './atom/comps/BottomUpModal';
 import Start from './pages/start';
 import config from './config';
-import * as firebase from "firebase/app";
 
 export default function () {
-    localStorage.removeItem(config.keys.banners);
+    localStorage.removeItem(config.keys.banners);     
     return (
         <Router className="layout">
             <Toast />

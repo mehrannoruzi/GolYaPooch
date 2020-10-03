@@ -21,8 +21,8 @@ namespace GolPooch.Api.Controllers
             => Json(await _ticketService.AddAsync(user.UserId, ticket));
 
         [HttpGet]
-        public JsonResult Top(User user, [FromBody] PagingParameter pagingParameter)
-            => Json(_ticketService.Get(user.UserId, pagingParameter));
+        public async Task<JsonResult> Top(User user, [FromBody] PagingParameter pagingParameter)
+            => Json(await _ticketService.GetAsync(user.UserId, pagingParameter));
 
         [HttpGet]
         public async Task<JsonResult> Get(int ticketId)

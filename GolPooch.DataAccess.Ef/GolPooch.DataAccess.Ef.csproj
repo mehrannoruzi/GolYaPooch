@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elk.EntityFrameworkCore.Tools" Version="2.0.1" />
+    <PackageReference Include="Elk.EntityFrameworkCore.Tools" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>

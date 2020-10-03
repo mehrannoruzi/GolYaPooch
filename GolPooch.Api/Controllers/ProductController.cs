@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
 
 namespace GolPooch.Api.Controllers
@@ -13,7 +14,7 @@ namespace GolPooch.Api.Controllers
 
 
         [HttpGet]
-        public IActionResult All()
-            => Ok(_productService.GetAllAvailable());
+        public async Task<IActionResult> All()
+            => Ok(await _productService.GetAllAvailable());
     }
 }

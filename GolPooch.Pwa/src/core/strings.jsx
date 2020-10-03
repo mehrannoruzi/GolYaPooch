@@ -28,7 +28,7 @@ const strings = {
     intruducerId: 'کد معرف',
     edit: 'ویرایش',
     profile: 'پروفایل',
-    profileEdit:'ویرایش اطلاعات کاربری',
+    profileEdit: 'ویرایش اطلاعات کاربری',
     aggreedWithRules: 'با قوانین و مقررات موافقم',
     pleaseEnterVerifyCode: 'لطفا کد تایید پیامک شده را وارد نمایید ',
     unknownError: 'خطایی رخ داده است، لطفا دوباره تلاش نمایید',
@@ -64,5 +64,9 @@ const strings = {
     pageName_chest: 'بسته ها',
     pageName_leaderboard: 'برنده ها',
     pageName_setting: 'تنظیمات',
+    successfulPayment: 'پرداخت با موفقیت انجام شد',
+    failedPayment: 'پرداخت با خطا مواجه شد',
+    iAgree: 'قبول می کنم',
+    iReject: 'رد می کنم'
 };
 export default strings;
