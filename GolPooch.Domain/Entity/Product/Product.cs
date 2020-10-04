@@ -22,6 +22,9 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.IsShow), ResourceType = typeof(DisplayNames))]
         public ProductType Type { get; set; }
 
+        [Display(Name = nameof(DisplayNames.DiscountCodeType), ResourceType = typeof(DisplayNames))]
+        public DiscountCodeType CodeType { get; set; }
+
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
 

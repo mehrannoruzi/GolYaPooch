@@ -2,11 +2,13 @@
 {
     public enum DiscountCodeType : byte
     {
-        ThreeMonth = 1,
-        SixMounth = 2,
-        NineMonth = 3,
-        OneYear = 4,
-        TwoYear = 5,
-        ThreeYear = 6
+        OneMonth = 1,
+        TowMonth = 2,
+        ThreeMonth = 3,
+        SixMounth = 4,
+        NineMonth = 5,
+        OneYear = 6,
+        TwoYear = 7,
+        ThreeYear = 8
     }
 }

@@ -76,11 +76,12 @@ namespace GolPooch.Service.Implements
             var response = new Response<string>();
             try
             {
+                #region Get Gateway & ProductOffer
                 var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
-                    new QueryFilter<PaymentGateway>
-                    {
-                        Conditions = x => x.IsActive && x.PaymentGatewayId == paymentTransaction.PaymentGatewayId
-                    });
+                            new QueryFilter<PaymentGateway>
+                            {
+                                Conditions = x => x.IsActive && x.PaymentGatewayId == paymentTransaction.PaymentGatewayId
+                            });
                 if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
 
                 var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
@@ -89,7 +90,8 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
                         IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
                     });
-                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
+                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer }; 
+                #endregion
 
                 paymentTransaction.Price = productOffer.TotalPrice;
                 paymentTransaction.Type = TransactionType.Purchase;
@@ -196,7 +198,7 @@ namespace GolPooch.Service.Implements
                             new QueryFilter<DiscountCode>
                             {
                                 AsNoTracking = false,
-                                Conditions = x => !x.IsUsed && x.Type == DiscountCodeType.ThreeMonth
+                                Conditions = x => !x.IsUsed && x.Type == productOffer.Product.CodeType
                             });
 
                         discountCode.IsUsed = true;
