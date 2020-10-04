@@ -24,53 +24,16 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
-        public async Task<IResponse<bool>> PurchaseAsync(PaymentTransaction transaction)
-        {
-            var response = new Response<bool>();
-            try
-            {
-                var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
-                    new QueryFilter<ProductOffer>
-                    {
-                        Conditions = x => x.ProductOfferId == transaction.ProductOfferId && x.IsActive,
-                    });
-                if (productOffer.IsNull()) return new Response<bool> { Message = ServiceMessage.InvalidProductOfferId };
-
-                var purchase = new Purchase
-                {
-                    UserId = transaction.UserId,
-                    UsedChance = 0,
-                    IsFinished = false,
-                    IsReFoundable = true,
-                    Chance = productOffer.Chance,
-                    ProductOfferId = productOffer.ProductOfferId,
-                    PaymentTransactionId = transaction.PaymentTransactionId
-                };
-                await _appUow.PurchaseRepo.AddAsync(purchase);
-                var saveResult = await _appUow.ElkSaveChangesAsync();
-
-                response.Message = saveResult.Message;
-                response.Result = saveResult.IsSuccessful;
-                response.IsSuccessful = saveResult.IsSuccessful;
-                return response;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                response.Message = ServiceMessage.Exception;
-                return response;
-            }
-        }
-
         public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetTopPurchases(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<PurchaseDto>>();
             try
             {
+                var now = DateTime.Now;
                 var purchases = await _appUow.PurchaseRepo.GetPagingAsync(
                     new PagingQueryFilterWithSelector<Purchase, PurchaseDto>
                     {
-                        Conditions = x => x.UserId == userId && !x.IsFinished && x.UsedChance < x.Chance,
+                        Conditions = x => x.UserId == userId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
                         IncludeProperties = new List<Expression<Func<Purchase, object>>> {
                             x => x.ProductOffer,
                             x => x.ProductOffer.Product,
@@ -104,6 +67,7 @@ namespace GolPooch.Service.Implements
                             Chance = x.Chance,
                             UsedChance = x.UsedChance,
                             IsReFoundable = x.IsReFoundable,
+                            ExpireDateSh = x.ExpireDateSh,
                             InsertDateSh = x.InsertDateSh,
                             ModifyDateSh = x.ModifyDateSh
                             #endregion

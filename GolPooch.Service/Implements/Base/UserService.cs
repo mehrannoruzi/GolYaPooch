@@ -105,10 +105,12 @@ namespace GolPooch.Service.Implements
                         UserId = existedUser.UserId,
                         UsedChance = 0,
                         IsFinished = false,
-                        IsReFoundable = true,
+                        IsReFoundable = false,
                         Chance = productOffer.Chance,
                         ProductOfferId = productOffer.ProductOfferId,
-                        PaymentTransactionId = transaction.PaymentTransactionId
+                        PaymentTransactionId = transaction.PaymentTransactionId,
+                        ExpireDateMi = DateTime.Now.AddDays(productOffer.UnUseDay),
+                        ExpireDateSh = PersianDateTime.Parse(DateTime.Now.AddDays(productOffer.UnUseDay)).ToString(PersianDateTimeFormat.Date),
                     };
                     await _appUow.PurchaseRepo.AddAsync(purchase);
                     #endregion

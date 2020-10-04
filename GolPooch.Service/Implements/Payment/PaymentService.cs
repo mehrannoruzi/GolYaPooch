@@ -134,12 +134,13 @@ namespace GolPooch.Service.Implements
             var response = new Response<string>();
             try
             {
+                #region Get Payment & ProductOffer
                 var paymentTransaction = await _appUow.PaymentTransactionRepo.FirstOrDefaultAsync(
-                    new QueryFilter<PaymentTransaction>
-                    {
-                        AsNoTracking = false,
-                        Conditions = x => x.PaymentTransactionId == paymentTransactionId
-                    });
+                            new QueryFilter<PaymentTransaction>
+                            {
+                                AsNoTracking = false,
+                                Conditions = x => x.PaymentTransactionId == paymentTransactionId
+                            });
                 if (paymentTransaction.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentTransaction };
 
                 var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
@@ -155,7 +156,8 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
                         IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
                     });
-                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
+                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer }; 
+                #endregion
 
                 //var verifyResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
                 //    .VerifyAsync(_appUow, paymentTransaction, _configuration);
@@ -168,15 +170,50 @@ namespace GolPooch.Service.Implements
 
                 if (verifyResult.IsSuccessful)
                 {
+                    #region Add Purchase
+                    var purchase = new Purchase
+                    {
+                        UserId = paymentTransaction.UserId,
+                        UsedChance = 0,
+                        IsFinished = false,
+                        IsReFoundable = true,
+                        Chance = productOffer.Chance,
+                        ProductOfferId = productOffer.ProductOfferId,
+                        PaymentTransactionId = paymentTransaction.PaymentTransactionId,
+                        ExpireDateMi = DateTime.Now.AddDays(productOffer.UnUseDay),
+                        ExpireDateSh = PersianDateTime.Parse(DateTime.Now.AddDays(productOffer.UnUseDay)).ToString(PersianDateTimeFormat.Date),
+                    };
+                    await _appUow.PurchaseRepo.AddAsync(purchase);
+                    await _appUow.SaveChangesAsync();
+                    #endregion
+
+                    #region Send Product Discount Code
+
+                    #endregion
+
+                    #region Get User Chances
+                    var now = DateTime.Now;
+                    var userChances = await _appUow.PurchaseRepo.GetAsync(
+                        new QueryFilter<Purchase>
+                        {
+                            Conditions = x => x.UserId == paymentTransaction.UserId && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
+                            IncludeProperties = new List<Expression<Func<Purchase, object>>> { x => x.ProductOffer }
+                        });
+                    var userChanceCount = userChances.Sum(x => x.Chance) - userChances.Sum(x => x.UsedChance);
+                    #endregion
+
                     response.Result = $"{_configuration["CustomSettings:ReactPaymentGatewayResultUrl"]}" +
                         $"IsSuccessful={verifyResult.IsSuccessful}&" +
                         $"TrackingId={paymentTransaction.TrackingId}&" +
                         $"ProductSubject={productOffer.Product.Subject}&" +
                         $"ProductText={productOffer.Product.Text}&" +
+                        $"ProductImageUrl={productOffer.ImageUrl}&" +
+                        $"Price={paymentTransaction.Price}&" +
                         $"Date={paymentTransaction.ModifyDateSh}&" +
                         $"Time={paymentTransaction.ModifyDateMi.ToLongTimeString()}&" +
-                        $"Price={paymentTransaction.Price}&" +
-                        $"Chance={productOffer.Chance}";
+                        $"BeforeChance={userChanceCount}&" +
+                        $"NewChance={productOffer.Chance}&" +
+                        $"TotalChance={userChanceCount + productOffer.Chance}";
                     response.Message = verifyResult.Message;
                     response.IsSuccessful = verifyResult.IsSuccessful;
                 }
