@@ -39,6 +39,14 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.IsFinished), ResourceType = typeof(DisplayNames))]
         public bool IsFinished { get; set; }
 
+        [Display(Name = nameof(DisplayNames.ExpirationDate), ResourceType = typeof(DisplayNames))]
+        public DateTime ExpireDateMi { get; set; }
+
+        [Column(TypeName = "char(10)")]
+        [Display(Name = nameof(DisplayNames.ExpirationDate), ResourceType = typeof(DisplayNames))]
+        [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string ExpireDateSh { get; set; }
+
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
 

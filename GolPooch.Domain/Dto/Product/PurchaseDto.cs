@@ -14,6 +14,8 @@
 
         public bool IsReFoundable { get; set; }
 
+        public string ExpireDateSh { get; set; }
+        
         public string InsertDateSh { get; set; }
 
         public string ModifyDateSh { get; set; }
