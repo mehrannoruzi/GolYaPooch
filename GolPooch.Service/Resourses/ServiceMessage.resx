@@ -256,6 +256,12 @@ Code: {code}</value>
   <data name="Success" xml:space="preserve">
     <value>عملیات با موفقیت انجام شد.</value>
   </data>
+  <data name="SuccessPurchaseSubject" xml:space="preserve">
+    <value>خرید محصول {0}</value>
+  </data>
+  <data name="SuccessPurchaseText" xml:space="preserve">
+    <value>کاربر گرامی از خریدتان سپاسگذاریم. شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. کد تخفیف : {2}</value>
+  </data>
   <data name="UsedPinCode" xml:space="preserve">
     <value>این کد قبلا استفاده شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید.</value>
   </data>

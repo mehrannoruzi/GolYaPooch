@@ -132,104 +132,140 @@ namespace GolPooch.Service.Implements
         public async Task<IResponse<string>> VerifyAsync(int paymentTransactionId, string Status, string Authority)
         {
             var response = new Response<string>();
-            try
+            using (var trans = await _appUow.Database.BeginTransactionAsync())
             {
-                #region Get Payment & ProductOffer
-                var paymentTransaction = await _appUow.PaymentTransactionRepo.FirstOrDefaultAsync(
-                            new QueryFilter<PaymentTransaction>
+                try
+                {
+                    #region Get Payment & ProductOffer
+                    var paymentTransaction = await _appUow.PaymentTransactionRepo.FirstOrDefaultAsync(
+                                new QueryFilter<PaymentTransaction>
+                                {
+                                    AsNoTracking = false,
+                                    Conditions = x => x.PaymentTransactionId == paymentTransactionId
+                                });
+                    if (paymentTransaction.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentTransaction };
+
+                    var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
+                        new QueryFilter<PaymentGateway>
+                        {
+                            Conditions = x => x.IsActive && x.PaymentGatewayId == paymentTransaction.PaymentGatewayId
+                        });
+                    if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
+
+                    var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
+                        new QueryFilter<ProductOffer>
+                        {
+                            Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
+                            IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
+                        });
+                    if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
+                    #endregion
+
+
+                    //var verifyResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
+                    //    .VerifyAsync(_appUow, paymentTransaction, _configuration);
+
+
+                    paymentTransaction.IsSuccess = true;
+                    paymentTransaction.Status = Status;
+                    paymentTransaction.TrackingId = Randomizer.GetUniqueKey(12);
+                    _appUow.PaymentTransactionRepo.Update(paymentTransaction);
+                    var verifyResult = await _appUow.ElkSaveChangesAsync();
+
+                    if (verifyResult.IsSuccessful)
+                    {
+                        #region Add Purchase
+                        var purchase = new Purchase
+                        {
+                            UserId = paymentTransaction.UserId,
+                            UsedChance = 0,
+                            IsFinished = false,
+                            IsReFoundable = true,
+                            Chance = productOffer.Chance,
+                            ProductOfferId = productOffer.ProductOfferId,
+                            PaymentTransactionId = paymentTransaction.PaymentTransactionId,
+                            ExpireDateMi = DateTime.Now.AddDays(productOffer.UnUseDay),
+                            ExpireDateSh = PersianDateTime.Parse(DateTime.Now.AddDays(productOffer.UnUseDay)).ToString(PersianDateTimeFormat.Date),
+                        };
+                        await _appUow.PurchaseRepo.AddAsync(purchase);
+                        await _appUow.SaveChangesAsync();
+                        #endregion
+
+                        #region Get DiscountCode & Send To User
+                        var discountCode = await _appUow.DiscountCodeRepo.FirstOrDefaultAsync(
+                            new QueryFilter<DiscountCode>
                             {
                                 AsNoTracking = false,
-                                Conditions = x => x.PaymentTransactionId == paymentTransactionId
+                                Conditions = x => !x.IsUsed && x.Type == DiscountCodeType.ThreeMonth
                             });
-                if (paymentTransaction.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentTransaction };
 
-                var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
-                    new QueryFilter<PaymentGateway>
-                    {
-                        Conditions = x => x.IsActive && x.PaymentGatewayId == paymentTransaction.PaymentGatewayId
-                    });
-                if (paymentGatway.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidPaymentGateway };
+                        discountCode.IsUsed = true;
+                        discountCode.PurchaseId = purchase.PurchaseId;
+                        discountCode.UserId = paymentTransaction.UserId;
+                        discountCode.UsedDateMi = DateTime.Now;
+                        discountCode.UsedDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
 
-                var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
-                    new QueryFilter<ProductOffer>
-                    {
-                        Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
-                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
-                    });
-                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer }; 
-                #endregion
-
-                //var verifyResult = await PaymentFactory.GetInstance(paymentGatway.BankName)
-                //    .VerifyAsync(_appUow, paymentTransaction, _configuration);
-
-                paymentTransaction.IsSuccess = true;
-                paymentTransaction.Status = Status;
-                paymentTransaction.TrackingId = Randomizer.GetUniqueKey(12);
-                _appUow.PaymentTransactionRepo.Update(paymentTransaction);
-                var verifyResult = await _appUow.ElkSaveChangesAsync();
-
-                if (verifyResult.IsSuccessful)
-                {
-                    #region Add Purchase
-                    var purchase = new Purchase
-                    {
-                        UserId = paymentTransaction.UserId,
-                        UsedChance = 0,
-                        IsFinished = false,
-                        IsReFoundable = true,
-                        Chance = productOffer.Chance,
-                        ProductOfferId = productOffer.ProductOfferId,
-                        PaymentTransactionId = paymentTransaction.PaymentTransactionId,
-                        ExpireDateMi = DateTime.Now.AddDays(productOffer.UnUseDay),
-                        ExpireDateSh = PersianDateTime.Parse(DateTime.Now.AddDays(productOffer.UnUseDay)).ToString(PersianDateTimeFormat.Date),
-                    };
-                    await _appUow.PurchaseRepo.AddAsync(purchase);
-                    await _appUow.SaveChangesAsync();
-                    #endregion
-
-                    #region Send Product Discount Code
-
-                    #endregion
-
-                    #region Get User Chances
-                    var now = DateTime.Now;
-                    var userChances = await _appUow.PurchaseRepo.GetAsync(
-                        new QueryFilter<Purchase>
+                        var notif = new Notification
                         {
-                            Conditions = x => x.UserId == paymentTransaction.UserId && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
-                            IncludeProperties = new List<Expression<Func<Purchase, object>>> { x => x.ProductOffer }
-                        });
-                    var userChanceCount = userChances.Sum(x => x.Chance) - userChances.Sum(x => x.UsedChance);
-                    #endregion
+                            UserId = paymentTransaction.UserId,
+                            Type = NotificationType.Sms,
+                            Action = NotificationAction.SuccessPurchase,
+                            Priority = Priority.High,
+                            IsActive = true,
+                            IsSent = false,
+                            IsSuccess = false,
+                            IsRead = false,
+                            Subject = ServiceMessage.SuccessPurchaseSubject.Fill(productOffer.Product.Subject),
+                            Text = ServiceMessage.SuccessPurchaseText.Fill(productOffer.Product.Subject, productOffer.Chance.ToString(), discountCode.Code)
+                        };
+                        await _appUow.NotificationRepo.AddAsync(notif);
+                        await _appUow.SaveChangesAsync();
+                        #endregion
 
-                    response.Result = $"{_configuration["CustomSettings:ReactPaymentGatewayResultUrl"]}" +
-                        $"IsSuccessful={verifyResult.IsSuccessful}&" +
-                        $"TrackingId={paymentTransaction.TrackingId}&" +
-                        $"ProductSubject={productOffer.Product.Subject}&" +
-                        $"ProductText={productOffer.Product.Text}&" +
-                        $"ProductImageUrl={productOffer.ImageUrl}&" +
-                        $"Price={paymentTransaction.Price}&" +
-                        $"Date={paymentTransaction.ModifyDateSh}&" +
-                        $"Time={paymentTransaction.ModifyDateMi.ToLongTimeString()}&" +
-                        $"BeforeChance={userChanceCount}&" +
-                        $"NewChance={productOffer.Chance}&" +
-                        $"TotalChance={userChanceCount + productOffer.Chance}";
-                    response.Message = verifyResult.Message;
-                    response.IsSuccessful = verifyResult.IsSuccessful;
+                        #region Get User Chances
+                        var now = DateTime.Now;
+                        var userChances = await _appUow.PurchaseRepo.GetAsync(
+                            new QueryFilter<Purchase>
+                            {
+                                Conditions = x => x.UserId == paymentTransaction.UserId && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
+                                IncludeProperties = new List<Expression<Func<Purchase, object>>> { x => x.ProductOffer }
+                            });
+                        var userChanceCount = userChances.Sum(x => x.Chance) - userChances.Sum(x => x.UsedChance);
+                        #endregion
+
+                        response.Result = $"{_configuration["CustomSettings:ReactPaymentGatewayResultUrl"]}" +
+                            $"IsSuccessful={verifyResult.IsSuccessful}&" +
+                            $"TrackingId={paymentTransaction.TrackingId}&" +
+                            $"ProductSubject={productOffer.Product.Subject}&" +
+                            $"ProductText={productOffer.Product.Text}&" +
+                            $"ProductImageUrl={productOffer.ImageUrl}&" +
+                            $"Price={paymentTransaction.Price}&" +
+                            $"Date={paymentTransaction.ModifyDateSh}&" +
+                            $"Time={paymentTransaction.ModifyDateMi.ToLongTimeString()}&" +
+                            $"BeforeChance={userChanceCount}&" +
+                            $"NewChance={productOffer.Chance}&" +
+                            $"TotalChance={userChanceCount + productOffer.Chance}";
+                        response.Message = verifyResult.Message;
+                        response.IsSuccessful = verifyResult.IsSuccessful;
+
+                        await trans.CommitAsync();
+                    }
+                    else
+                    {
+                        await trans.RollbackAsync();
+                        response.Message = verifyResult.Message;
+                        response.IsSuccessful = verifyResult.IsSuccessful;
+                    }
+
+                    return response;
                 }
-                else
+                catch (Exception e)
                 {
-                    response.Message = verifyResult.Message;
-                    response.IsSuccessful = verifyResult.IsSuccessful;
+                    await trans.RollbackAsync();
+                    FileLoger.Error(e);
+                    response.Message = ServiceMessage.Exception;
+                    return response;
                 }
-
-                return response;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                response.Message = ServiceMessage.Exception;
-                return response;
             }
         }
     }

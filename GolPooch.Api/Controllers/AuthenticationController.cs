@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 namespace GolPooch.Api.Controllers
 {

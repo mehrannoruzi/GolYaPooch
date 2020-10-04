@@ -476,6 +476,24 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to خرید محصول {0}.
+        /// </summary>
+        public static string SuccessPurchaseSubject {
+            get {
+                return ResourceManager.GetString("SuccessPurchaseSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کاربر گرامی از خریدتان سپاسگذاریم. شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. کد تخفیف : {2}.
+        /// </summary>
+        public static string SuccessPurchaseText {
+            get {
+                return ResourceManager.GetString("SuccessPurchaseText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to این کد قبلا استفاده شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید..
         /// </summary>
         public static string UsedPinCode {
