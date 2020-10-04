@@ -33,16 +33,16 @@ namespace GolPooch.Domain.Entity
         public Priority Priority { get; set; }
 
         [Display(Name = nameof(DisplayNames.IsActive), ResourceType = typeof(DisplayNames))]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [Display(Name = nameof(DisplayNames.IsSent), ResourceType = typeof(DisplayNames))]
-        public bool IsSent { get; set; }
+        public bool IsSent { get; set; } = false;
 
         [Display(Name = nameof(DisplayNames.IsSuccess), ResourceType = typeof(DisplayNames))]
-        public bool? IsSuccess { get; set; }
+        public bool? IsSuccess { get; set; } = false;
 
         [Display(Name = nameof(DisplayNames.IsRead), ResourceType = typeof(DisplayNames))]
-        public bool IsRead { get; set; }
+        public bool IsRead { get; set; } = false;
 
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
@@ -79,7 +79,7 @@ namespace GolPooch.Domain.Entity
         [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ImageUrl { get; set; }
-        
+
         [Column(TypeName = "varchar(250)")]
         [Display(Name = nameof(DisplayNames.IconUrl), ResourceType = typeof(DisplayNames))]
         [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]

@@ -168,6 +168,9 @@
   <data name="Discount" xml:space="preserve">
     <value>تخفیف</value>
   </data>
+  <data name="DiscountCodeType" xml:space="preserve">
+    <value>نوع کد تخفیف</value>
+  </data>
   <data name="DisplayType" xml:space="preserve">
     <value>نوع نمایش</value>
   </data>

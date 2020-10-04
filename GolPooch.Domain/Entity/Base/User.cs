@@ -75,6 +75,9 @@ namespace GolPooch.Domain.Entity
         public ICollection<PushEndpoint> PushEndpoints { get; set; }
 
         [JsonIgnore]
+        public ICollection<DiscountCode> DiscountCode { get; set; }
+
+        [JsonIgnore]
         public ICollection<Ticket> Tickets { get; set; }
 
         [JsonIgnore]

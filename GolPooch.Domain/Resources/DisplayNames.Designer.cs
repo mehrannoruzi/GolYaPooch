@@ -214,6 +214,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نوع کد تخفیف.
+        /// </summary>
+        public static string DiscountCodeType {
+            get {
+                return ResourceManager.GetString("DiscountCodeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نوع نمایش.
         /// </summary>
         public static string DisplayType {

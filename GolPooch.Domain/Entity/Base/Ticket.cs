@@ -23,10 +23,12 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.Type), ResourceType = typeof(DisplayNames))]
         public TicketType Type { get; set; }
 
+        [Display(Name = nameof(DisplayNames.IsRead), ResourceType = typeof(DisplayNames))]
+        public bool IsRead { get; set; }
+
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
 
-        public bool IsRead { get; set; }
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
