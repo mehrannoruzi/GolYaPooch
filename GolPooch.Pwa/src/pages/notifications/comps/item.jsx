@@ -3,6 +3,8 @@ import { makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails, 
 import { FcExpand } from 'react-icons/fc';
 import notificationSrv from './../../../services/notificationSrv';
 import { BiTimeFive } from 'react-icons/bi';
+import nLAtom from '../../../atom/state/nLState';
+import { useRecoilState } from 'recoil';
 
 const useStyles = makeStyles({
     notificationComp: {
@@ -44,24 +46,19 @@ const useStyles = makeStyles({
 
 
 export default function (props) {
-    const { item } = props;
+    //Hooks
     const classes = useStyles();
+    //Recoil
+    const [nLState, setNLState] = useRecoilState(nLAtom);
+    const { item } = props;
     console.log(item.insertDate);
-    const _handleClick = (id, isRead) => {
-        if (!isRead)
-            notificationSrv.read(id);
+    const _handleClick = async (id, isRead) => {
+        if (!isRead) {
+            let call = await notificationSrv.read(id);
+            if (call.isSuccessful)
+                setNLState({ ...nLState, newNotificationsCount: call.result });
+        }
     }
-    // return (<React.Fragment>
-    //     <ListItem alignItems="flex-start" className={item.isRead ? 'read' : null}>
-    //         <ListItemAvatar>
-    //             <Avatar alt="Remy Sharp" src={item.imageUrl} />
-    //         </ListItemAvatar>
-    //         <ListItemText
-    //             primary={item.subject}
-    //             secondary={item.text} />
-    //     </ListItem>
-    //     <Divider variant="inset" component="li" />
-    // </React.Fragment>);
     return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}>
         <AccordionSummary
             onClick={() => _handleClick(item.notificationId, item.isRead)}

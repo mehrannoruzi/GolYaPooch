@@ -32,4 +32,9 @@ export default class notificationSrv {
         let call = await http.post(addr.readNotification(id));
         return call;
     }
+
+    static async getNotReadCount() {
+        let call = await http.get(addr.getNotReadtNotificationsCount);
+        return call;
+    }
 }

@@ -85,7 +85,11 @@ body {
         background-color: #8BC34A;
     }
 }
-
+.emptyBadge {
+    .MuiBadge-dot {
+        visibility: hidden;
+    }
+}
 .MuiAccordion-root.Mui-expanded {
     background-color: #eee;
     border-radius: 10px;

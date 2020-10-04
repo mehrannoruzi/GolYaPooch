@@ -11,6 +11,7 @@ export default {
     registerForNotification: `${config.apiGateway.URL}Push/Subscribe`,
     getGateways: `${config.apiGateway.URL}Payment/AllGateway`,
     getNotifications: (pageSize, pageNumber) => `${config.apiGateway.URL}Notification/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+    getNotReadtNotificationsCount: `${config.apiGateway.URL}Notification/GetNotReadCount`,
     readNotification: (id) => `${config.apiGateway.URL}Notification/Read?notificationId=${id}`,
     getPurchase: (pageSize, pageNumber) => `${config.apiGateway.URL}Purchase/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     spendChance: `${config.apiGateway.URL}chest/SpendChance`,

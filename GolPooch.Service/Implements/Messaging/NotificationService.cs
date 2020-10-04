@@ -128,9 +128,19 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<bool>> ReadAsync(int userId, int notificationId)
+        public async Task<IResponse<int>> GetNewNotificationsCount(int userId)
+                => new Response<int>
+                {
+                    IsSuccessful = true,
+                    Result = await _appUow.NotificationRepo.CountAsync(new QueryFilter<Notification>
+                    {
+                        Conditions = x => x.UserId == userId && x.IsActive && !x.IsRead
+                    })
+                };
+
+        public async Task<IResponse<int>> ReadAsync(int userId, int notificationId)
         {
-            var response = new Response<bool>();
+            var response = new Response<int>();
             try
             {
                 var notification = await _appUow.NotificationRepo.FirstOrDefaultAsync(
@@ -139,17 +149,14 @@ namespace GolPooch.Service.Implements
                         AsNoTracking = false,
                         Conditions = x => x.NotificationId == notificationId
                     });
-                if (notification == null) return new Response<bool> { Message = ServiceMessage.InvalidNotificationId };
-                if (notification.UserId != userId) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
+                if (notification == null) return new Response<int> { Message = ServiceMessage.InvalidNotificationId };
+                if (notification.UserId != userId) return new Response<int> { Message = ServiceMessage.InvalidParameter };
 
                 notification.IsRead = true;
                 _appUow.NotificationRepo.Update(notification);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
-
-                response.IsSuccessful = saveResult.IsSuccessful;
-                response.Result = saveResult.IsSuccessful;
-                response.Message = saveResult.Message;
-                return response;
+                if (!saveResult.IsSuccessful) return new Response<int> { Message = saveResult.Message };
+                return await GetNewNotificationsCount(userId);
             }
             catch (Exception e)
             {

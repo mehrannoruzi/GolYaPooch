@@ -24,12 +24,18 @@ namespace GolPooch.Service.Interfaces
         Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter);
 
         /// <summary>
+        /// Get Not Read Notifications For Specific User
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IResponse<int>> GetNewNotificationsCount(int userId);
+        /// <summary>
         /// When user tapped in a notification, this method called to set isread field with true status.
         /// </summary>
         /// <param name="userId">read from jwt</param>
         /// <param name="notification">notification primary key</param>
         /// <returns>return notification id</returns>
-        Task<IResponse<bool>> ReadAsync(int userId, int notificationId);
+        Task<IResponse<int>> ReadAsync(int userId, int notificationId);
 
         Task SendNotificationsAsync();
     }

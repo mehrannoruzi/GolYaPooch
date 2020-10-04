@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Skeleton } from '@material-ui/lab';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import strings from '../../../core/strings';
 import { Grid, makeStyles } from '@material-ui/core';
 import { CgCloseO } from 'react-icons/cg';
-import { useRecoilState } from 'recoil';
-import toastState from '../../../atom/state/toastState';
-import orderSrv from '../../../services/orderSrv';
 import { commaThousondSeperator } from '../../../core/utils';
 const useStyles = makeStyles({
     failedComp: {
@@ -61,26 +57,8 @@ const useStyles = makeStyles({
 const Failed = (props) => {
     //HOOKS
     const classes = useStyles();
-    // const [inProgress, setInProgress] = useState(true);
-    // const [query, setQuery] = useState('');
-    //const [product, setProduct] = useState(null);
-    //recoil
-    const [toast, setToastState] = useRecoilState(toastState);
 
     const {info} = props;
-    // useEffect(() => {
-    //     const getDate = async () => {
-    //         setInProgress(true);
-    //         let info = await orderSrv.getProductInfo();
-    //         console.log(info);
-    //         if (info.isSuccessful) {
-    //             setProduct(info.result);
-    //         }
-    //         else setToastState({ ...toast, open: true, severity: 'error', message: info.message });
-    //         setInProgress(false);
-    //     }
-    //     getDate();
-    // }, [query]);
 
     return (
         <Grid container className={classes.failedComp}>
@@ -94,22 +72,18 @@ const Failed = (props) => {
                         <h4>جزییات خرید</h4>
                     </Grid>
                     <Grid xs={4} item className='pic'>
-                        {/* {inProgress ? <Skeleton className='img' animation='wave' variant='rect' heioght={100} /> : <img className='img' src={info.ImageUrl} />} */}
-                        <img className='img' src={info.ImageUrl} />
+                        <img className='img' src={info.ProductImageUrl} />
                     </Grid>
-                    <Grid xs={5} item className='info'>
-                        {/* {inProgress ? [0, 1].map((x, idx) => <Skeleton key={idx} className='w-100 mb-15' />) : <><label className='mb-15'>{product.name}</label>
-                            <label>تعداد شانس: {product.chance}</label></>} */}
+                    <Grid xs={8} item className='info'>
                             <label className='mb-15'>{info.ProductText}</label>
-                            <label>تعداد شانس: {info.Chance}</label>
+                            <label>تعداد شانس: {info.NewChance}</label>
                     </Grid>
                     <Grid item xs={12} className='price'>
-                        {/* {inProgress ? <Skeleton variant='rect' height={20} /> : <label>مبلغ قابل پرداخت: {commaThousondSeperator(product.price)} {strings.moneyCurrency}</label>} */}
                         <label>مبلغ قابل پرداخت: {commaThousondSeperator(info.Price)} {strings.moneyCurrency}</label>
                     </Grid>
                 </Grid>
             </Grid>
-            <Link to='/nl/chest' className={classes.linkToStore}>پرداخت مجدد</Link>
+            <Link to='/nl/store' className={classes.linkToStore}>پرداخت مجدد</Link>
         </Grid>
     );
 }

@@ -93,7 +93,7 @@ const Gateways = () => {
             <Slider
                 {...settings}>
                 {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='gateway'>
-                    <Skeleton key={idx} className='w-100' height={40} variant='rect' />
+                    <Skeleton key={idx} className='w-100' height={90} variant='rect' />
                 </div>)
                     : gateways.map((x, idx) => <div key={idx} className='gateway'>
                         <Box onClick={() => _handleSelect(x.paymentGatewayId)} className={`box  ${(x.paymentGatewayId === productState.gatewatId ? 'selected' : '')}`}>

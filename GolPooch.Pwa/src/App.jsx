@@ -7,9 +7,24 @@ import Toast from './atom/comps/Toast';
 import BottomUpModal from './atom/comps/BottomUpModal';
 import Start from './pages/start';
 import config from './config';
+import notificationSrv from './services/notificationSrv';
+import { useRecoilState } from 'recoil';
+import nLAtom from './atom/state/nLState';
 
 export default function () {
-    localStorage.removeItem(config.keys.banners);     
+    const [nLState, setNLState] = useRecoilState(nLAtom);
+    localStorage.removeItem(config.keys.banners);
+    const getInitInfo = async () => {
+        let getNewNotifCount = await notificationSrv.getNotReadCount();
+        console.log(getNewNotifCount);
+        if (getNewNotifCount.isSuccessful)
+            setNLState({ ...nLState, newNotificationsCount: getNewNotifCount.result })
+    };
+
+    useEffect(() => {
+        getInitInfo();
+    }, []);
+
     return (
         <Router className="layout">
             <Toast />
