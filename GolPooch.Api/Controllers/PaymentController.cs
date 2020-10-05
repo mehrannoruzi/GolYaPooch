@@ -1,7 +1,7 @@
 ﻿using Elk.Core;
 using GolPooch.Api.Models;
-using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
+using GolPooch.Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
