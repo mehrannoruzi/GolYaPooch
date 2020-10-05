@@ -59,6 +59,19 @@ namespace GolPooch.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowedOrigins, builder =>
+                {
+                    builder
+                        .WithOrigins(_config.GetSection("AllowOrigin").Value.Split(";"))
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -81,18 +94,7 @@ namespace GolPooch.Api
 
             services.AddElkJwtConfiguration(_jwtSettings);
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllowedOrigins, builder =>
-                {
-                    builder
-                        .WithOrigins(_config.GetSection("AllowOrigin").Value.Split(";"))
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-            });
+
 
             services.AddMemoryCache();
 
@@ -131,9 +133,16 @@ namespace GolPooch.Api
 
             app.UseMiddleware<JwtParserMiddleware>();
             app.UseElkJwtConfiguration();
-            app.UseCors(AllowedOrigins);
+
             app.UseRouting();
-            app.UseMvcWithDefaultRoute();
+            app.UseAuthentication();
+            app.UseCors(AllowedOrigins);
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
