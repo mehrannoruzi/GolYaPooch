@@ -113,7 +113,7 @@ namespace GolPooch.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseElkCrossOriginResource();
+            //app.UseElkCrossOriginResource();
 
             app.UseElkSwaggerConfiguration(_swaggerSetting);
 
@@ -131,9 +131,9 @@ namespace GolPooch.Api
 
             app.UseMiddleware<JwtParserMiddleware>();
             app.UseElkJwtConfiguration();
+            app.UseCors(AllowedOrigins);
             app.UseRouting();
             app.UseMvcWithDefaultRoute();
-            app.UseCors(AllowedOrigins);
         }
     }
 }
