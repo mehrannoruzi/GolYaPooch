@@ -71,7 +71,7 @@ namespace GolPooch.Api
                         .AllowCredentials();
                 });
             });
-
+            
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -94,8 +94,6 @@ namespace GolPooch.Api
 
             services.AddElkJwtConfiguration(_jwtSettings);
 
-
-
             services.AddMemoryCache();
 
             services.Configure<JwtSettings>(_config.GetSection("JwtSetting"));
@@ -116,6 +114,7 @@ namespace GolPooch.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //app.UseElkCrossOriginResource();
+            app.UseCors(AllowedOrigins);
 
             app.UseElkSwaggerConfiguration(_swaggerSetting);
 
@@ -133,16 +132,8 @@ namespace GolPooch.Api
 
             app.UseMiddleware<JwtParserMiddleware>();
             app.UseElkJwtConfiguration();
-
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseCors(AllowedOrigins);
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

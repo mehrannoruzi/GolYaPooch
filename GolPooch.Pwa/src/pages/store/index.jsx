@@ -10,7 +10,6 @@ import { useRecoilState } from 'recoil';
 
 const useStyles = makeStyles({
     storePage: {
-        backgroundColor:'#eee',
         paddingTop: 7.5,
         paddingBottom: 7.5
     },
