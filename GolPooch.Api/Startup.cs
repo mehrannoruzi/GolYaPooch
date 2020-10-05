@@ -135,7 +135,6 @@ namespace GolPooch.Api
             app.UseElkJwtConfiguration();
 
             app.UseRouting();
-            app.UseAuthentication();
             app.UseCors(AllowedOrigins);
             app.UseEndpoints(endpoints =>
             {
