@@ -59,6 +59,19 @@ namespace GolPooch.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowedOrigins, builder =>
+                {
+                    builder
+                        .WithOrigins(_config.GetSection("AllowOrigin").Value.Split(";"))
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+            
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -81,19 +94,6 @@ namespace GolPooch.Api
 
             services.AddElkJwtConfiguration(_jwtSettings);
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllowedOrigins, builder =>
-                {
-                    builder
-                        .WithOrigins(_config.GetSection("AllowOrigin").Value.Split(";"))
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-            });
-
             services.AddMemoryCache();
 
             services.Configure<JwtSettings>(_config.GetSection("JwtSetting"));
@@ -114,6 +114,7 @@ namespace GolPooch.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //app.UseElkCrossOriginResource();
+            app.UseCors(AllowedOrigins);
 
             app.UseElkSwaggerConfiguration(_swaggerSetting);
 
@@ -131,7 +132,6 @@ namespace GolPooch.Api
 
             app.UseMiddleware<JwtParserMiddleware>();
             app.UseElkJwtConfiguration();
-            app.UseCors(AllowedOrigins);
             app.UseRouting();
             app.UseMvcWithDefaultRoute();
         }

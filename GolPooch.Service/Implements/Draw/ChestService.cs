@@ -261,10 +261,10 @@ namespace GolPooch.Service.Implements
                             AllParticipantCount = chest.ParticipantCount,
                             CurrentParticipantCount = roundCounter,
                             ChanceOnRound = await _appUow.DrawChanceRepo.CountAsync(
-                                                new QueryFilter<DrawChance>
-                                                {
-                                                    Conditions = x => x.UserId == userId && x.RoundId == currentRound.RoundId
-                                                }),
+                                new QueryFilter<DrawChance>
+                                {
+                                    Conditions = x => x.UserId == userId && x.RoundId == currentRound.RoundId
+                                }),
                             DrawCodes = drawChestCode
                         }; 
                         #endregion
