@@ -15,6 +15,10 @@ export default function () {
     const [nLState, setNLState] = useRecoilState(nLAtom);
     localStorage.removeItem(config.keys.banners);
     const getInitInfo = async () => {
+        console.log(localStorage.getItem(config.keys.token));
+        if (localStorage.getItem(config.keys.token) == null)
+            return;
+
         let getNewNotifCount = await notificationSrv.getNotReadCount();
         console.log(getNewNotifCount);
         if (getNewNotifCount.isSuccessful)

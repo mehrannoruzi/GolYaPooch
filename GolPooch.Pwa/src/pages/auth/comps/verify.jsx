@@ -111,6 +111,7 @@ export default function () {
                         error={verifyCode.error}
                         id="verifyCode"
                         name="verifyCode"
+                        type="tel"
                         value={verifyCode.value}
                         value={verifyCode.value}
                         onChange={(e) => setVerifyCode({ value: e.target.value, error: false, errorMessage: '' })}
