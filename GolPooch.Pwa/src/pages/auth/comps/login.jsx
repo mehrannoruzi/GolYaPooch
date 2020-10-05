@@ -44,7 +44,7 @@ export default function () {
         var response = await userSrv.login(mobileNumber.value).finally(() => {
             setInProgress(false);
         });
-        if (!response.isSuccessful) 
+        if (!response.isSuccessful)
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
         else setAuthPageState({ activePanel: 'verify', mobileNumber: mobileNumber.value, transactionId: response.result });
     }
@@ -65,6 +65,7 @@ export default function () {
                     id="mobileNumber"
                     name="mobileNumber"
                     placeholder="9xxxxxxxxx"
+                    type="tel"
                     label={strings.mobileNumber}
                     value={mobileNumber.value}
                     onChange={(e) => setMobileNumber({ value: e.target.value, error: false, errorMessage: '' })}

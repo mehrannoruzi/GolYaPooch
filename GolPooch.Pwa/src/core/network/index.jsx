@@ -10,6 +10,7 @@ function parseBody(response) {
         return Promise.reject(response);
 }
 let instance = Axios.create({
+    withCredentials: true,
     timeout: 60000,
     headers: {
         'Accept': 'application/json',
