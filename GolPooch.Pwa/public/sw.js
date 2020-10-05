@@ -23,8 +23,8 @@ var urlsToCache = [
 // };
 
 //--production
-const baseUrl = 'http://pwa.golpooch.com/';
-const apiUrl='http://api.golpooch.com/';
+const baseUrl = 'https://pwa.golpooch.com/';
+const apiUrl='https://api.golpooch.com/';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
