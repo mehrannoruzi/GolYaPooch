@@ -210,6 +210,7 @@ const Profile = () => {
                         <div className="form-group date-picker">
 
                             <DatePicker
+                                placeholder='تاریخ تولد'
                                 isGregorian={false}
                                 timePicker={false}
                                 inputFormat='jYYYY/jMM/jDD'

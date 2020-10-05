@@ -27,10 +27,12 @@ namespace GolPooch.Api.Controllers
             paymentTransaction.UserId = user.UserId;
             var createPaymentResult = await _paymentService.CreateAsync(paymentTransaction);
 
-            if (createPaymentResult.IsSuccessful)
-                return Redirect(createPaymentResult.Result);
-            else
-                return Json(new Response<string> { Message = createPaymentResult.Message });
+            //if (createPaymentResult.IsSuccessful)
+            //    return Json(createPaymentResult.Result);
+            //else
+            //    return Json(new Response<string> { Message = createPaymentResult.Message });
+            var verifyPaymentResult = await _paymentService.VerifyAsync(paymentTransaction.PaymentTransactionId, "Ok", "123456789");
+            return Json(verifyPaymentResult);
         }
 
         [HttpGet, AllowAnonymous]

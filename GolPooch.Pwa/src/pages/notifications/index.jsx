@@ -37,29 +37,14 @@ const Notifications = () => {
 
 
     function handleScroll(e) {
-        // const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
-        //     document.body.scrollTop;
-        // const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) ||
-        //     document.body.scrollHeight;
-        // const clientHeight = document.documentElement.clientHeight || window.innerHeight;
         let element = e.target
         if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-            // do something at end of scroll
             setIsBottom(true);
         }
-        console.log(`scrollTop:${element.scrollTop}-scrollHeight:${element.scrollHeight}-clientHeight:${element.clientHeight}`)
-        // if (Math.ceil(scrollTop + clientHeight) + 10 >= scrollHeight) {
-        //     setIsBottom(true);
-        // }
+
     }
-    //infinit scroll
-    // useEffect(() => {
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    // }, []);
 
     useEffect(() => {
-        console.log('fired');
         if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);

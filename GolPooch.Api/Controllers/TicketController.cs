@@ -33,7 +33,7 @@ namespace GolPooch.Api.Controllers
             => Json(await _ticketService.UnReadCount(user.UserId));
 
         [HttpGet]
-        public async Task<JsonResult> Top(User user, [FromBody] PagingParameter pagingParameter)
+        public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
             => Json(await _ticketService.GetTopTicketAsync(user.UserId, pagingParameter));
 
     }

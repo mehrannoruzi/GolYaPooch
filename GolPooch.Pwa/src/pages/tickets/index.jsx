@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles, Container } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
-import notificationSrv from '../../services/notificationSrv';
+import ticketSrv from '../../services/ticketSrv';
 import toastState from '../../atom/state/toastState';
 import Item from './comps/item';
 
 const useStyles = makeStyles({
-    notificationsComp: {
+    ticketsComp: {
         overflowY: 'auto',
         maxHeight: 'calc(100vh - 50px)'
     },
@@ -37,33 +37,16 @@ const Tickets = () => {
 
 
     function handleScroll(e) {
-        // const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
-        //     document.body.scrollTop;
-        // const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) ||
-        //     document.body.scrollHeight;
-        // const clientHeight = document.documentElement.clientHeight || window.innerHeight;
         let element = e.target
         if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-            // do something at end of scroll
             setIsBottom(true);
         }
-        console.log(`scrollTop:${element.scrollTop}-scrollHeight:${element.scrollHeight}-clientHeight:${element.clientHeight}`)
-        // if (Math.ceil(scrollTop + clientHeight) + 10 >= scrollHeight) {
-        //     setIsBottom(true);
-        // }
     }
-    //infinit scroll
-    // useEffect(() => {
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    // }, []);
-
     useEffect(() => {
-        console.log('fired');
         if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);
-                let get = await notificationSrv.get(12, pageNumber);
+                let get = await ticketSrv.get(12, pageNumber);
                 console.log(get);
                 if (get.isSuccessful) {
                     setItems([...items, ...get.result.items]);
@@ -80,7 +63,7 @@ const Tickets = () => {
     }, [isBottom]);
 
     return (
-        <div id='comp-notifications' className={classes.notificationsComp} onScroll={handleScroll}>
+        <div id='comp-tickets' className={classes.ticketsComp} onScroll={handleScroll}>
             {items.map((item, idx) => <Item key={idx} item={item} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
                 <Skeleton variant='rect' height={36} width={36} className='avatar' />
@@ -90,4 +73,4 @@ const Tickets = () => {
     );
 };
 
-export default Notifications;
+export default Tickets;

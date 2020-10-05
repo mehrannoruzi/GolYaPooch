@@ -51,7 +51,6 @@ export default function (props) {
     //Recoil
     const [nLState, setNLState] = useRecoilState(nLAtom);
     const { item } = props;
-    console.log(item.insertDate);
     const _handleClick = async (id, isRead) => {
         if (!isRead) {
             let call = await notificationSrv.read(id);

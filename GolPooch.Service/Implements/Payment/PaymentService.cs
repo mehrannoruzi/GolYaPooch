@@ -241,6 +241,7 @@ namespace GolPooch.Service.Implements
                         response.Result = $"{_configuration["CustomSettings:ReactPaymentGatewayResultUrl"]}" +
                             $"IsSuccessful={verifyResult.IsSuccessful}&" +
                             $"TrackingId={paymentTransaction.TrackingId}&" +
+                            $"ProductOfferId={paymentTransaction.ProductOfferId}&" +
                             $"ProductSubject={productOffer.Product.Subject}&" +
                             $"ProductText={productOffer.Product.Text}&" +
                             $"ProductImageUrl={productOffer.ImageUrl}&" +

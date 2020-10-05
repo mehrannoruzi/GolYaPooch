@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Container } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import fullBottomUpModalState from './../state/fullBottomUpModalState';
@@ -33,10 +33,13 @@ const useStyles = makeStyles({
 
     }
 });
-export default function (props) {
+export default function () {
     const classes = useStyles();
 
     const [rState, setRState] = useRecoilState(fullBottomUpModalState);
+    useEffect(() => {
+        document.body.style.overflow = rState.open ? 'hidden' : 'auto';
+    }, [rState.open]);
     return (<div id="comp-full-bottom-up-modal" className={`animate__animated  animate__slideInUp ${classes.compFullBottomUpModal} ${(rState.open ? '' : 'd-none')}`}>
         <div className='header'>
             <Container><h4 className='hx'>{rState.title}</h4></Container>
