@@ -80,6 +80,57 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public async Task<IResponse<int>> ReadAsync(int userId, int notificationId)
+        {
+            var response = new Response<int>();
+            try
+            {
+                var notification = await _appUow.NotificationRepo.FirstOrDefaultAsync(
+                    new QueryFilter<Notification>
+                    {
+                        AsNoTracking = false,
+                        Conditions = x => x.NotificationId == notificationId
+                    });
+                if (notification == null) return new Response<int> { Message = ServiceMessage.InvalidNotificationId };
+                if (notification.UserId != userId) return new Response<int> { Message = ServiceMessage.InvalidParameter };
+
+                notification.IsRead = true;
+                _appUow.NotificationRepo.Update(notification);
+                var saveResult = await _appUow.ElkSaveChangesAsync();
+                if (!saveResult.IsSuccessful) return new Response<int> { Message = saveResult.Message };
+                return await UnReadCount(userId);
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<int>> UnReadCount(int userId)
+        {
+            var response = new Response<int>();
+            try
+            {
+                response.Result = await _appUow.NotificationRepo.CountAsync(
+                    new QueryFilter<Notification>
+                    {
+                        Conditions = x => x.UserId == userId && x.IsActive && !x.IsRead
+                    });
+
+                response.IsSuccessful = true;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
         public async Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<NotificationDto>>();
@@ -119,44 +170,6 @@ namespace GolPooch.Service.Implements
                 response.Result = notifications;
                 response.IsSuccessful = true;
                 return response;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                response.Message = ServiceMessage.Exception;
-                return response;
-            }
-        }
-
-        public async Task<IResponse<int>> GetNewNotificationsCount(int userId)
-                => new Response<int>
-                {
-                    IsSuccessful = true,
-                    Result = await _appUow.NotificationRepo.CountAsync(new QueryFilter<Notification>
-                    {
-                        Conditions = x => x.UserId == userId && x.IsActive && !x.IsRead
-                    })
-                };
-
-        public async Task<IResponse<int>> ReadAsync(int userId, int notificationId)
-        {
-            var response = new Response<int>();
-            try
-            {
-                var notification = await _appUow.NotificationRepo.FirstOrDefaultAsync(
-                    new QueryFilter<Notification>
-                    {
-                        AsNoTracking = false,
-                        Conditions = x => x.NotificationId == notificationId
-                    });
-                if (notification == null) return new Response<int> { Message = ServiceMessage.InvalidNotificationId };
-                if (notification.UserId != userId) return new Response<int> { Message = ServiceMessage.InvalidParameter };
-
-                notification.IsRead = true;
-                _appUow.NotificationRepo.Update(notification);
-                var saveResult = await _appUow.ElkSaveChangesAsync();
-                if (!saveResult.IsSuccessful) return new Response<int> { Message = saveResult.Message };
-                return await GetNewNotificationsCount(userId);
             }
             catch (Exception e)
             {

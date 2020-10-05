@@ -24,16 +24,16 @@ namespace GolPooch.Api.Controllers
         public async Task<JsonResult> AddClickAsync(User user, int notificationId)
             => Json(await _notificationService.AddClickAsync(user.UserId, notificationId));
 
-        [HttpGet]
-        public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
-            => Json(await _notificationService.GetTopNotifications(user.UserId, pagingParameter));
-
-        [HttpGet]
-        public async Task<JsonResult> GetNotReadCount(User user)
-            => Json(await _notificationService.GetNewNotificationsCount(user.UserId));
-
         [HttpPost]
         public async Task<JsonResult> Read(User user, int notificationId)
             => Json(await _notificationService.ReadAsync(user.UserId, notificationId));
+
+        [HttpGet]
+        public async Task<JsonResult> UnReadCount(User user)
+            => Json(await _notificationService.UnReadCount(user.UserId));
+
+        [HttpGet]
+        public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _notificationService.GetTopNotifications(user.UserId, pagingParameter));
     }
 }
