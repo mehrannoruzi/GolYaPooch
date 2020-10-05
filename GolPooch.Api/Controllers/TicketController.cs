@@ -21,15 +21,20 @@ namespace GolPooch.Api.Controllers
             => Json(await _ticketService.AddAsync(user.UserId, ticket));
 
         [HttpGet]
-        public async Task<JsonResult> Top(User user, [FromBody] PagingParameter pagingParameter)
-            => Json(await _ticketService.GetAsync(user.UserId, pagingParameter));
-
-        [HttpGet]
         public async Task<JsonResult> Get(int ticketId)
             => Json(await _ticketService.Get(ticketId));
 
         [HttpPost]
         public async Task<JsonResult> Read(User user, int ticketId)
             => Json(await _ticketService.Read(user.UserId, ticketId));
+
+        [HttpGet]
+        public async Task<JsonResult> UnReadCount(User user)
+            => Json(await _ticketService.UnReadCount(user.UserId));
+
+        [HttpGet]
+        public async Task<JsonResult> Top(User user, [FromBody] PagingParameter pagingParameter)
+            => Json(await _ticketService.GetTopTicketAsync(user.UserId, pagingParameter));
+
     }
 }

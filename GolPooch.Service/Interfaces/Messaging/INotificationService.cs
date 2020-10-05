@@ -15,20 +15,7 @@ namespace GolPooch.Service.Interfaces
         Task<IResponse<int>> AddDeliveryAsync(int userId, int notificationId);
 
         Task<IResponse<int>> AddClickAsync(int userId, int notificationId);
-
-        /// <summary>
-        /// Get top 10 notifications with userid and all notification that sets userid with null value.
-        /// </summary>
-        /// <param name="userId">userid in jwt</param>
-        /// <returns>Top 10 records of Notification</returns>
-        Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter);
-
-        /// <summary>
-        /// Get Not Read Notifications For Specific User
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task<IResponse<int>> GetNewNotificationsCount(int userId);
+        
         /// <summary>
         /// When user tapped in a notification, this method called to set isread field with true status.
         /// </summary>
@@ -36,6 +23,20 @@ namespace GolPooch.Service.Interfaces
         /// <param name="notification">notification primary key</param>
         /// <returns>return notification id</returns>
         Task<IResponse<int>> ReadAsync(int userId, int notificationId);
+
+        /// <summary>
+        /// Get Not Read Notifications For Specific User
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IResponse<int>> UnReadCount(int userId);
+
+        /// <summary>
+        /// Get top 10 notifications with userid and all notification that sets userid with null value.
+        /// </summary>
+        /// <param name="userId">userid in jwt</param>
+        /// <returns>Top 10 records of Notification</returns>
+        Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter);
 
         Task SendNotificationsAsync();
     }
