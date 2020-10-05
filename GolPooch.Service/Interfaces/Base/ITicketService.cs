@@ -15,13 +15,6 @@ namespace GolPooch.Service.Interfaces
         Task<IResponse<int>> AddAsync(int userId, Ticket model);
 
         /// <summary>
-        /// Get Top 10 tickets of user
-        /// </summary>
-        /// <param name="userId">userid that is filled from jwt</param>
-        /// <returns>lsit of tickets model</returns>
-        Task<IResponse<PagingListDetails<Ticket>>> GetAsync(int userId, PagingParameter pagingParameter);
-
-        /// <summary>
         /// Get ticket with userid and ticket parameter
         /// </summary>
         /// <param name="userid">userid that is filled from jwt</param>
@@ -36,5 +29,14 @@ namespace GolPooch.Service.Interfaces
         /// <param name="ticketId"></param>
         /// <returns></returns>
         Task<IResponse<bool>> Read(int userId, int ticketId);
+
+        Task<IResponse<int>> UnReadCount(int userId);
+
+        /// <summary>
+        /// Get Top 10 tickets of user
+        /// </summary>
+        /// <param name="userId">userid that is filled from jwt</param>
+        /// <returns>lsit of tickets model</returns>
+        Task<IResponse<PagingListDetails<Ticket>>> GetTopTicketAsync(int userId, PagingParameter pagingParameter);
     }
 }

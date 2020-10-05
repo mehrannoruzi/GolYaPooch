@@ -39,32 +39,6 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<PagingListDetails<Ticket>>> GetAsync(int userId, PagingParameter pagingParameter)
-        {
-            var response = new Response<PagingListDetails<Ticket>>();
-            try
-            {
-                var tickets = await _appUow.TicketRepo.GetPagingAsync(
-                    new PagingQueryFilter<Ticket>
-                    {
-                        Conditions = x => x.UserId == userId,
-                        PagingParameter = pagingParameter,
-                        OrderBy = x => x.OrderByDescending(x => x.TicketId)
-                    });
-
-                response.Message = ServiceMessage.Success;
-                response.IsSuccessful = true;
-                response.Result = tickets;
-                return response;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                response.Message = ServiceMessage.Exception;
-                return response;
-            }
-        }
-
         public async Task<IResponse<Ticket>> Get(int ticketId)
         {
             var response = new Response<Ticket>();
@@ -110,6 +84,55 @@ namespace GolPooch.Service.Implements
                 response.IsSuccessful = saveResult.IsSuccessful;
                 response.Result = saveResult.IsSuccessful;
                 response.Message = saveResult.Message;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<int>> UnReadCount(int userId)
+        {
+            var response = new Response<int>();
+            try
+            {
+                response.Result = await _appUow.TicketRepo.CountAsync(
+                    new QueryFilter<Ticket>
+                    {
+                        Conditions = x => x.UserId == userId && !x.IsRead && x.AnswerAdminId == null
+                    });
+
+                response.IsSuccessful = true;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<PagingListDetails<Ticket>>> GetTopTicketAsync(int userId, PagingParameter pagingParameter)
+        {
+            var response = new Response<PagingListDetails<Ticket>>();
+            try
+            {
+                var tickets = await _appUow.TicketRepo.GetPagingAsync(
+                    new PagingQueryFilter<Ticket>
+                    {
+                        Conditions = x => x.UserId == userId,
+                        PagingParameter = pagingParameter,
+                        OrderBy = x => x.OrderByDescending(x => x.TicketId)
+                    });
+
+                response.Message = ServiceMessage.Success;
+                response.IsSuccessful = true;
+                response.Result = tickets;
                 return response;
             }
             catch (Exception e)

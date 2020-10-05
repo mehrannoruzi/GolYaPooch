@@ -34,7 +34,7 @@ export default class notificationSrv {
     }
 
     static async getNotReadCount() {
-        let call = await http.get(addr.UnReadCount);
+        let call = await http.get(addr.getUnReadNotifCount);
         return call;
     }
 }
