@@ -8,8 +8,8 @@ import Item from './comps/item';
 
 const useStyles = makeStyles({
     notificationsComp: {
-       
-       
+        overflowY: 'auto',
+        maxHeight: 'calc(100vh - 50px)'
     },
     inline: {
         display: 'inline',
@@ -36,22 +36,27 @@ const Notifications = () => {
     const [toast, setToastState] = useRecoilState(toastState);
 
 
-    function handleScroll() {
-        const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
-            document.body.scrollTop;
-        const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) ||
-            document.body.scrollHeight;
-        const clientHeight = document.documentElement.clientHeight || window.innerHeight;
-        console.log(`scrollTop:${scrollTop}-scrollHeight:${scrollHeight}-clientHeight:${clientHeight}`)
-        if (Math.ceil(scrollTop + clientHeight) + 10 >= scrollHeight) {
+    function handleScroll(e) {
+        // const scrollTop = (document.documentElement && document.documentElement.scrollTop) ||
+        //     document.body.scrollTop;
+        // const scrollHeight = (document.documentElement && document.documentElement.scrollHeight) ||
+        //     document.body.scrollHeight;
+        // const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+        let element = e.target
+        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+            // do something at end of scroll
             setIsBottom(true);
         }
+        console.log(`scrollTop:${element.scrollTop}-scrollHeight:${element.scrollHeight}-clientHeight:${element.clientHeight}`)
+        // if (Math.ceil(scrollTop + clientHeight) + 10 >= scrollHeight) {
+        //     setIsBottom(true);
+        // }
     }
     //infinit scroll
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, []);
 
     useEffect(() => {
         console.log('fired');
@@ -75,9 +80,9 @@ const Notifications = () => {
     }, [isBottom]);
 
     return (
-        <div id='comp-notifications' className={classes.notificationsComp}>
+        <div id='comp-notifications' className={classes.notificationsComp} onScroll={handleScroll}>
             {items.map((item, idx) => <Item key={idx} item={item} />)}
-            {inProgress ? [0, 1, 2].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
+            {(inProgress && pageNumber === 1) ? [0, 1, 2].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
                 <Skeleton variant='rect' height={36} width={36} className='avatar' />
                 <Skeleton className='subject' /></Container>) : null}
         </div>

@@ -119,11 +119,11 @@ const NavigationLayout = () => {
                         })}>
                             <FiMessageSquare />
                         </IconButton>
-                        <Badge className='successBadge' variant="dot">
+                        <Badge className={rState.newNotificationsCount === 0 ? "emptyBadhe" : "successBadge"} variant="dot">
                             <IconButton color="inherit" onClick={() => setModalState({
                                 ...modal,
                                 open: true,
-                                title:'اعلان ها',
+                                title: 'اعلان ها',
                                 children: NotificationsPage
                             })}>
                                 <RiNotification3Line className="hx" />
@@ -162,7 +162,7 @@ const NavigationLayout = () => {
                 </Grid>
             </div>
             <FullBottomUpModal />
-        </div>
+        </div >
     );
 }
 export default NavigationLayout;

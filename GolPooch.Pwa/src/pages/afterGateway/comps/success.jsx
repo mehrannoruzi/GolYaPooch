@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import strings from '../../../core/strings';
 import { Grid, makeStyles } from '@material-ui/core';
 import { FaCheckCircle } from 'react-icons/fa';
-import { useRecoilState } from 'recoil';
-import toastState from '../../../atom/state/toastState';
-import orderSrv from '../../../services/orderSrv';
 
 const useStyles = makeStyles({
     successComp: {
@@ -57,25 +54,21 @@ const useStyles = makeStyles({
 const Success = (props) => {
     //HOOKS
     const classes = useStyles();
-    const [inProgress, setInProgress] = useState(true);
-    const [chanceInfo, setChanceInfo] = useState(null);
-    const [query, setQuery] = useState('');
     //recoil
-    const [toast, setToastState] = useRecoilState(toastState);
     const { info } = props;
-    useEffect(() => {
-        const getDate = async () => {
-            setInProgress(true);
-            let info = await orderSrv.getChances();
-            console.log(info);
-            if (info.isSuccessful) {
-                setChanceInfo(info.result);
-            }
-            else setToastState({ ...toast, open: true, severity: 'error', message: info.message });
-            setInProgress(false);
-        }
-        getDate();
-    }, [query]);
+    // useEffect(() => {
+    //     const getDate = async () => {
+    //         setInProgress(true);
+    //         let info = await orderSrv.getChances();
+    //         console.log(info);
+    //         if (info.isSuccessful) {
+    //             setChanceInfo(info.result);
+    //         }
+    //         else setToastState({ ...toast, open: true, severity: 'error', message: info.message });
+    //         setInProgress(false);
+    //     }
+    //     getDate();
+    // }, [query]);
 
     return (
         <Grid container className={classes.successComp}>
@@ -104,20 +97,20 @@ const Success = (props) => {
                 </Grid>
             </Grid>
             <Grid xs={12} item className='chance'>
-                {inProgress ? [0, 1, 2].map((x, idx) => <Skeleton key={idx} className='w-100 mb-15' variant='rect' height={30} />) : <Grid container>
+                <Grid container>
                     <Grid xs={7} item className='lbl'>
                         تعداد شانس قبلی:
                      </Grid>
-                    <Grid xs={5} item className='val'>{chanceInfo.beforeChance}</Grid>
+                    <Grid xs={5} item className='val'>{info.BeforeChance}</Grid>
                     <Grid xs={7} item className='lbl'>
                         تعداد شانس اضافه شده:
                     </Grid>
-                    <Grid xs={5} item className='val'>{chanceInfo.addedChance}</Grid>
+                    <Grid xs={5} item className='val'>{info.NewChance}</Grid>
                     <Grid xs={7} item className='lbl'>
                         تعداد شانس موجود:
                     </Grid>
-                    <Grid item xs={5} className='val'>{chanceInfo.chance}</Grid>
-                </Grid>}
+                    <Grid item xs={5} className='val'>{info.TotalChance}</Grid>
+                </Grid>
             </Grid>
             <Link to='/nl/chest' className={classes.linkToStore}>شانست رو دوباره امتحان کن</Link>
         </Grid>

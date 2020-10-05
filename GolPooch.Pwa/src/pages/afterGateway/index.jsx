@@ -40,7 +40,7 @@ const AfterGateway = (props) => {
     const classes = useStyles();
     const location = useLocation();
     let history = useHistory();
-    const values = queryString.parse(location);
+    const values = queryString.parse(location.search);
     const success = values.IsSuccessful.toLowerCase()==='true';
     return (
         <div id='page-after-gateway' className={`page ${classes.afterGatewayPage} ${(success ? 'success' : 'failed')}`}>
@@ -52,7 +52,6 @@ const AfterGateway = (props) => {
                 </Container>
             </AppBar>
             <Container className={classes.products}>
-
                 {success ? <Success info={values} /> : <Failed info={values} />}
             </Container>
 

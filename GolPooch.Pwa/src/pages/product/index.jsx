@@ -151,7 +151,7 @@ const Product = () => {
                 </Grid>
             </Container>
             <div className='btn-wrapper btn-BottomFixed'>
-                <Button disabled={inProgress} className='btn-purchase' onClick={_handlePurchase}>{strings.purchase}</Button>
+                <Button disabled={inProgress} loading={sending} className='btn-purchase' onClick={_handlePurchase}>{strings.purchase}</Button>
             </div>
         </div>
     );

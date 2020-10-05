@@ -90,7 +90,7 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.IsActive && x.ProductOfferId == paymentTransaction.ProductOfferId,
                         IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
                     });
-                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer }; 
+                if (productOffer.IsNull()) return new Response<string> { Message = ServiceMessage.InvalidProductOffer };
                 #endregion
 
                 paymentTransaction.Price = productOffer.TotalPrice;
@@ -200,27 +200,30 @@ namespace GolPooch.Service.Implements
                                 AsNoTracking = false,
                                 Conditions = x => !x.IsUsed && x.Type == productOffer.Product.CodeType
                             });
-
-                        discountCode.IsUsed = true;
-                        discountCode.PurchaseId = purchase.PurchaseId;
-                        discountCode.UserId = paymentTransaction.UserId;
-                        discountCode.UsedDateMi = DateTime.Now;
-                        discountCode.UsedDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
-
-                        var notif = new Notification
+                        if (discountCode != null)
                         {
-                            UserId = paymentTransaction.UserId,
-                            Type = NotificationType.Sms,
-                            Action = NotificationAction.SuccessPurchase,
-                            Priority = Priority.High,
-                            IsActive = true,
-                            IsSent = false,
-                            IsSuccess = false,
-                            IsRead = false,
-                            Subject = ServiceMessage.SuccessPurchaseSubject.Fill(productOffer.Product.Subject),
-                            Text = ServiceMessage.SuccessPurchaseText.Fill(productOffer.Product.Subject, productOffer.Chance.ToString(), discountCode.Code)
-                        };
-                        await _appUow.NotificationRepo.AddAsync(notif);
+                            discountCode.IsUsed = true;
+                            discountCode.PurchaseId = purchase.PurchaseId;
+                            discountCode.UserId = paymentTransaction.UserId;
+                            discountCode.UsedDateMi = DateTime.Now;
+                            discountCode.UsedDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
+
+                            var notif = new Notification
+                            {
+                                UserId = paymentTransaction.UserId,
+                                Type = NotificationType.Sms,
+                                Action = NotificationAction.SuccessPurchase,
+                                Priority = Priority.High,
+                                IsActive = true,
+                                IsSent = false,
+                                IsSuccess = false,
+                                IsRead = false,
+                                Subject = ServiceMessage.SuccessPurchaseSubject.Fill(productOffer.Product.Subject),
+                                Text = ServiceMessage.SuccessPurchaseText.Fill(productOffer.Product.Subject, productOffer.Chance.ToString(), discountCode.Code)
+                            };
+                            await _appUow.NotificationRepo.AddAsync(notif);
+                        }
+
                         await _appUow.SaveChangesAsync();
                         #endregion
 
