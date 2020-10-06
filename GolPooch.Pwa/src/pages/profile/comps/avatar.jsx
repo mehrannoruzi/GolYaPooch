@@ -26,11 +26,15 @@ const useStyles = makeStyles({
             }
         },
         '& .MuiAvatar-root': {
-            width: 48,
-            height: 48,
+            width: 55,
+            height: 55,
             boxShadow: " 0px 0px 3px 1px #d4d4d4",
             backgroundColor: '#eee',
-            marginRight: 10
+            marginRight: 10,
+            '& .MuiAvatar-img':{
+                width: '50px!important',
+                height: '50px!important' 
+            }
         }
     }
 });

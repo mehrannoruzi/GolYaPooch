@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Slider from "react-slick";
-import { Contaner, Button, makeStyles, Paper, Container } from '@material-ui/core';
+import { Button, makeStyles, Paper, Container } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import bannerService from '../../services/bannerSrv';
 import { AiOutlineGift } from 'react-icons/ai';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
+import bannerSrv from '../../services/bannerSrv';
 
 const actions = {
     close: 1,
     callApi: 2,
     openLink: 3,
-    openApp: 3,
-    openPage: 4
+    openApp: 4,
+    openPage: 5
 }
 
 const useStyles = makeStyles({
@@ -33,12 +34,27 @@ const TextBanner = (props) => {
     const history = useHistory();
     const [visile, setVisibility] = useState(true);
     const { item } = props;
- 
+    const _handleClick = (item) => {
+        bannerSrv.handleClick(item);
+        switch (item.actionType) {
+            case actions.openLink:
+                history.push(item.href);
+                break;
+            case actions.openApp:
+            case actions.openPage:
+                window.location.href = item.href;
+                break;
+            default:
+                setVisibility(false)
+                break;
+        }
+        history.push(props.item.href);
+    }
     switch (item.actionType) {
         case actions.openLink:
             return (
                 <Paper className={`Ctr comp-text-banner ${visile ? null : 'd-none'} ${classes.textBanner}`} style={{ backgroundColor: `${item.backColor}` }}>
-                    <Button onClick={() => history.push(props.item.href)} className="txt w-100" style={{ color: `${item.fontColor}` }} >
+                    <Button onClick={() => _handleClick(item)} className="txt w-100" style={{ color: `${item.fontColor}` }} >
                         <AiOutlineGift className="icon" />
                         <span className="text">{item.text}</span>
                         <MdKeyboardArrowLeft className="arrow" />
@@ -48,12 +64,12 @@ const TextBanner = (props) => {
         case actions.openPage:
             return (
                 <Paper className={`Ctr comp-text-banner ${visile ? null : 'd-none'} ${classes.textBanner}`}>
-                    <Link to={item.href} className="txt">{item.text}</Link>
+                    <a onClick={() => _handleClick(item)} className="txt">{item.text}</a>
                 </Paper>);
         default:
             return (
                 <Paper className={`Ctr comp-text-banner ${visile ? null : 'd-none'} ${classes.textBanner}`} style={{ backgroundColor: `${item.backColor}` }}>
-                    <Button onClick={() => setVisibility(false)} className="txt w-100" style={{ color: `${item.fontColor}` }} >
+                    <Button onClick={() => _handleClick(item)} className="txt w-100" style={{ color: `${item.fontColor}` }} >
                         <AiOutlineGift className="icon" />
                         <span className="text">{item.text}</span>
                         <MdKeyboardArrowLeft className="arrow" />

@@ -55,9 +55,7 @@ const Store = () => {
             else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
         }
         const requestNotification = async () => {
-            console.log(process.env.NODE_ENV);
             let res = await notificationSrv.requestPermission();
-            console.log(res);
         }
         requestNotification();
         getDate();

@@ -16,6 +16,8 @@ import strings from '../core/strings';
 import FullBottomUpModal from '../atom/comps/FullBottomUpModal';
 import fullBottomUpModalState from '../atom/state/fullBottomUpModalState';
 import NotificationsPage from '../pages/notifications';
+import Tickets from '../pages/tickets';
+
 const navs = [
     {
         label: strings.pageName_store,
@@ -113,13 +115,18 @@ const NavigationLayout = () => {
                         <h1 className='hx'> {navs[rState.activeBotton].label}</h1>
                     </Grid>
                     <Grid item xs={4} className='l-col'>
-                        <IconButton edge="start" aria-label="show 4 new mails" color="inherit" onClick={() => setModalState({
-                            ...modal,
-                            open: true
-                        })}>
-                            <FiMessageSquare />
-                        </IconButton>
-                        <Badge className={rState.newNotificationsCount === 0 ? "emptyBadhe" : "successBadge"} variant="dot">
+                        <Badge color="secondary" className={rState.newTicketCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
+                            <IconButton aria-label="show 4 new mails" color="inherit" onClick={() => setModalState({
+                                ...modal,
+                                open: true,
+                                title: 'تیکت ها',
+                                children: Tickets
+                            })}>
+                                <FiMessageSquare />
+                            </IconButton>
+                        </Badge>
+
+                        <Badge color="secondary" className={rState.newNotificationsCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
                             <IconButton color="inherit" onClick={() => setModalState({
                                 ...modal,
                                 open: true,

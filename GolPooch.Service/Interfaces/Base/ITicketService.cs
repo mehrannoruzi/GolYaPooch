@@ -28,7 +28,7 @@ namespace GolPooch.Service.Interfaces
         /// <param name="userId"></param>
         /// <param name="ticketId"></param>
         /// <returns></returns>
-        Task<IResponse<bool>> Read(int userId, int ticketId);
+        Task<IResponse<int>> Read(int userId, int ticketId);
 
         Task<IResponse<int>> UnReadCount(int userId);
 

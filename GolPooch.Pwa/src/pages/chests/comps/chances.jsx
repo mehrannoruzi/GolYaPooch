@@ -78,7 +78,7 @@ const Chances = (props) => {
 
     const getChances = async () => {
         setInProgress(true);
-        let get = await chanceSrv.get(12, pageNumber);
+        let get = await chanceSrv.getPurchase(12, pageNumber);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
                 setModalState({ ...modal, open: false });

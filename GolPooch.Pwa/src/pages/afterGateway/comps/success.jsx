@@ -112,7 +112,7 @@ const Success = (props) => {
                     <Grid item xs={5} className='val'>{info.TotalChance}</Grid>
                 </Grid>
             </Grid>
-            <Link to='/nl/chest' className={classes.linkToStore}>شانست رو دوباره امتحان کن</Link>
+            <Link to='/nl/store' className={classes.linkToStore}>شانست رو دوباره امتحان کن</Link>
         </Grid>
     );
 }
