@@ -5,7 +5,7 @@ import ActivitiesPage from '../pages/activities';
 import ChestsPage from '../pages/chests';
 import SettingsPage from '../pages/settings'
 import PrivateRoute from '../atom/comps/PrivateRoute';
-import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge } from '@material-ui/core';
+import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge, colors } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";
@@ -47,6 +47,9 @@ const navs = [
 ];
 
 const useStyles = makeStyles({
+    root: {
+        height: 50,
+    },
     layoutNL: {
         minHeight: '100vh',
         paddingBottom: '60px',
@@ -103,20 +106,21 @@ const NavigationLayout = () => {
                 <Grid container className={classes.root} spacing={0}>
                     <Grid item xs={4}>
                         <IconButton
+                            className='color-white'
                             edge="end"
                             aria-label="account of current user"
                             aria-haspopup="true"
                             onClick={() => history.push('/bl/profile')}
-                            color="inherit">
+                        >
                             <FiUser />
                         </IconButton>
                     </Grid>
                     <Grid item xs={4} className='c-col'>
-                        <h1 className='hx'> {navs[rState.activeBotton].label}</h1>
+                        <h1 className='hx color-white'> {navs[rState.activeBotton].label}</h1>
                     </Grid>
                     <Grid item xs={4} className='l-col'>
                         <Badge color="secondary" className={rState.newTicketCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
-                            <IconButton aria-label="show 4 new mails" color="inherit" onClick={() => setModalState({
+                            <IconButton className='color-white' aria-label="show 4 new mails" onClick={() => setModalState({
                                 ...modal,
                                 open: true,
                                 title: 'تیکت ها',
@@ -127,7 +131,7 @@ const NavigationLayout = () => {
                         </Badge>
 
                         <Badge color="secondary" className={rState.newNotificationsCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
-                            <IconButton color="inherit" onClick={() => setModalState({
+                            <IconButton className='color-white' onClick={() => setModalState({
                                 ...modal,
                                 open: true,
                                 title: 'اعلان ها',

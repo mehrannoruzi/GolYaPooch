@@ -85,11 +85,13 @@ body {
         background-color: #8BC34A;
     }
 }
+
 .emptyBadge {
     .MuiBadge-dot {
         visibility: hidden;
     }
 }
+
 .MuiAccordion-root.Mui-expanded {
     background-color: #eee;
     border-radius: 10px;
@@ -109,6 +111,15 @@ body {
     border-top-left-radius: 10px !important;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center;
 }
 
 @import "./utils.scss";

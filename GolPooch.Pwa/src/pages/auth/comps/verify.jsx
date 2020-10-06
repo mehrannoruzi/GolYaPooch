@@ -127,11 +127,11 @@ export default function () {
                     resendActive ?
                         <Box>
                             <Grid container className={classes.footerBx} >
-                                <Grid item xs={8}>
+                                <Grid item xs={7}>
                                     <Box>{strings.doesntGiveCode}</Box>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <Box>
+                                <Grid item xs={5}>
+                                    <Box className='text-center'>
                                         <Button className={classes.changeNumber} onClick={() => _resent()}>
                                             <i className="resentIcon"> <ReplayIcon /></i> {strings.verifyCode_sendAgain}
                                         </Button>

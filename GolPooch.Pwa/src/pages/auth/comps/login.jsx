@@ -73,7 +73,7 @@ export default function () {
                     style={{ fontFamily: 'iransans' }}
                 />
             </div>
-            <div className='form-group'>
+            <div className='form-group text-right'>
                 <FormControlLabel
                     control={<Checkbox color="primary" checked={ruleAgreement} onChange={() => setRuleAgreement(!ruleAgreement)} name="ruleAgreement" />}
                     label={strings.aggreedWithRules} />

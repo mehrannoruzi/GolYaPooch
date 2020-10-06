@@ -20,6 +20,11 @@ const useStyles = makeStyles({
             flexDirection: 'column',
             position: 'relative',
 
+            '& .chestItem': {
+                borderRadius: 10,
+                boxShadow: '0px 0px 5px 2px #d0d0d0',
+                marginBottom: 15
+            },
             '& figcaption': {
                 position: 'absolute',
                 display: 'flex',
@@ -58,7 +63,7 @@ const Items = (props) => {
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     return (
         <>
-            { props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product}><Skeleton variant='rect' className='w-100 mb-15' height={150} /></div>) :
+            {props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product}><Skeleton variant='rect' className='w-100 mb-15' height={150} /></div>) :
                 props.items.map((item, idx) => <div key={idx} className={classes.product}>
                     <Link onClick={() => setModalState({
                         ...modal,
@@ -68,7 +73,7 @@ const Items = (props) => {
                         props: { id: item.chestId }
                     })}>
                         <figure>
-                            <img className='w-100' src={item.imageUrl} />
+                            <img className='w-100 chestItem' src={item.imageUrl} />
                         </figure>
                     </Link>
 

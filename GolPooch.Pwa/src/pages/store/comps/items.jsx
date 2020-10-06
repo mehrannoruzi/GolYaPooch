@@ -23,18 +23,19 @@ const useStyles = makeStyles({
             },
             '& .name': {
                 textAlign: 'center',
-                backgroundColor: '#5d5d5d',
                 borderRadius: 5,
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
-                color: '#fff',
-                fontSize:11,
+                color: '#212a5f',
+                fontSize: 11,
+                borderBottom: '1px solid #ccc'
+
                  
             },
             '& .price': {
                 textAlign: 'center',
                 fontSize: '1.5rem',
-                color:'#8BC34A'
+                color:'#212a5f'
             },
             '& .btn': {
                 textAlign: 'center',

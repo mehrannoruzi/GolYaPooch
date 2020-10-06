@@ -9,7 +9,8 @@ import Item from './comps/item';
 const useStyles = makeStyles({
     ticketsComp: {
         overflowY: 'auto',
-        maxHeight: 'calc(100vh - 50px)'
+        maxHeight: 'calc(100vh - 50px)',
+        marginTop: 20,
     },
     inline: {
         display: 'inline',
@@ -19,8 +20,9 @@ const useStyles = makeStyles({
         alignItems: 'center',
         marginBottom: 15,
         '& .subject': {
-            margin: '0 10px',
-            width: '100%'
+            margin: '0 15px',
+            width: '100%',
+            height: 20
         }
     }
 });
@@ -65,8 +67,8 @@ const Tickets = () => {
     return (
         <div id='comp-tickets' className={classes.ticketsComp} onScroll={handleScroll}>
             {items.map((item, idx) => <Item key={idx} item={item} />)}
-            {(inProgress && pageNumber === 1) ? [0, 1, 2].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
-                <Skeleton variant='rect' height={36} width={36} className='avatar' />
+            {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
+                <Skeleton variant='rect' height={36} width={48} className='avatar' />
                 <Skeleton className='subject' /></Container>) : null}
         </div>
 

@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo-32.png",
+      "src": "https://cdn.golpooch.com/assets/logos/square-minimal-144.png",
       "type": "image/png",
       "sizes": "32x32"
     },
     {
-      "src": "logo-144.png",
+      "src": "https://cdn.golpooch.com/assets/logos/square-minimal-144.png",
       "type": "image/png",
       "sizes": "144x144"
     }
