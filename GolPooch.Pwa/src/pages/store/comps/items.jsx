@@ -9,26 +9,42 @@ import { BiCheck } from 'react-icons/bi';
 
 const useStyles = makeStyles({
     product: {
-        boxShadow: "0px 3px 10px 2px #bbbbbb",
-        borderRadius: 15,
+        boxShadow: "0px 1px 8px 0px #d2d2d2",
+        borderRadius: 5,
         marginTop: 5,
-        marginBottom: 7.5,
-        padding: 10,
+        marginBottom: 15,
+        minHeight:275,
+         
         '& ul.props': {
             listStyle: 'none',
+            marginTop: 0,
             '& li': {
                 padding: '7.5px 0'
             },
             '& .name': {
-                textShadow: '1px 1px #630000',
-                fontWeight: 900
+                textAlign: 'center',
+                backgroundColor: '#5d5d5d',
+                borderRadius: 5,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                color: '#fff',
+                fontSize:11,
+                 
             },
             '& .price': {
                 textAlign: 'center',
-                fontSize: '1.5rem'
+                fontSize: '1.5rem',
+                color:'#8BC34A'
             },
             '& .btn': {
                 textAlign: 'center',
+                color: '#8BC34A',
+                minWidth: 120,
+
+                '& .btnPurchase': {
+                    backgroundColor: '#8BC34A',
+                    minWidth: 120,
+                }
             },
             '& .chk-icon': {
                 fontSize: '20px',
@@ -71,7 +87,7 @@ const Items = (props) => {
                             <li className='price'>
                                 {commaThousondSeperator(item.totalPrice)}{strings.moneyCurrency}
                             </li>
-                            <li className='btn'><Button>خرید بسته</Button></li>
+                            <li className='btn'><Button className='btnPurchase'>خرید بسته</Button></li>
                             <li className='chance details'><BiCheck className='chk-icon' /> {item.chance} شانس برنده شدن </li>
                             {item.discount > 0 ? <>
                                 <li className='discount details'><BiCheck className='chk-icon' /> {item.discount}% تخفیف </li>

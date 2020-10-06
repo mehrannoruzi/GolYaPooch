@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import buttomUpModalState from './../state/bottomUpModalState';
 import { Grid, makeStyles } from '@material-ui/core';

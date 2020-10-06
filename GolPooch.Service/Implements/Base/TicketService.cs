@@ -63,9 +63,9 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<bool>> Read(int userId, int ticketId)
+        public async Task<IResponse<int>> Read(int userId, int ticketId)
         {
-            var response = new Response<bool>();
+            var response = new Response<int>();
             try
             {
                 var ticket = await _appUow.TicketRepo.FirstOrDefaultAsync(
@@ -74,17 +74,17 @@ namespace GolPooch.Service.Implements
                         AsNoTracking = false,
                         Conditions = x => x.TicketId == ticketId
                     });
-                if (ticket == null) return new Response<bool> { Message = ServiceMessage.InvalidTicketId };
-                if (ticket.UserId != userId) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
+                if (ticket == null) return new Response<int> { Message = ServiceMessage.InvalidTicketId };
+                if (ticket.UserId != userId) return new Response<int> { Message = ServiceMessage.InvalidParameter };
 
                 ticket.IsRead = true;
                 _appUow.TicketRepo.Update(ticket);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
-
-                response.IsSuccessful = saveResult.IsSuccessful;
-                response.Result = saveResult.IsSuccessful;
-                response.Message = saveResult.Message;
-                return response;
+                if(!saveResult.IsSuccessful) return new Response<int> { Message = saveResult.Message };
+                //response.IsSuccessful = saveResult.IsSuccessful;
+                //response.Result = saveResult.IsSuccessful;
+                //response.Message = saveResult.Message;
+                return await UnReadCount(userId);
             }
             catch (Exception e)
             {
