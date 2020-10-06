@@ -1,15 +1,19 @@
 ﻿import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Tabs, Tab, Paper, AppBar, Container } from '@material-ui/core';
 import { TabPanel } from '@material-ui/lab';
+import Banners from '../../atom/comps/Banners';
 
 
 const useStyles = makeStyles(() => ({
     root: {
-        backgroundColor: '#FFF',
-        width: 500,
+        backgroundColor: '#fff',
+        paddingTop: 7.5,
+        paddingBottom: 7.5,
+        '& .MuiPaper-root':{
+            boxShadow: "0px 1px 8px 0px #d2d2d2",
+            borderRadius: 5,
+        }
     },
 }));
 
@@ -21,30 +25,42 @@ const Activities = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="default">
-                <Tabs
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                >
-                    <Tab label="Item One" />
-                    <Tab label="Item Two" />
-                    <Tab label="Item Three" />
-                </Tabs>
-            </AppBar>
-            <TabPanel index={0} >
-                Item One
-                 </TabPanel>
-            <TabPanel index={1} >
-                Item Two
-                </TabPanel>
-            <TabPanel index={2} >
-                Item Three
-                </TabPanel>
+            <Banners pageName="Activities" location="top" />
+            <Container>
+                <Paper className='mb-15'>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        indicatorColor="primary"
+                        textColor="primary">
+                        <Tab label="بسته های فعال" />
+                        <Tab label="کلیه بسته ها" />
+                    </Tabs>
+                </Paper>
+
+                <Paper>
+                    <div
+                        role="tabpanel"
+                        index={0}
+                        hidden={value !== 0}
+                        id='active-packages'>
+                        Item One
+
+                    </div>
+                    <div
+                        role="tabpanel"
+                        index={1}
+                        hidden={value !== 1}
+                        id='active-packages'>
+                        Item Two
+
+                </div>
+                </Paper>
+            </Container>
+
+            <Banners pageName="Activities" location="bottom" />
         </div>
     );
 };

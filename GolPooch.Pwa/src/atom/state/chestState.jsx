@@ -3,7 +3,8 @@ import { atom } from 'recoil';
 const chestState = atom({
     key: 'chestState',
     default: {
-        purchaseId: ''
+        purchaseId: '',
+        withoutChance: null
     }
 });
 export default chestState;
