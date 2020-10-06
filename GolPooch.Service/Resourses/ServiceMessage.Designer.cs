@@ -224,6 +224,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to شماره موبایل وارد شده صحیح نمی باشد..
+        /// </summary>
+        public static string InvalidMobileNumber {
+            get {
+                return ResourceManager.GetString("InvalidMobileNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نوتیفیکیشن مورد نظر وجود ندارد ویا کد ارسالی معتبر نمی باشد..
         /// </summary>
         public static string InvalidNotificationId {

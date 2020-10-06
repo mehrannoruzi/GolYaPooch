@@ -172,6 +172,9 @@ Code: {code}</value>
   <data name="InvalidId" xml:space="preserve">
     <value>کد ارسالی معتبر نمی باشد.</value>
   </data>
+  <data name="InvalidMobileNumber" xml:space="preserve">
+    <value>شماره موبایل وارد شده صحیح نمی باشد.</value>
+  </data>
   <data name="InvalidNotificationId" xml:space="preserve">
     <value>نوتیفیکیشن مورد نظر وجود ندارد ویا کد ارسالی معتبر نمی باشد.</value>
   </data>
