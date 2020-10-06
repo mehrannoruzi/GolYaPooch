@@ -15,6 +15,8 @@ import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
     chestComp: {
+        overflowY: 'auto',
+
         '& .heading': {
             textAlign: 'center'
         },

@@ -1,11 +1,13 @@
 import React from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import strings from '../../../core/strings';
 import { commaThousondSeperator } from '../../../core/utils';
-import { makeStyles, Paper } from '@material-ui/core';
+import { makeStyles, Paper, Link } from '@material-ui/core';
 import Button from '../../../atom/comps/Button';
 import { BiCheck } from 'react-icons/bi';
+import fullBottomUpModalAtom from '../../../atom/state/fullBottomUpModalState';
+import { useRecoilState } from 'recoil';
 
 const useStyles = makeStyles({
     product: {
@@ -13,8 +15,8 @@ const useStyles = makeStyles({
         borderRadius: 5,
         marginTop: 5,
         marginBottom: 15,
-        minHeight:275,
-         
+        minHeight: 275,
+
         '& ul.props': {
             listStyle: 'none',
             marginTop: 0,
@@ -30,12 +32,12 @@ const useStyles = makeStyles({
                 fontSize: 11,
                 borderBottom: '1px solid #ccc'
 
-                 
+
             },
             '& .price': {
                 textAlign: 'center',
                 fontSize: '1.5rem',
-                color:'#212a5f'
+                color: '#212a5f'
             },
             '& .btn': {
                 textAlign: 'center',
@@ -76,13 +78,21 @@ const useStyles = makeStyles({
 });
 
 const Items = (props) => {
+    //Hooks
     const classes = useStyles();
+    const history = useHistory();
+    //Recoil
+    const [modal, setModalState] = useRecoilState(fullBottomUpModalAtom);
+    const _handleClick = (id) => {
+        setModalState({ ...modal, open: false, children: null });
+        history.push(`/bl/product/${id}`);
+    }
     return (
         <>
             {props.inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.product} >
                 <Skeleton variant='rect' className='w-100 mb-15' height={110} /></div>) :
                 props.items.map((item, idx) => <Paper key={idx} className={classes.product}>
-                    <Link to={`/bl/product/${item.productOfferId}`}>
+                    <Link onClick={() => _handleClick(item.productOfferId)}>
                         <ul className='props'>
                             <li className='name'>{item.product.text}</li>
                             <li className='price'>

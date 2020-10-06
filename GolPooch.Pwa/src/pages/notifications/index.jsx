@@ -8,8 +8,6 @@ import Item from './comps/item';
 
 const useStyles = makeStyles({
     notificationsComp: {
-        overflowY: 'auto',
-        maxHeight: 'calc(100vh - 50px)',
         marginTop: 20,
     },
     inline: {

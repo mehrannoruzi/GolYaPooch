@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 const useStyles = makeStyles({
     chestPage: {
         paddingTop: 7.5,
-        paddingBottom: 7.5
+        paddingBottom: 7.5,
     },
     col2: {
         width: '50%',
