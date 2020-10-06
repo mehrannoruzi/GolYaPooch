@@ -133,7 +133,14 @@ namespace GolPooch.Api
             app.UseMiddleware<JwtParserMiddleware>();
             app.UseElkJwtConfiguration();
             app.UseRouting();
-            app.UseMvcWithDefaultRoute();
+            app.UseAuthentication();
+            app.UseCors(AllowedOrigins);
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
