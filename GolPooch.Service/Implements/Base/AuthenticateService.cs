@@ -45,6 +45,8 @@ namespace GolPooch.Service.Implements
             var response = new Response<int> { IsSuccessful = true, Message = ServiceMessage.Success };
             try
             {
+                if(!mobileNumber.IsMobileNumber()) return new Response<int> { Message = ServiceMessage.InvalidMobileNumber };
+
                 var randomPinCode = Randomizer.GetRandomInteger(4);
                 var authenticate = new Authenticate
                 {
