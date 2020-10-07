@@ -26,7 +26,8 @@ const useStyles = makeStyles({
 
             '& .box': {
                 border: 'solid 1px #ccc',
-                padding: '12px',
+                padding: '10px',
+                width:65,
                 borderRadius: '3px',
                 textAlign: 'center',
                 position: 'relative',

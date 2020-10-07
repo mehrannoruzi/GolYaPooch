@@ -15,10 +15,13 @@ const useStyles = makeStyles({
         minHeight: '100vh',
         boxSizing: 'border-box',
         '& header': {
-            backgroundColor: '#fff',
-            color: '#666',
+            backgroundColor: '#212a5f',
+            color: '#FFF',
+            height: 50,
+            justifyContent: 'center',
             '& .title': {
-                fontSize: '13px',
+                fontSize: '12px',
+                fontWeight: "normal",
                 padding: '12px 0'
             },
             '& .l-col': {

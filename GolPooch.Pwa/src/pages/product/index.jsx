@@ -122,11 +122,7 @@ const Product = () => {
         <div id='page-product' className={classes.productPage}>
             <Container>
                 <Grid container className='mb-15'>
-                    <Grid item xs={6} className='info-wrapper'>
-                        {inProgress ? <Skeleton variant='rect' className='w-100' height={300} animation="wave" /> :
-                            <img className='img-main' src={item.imageUrl} alt={item.product.text} />}
-                    </Grid>
-                    <Grid item xs={6} className='info-wrapper'>
+                    <Grid item xs={12} className='info-wrapper'>
                         {inProgress ? <div className='info'>
                             {[0, 1, 2].map((x, idx) => <Skeleton key={idx} className='w-100 mb-15' />)}
                         </div> : <div className='info'>
@@ -139,6 +135,7 @@ const Product = () => {
                                     {commaThousondSeperator(item.totalPrice)}{strings.moneyCurrency}</label>
                             </div>}
                     </Grid>
+                    
                 </Grid>
                 <Grid container>
                     <Grid item xs={12}>
