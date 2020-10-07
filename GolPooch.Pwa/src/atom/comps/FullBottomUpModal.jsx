@@ -29,6 +29,10 @@ const useStyles = makeStyles({
                 color: '#666',
                 fontSize: '25px'
             }
+        },
+        '& .children-wrapper': {
+            maxHeight: 'calc(100vh - 50px)',
+            overflowY: 'auto'
         }
 
     }
@@ -45,6 +49,8 @@ export default function () {
             <Container><h4 className='hx'>{rState.title}</h4></Container>
             <button className='btn-close' onClick={() => setRState({ ...rState, open: false, message: '', children: null })}><i className='icon zmdi zmdi-close'></i></button>
         </div>
-        {rState.children ? <rState.children {...rState.props} /> : null}
+        <div className='children-wrapper'>
+            {rState.children ? <rState.children {...rState.props} /> : null}
+        </div>
     </div>);
 }
