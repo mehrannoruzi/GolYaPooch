@@ -12,9 +12,7 @@ namespace GolPooch.Api.Controllers
         private ITicketService _ticketService { get; set; }
 
         public TicketController(ITicketService ticketService)
-        {
-            _ticketService = ticketService;
-        }
+            => _ticketService = ticketService;
 
         [HttpPost]
         public async Task<JsonResult> AddAsync(User user, [FromBody] Ticket ticket)
