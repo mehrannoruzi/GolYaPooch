@@ -10,14 +10,17 @@ import Heading from '../../../atom/comps/Heading';
 import chestSrv from '../../../services/chestSrv';
 import chestState from '../../../atom/state/chestState';
 import Agreed from './agreed';
+import WithoutChance from './withoutChance';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
     chestComp: {
+        overflowY: 'auto',
+
         '& .heading': {
             textAlign: 'center'
         },
-        '& .chance': {
+        '& .total-chance': {
             display: 'flex',
             justifyContent: 'center',
             fontWeight: 800,
@@ -84,7 +87,7 @@ const Chest = (props) => {
             setInProgress(true);
             let get = await chestSrv.getSingle(parseInt(props.id));
             if (get.isSuccessful) {
-                setItem(get.result.items);
+                setItem(get.result);
                 let getChance = await chestSrv.getChance(props.id);
                 if (getChance.isSuccessful) setTotalChance(getChance.result);
                 else setToastState({ ...toast, open: true, severity: 'error', message: getChance.message });
@@ -102,14 +105,14 @@ const Chest = (props) => {
             purchaseId: rState.purchaseId,
             ChanceCount: count
         });
-        console.log(call.result);
         if (call.isSuccessful) setSpendChanceResult(call.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
         setIsSending(false);
     }
     const _handleCount = (newCount) => {
+        console.log(item);
         if (newCount <= 0) return;
-        if (newCount > (item.chance - item.usedChanse)) return;
+        if (newCount > totalChance) return;
         setCount(newCount);
     }
     if (spendChanceResult) return <Agreed info={spendChanceResult} />;
@@ -119,36 +122,39 @@ const Chest = (props) => {
                 <h4 className='heading'>
                     {inProgress ? <Skeleton className='w-100' /> : 'میزان شانس شما در این قرعه کشی'}
                 </h4>
-                <h5 className='chance'>
+                <h5 className='total-chance'>
                     {inProgress ? <Skeleton width={100} /> : <span>{totalChance}</span>}
                 </h5>
             </Container>
             <Divider component="div" />
-            <Container>
-                <Grid container>
-                    <Heading>برای افزایش شانس بسته خود را انتخاب کنید</Heading>
-                </Grid>
-                <Chances />
-                <div className={classes.counter}>
-                    {inProgress ? <Skeleton className='w-100' variant='rect' height={30} width={120} /> : <>
-                        <button className='btn-plus' onClick={() => _handleCount(count + 1)}>+</button>
-                        <span className='count'>{count}</span>
-                        <button className='btn-minus' onClick={() => _handleCount(count - 1)}>-</button>
-                    </>}
-                </div>
-            </Container>
-            <Paper className='btns'>
+            {rState.withoutChance ? <WithoutChance /> : <>
                 <Container>
                     <Grid container>
-                        <Grid item xs={6} className='agree'>
-                            <Button loading={sending} disabled={inProgress} onClick={() => _handleSpendChance()}>{strings.iAgree}</Button>
-                        </Grid>
-                        <Grid item xs={6} className='reject'>
-                            <Button onClick={() => setModalState({ ...modal, open: false })} disabled={inProgress}>{strings.iReject}</Button>
-                        </Grid>
+                        <Heading>برای افزایش شانس بسته خود را انتخاب کنید</Heading>
                     </Grid>
+                    <Chances />
+                    <div className={classes.counter}>
+                        {inProgress ? <Skeleton className='w-100' variant='rect' height={30} width={120} /> : <>
+                            <button className='btn-plus' onClick={() => _handleCount(count + 1)}>+</button>
+                            <span className='count'>{count}</span>
+                            <button className='btn-minus' onClick={() => _handleCount(count - 1)}>-</button>
+                        </>}
+                    </div>
                 </Container>
-            </Paper>
+                <Paper className='btns'>
+                    <Container>
+                        <Grid container>
+                            <Grid item xs={6} className='agree'>
+                                <Button loading={sending} disabled={inProgress} onClick={() => _handleSpendChance()}>{strings.iAgree}</Button>
+                            </Grid>
+                            <Grid item xs={6} className='reject'>
+                                <Button onClick={() => setModalState({ ...modal, open: false })} disabled={inProgress}>{strings.iReject}</Button>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Paper>
+            </>}
+
         </div>
     );
 };

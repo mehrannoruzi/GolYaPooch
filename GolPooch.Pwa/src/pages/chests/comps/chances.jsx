@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { Link } from 'react-router-dom';
-import strings from '../../../core/strings';
 import { makeStyles, Box } from '@material-ui/core';
 import Slider from "react-slick";
 import chestAtom from '../../../atom/state/chestState';

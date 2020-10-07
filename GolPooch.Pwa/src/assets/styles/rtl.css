@@ -61,7 +61,8 @@ body[dir="rtl"] .modal-header .close {
   transition: -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: #fff;
+  background-color: #212a5f;
+  height: 50px;
 }
 
 .Banner .Ctr .icon {
@@ -76,5 +77,9 @@ body[dir="rtl"] .modal-header .close {
 
 .Banner .Ctr .arrow {
   font-size: 25px;
+}
+
+.color-white {
+  color: #FFF !important;
 }
 /*# sourceMappingURL=rtl.css.map */
