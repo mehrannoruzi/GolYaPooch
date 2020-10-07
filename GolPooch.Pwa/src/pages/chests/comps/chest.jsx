@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         '& .heading': {
             textAlign: 'center'
         },
-        '& .chance': {
+        '& .total-chance': {
             display: 'flex',
             justifyContent: 'center',
             fontWeight: 800,
@@ -122,7 +122,7 @@ const Chest = (props) => {
                 <h4 className='heading'>
                     {inProgress ? <Skeleton className='w-100' /> : 'میزان شانس شما در این قرعه کشی'}
                 </h4>
-                <h5 className='chance'>
+                <h5 className='total-chance'>
                     {inProgress ? <Skeleton width={100} /> : <span>{totalChance}</span>}
                 </h5>
             </Container>
