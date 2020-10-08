@@ -1,6 +1,8 @@
 ﻿using System;
 using Elk.Core;
+using Newtonsoft.Json;
 using GolPooch.Domain.Resources;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -42,5 +44,9 @@ namespace GolPooch.Domain.Entity
         [MaxLength(16, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(16, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Code { get; set; }
+
+
+        [JsonIgnore]
+        public ICollection<RoundWinner> RoundWinners { get; set; }
     }
 }

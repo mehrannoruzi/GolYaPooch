@@ -4,14 +4,16 @@ using GolPooch.DataAccess.Ef;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GolPooch.DataAccess.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201008185548_AddRoundWinner.DrawChanceId")]
+    partial class AddRoundWinnerDrawChanceId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -779,7 +781,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DrawChanceId")
+                    b.Property<int?>("DrawChanceId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("InsertDateMi")
@@ -1094,8 +1096,7 @@ namespace GolPooch.DataAccess.Ef.Migrations
                     b.HasOne("GolPooch.Domain.Entity.DrawChance", "DrawChance")
                         .WithMany("RoundWinners")
                         .HasForeignKey("DrawChanceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("GolPooch.Domain.Entity.Round", "Round")
                         .WithMany("RoundWinners")

@@ -13,13 +13,17 @@ namespace GolPooch.Domain.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoundWinnerId { get; set; }
 
+        [ForeignKey(nameof(UserId))]
+        public User User { get; set; }
+        public int UserId { get; set; }
+
         [ForeignKey(nameof(RoundId))]
         public Round Round { get; set; }
         public int RoundId { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        public User User { get; set; }
-        public int UserId { get; set; }
+        [ForeignKey(nameof(DrawChanceId))]
+        public DrawChance DrawChance { get; set; }
+        public int DrawChanceId { get; set; }
 
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
