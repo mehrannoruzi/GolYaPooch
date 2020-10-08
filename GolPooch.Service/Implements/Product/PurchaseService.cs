@@ -24,6 +24,7 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
+
         public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetTopPurchases(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<PurchaseDto>>();
@@ -34,6 +35,68 @@ namespace GolPooch.Service.Implements
                     new PagingQueryFilterWithSelector<Purchase, PurchaseDto>
                     {
                         Conditions = x => x.UserId == userId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
+                        IncludeProperties = new List<Expression<Func<Purchase, object>>> {
+                            x => x.ProductOffer,
+                            x => x.ProductOffer.Product,
+                            x => x.PaymentTransaction
+                        },
+                        PagingParameter = pagingParameter,
+                        OrderBy = x => x.OrderByDescending(x => x.PurchaseId),
+                        Selector = x => new PurchaseDto
+                        {
+                            #region Set Purchase Property
+                            PurchaseId = x.PurchaseId,
+                            ProductOffer = new
+                            {
+                                Product = new
+                                {
+                                    x.ProductOffer.Product.Subject,
+                                    x.ProductOffer.Product.Text,
+                                    x.ProductOffer.Product.Type
+                                },
+                                ImageUrl = _configuration["CustomSettings:CdnAddress"] + x.ProductOffer.ImageUrl,
+                                x.ProductOffer.Price,
+                                x.ProductOffer.Discount,
+                                x.ProductOffer.Profit,
+                                x.ProductOffer.TotalPrice
+                            },
+                            PaymentTransaction = new
+                            {
+                                x.PaymentTransaction.Type,
+                                x.PaymentTransaction.Description
+                            },
+                            Chance = x.Chance,
+                            UsedChance = x.UsedChance,
+                            IsReFoundable = x.IsReFoundable,
+                            ExpireDateSh = x.ExpireDateSh,
+                            InsertDateSh = x.InsertDateSh,
+                            ModifyDateSh = x.ModifyDateSh
+                            #endregion
+                        }
+                    });
+
+                response.Message = ServiceMessage.Success;
+                response.Result = purchases;
+                response.IsSuccessful = true;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetAllPurchases(int userId, PagingParameter pagingParameter)
+        {
+            var response = new Response<PagingListDetails<PurchaseDto>>();
+            try
+            {
+                var purchases = await _appUow.PurchaseRepo.GetPagingAsync(
+                    new PagingQueryFilterWithSelector<Purchase, PurchaseDto>
+                    {
+                        Conditions = x => x.UserId == userId,
                         IncludeProperties = new List<Expression<Func<Purchase, object>>> {
                             x => x.ProductOffer,
                             x => x.ProductOffer.Product,
