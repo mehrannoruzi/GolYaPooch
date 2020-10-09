@@ -190,8 +190,8 @@ namespace GolPooch.Service.Implements
                     new PagingQueryFilter<Notification>
                     {
                         AsNoTracking = false,
-                        OrderBy = x => x.OrderByDescending(x => x.Priority),
                         Conditions = x => x.IsActive && !x.IsSent,
+                        OrderBy = x => x.OrderByDescending(x => x.Priority),
                         IncludeProperties = new List<Expression<Func<Notification, object>>> { x => x.User },
                         PagingParameter = new PagingParameter { PageNumber = 1, PageSize = int.Parse(_configuration["CustomSettings:SendNotificationThreadCount"]) }
                     }).Result;
@@ -222,13 +222,13 @@ namespace GolPooch.Service.Implements
                 var notifs = GetUnProccesedNotifications();
                 if (notifs.Items.Any())
                 {
-                    Parallel.ForEach(notifs.Items, async notif =>
-                    {
-                        await SendNotifFactory.GetStrategy(notif.Type).SendAsync(notif, _appUow);
-                    });
-
-                    //foreach (var notif in notifs.Items)
+                    //Parallel.ForEach(notifs.Items, async notif =>
+                    //{
                     //    await SendNotifFactory.GetStrategy(notif.Type).SendAsync(notif, _appUow);
+                    //});
+
+                    foreach (var notif in notifs.Items)
+                        await SendNotifFactory.GetStrategy(notif.Type).SendAsync(notif, _appUow);
                 }
 
                 await Task.CompletedTask;
