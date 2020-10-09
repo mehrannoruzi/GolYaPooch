@@ -3,6 +3,7 @@ using GolPooch.Domain.Entity;
 using Elk.EntityFrameworkCore;
 using Elk.EntityFrameworkCore.Tools;
 using Microsoft.EntityFrameworkCore;
+using GolPooch.Domain.Dto;
 
 namespace GolPooch.DataAccess.Ef
 {
@@ -18,8 +19,12 @@ namespace GolPooch.DataAccess.Ef
             builder.Entity<Page>().HasIndex(x => x.Address).IsUnique();
             builder.Entity<PushEndpoint>().HasIndex(x => x.PushKey).IsUnique();
 
+            builder.Entity<WinnerDto>().HasNoKey().ToTable(null);
+
             builder.OverrideDeleteBehavior();
             builder.RegisterAllEntities<IEntity>(typeof(User).Assembly);
         }
+
+        public DbSet<WinnerDto> WinnerDtos { get; set; }
     }
 }

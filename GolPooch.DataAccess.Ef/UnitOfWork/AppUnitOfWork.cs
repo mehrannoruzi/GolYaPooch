@@ -1,4 +1,5 @@
 ﻿using Elk.Core;
+using GolPooch.Domain;
 using GolPooch.Domain.Entity;
 using Elk.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,7 @@ namespace GolPooch.DataAccess.Ef
         public IGenericRepo<Chest> ChestRepo => _serviceProvider.GetService<IGenericRepo<Chest>>();
         public IGenericRepo<DrawChance> DrawChanceRepo => _serviceProvider.GetService<IGenericRepo<DrawChance>>();
         public IGenericRepo<Round> RoundRepo => _serviceProvider.GetService<IGenericRepo<Round>>();
-        public IGenericRepo<RoundWinner> RoundWinnerRepo => _serviceProvider.GetService<IGenericRepo<RoundWinner>>();
+        public IRoundWinnerRepo RoundWinnerRepo => _serviceProvider.GetService<IRoundWinnerRepo>();
         #endregion
 
         #region Messaging

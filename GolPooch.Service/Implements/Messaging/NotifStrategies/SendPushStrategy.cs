@@ -7,6 +7,10 @@ using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace GolPooch.Service.Implements
 {
@@ -65,25 +69,34 @@ namespace GolPooch.Service.Implements
                             notification.ActionUrl,
                             notification.Text
                         },
+                        priority = "high",
                         to = endPoint.PushKey
                     };
                     var requestHeader = new Dictionary<string, string>
                             {
-                                { "authorization", "key=" + GlobalVariables.PushNotificationSetting.ServerKey},
-                                { "content-type", "application/json" }
+                                //{ "content-type", "application/json" },
+                                { "Sender", $" id={GlobalVariables.PushNotificationSetting.SenderID}" },
+                                { "authorization", $" key={GlobalVariables.PushNotificationSetting.ServerKey}" }
                             };
                     #endregion
 
-                    var pushResult = await HttpRequestTools.PostJsonAsync(
-                        url: GlobalVariables.PushNotificationSetting.FcmAddress,
-                        values: requestBody,
-                        header: requestHeader);
+                    using (var client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Sender", $"id={GlobalVariables.PushNotificationSetting.SenderID}");
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"key={GlobalVariables.PushNotificationSetting.ServerKey}");
+
+                        var httpContent = new StringContent(requestBody.SerializeToJson(), Encoding.UTF8, "application/json");
+                        var requestResult = await client.PostAsync(GlobalVariables.PushNotificationSetting.FcmAddress, httpContent);
+                        var result = await requestResult.Content.ReadAsStringAsync();
+                        if(result.Contains("NotRegisterd")) await Unsubscribe(endPoint, _appUow);
+                    }
                 }
                 catch (Exception e)
                 {
                     failedSentCounter++;
                     FileLoger.Error(e);
-                    if (e.Message.Contains("Subscription no longer valid")) await Unsubscribe(endPoint, _appUow);
+                    if (e.Message.Contains("NotRegisterd")) await Unsubscribe(endPoint, _appUow);
                 }
             }
 

@@ -12,7 +12,6 @@ export default class userSrv {
         return getCode;
     }
 
-
     static async verify(transactionId, pinCode) {
         let verifyCode = await http.post(addr.auth_verifyCode, {
             transactionId: transactionId,

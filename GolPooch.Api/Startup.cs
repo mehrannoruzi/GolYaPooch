@@ -37,8 +37,8 @@ namespace GolPooch.Api
 
             _swaggerSetting = new SwaggerSetting
             {
-                Name = "GolPooch API - v1.0",
-                Title = "GolPooch",
+                Name = "v1",
+                Title = "GolPooch API - v1.0",
                 Version = "v1.0",
                 Description = $"Copyright © {DateTime.Now.Year} Avanod Company. All rights reserved.",
                 TermsOfService = "https://Avanod.com/",
@@ -106,7 +106,7 @@ namespace GolPooch.Api
             services.AddScoped(_config);
             services.AddSingleton(_config);
 
-            //services.AddHostedService<QuartzHostedService>();
+            services.AddHostedService<QuartzHostedService>();
 
             services.AddElkSwagger(_swaggerSetting);
         }

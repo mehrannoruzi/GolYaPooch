@@ -19,6 +19,10 @@ namespace GolPooch.Api.Controllers
         public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
             => Json(await _purchaseService.GetTopPurchases(user.UserId, pagingParameter));
 
+        [HttpGet]
+        public async Task<JsonResult> All(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _purchaseService.GetAllPurchases(user.UserId, pagingParameter));
+
 
     }
 }

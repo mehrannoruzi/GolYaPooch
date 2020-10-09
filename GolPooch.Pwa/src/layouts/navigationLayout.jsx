@@ -61,7 +61,7 @@ const useStyles = makeStyles({
                 alignItems: 'center',
 
                 '& .hx': {
-                    fontSize: '14px',
+                    fontSize: '13px',
                     fontWeight: 'normal'
                 },
             },

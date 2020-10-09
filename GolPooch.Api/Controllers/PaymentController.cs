@@ -31,6 +31,7 @@ namespace GolPooch.Api.Controllers
             //    return Json(createPaymentResult.Result);
             //else
             //    return Json(new Response<string> { Message = createPaymentResult.Message });
+
             var verifyPaymentResult = await _paymentService.VerifyAsync(paymentTransaction.PaymentTransactionId, "Ok", "123456789");
             return Json(verifyPaymentResult);
         }

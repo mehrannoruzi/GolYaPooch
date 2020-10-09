@@ -308,8 +308,9 @@ namespace GolPooch.Service.Implements
 
                 var newWinner = new RoundWinner
                 {
+                    UserId = drawWinner.UserId,
                     RoundId = drawWinner.RoundId,
-                    UserId = drawWinner.UserId
+                    DrawChanceId = drawWinner.DrawChanceId
                 };
                 winnerList.Add(newWinner);
             }

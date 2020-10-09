@@ -3,6 +3,7 @@ using Elk.Core;
 using Elk.Cache;
 using Quartz.Spi;
 using Quartz.Impl;
+using GolPooch.Domain;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Service.Quartz;
 using GolPooch.Service.Interfaces;
@@ -19,6 +20,9 @@ namespace GolPooch.DependencyResolver.Ioc
         {
             #region Repos
             services.AddTransient(typeof(IGenericRepo<>), typeof(GenericRepo<>));
+
+
+            services.AddTransient<IRoundWinnerRepo, RoundWinnerRepo>();
             #endregion
 
             return services;
@@ -38,6 +42,8 @@ namespace GolPooch.DependencyResolver.Ioc
 
             #region Draw
             services.AddScoped<IChestService, ChestService>();
+            services.AddScoped<IRoundService, RoundService>();
+            services.AddScoped<IRoundWinnerService, RoundWinnerService>();
 
             #endregion
 

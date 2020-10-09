@@ -70,7 +70,7 @@ const Settings = () => {
                     <Container>
                         <Link to='/bl/profile'>
                             {userInfo.avatar ? <Avatar src={userInfo.avatar} /> : <BiUser className='icon' />}
-                            <h5 className='hx'>
+                            <h5 className='hx settingMenu'>
                                 {userInfo.firstName ? <span>{userInfo.firstName} {userInfo.lastName}</span> : null}
                                 <span>{userInfo.mobileNumber}</span>
                             </h5>

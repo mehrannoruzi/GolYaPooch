@@ -16,6 +16,8 @@ namespace GolPooch.CrossCutting
             public static int TiketTypeCacheTimeout() => 24;
             public static int BannerTypeCacheTimeout() => 24;
             public static int PaymentGatewayCacheTimeout() => 24;
+            public static int LastWinnerCacheTimeout() => 3;
+            public static int MustWinnerCacheTimeout() => 3;
 
             public static string BannerCacheKey() => "BannerCache";
             public static string ProductCacheKey() => "ProductCache";
@@ -25,6 +27,8 @@ namespace GolPooch.CrossCutting
             public static string TiketTypeCacheKey() => "TiketTypeCache";
             public static string BannerTypeCacheKey() => "BannerTypeCache";
             public static string PaymentGatewayCacheKey() => "PaymentGatewayCache";
+            public static string LastWinnerCacheKey() => "LastWinnerCache";
+            public static string MustWinnerCacheKey() => "MustWinnerCache";
         }
 
 
@@ -41,7 +45,7 @@ namespace GolPooch.CrossCutting
             public static string SenderID = "873210377614";
 
             public static string AppID = "1:873210377614:web:284744c8f3e250cf80e0df";
-            
+
             public static string FcmAddress = "https://fcm.googleapis.com/fcm/send";
 
             public static string WebAPIKey = "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc";
