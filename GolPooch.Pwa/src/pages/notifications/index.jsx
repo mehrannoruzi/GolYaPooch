@@ -5,13 +5,12 @@ import { useRecoilState } from 'recoil';
 import notificationSrv from '../../services/notificationSrv';
 import toastState from '../../atom/state/toastState';
 import Item from './comps/item';
+import strings from '../../core/strings';
+import EmptyRecord from '../../atom/comps/EmptyRecord';
 
 const useStyles = makeStyles({
     notificationsComp: {
         marginTop: 20,
-    },
-    inline: {
-        display: 'inline',
     },
     loaderItem: {
         display: 'flex',
@@ -66,6 +65,7 @@ const Notifications = () => {
 
     return (
         <div id='comp-notifications' className={classes.notificationsComp} onScroll={handleScroll}>
+            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
                 <Skeleton variant='rect' height={36} width={48} className='avatar' />

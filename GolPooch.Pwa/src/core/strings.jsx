@@ -67,6 +67,12 @@ const strings = {
     successfulPayment: 'پرداخت با موفقیت انجام شد',
     failedPayment: 'پرداخت با خطا مواجه شد',
     iAgree: 'قبول می کنم',
-    iReject: 'رد می کنم'
+    iReject: 'رد می کنم',
+    pleaseChangeYourSelectedPackage: 'لطفا بسته انتخابی خود را تغییر دهید',
+    supportCenter: 'مرکز پشتیبانی',
+    aboutUs: 'درباره ما',
+    appVersion: 'نسخه اپلیکیشن',
+    thereIsNoNotification:'هیچ اعلانی وجود ندارد',
+    thereIsNoTicket:'هیچ تیکتی وجود ندارد'
 };
 export default strings;

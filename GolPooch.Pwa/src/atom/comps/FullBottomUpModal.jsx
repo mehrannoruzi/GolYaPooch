@@ -25,7 +25,7 @@ const useStyles = makeStyles({
                 position: 'absolute',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                right: 15,
+                right: 10,
                 color: '#666',
                 fontSize: '25px'
             }

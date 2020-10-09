@@ -94,3 +94,8 @@ export const toPersianDate = function (dt) {
     else res += resArr[2];
     return res;
 };
+
+export const toGregorianDate = function(dt){
+    let arr = dt.split('/');
+    return 
+}

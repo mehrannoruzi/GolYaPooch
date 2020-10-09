@@ -107,15 +107,12 @@ const Banners = (props) => {
     return (
         <Container className="Banner">
             <Slider {...settings}>
-                {
-                    inProgress ? <Skeleton vcariant='rect' height={50} className={`w-100 mb-15 ${classes.skeleton}`} /> :
-                        items.map((item, i) => {
-                            switch (item.type) {
-                                default:
-                                    return <TextBanner item={item} key={i} />;
-                            }
-                        })
-                }
+                {items.map((item, i) => {
+                    switch (item.type) {
+                        default:
+                            return <TextBanner item={item} key={i} />;
+                    }
+                })}
             </Slider>
         </Container>
 

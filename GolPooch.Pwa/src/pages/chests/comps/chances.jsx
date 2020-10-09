@@ -83,7 +83,7 @@ const Chances = (props) => {
                 history.push('/nl/store');
             }
             else {
-                setChestState({ ...chestState, purchaseId: get.result.items[0].purchaseId });
+                setChestState({ ...chestState, purchase: get.result.items[0] });
                 setItems([...items, ...get.result.items]);
                 if (get.result.items.length > 0)
                     setPageNumber(pageNumber + 1);
@@ -97,9 +97,8 @@ const Chances = (props) => {
         getChances();
     }, []);
 
-    const _handleSelect = (id) => {
-        console.log(id);
-        setChestState({ ...chestState, gatewatId: id });
+    const _handleSelect = (item) => {
+        setChestState({ ...chestState, purchase: item, disabled: item.chance === item.usedChance });
     }
 
     const settings = {
@@ -116,9 +115,9 @@ const Chances = (props) => {
     };
     return (
         <Slider {...settings}>
-            {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item.purchaseId)}>
+            {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
                 <figure className={item.purchaseId === chestState.purchaseId ? 'selected' : null}>
-                    {item.purchaseId === chestState.purchaseId ? <BsCheckCircle /> : null}
+                    {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle /> : null}
                     <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
                     <figcaption>
                         <label className='total'>تعداد کل شانس: {item.chance}</label>

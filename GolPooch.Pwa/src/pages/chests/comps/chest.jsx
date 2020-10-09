@@ -76,7 +76,6 @@ const Chest = (props) => {
     const [inProgress, setInProgress] = useState(true);
     const [sending, setIsSending] = useState(false);
     const [item, setItem] = useState(null);
-    const [count, setCount] = useState(1);
     const [totalChance, setTotalChance] = useState(0);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
@@ -99,21 +98,24 @@ const Chest = (props) => {
     }, []);
 
     const _handleSpendChance = async () => {
+        if (rState.disabled) {
+            setToastState({ ...toast, open: true, severity: 'error', message: strings.pleaseChangeYourSelectedPackage });
+            return;
+        }
         setIsSending(true);
         let call = await chestSrv.spendChance({
             chestId: props.id,
-            purchaseId: rState.purchaseId,
-            ChanceCount: count
+            purchaseId: rState.purchase.purchaseId,
+            ChanceCount: rState.count
         });
         if (call.isSuccessful) setSpendChanceResult(call.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
         setIsSending(false);
     }
     const _handleCount = (newCount) => {
-        console.log(item);
         if (newCount <= 0) return;
-        if (newCount > totalChance) return;
-        setCount(newCount);
+        if (newCount > (rState.purchase.chance - rState.purchase.usedChance)) return;
+        setRState({ ...rState, count: newCount });
     }
     if (spendChanceResult) return <Agreed info={spendChanceResult} />;
     return (
@@ -135,9 +137,9 @@ const Chest = (props) => {
                     <Chances />
                     <div className={classes.counter}>
                         {inProgress ? <Skeleton className='w-100' variant='rect' height={30} width={120} /> : <>
-                            <button className='btn-plus' onClick={() => _handleCount(count + 1)}>+</button>
-                            <span className='count'>{count}</span>
-                            <button className='btn-minus' onClick={() => _handleCount(count - 1)}>-</button>
+                            <button className='btn-plus' onClick={() => _handleCount(rState.count + 1)}>+</button>
+                            <span className='count'>{rState.count}</span>
+                            <button className='btn-minus' onClick={() => _handleCount(rState.count - 1)}>-</button>
                         </>}
                     </div>
                 </Container>

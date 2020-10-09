@@ -40,7 +40,10 @@ const useStyles = makeStyles({
     time: {
         textAlign: 'right',
         width: '100%',
-        direction: 'rtl'
+        direction: 'rtl',
+        '& svg': {
+            verticalAlign: 'middle'
+        }
     }
 });
 

@@ -11,6 +11,7 @@ import Button from './../../atom/comps/Button';
 import Avatar from './comps/avatar';
 import userSrv from '../../services/userSrv';
 import { toPersianDate } from '../../core/utils';
+import momentJalaali  from 'moment-jalaali';
 
 const useStyles = makeStyles({
     profilePage: {
@@ -63,12 +64,11 @@ const Profile = () => {
             errorMessage: ''
         };
     const [input, setInput] = useReducer((state, newState) => ({ ...state, ...newState }), states);
-    const [query, setQuery] = useState('');
     const [inProgress, setInProgress] = useState(false);
 
     useEffect(() => {
         setBLState((state) => ({ ...state, title: strings.profile }))
-    }, [query]);
+    }, []);
 
     const _submit = async () => {
         if (!input.firstName.value) {
@@ -108,6 +108,7 @@ const Profile = () => {
         if (!response.isSuccessful)
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
         else {
+            console.log(model);
             userSrv.saveInfo(model);
             setToastState({ ...toast, open: true, severity: 'success', message: strings.profileSuccessUpdate });
         }
@@ -210,6 +211,7 @@ const Profile = () => {
                         <div className="form-group date-picker">
 
                             <DatePicker
+                                value={momentJalaali(input.birthdateSh.value, 'jYYYY/jM/jD')}
                                 placeholder='تاریخ تولد'
                                 isGregorian={false}
                                 timePicker={false}

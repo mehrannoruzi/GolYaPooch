@@ -5,6 +5,8 @@ import { useRecoilState } from 'recoil';
 import ticketSrv from '../../services/ticketSrv';
 import toastState from '../../atom/state/toastState';
 import Item from './comps/item';
+import EmptyRecord from '../../atom/comps/EmptyRecord';
+import strings from '../../core/strings';
 
 const useStyles = makeStyles({
     ticketsComp: {
@@ -64,6 +66,7 @@ const Tickets = () => {
 
     return (
         <div id='comp-tickets' className={classes.ticketsComp} onScroll={handleScroll}>
+            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoTicket} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
                 <Skeleton variant='rect' height={36} width={48} className='avatar' />

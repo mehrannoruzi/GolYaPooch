@@ -19,21 +19,22 @@ const useStyles = makeStyles({
             height: '27px',
             borderRadius: '50%',
             top: 12,
-            left: 5,
+            left: 0,
             '& .MuiCircularProgress-root': {
                 width: '12px!important',
                 height: '12px!important'
             }
         },
         '& .MuiAvatar-root': {
-            width: 55,
-            height: 55,
+            width: 50,
+            height: 50,
             boxShadow: " 0px 0px 3px 1px #d4d4d4",
             backgroundColor: '#eee',
             marginRight: 10,
             '& .MuiAvatar-img':{
                 width: '50px!important',
-                height: '50px!important' 
+                height: '50px!important',
+                borderRadius:'50%' 
             }
         }
     }
