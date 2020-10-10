@@ -11,6 +11,8 @@ import EmptyRecord from '../../atom/comps/EmptyRecord';
 const useStyles = makeStyles({
     notificationsComp: {
         marginTop: 20,
+        maxHeight: 'calc(100vh - 50px)',
+        overflowY: 'auto'
     },
     loaderItem: {
         display: 'flex',
@@ -36,8 +38,10 @@ const Notifications = () => {
 
 
     function handleScroll(e) {
+        console.log('it began');
         let element = e.target
-        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
+            console.log('fired');
             setIsBottom(true);
         }
 

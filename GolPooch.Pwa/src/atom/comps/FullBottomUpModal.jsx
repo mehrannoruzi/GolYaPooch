@@ -29,12 +29,7 @@ const useStyles = makeStyles({
                 color: '#666',
                 fontSize: '25px'
             }
-        },
-        '& .children-wrapper': {
-            maxHeight: 'calc(100vh - 50px)',
-            overflowY: 'auto'
         }
-
     }
 });
 export default function () {

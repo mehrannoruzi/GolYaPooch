@@ -11,9 +11,8 @@ import strings from '../../core/strings';
 const useStyles = makeStyles({
     ticketsComp: {
         marginTop: 20,
-    },
-    inline: {
-        display: 'inline',
+        maxHeight: 'calc(100vh - 50px)',
+        overflowY: 'auto'
     },
     loaderItem: {
         display: 'flex',
@@ -40,7 +39,7 @@ const Tickets = () => {
 
     function handleScroll(e) {
         let element = e.target
-        if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
             setIsBottom(true);
         }
     }
