@@ -1,16 +1,14 @@
 ﻿using System;
 using Elk.Core;
-using Elk.Http;
 using System.Linq;
+using System.Text;
+using System.Net.Http;
 using GolPooch.CrossCutting;
 using GolPooch.DataAccess.Ef;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Net.Http;
-using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
-using System.Text;
+using System.Collections.Generic;
 
 namespace GolPooch.Service.Implements
 {
@@ -89,7 +87,7 @@ namespace GolPooch.Service.Implements
                         var httpContent = new StringContent(requestBody.SerializeToJson(), Encoding.UTF8, "application/json");
                         var requestResult = await client.PostAsync(GlobalVariables.PushNotificationSetting.FcmAddress, httpContent);
                         var result = await requestResult.Content.ReadAsStringAsync();
-                        if(result.Contains("NotRegisterd")) await Unsubscribe(endPoint, _appUow);
+                        if (result.Contains("NotRegisterd")) await Unsubscribe(endPoint, _appUow);
                     }
                 }
                 catch (Exception e)
