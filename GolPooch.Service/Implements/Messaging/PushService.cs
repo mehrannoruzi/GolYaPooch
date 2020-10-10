@@ -17,7 +17,7 @@ namespace GolPooch.Service.Implements
             _appUow = appUnitOfWork;
         }
 
-        public async Task<IResponse<bool>> Subscribe(PushEndpoint endpoint)
+        public async Task<IResponse<bool>> SubscribeAsync(PushEndpoint endpoint)
         {
             var response = new Response<bool>();
             try

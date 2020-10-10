@@ -14,7 +14,7 @@ namespace GolPooch.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> All()
-            => Ok(await _productService.GetAllAvailable());
+        public async Task<IActionResult> AllAsync()
+            => Ok(await _productService.GetAllAvailableAsync());
     }
 }

@@ -98,7 +98,7 @@ namespace GolPooch.Service.Implements
                 _appUow.NotificationRepo.Update(notification);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
                 if (!saveResult.IsSuccessful) return new Response<int> { Message = saveResult.Message };
-                return await UnReadCount(userId);
+                return await UnReadCountAsync(userId);
             }
             catch (Exception e)
             {
@@ -108,7 +108,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<int>> UnReadCount(int userId)
+        public async Task<IResponse<int>> UnReadCountAsync(int userId)
         {
             var response = new Response<int>();
             try
@@ -131,7 +131,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotificationsAsync(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<NotificationDto>>();
             try

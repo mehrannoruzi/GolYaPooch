@@ -12,6 +12,6 @@ namespace GolPooch.Service.Interfaces
         /// this method must be cached
         /// </summary>
         /// <returns>list of available ProductOffer for purchase</returns>
-        Task<IResponse<List<ProductOffer>>> GetAllAvailable();
+        Task<IResponse<List<ProductOffer>>> GetAllAvailableAsync();
     }
 }

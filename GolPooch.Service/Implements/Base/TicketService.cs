@@ -39,7 +39,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<Ticket>> Get(int ticketId)
+        public async Task<IResponse<Ticket>> GetAsync(int ticketId)
         {
             var response = new Response<Ticket>();
             try
@@ -63,7 +63,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<int>> Read(int userId, int ticketId)
+        public async Task<IResponse<int>> ReadAsync(int userId, int ticketId)
         {
             var response = new Response<int>();
             try
@@ -84,7 +84,7 @@ namespace GolPooch.Service.Implements
                 //response.IsSuccessful = saveResult.IsSuccessful;
                 //response.Result = saveResult.IsSuccessful;
                 //response.Message = saveResult.Message;
-                return await UnReadCount(userId);
+                return await UnReadCountAsync(userId);
             }
             catch (Exception e)
             {
@@ -94,7 +94,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<int>> UnReadCount(int userId)
+        public async Task<IResponse<int>> UnReadCountAsync(int userId)
         {
             var response = new Response<int>();
             try

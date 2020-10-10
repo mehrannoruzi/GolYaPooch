@@ -6,6 +6,6 @@ namespace GolPooch.Service.Interfaces
 {
     public interface IPushService
     {
-        Task<IResponse<bool>> Subscribe(PushEndpoint model);
+        Task<IResponse<bool>> SubscribeAsync(PushEndpoint model);
     }
 }

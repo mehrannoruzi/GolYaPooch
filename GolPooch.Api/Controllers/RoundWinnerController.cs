@@ -1,5 +1,4 @@
 ﻿using Elk.Core;
-using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;

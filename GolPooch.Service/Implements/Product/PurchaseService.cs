@@ -25,7 +25,7 @@ namespace GolPooch.Service.Implements
         }
 
 
-        public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetTopPurchases(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetActivePurchasesAsync(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<PurchaseDto>>();
             try
@@ -88,7 +88,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetAllPurchases(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<PurchaseDto>>> GetAllPurchasesAsync(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<PurchaseDto>>();
             try

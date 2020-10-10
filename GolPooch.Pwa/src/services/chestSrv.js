@@ -37,7 +37,7 @@ export default class chestSrv {
         return find(call);
     }
     static async getChance(chestId) {
-        let call = await http.get(addr.getChestInChance(chestId));
+        let call = await http.get(addr.getMyChanceCount(chestId));
         if (!call.isSuccessful) return call;
         return call;
     }

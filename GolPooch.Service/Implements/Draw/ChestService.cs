@@ -31,7 +31,7 @@ namespace GolPooch.Service.Implements
             _configuration = configuration;
         }
 
-        public async Task<IResponse<List<Chest>>> GetAllAvailable()
+        public async Task<IResponse<List<Chest>>> GetAllAvailableAsync()
         {
             var response = new Response<List<Chest>>();
             try
@@ -67,7 +67,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<int>> MyChanceAsync(int userId, int ChestId)
+        public async Task<IResponse<int>> MyChanceCountAsync(int userId, int ChestId)
         {
             var response = new Response<int>();
             try
@@ -308,9 +308,8 @@ namespace GolPooch.Service.Implements
 
                 var newWinner = new RoundWinner
                 {
-                    UserId = drawWinner.UserId,
                     RoundId = drawWinner.RoundId,
-                    DrawChanceId = drawWinner.DrawChanceId
+                    UserId = drawWinner.UserId
                 };
                 winnerList.Add(newWinner);
             }

@@ -16,11 +16,11 @@ namespace GolPooch.Api.Controllers
 
 
         [HttpGet]
-        public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
+        public async Task<JsonResult> TopAsync(User user, [FromQuery] PagingParameter pagingParameter)
             => Json(await _roundService.GetTopRoundsAsync(user.UserId, pagingParameter));
 
         [HttpGet]
-        public async Task<JsonResult> MyChance([FromQuery] int roundId)
+        public async Task<JsonResult> MyChanceAsync([FromQuery] int roundId)
             => Json(await _roundService.GetChanceInRoundAsync(roundId));
 
     }

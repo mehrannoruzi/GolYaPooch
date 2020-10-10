@@ -30,7 +30,7 @@ namespace GolPooch.Service.Implements
             _cacheProvider = cacheProvider;
         }
 
-        public async Task<IResponse<List<ProductOffer>>> GetAllAvailable()
+        public async Task<IResponse<List<ProductOffer>>> GetAllAvailableAsync()
         {
             var response = new Response<List<ProductOffer>>();
             try

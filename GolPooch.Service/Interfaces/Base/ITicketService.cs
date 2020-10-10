@@ -20,7 +20,7 @@ namespace GolPooch.Service.Interfaces
         /// <param name="userid">userid that is filled from jwt</param>
         /// <param name="ticketId">ticket primary key</param>
         /// <returns>list of ticket model</returns>
-        Task<IResponse<Ticket>> Get(int ticketId);
+        Task<IResponse<Ticket>> GetAsync(int ticketId);
 
         /// <summary>
         /// When user tapped in a ticket, this method called to set isread field with true status.
@@ -28,9 +28,9 @@ namespace GolPooch.Service.Interfaces
         /// <param name="userId"></param>
         /// <param name="ticketId"></param>
         /// <returns></returns>
-        Task<IResponse<int>> Read(int userId, int ticketId);
+        Task<IResponse<int>> ReadAsync(int userId, int ticketId);
 
-        Task<IResponse<int>> UnReadCount(int userId);
+        Task<IResponse<int>> UnReadCountAsync(int userId);
 
         /// <summary>
         /// Get Top 10 tickets of user

@@ -16,8 +16,8 @@ export default {
     getTickets: (pageSize, pageNumber) => `${config.apiGateway.URL}Ticket/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     getUnReadTicketCount: `${config.apiGateway.URL}Ticket/UnReadCount`,
     readTicket: (id) => `${config.apiGateway.URL}Ticket/Read?ticketId=${id}`,
-    getPurchase: (pageSize, pageNumber) => `${config.apiGateway.URL}Purchase/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+    getActivePurchase: (pageSize, pageNumber) => `${config.apiGateway.URL}Purchase/Active?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     spendChance: `${config.apiGateway.URL}chest/SpendChance`,
-    getChestInChance: (chestId) => `${config.apiGateway.URL}chest/MyChance?chestId=${chestId}`,
+    getMyChanceCount: (chestId) => `${config.apiGateway.URL}chest/MyChanceCount?chestId=${chestId}`,
     purchaseProduct: `${config.apiGateway.URL}Payment/Create`,
 }

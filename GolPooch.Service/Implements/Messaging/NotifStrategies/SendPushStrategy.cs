@@ -56,7 +56,6 @@ namespace GolPooch.Service.Implements
                         data = new
                         {
                             notification.NotificationId,
-                            notification.UserId,
                             notification.Type,
                             notification.Action,
                             notification.IsRead,
@@ -70,12 +69,12 @@ namespace GolPooch.Service.Implements
                         priority = "high",
                         to = endPoint.PushKey
                     };
+
                     var requestHeader = new Dictionary<string, string>
-                            {
-                                //{ "content-type", "application/json" },
-                                { "Sender", $" id={GlobalVariables.PushNotificationSetting.SenderID}" },
-                                { "authorization", $" key={GlobalVariables.PushNotificationSetting.ServerKey}" }
-                            };
+                    {
+                        { "Sender", $" id={GlobalVariables.PushNotificationSetting.SenderID}" },
+                        { "authorization", $" key={GlobalVariables.PushNotificationSetting.ServerKey}" }
+                    };
                     #endregion
 
                     using (var client = new HttpClient())

@@ -29,14 +29,14 @@ namespace GolPooch.Service.Interfaces
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IResponse<int>> UnReadCount(int userId);
+        Task<IResponse<int>> UnReadCountAsync(int userId);
 
         /// <summary>
         /// Get top 10 notifications with userid and all notification that sets userid with null value.
         /// </summary>
         /// <param name="userId">userid in jwt</param>
         /// <returns>Top 10 records of Notification</returns>
-        Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotifications(int userId, PagingParameter pagingParameter);
+        Task<IResponse<PagingListDetails<NotificationDto>>> GetTopNotificationsAsync(int userId, PagingParameter pagingParameter);
 
         Task SendNotificationsAsync();
     }

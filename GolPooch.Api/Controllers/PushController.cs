@@ -15,10 +15,10 @@ namespace GolPooch.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Subscribe(User user, [FromBody] PushEndpoint model)
+        public async Task<IActionResult> SubscribeAsync(User user, [FromBody] PushEndpoint model)
         {
             model.UserId = user.UserId;
-            return Json(await _pushService.Subscribe(model));
+            return Json(await _pushService.SubscribeAsync(model));
         }
     }
 }

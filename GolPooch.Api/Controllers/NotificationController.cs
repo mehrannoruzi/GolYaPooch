@@ -12,9 +12,7 @@ namespace GolPooch.Api.Controllers
         private INotificationService _notificationService { get; set; }
 
         public NotificationController(INotificationService notificationService)
-        {
-            _notificationService = notificationService;
-        }
+            => _notificationService = notificationService;
 
         [HttpPost]
         public async Task<JsonResult> AddDeliveryAsync(User user, int notificationId)
@@ -25,15 +23,15 @@ namespace GolPooch.Api.Controllers
             => Json(await _notificationService.AddClickAsync(user.UserId, notificationId));
 
         [HttpPost]
-        public async Task<JsonResult> Read(User user, int notificationId)
+        public async Task<JsonResult> ReadAsync(User user, int notificationId)
             => Json(await _notificationService.ReadAsync(user.UserId, notificationId));
 
         [HttpGet]
-        public async Task<JsonResult> UnReadCount(User user)
-            => Json(await _notificationService.UnReadCount(user.UserId));
+        public async Task<JsonResult> UnReadCountAsync(User user)
+            => Json(await _notificationService.UnReadCountAsync(user.UserId));
 
         [HttpGet]
-        public async Task<JsonResult> Top(User user, [FromQuery] PagingParameter pagingParameter)
-            => Json(await _notificationService.GetTopNotifications(user.UserId, pagingParameter));
+        public async Task<JsonResult> TopAsync(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _notificationService.GetTopNotificationsAsync(user.UserId, pagingParameter));
     }
 }

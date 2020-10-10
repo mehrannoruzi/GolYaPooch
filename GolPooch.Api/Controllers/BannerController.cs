@@ -10,9 +10,7 @@ namespace GolPooch.Api.Controllers
         private IBannerService _bannerService { get; set; }
 
         public BannerController(IBannerService bannerService)
-        {
-            _bannerService = bannerService;
-        }
+            => _bannerService = bannerService;
 
         [HttpGet]
         public async Task<JsonResult> All()

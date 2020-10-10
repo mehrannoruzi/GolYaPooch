@@ -1,5 +1,4 @@
-﻿using GolPooch.Api.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
@@ -12,18 +11,16 @@ namespace GolPooch.Api.Controllers
         private IChestService _chestService { get; set; }
 
         public ChestController(IChestService chestService)
-        {
-            _chestService = chestService;
-        }
+            => _chestService = chestService;
 
 
         [HttpGet]
-        public async Task<IActionResult> All()
-            => Ok(await _chestService.GetAllAvailable());
+        public async Task<IActionResult> AllAsync()
+            => Ok(await _chestService.GetAllAvailableAsync());
 
         [HttpGet]
-        public async Task<IActionResult> MyChanceAsync(User user, int chestId)
-            => Ok(await _chestService.MyChanceAsync(user.UserId, chestId));
+        public async Task<IActionResult> MyChanceCountAsync(User user, int chestId)
+            => Ok(await _chestService.MyChanceCountAsync(user.UserId, chestId));
 
         [HttpPost]
         public async Task<JsonResult> SpendChanceAsync(User user, [FromBody] SpendChanseModel spendChanse)
