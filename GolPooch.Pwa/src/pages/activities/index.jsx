@@ -1,16 +1,16 @@
-﻿import React from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, Paper, AppBar, Container } from '@material-ui/core';
-import { TabPanel } from '@material-ui/lab';
 import Banners from '../../atom/comps/Banners';
-
+import ActivePurchase from './comps/active';
+import AllPurchase from './comps/all';
 
 const useStyles = makeStyles(() => ({
     root: {
         backgroundColor: '#fff',
         paddingTop: 7.5,
         paddingBottom: 7.5,
-        '& .MuiPaper-root':{
+        '& .MuiPaper-root': {
             boxShadow: "0px 1px 8px 0px #d2d2d2",
             borderRadius: 5,
         }
@@ -19,12 +19,14 @@ const useStyles = makeStyles(() => ({
 
 
 const Activities = () => {
+    //Hooks
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
     return (
         <div className={classes.root}>
             <Banners pageName="Activities" location="top" />
@@ -46,7 +48,7 @@ const Activities = () => {
                         index={0}
                         hidden={value !== 0}
                         id='active-packages'>
-                        Item One
+                        <ActivePurchase />
 
                     </div>
                     <div
@@ -54,7 +56,7 @@ const Activities = () => {
                         index={1}
                         hidden={value !== 1}
                         id='active-packages'>
-                        Item Two
+                       <AllPurchase />ّ
 
                 </div>
                 </Paper>

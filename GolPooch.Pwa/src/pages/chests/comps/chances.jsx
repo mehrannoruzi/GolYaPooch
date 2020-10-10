@@ -3,7 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import { makeStyles, Box } from '@material-ui/core';
 import Slider from "react-slick";
 import chestAtom from '../../../atom/state/chestState';
-import chanceSrv from '../../../services/chanceSrv';
+import purchaseSrv from '../../../services/purchaseSrv';
 import { useRecoilState } from 'recoil';
 import toastState from '../../../atom/state/toastState';
 import { useHistory } from 'react-router-dom';
@@ -76,7 +76,7 @@ const Chances = (props) => {
 
     const getChances = async () => {
         setInProgress(true);
-        let get = await chanceSrv.getActivePurchase(12, pageNumber);
+        let get = await purchaseSrv.getActivePurchase(12, pageNumber);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
                 setModalState({ ...modal, open: false });

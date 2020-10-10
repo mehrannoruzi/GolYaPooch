@@ -5,7 +5,6 @@ import strings from '../core/strings';
 
 export default class chestSrv {
     static async get(ignoreStorage) {
-
         let data = localStorage.getItem(config.keys.chests);
         if (data && !ignoreStorage) {
             let info = JSON.parse(data);
@@ -29,10 +28,9 @@ export default class chestSrv {
         }
         let data = localStorage.getItem(config.keys.chests);
         if (data && !ignoreStorage) return find(JSON.parse(data));
-
-        let call = await http.get(addr.chests);
+        
+        let call = await http.get(addr.getChests);
         if (!call.isSuccessful) return call;
-
         localStorage.setItem(config.keys.chests, JSON.stringify(call));
         return find(call);
     }

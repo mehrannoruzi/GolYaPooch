@@ -37,6 +37,7 @@ export default function () {
                 });
             });
         localStorage.removeItem(config.keys.banners);
+        localStorage.removeItem(config.keys.chests);
         getInitInfo();
     }, []);
 
