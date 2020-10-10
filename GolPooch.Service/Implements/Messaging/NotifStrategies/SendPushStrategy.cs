@@ -43,15 +43,12 @@ namespace GolPooch.Service.Implements
                     #region Create Push Request For FCM
                     var requestBody = new
                     {
-                        body = new
+                        collapse_key = "type_a",
+                        notification = new
                         {
-                            collapse_key = "type_a",
-                            notification = new
-                            {
-                                body = notification.Text,
-                                title = notification.Subject,
-                                icon = notification.IconUrl,
-                            }
+                            body = notification.Text,
+                            title = notification.Subject,
+                            icon = notification.IconUrl,
                         },
                         data = new
                         {

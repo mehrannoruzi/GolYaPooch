@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
 using GolPooch.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GolPooch.Api.Controllers
 {
@@ -18,7 +19,7 @@ namespace GolPooch.Api.Controllers
         public async Task<JsonResult> AddDeliveryAsync(User user, int notificationId)
             => Json(await _notificationService.AddDeliveryAsync(user.UserId, notificationId));
 
-        [HttpPost]
+        [AllowAnonymous, HttpPost]
         public async Task<JsonResult> AddClickAsync(User user, int notificationId)
             => Json(await _notificationService.AddClickAsync(user.UserId, notificationId));
 
