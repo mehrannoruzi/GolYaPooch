@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { TextField, Box, makeStyles, Link, Grid } from '@material-ui/core';
 import strings, { validationStrings } from './../../../core/strings';
@@ -61,17 +61,18 @@ export default function () {
     const [toast, setToastState] = useRecoilState(toastState);
 
     //Events 
-    const _submit = async () => {
-        if (!verifyCode.value) {
+    const _submit = async (val) => {
+        val = val || verifyCode.value;
+        if (!val) {
             setVerifyCode({ ...verifyCode, error: true, errorMessage: validationStrings.required });
             return;
         }
-        if (isNaN(verifyCode.value)) {
+        if (isNaN(val)) {
             setVerifyCode({ ...verifyCode, error: true, errorMessage: validationStrings.mustBeNumber });
             return;
         }
         setInProgress(true);
-        var response = await userSrv.verify(authPage.transactionId, verifyCode.value).finally(() => {
+        var response = await userSrv.verify(authPage.transactionId, val).finally(() => {
             setInProgress(false);
         });
         if (!response.isSuccessful)
@@ -94,6 +95,12 @@ export default function () {
             setToastState({ ...toast, open: true, severity: 'info', message: strings.resentSuccess });
         }
     }
+    const _handleVerifyCodeChange = async (e) => {
+        let v = e.target.value;
+        setVerifyCode({ value: v, error: false, errorMessage: '' });
+        if (v.length === 4)
+            await _submit(v);
+    }
 
     if (redirectTo) return <Redirect to={redirectTo} />
     return (
@@ -111,10 +118,9 @@ export default function () {
                         error={verifyCode.error}
                         id="verifyCode"
                         name="verifyCode"
-                        type="tel"
+                        type="text"
                         value={verifyCode.value}
-                        value={verifyCode.value}
-                        onChange={(e) => setVerifyCode({ value: e.target.value, error: false, errorMessage: '' })}
+                        onChange={(e) => _handleVerifyCodeChange(e)}
                         helperText={verifyCode.errorMessage}
                     />
                 </div>

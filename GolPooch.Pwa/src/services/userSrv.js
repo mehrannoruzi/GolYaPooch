@@ -17,7 +17,6 @@ export default class userSrv {
             transactionId: transactionId,
             pinCode: parseInt(pinCode)
         });
-        console.log(verifyCode);
         if (!verifyCode.isSuccessful) return verifyCode;
         let token = encrypt(verifyCode.result.token);
         localStorage.setItem(config.keys.token, token);
