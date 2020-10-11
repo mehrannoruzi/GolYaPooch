@@ -13,6 +13,7 @@ export default {
     getNotifications: (pageSize, pageNumber) => `${config.apiGateway.URL}Notification/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     getUnReadNotifCount: `${config.apiGateway.URL}Notification/UnReadCount`,
     readNotification: (id) => `${config.apiGateway.URL}Notification/Read?notificationId=${id}`,
+    deliverNotification: (id) => `${config.apiGateway.URL}Notification/AddDelivery?notificationId=${id}`,
     getTickets: (pageSize, pageNumber) => `${config.apiGateway.URL}Ticket/Top?pageSize=${pageSize}&pageNumber=${pageNumber}`,
     getUnReadTicketCount: `${config.apiGateway.URL}Ticket/UnReadCount`,
     readTicket: (id) => `${config.apiGateway.URL}Ticket/Read?ticketId=${id}`,
