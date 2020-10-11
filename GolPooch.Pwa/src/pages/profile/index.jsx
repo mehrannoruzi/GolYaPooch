@@ -1,5 +1,5 @@
 ﻿import React, { useState, useReducer, useEffect } from 'react';
-import DatePicker from 'react-datepicker2';
+//import DatePicker from 'react-datepicker2';
 import EditIcon from '@material-ui/icons/Edit';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { makeStyles, Paper, Container, Grid, TextField, InputLabel, Select, MenuItem, FormControl, FormHelperText, Box } from '@material-ui/core';
@@ -11,7 +11,7 @@ import Button from './../../atom/comps/Button';
 import Avatar from './comps/avatar';
 import userSrv from '../../services/userSrv';
 import { toPersianDate } from '../../core/utils';
-import momentJalaali  from 'moment-jalaali';
+import DatePicker from '../../atom/comps/DatePicker';
 
 const useStyles = makeStyles({
     profilePage: {
@@ -119,10 +119,10 @@ const Profile = () => {
         setInput({ [name]: { value: newValue, error: false, errorMessage: '' } });
     }
     const _dateChanged = (v) => {
-        setInput({ birthdateSh: { value: toPersianDate(v._d), error: false, errorMessage: '' } });
+        setInput({ birthdateSh: { value: v } });
     }
     return (
-        <Paper id='page-profile' className={`page ${classes.profilePage}`}>
+        <div id='page-profile' className={classes.profilePage}>
             <Container>
                 <Grid container spacing={1}>
                     <Grid item xs={12} className='mb-15'>
@@ -208,22 +208,13 @@ const Profile = () => {
                         </div>
                     </Grid>
                     <Grid item xs={6}>
-                        <div className="form-group date-picker">
-
-                            <DatePicker
-                                value={momentJalaali(input.birthdateSh.value, 'jYYYY/jM/jD')}
-                                placeholder='تاریخ تولد'
-                                isGregorian={false}
-                                timePicker={false}
-                                inputFormat='jYYYY/jMM/jDD'
-                                onChange={_dateChanged} />
-                        </div>
+                        <DatePicker id='birthdateSh' value={input.birthdateSh.value} label={strings.birthday} onChange={_dateChanged} />
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
                             <TextField
-                                id="lastName"
-                                name="lastName"
+                                id="intruducerId"
+                                name="intruducerId"
                                 label={strings.intruducerId}
                                 onChange={_handleChange}
                                 style={{ fontFamily: 'iransans' }}
@@ -236,9 +227,9 @@ const Profile = () => {
                 </Grid>
             </Container>
             <Box textAlign="right" className='btn-wrapper btn-BottomFixed'>
-                <Button icon={EditIcon} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-primary'>{strings.edit}</Button>
+                <Button icon={EditIcon} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-purchase'>{strings.edit}</Button>
             </Box>
-        </Paper>
+        </div>
     );
 };
 

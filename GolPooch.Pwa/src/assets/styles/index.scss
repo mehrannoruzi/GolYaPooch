@@ -112,7 +112,11 @@ body {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
-
+.MuiPopover-root{
+    .MuiMenuItem-root{
+        min-height: auto!important;
+    }
+}
 
 .text-right {
     text-align: right !important;

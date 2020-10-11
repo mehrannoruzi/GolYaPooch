@@ -10,7 +10,7 @@ const useStyles = makeStyles({
             color: '#fff',
             verticalAlign: 'middle',
             display: 'flex',
-            flex: 0.2,
+            width: 30,
             padding: '0 5px',
             justifyContent: 'center',
             '& .MuiCircularProgress-indeterminate': {
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         '& .text': {
             textAlign: 'center',
             display: 'flex',
-            flex: 0.8,
+            flex: 1,
             justifyContent: 'center'
         },
         '& .MuiCircularProgress-colorPrimary': {

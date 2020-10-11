@@ -76,7 +76,7 @@ const Chances = (props) => {
 
     const getChances = async () => {
         setInProgress(true);
-        let get = await purchaseSrv.getActivePurchase(12, pageNumber);
+        let get = await purchaseSrv.getActive(12, pageNumber);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
                 setModalState({ ...modal, open: false });
@@ -102,9 +102,8 @@ const Chances = (props) => {
     }
 
     const settings = {
-        infinite: false,
+        infinite: true,
         slidesToShow: 2,
-        // swipeToSlide: true,
         className: "center mb-15",
         infinite: false,
         rtl: true,

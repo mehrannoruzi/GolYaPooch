@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Skeleton } from '@material-ui/lab';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import strings from '../../../core/strings';
 import { Grid, makeStyles } from '@material-ui/core';
 import { FaCheckCircle } from 'react-icons/fa';
+import Button from '../../../atom/comps/Button';
 
 const useStyles = makeStyles({
     successComp: {
@@ -35,6 +35,7 @@ const useStyles = makeStyles({
         }
     },
     linkToStore: {
+        width:'230px!important',
         backgroundColor: '#ffffff',
         borderRadius: '3px',
         position: 'fixed',
@@ -54,21 +55,9 @@ const useStyles = makeStyles({
 const Success = (props) => {
     //HOOKS
     const classes = useStyles();
+    const history = useHistory();
     //recoil
     const { info } = props;
-    // useEffect(() => {
-    //     const getDate = async () => {
-    //         setInProgress(true);
-    //         let info = await orderSrv.getChances();
-    //         console.log(info);
-    //         if (info.isSuccessful) {
-    //             setChanceInfo(info.result);
-    //         }
-    //         else setToastState({ ...toast, open: true, severity: 'error', message: info.message });
-    //         setInProgress(false);
-    //     }
-    //     getDate();
-    // }, [query]);
 
     return (
         <Grid container className={classes.successComp}>
@@ -112,7 +101,7 @@ const Success = (props) => {
                     <Grid item xs={5} className='val'>{info.TotalChance}</Grid>
                 </Grid>
             </Grid>
-            <Link to='/nl/store' className={classes.linkToStore}>شانست رو دوباره امتحان کن</Link>
+            <Button onClick={() => history.push('/nl/chests')} className={`btn-purchase ${classes.linkToStore}`}>شانست رو دوباره امتحان کن</Button>
         </Grid>
     );
 }

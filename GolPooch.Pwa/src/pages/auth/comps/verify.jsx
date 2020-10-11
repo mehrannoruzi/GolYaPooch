@@ -78,7 +78,7 @@ export default function () {
             setToastState({ ...toast, open: true, severity: 'error', message: response.message });
         else {
             userSrv.saveInfo({ mobileNumber: authPage.mobileNumber });
-            setRedirectTo('/nl/store');
+            setRedirectTo('/nl/chests');
         }
     }
 

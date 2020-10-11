@@ -63,7 +63,7 @@ const strings = {
     pageName_activities: 'فعالیت ها',
     pageName_chest: 'بسته ها',
     pageName_leaderboard: 'برنده ها',
-    pageName_setting: 'تنظیمات',
+    pageName_setting: 'سایر',
     successfulPayment: 'پرداخت با موفقیت انجام شد',
     failedPayment: 'پرداخت با خطا مواجه شد',
     iAgree: 'قبول می کنم',

@@ -65,7 +65,7 @@ const Start = () => {
     let page = '';
     let visited = localStorage.getItem(config.keys.visitedStartPage);
     if (jwt)
-        page = '/nl/store';
+        page = '/nl/chests';
     else if (visited) page = '/el/auth';
     const handleclick = () => {
         localStorage.setItem(config.keys.visitedStartPage, 'true');
