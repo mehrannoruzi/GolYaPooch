@@ -2,7 +2,7 @@
 
 namespace GolPooch.Domain.Dto
 {
-    public class WinnerDto
+    public class WinnerDto : IEntity
     {
         public long Number { get; set; }
         public string FullName { get; set; }

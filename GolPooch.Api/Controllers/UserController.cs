@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using GolPooch.Domain.Dto;
+using GolPooch.Domain.Enum;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -35,5 +36,8 @@ namespace GolPooch.Api.Controllers
             else return Json(new { IsSuccessful = false, Message = "هیچ فایلی آپلود نشده است" });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> LogActivityAsync(User user, [FromBody] ActivityLog log)
+            => Ok(await _userService.LogActivityAsync(user.MobileNumber, HttpContext, log.Type));
     }
 }

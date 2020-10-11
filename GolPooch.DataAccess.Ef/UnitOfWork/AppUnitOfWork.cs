@@ -10,13 +10,13 @@ namespace GolPooch.DataAccess.Ef
     public partial class AppUnitOfWork : IElkUnitOfWork
     {
         #region Base
+        public IGenericRepo<ActivityLog> ActivityLogRepo => _serviceProvider.GetService<IGenericRepo<ActivityLog>>();
         public IGenericRepo<Authenticate> AuthenticateRepo => _serviceProvider.GetService<IGenericRepo<Authenticate>>();
         public IGenericRepo<ChangeLog> ChangeLogRepo => _serviceProvider.GetService<IGenericRepo<ChangeLog>>();
         public IGenericRepo<DiscountCode> DiscountCodeRepo => _serviceProvider.GetService<IGenericRepo<DiscountCode>>();
         public IGenericRepo<Page> PageRepo => _serviceProvider.GetService<IGenericRepo<Page>>();
         public IGenericRepo<Ticket> TicketRepo => _serviceProvider.GetService<IGenericRepo<Ticket>>();
         public IGenericRepo<User> UserRepo => _serviceProvider.GetService<IGenericRepo<User>>();
-        public IGenericRepo<UserDeviceLog> UserDeviceRepo => _serviceProvider.GetService<IGenericRepo<UserDeviceLog>>();
         #endregion
 
         #region Draw

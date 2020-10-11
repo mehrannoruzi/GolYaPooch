@@ -1,20 +1,24 @@
 ﻿using System;
 using Elk.Core;
+using GolPooch.Domain.Enum;
 using GolPooch.Domain.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GolPooch.Domain.Entity
 {
-    [Table(nameof(UserDeviceLog), Schema = "Base")]
-    public class UserDeviceLog : IEntity, IInsertDateProperties
+    [Table(nameof(ActivityLog), Schema = "Base")]
+    public class ActivityLog : IEntity, IInsertDateProperties
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserDeviceLogId { get; set; }
+        public int ActivityLogId { get; set; }
 
         [Display(Name = nameof(DisplayNames.MobileNumber), ResourceType = typeof(DisplayNames))]
         public long MobileNumber { get; set; }
+
+        [Display(Name = nameof(DisplayNames.Type), ResourceType = typeof(DisplayNames))]
+        public ActivityLogType Type { get; set; }
 
         [Display(Name = nameof(DisplayNames.IsMobile), ResourceType = typeof(DisplayNames))]
         public bool IsMobile { get; set; }
