@@ -11,7 +11,7 @@ var urlsToCache = [
 
 //--development
 // const baseUrl = 'http://localhost:3000/';
-// const apiUrl = 'https://localhost:44367/';
+ //const apiUrl = 'https://localhost:44367/';
 // const firebaseConfig = {
 //   apiKey: "AIzaSyBn60BEx3DUs4zFRMeYslZs-6PSu1q-9k0",
 //   authDomain: "golpooch2.firebaseapp.com",
@@ -24,7 +24,7 @@ var urlsToCache = [
 
 //--production
 const baseUrl = 'https://pwa.golpooch.com/';
-const apiUrl='https://api.golpooch.com/';
+const apiUrl = 'https://api.golpooch.com/';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDAx5O8Te76lUHFEEfTx7URneZBEu-Stuc",
@@ -56,44 +56,25 @@ messaging.setBackgroundMessageHandler(function (payload) {
   return promiseChain;
 });
 
-// messaging.onMessage((payload) => {
-//   console.log(payload);
-//   const title = payload.notification.title;
-//   const options = {
-//     body: payload.notification.body,
-//     icon: payload.notification.icon,
-//     actions: [
-//       {
-//         action: payload.fcmOptions.link,
-//         title: 'Book Appointment'
-//       }
-//     ]
-//   };
-//   self.registration.showNotification(title, options);
-// });
-self.addEventListener('notificationclick', (event) => {
-  console.log(event);
-  if (event.action) {
-    clients.openWindow(event.action);
+self.addEventListener('notificationclick', (payload) => {
+  console.log(payload);
+  let data = payload.notification.data;
+  if (data.ActionUrl) {
+    clients.openWindow(data.ActionUrl);
+  }
+  if (data.NotificationId) {
+    fetch(`${apiUrl}notification/AddClick?notificationId=${data.NotificationId}`, {
+      method: 'POST',
+      mode: 'cors'
+    })
+      .then(function (response) { return response.json(); })
+      .then(function (data) {
+        console.log(data);
+        return data;
+      });
   }
 
-  fetch(`${apiUrl}notification/read`, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    },
-    body: JSON.stringify({
-      notificationId: event.id
-    })
-  })
-    .then(function (response) { return response.json(); })
-    .then(function (data) {
-      console.log(data);
-      return data;
-    });
-  event.notification.close();
+  payload.notification.close();
 });
 
 // Install a service worker

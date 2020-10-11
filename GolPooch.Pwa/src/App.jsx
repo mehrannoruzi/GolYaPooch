@@ -32,8 +32,10 @@ export default function () {
             navigator.serviceWorker.addEventListener("message", (payload) => {
                 console.log(payload);
                 let notif = payload.data['firebase-messaging-msg-data'].notification;
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification(notif.title, payload.data['firebase-messaging-msg-data'].notification);
+                let notifData = payload.data['firebase-messaging-msg-data'].data;
+                navigator.serviceWorker.ready.then(async (registration) => {
+                    registration.showNotification(notif.title, { ...notif, data: notifData });
+                    await notificationSrv.deliver(notifData.NotificationId)
                 });
             });
         localStorage.removeItem(config.keys.banners);
