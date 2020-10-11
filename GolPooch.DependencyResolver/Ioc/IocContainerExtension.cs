@@ -21,7 +21,6 @@ namespace GolPooch.DependencyResolver.Ioc
             #region Repos
             services.AddTransient(typeof(IGenericRepo<>), typeof(GenericRepo<>));
 
-
             services.AddTransient<IRoundWinnerRepo, RoundWinnerRepo>();
             #endregion
 
@@ -35,6 +34,7 @@ namespace GolPooch.DependencyResolver.Ioc
 
             #region Base
             services.AddScoped<IAuthenticateService, AuthenticateService>();
+            services.AddScoped<IChangeLogService, ChangeLogService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IUserService, UserService>();
             //services.AddScoped<IUserde, UserService>();

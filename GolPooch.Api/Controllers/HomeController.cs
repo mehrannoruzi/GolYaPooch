@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GolPooch.Api.Controllers
@@ -7,6 +8,6 @@ namespace GolPooch.Api.Controllers
     public class HomeController : Controller
     {
         [AllowAnonymous]
-        public IActionResult Index() => Ok("Welcome to GolYaPooch Api ...");
+        public IActionResult Index() => Ok($"Welcome to GolYaPooch Api ... {DateTime.Now}");
     }
 }
