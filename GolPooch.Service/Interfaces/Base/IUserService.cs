@@ -1,6 +1,8 @@
 ﻿using Elk.Core;
 using GolPooch.Domain.Dto;
+using GolPooch.Domain.Enum;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace GolPooch.Service.Interfaces
 {
@@ -24,5 +26,7 @@ namespace GolPooch.Service.Interfaces
         /// <param name="photo">binary of photo</param>
         /// <returns>address of photo hosted</returns>
         Task<IResponse<string>> UploadAwatarAsync(int userId, string fileExtension, byte[] fileBytes);
+
+        Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login);
     }
 }

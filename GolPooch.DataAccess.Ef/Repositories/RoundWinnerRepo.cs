@@ -18,10 +18,10 @@ namespace GolPooch.DataAccess.Ef
         }
 
         public async Task<IEnumerable<WinnerDto>> GetLastWinnersAsync(PagingParameter pagingParameter)
-            => await _appDbContext.WinnerDtos.ExecuteSpListAsync("EXEC [Draw].[GetLastWinner]", pagingParameter.PageNumber, pagingParameter.PageSize);
+            => await _appDbContext.ExecuteSpListAsync<WinnerDto>("EXEC [Draw].[GetLastWinner]", pagingParameter.PageNumber, pagingParameter.PageSize);
 
         public async Task<IEnumerable<WinnerDto>> GetMustWinnersAsync(PagingParameter pagingParameter)
-            => await _appDbContext.WinnerDtos.ExecuteSpListAsync("EXEC [Draw].[GetMustWinner]", pagingParameter.PageNumber, pagingParameter.PageSize);
+            => await _appDbContext.ExecuteSpListAsync<WinnerDto > ("EXEC [Draw].[GetMustWinner]", pagingParameter.PageNumber, pagingParameter.PageSize);
 
     }
 }

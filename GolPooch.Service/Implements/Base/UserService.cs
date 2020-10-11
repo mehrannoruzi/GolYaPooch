@@ -1,5 +1,6 @@
 ﻿using System;
 using Elk.Core;
+using Elk.Http;
 using System.IO;
 using GolPooch.Domain.Dto;
 using GolPooch.Domain.Enum;
@@ -8,6 +9,7 @@ using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
@@ -24,6 +26,28 @@ namespace GolPooch.Service.Implements
         {
             _appUow = appUnitOfWork;
             _configuration = configuration;
+        }
+
+
+        private ActivityLog GetActivityLog(long mobilenumber, ActivityLogType type, HttpContext httpContext)
+        {
+            var requestDetails = ClientInfo.GetRequestDetails(httpContext);
+            var ip = ClientInfo.GetIP(httpContext);
+            var isMobile = requestDetails == null ? false : requestDetails.IsMobile;
+            var os = $"{requestDetails?.OsName} {requestDetails?.OsVersion}";
+            var device = $"{requestDetails?.Manufacture} {requestDetails?.Model}";
+            var application = $"{requestDetails?.BrowserName} {requestDetails?.BrowserVersion}";
+
+            return new ActivityLog
+            {
+                MobileNumber = mobilenumber,
+                IsMobile = isMobile,
+                Type = type,
+                IP = ip,
+                Os = os.Length > 20 ? os.Substring(0, 20) : os,
+                Device = device.Length > 50 ? device.Substring(0, 50) : device,
+                Application = application.Length > 50 ? application.Substring(0, 50) : application
+            };
         }
 
         public async Task<IResponse<int>> UpdateProfileAsync(int userId, UserDto userDto)
@@ -165,6 +189,27 @@ namespace GolPooch.Service.Implements
                 FileLoger.Error(e);
                 response.Message = ServiceMessage.Exception;
                 return response;
+            }
+        }
+
+        public async Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login)
+        {
+            var response = new Response<bool>();
+            try
+            {
+                await _appUow.ActivityLogRepo.AddAsync(GetActivityLog(mobileNumber, type, httpContext));
+                var saveResult = await _appUow.ElkSaveChangesAsync();
+
+                response.Result = saveResult.IsSuccessful;
+                response.Message = ServiceMessage.Success;
+                response.IsSuccessful = saveResult.IsSuccessful;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response; 
             }
         }
     }

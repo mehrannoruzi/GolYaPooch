@@ -24,7 +24,5 @@ namespace GolPooch.DataAccess.Ef
             builder.OverrideDeleteBehavior();
             builder.RegisterAllEntities<IEntity>(typeof(User).Assembly);
         }
-
-        public DbSet<WinnerDto> WinnerDtos { get; set; }
     }
 }

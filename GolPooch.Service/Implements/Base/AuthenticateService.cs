@@ -8,6 +8,7 @@ using GolPooch.Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
+using GolPooch.Domain.Enum;
 
 namespace GolPooch.Service.Implements
 {
@@ -20,7 +21,8 @@ namespace GolPooch.Service.Implements
             _appUow = appUnitOfWork;
         }
 
-        private UserDeviceLog GetDeviceLog(long mobilenumber, HttpContext httpContext)
+
+        private ActivityLog GetActivityLog(long mobilenumber, ActivityLogType type, HttpContext httpContext)
         {
             var requestDetails = ClientInfo.GetRequestDetails(httpContext);
             var ip = ClientInfo.GetIP(httpContext);
@@ -29,10 +31,11 @@ namespace GolPooch.Service.Implements
             var device = $"{requestDetails?.Manufacture} {requestDetails?.Model}";
             var application = $"{requestDetails?.BrowserName} {requestDetails?.BrowserVersion}";
 
-            return new UserDeviceLog
+            return new ActivityLog
             {
                 MobileNumber = mobilenumber,
                 IsMobile = isMobile,
+                Type = type,
                 IP = ip,
                 Os = os.Length > 20 ? os.Substring(0, 20) : os,
                 Device = device.Length > 50 ? device.Substring(0, 50) : device,
@@ -45,7 +48,7 @@ namespace GolPooch.Service.Implements
             var response = new Response<int> { IsSuccessful = true, Message = ServiceMessage.Success };
             try
             {
-                if(!mobileNumber.IsMobileNumber()) return new Response<int> { Message = ServiceMessage.InvalidMobileNumber };
+                if (!mobileNumber.IsMobileNumber()) return new Response<int> { Message = ServiceMessage.InvalidMobileNumber };
 
                 var randomPinCode = Randomizer.GetRandomInteger(4);
                 var authenticate = new Authenticate
@@ -121,7 +124,7 @@ namespace GolPooch.Service.Implements
                 existedPinCode.UsedTime = DateTime.Now;
                 _appUow.AuthenticateRepo.Update(existedPinCode);
 
-                await _appUow.UserDeviceRepo.AddAsync(GetDeviceLog(existedPinCode.MobileNumber, httpContext));
+                await _appUow.ActivityLogRepo.AddAsync(GetActivityLog(existedPinCode.MobileNumber, ActivityLogType.VerifyCode, httpContext));
 
                 var saveResult = await _appUow.ElkSaveChangesAsync();
                 response.IsSuccessful = saveResult.IsSuccessful;
