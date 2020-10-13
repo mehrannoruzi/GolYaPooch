@@ -136,9 +136,9 @@ const Chest = (props) => {
                     <Chances />
                     <div className={classes.counter}>
                         {inProgress ? <Skeleton className='w-100' variant='rect' height={30} width={120} /> : <>
-                            <button className='btn-plus' onClick={() => _handleCount(rState.count + 1)}>+</button>
+                            <button disabled={rState.purchase ? false : true} className='btn-plus' onClick={() => _handleCount(rState.count + 1)}>+</button>
                             <span className='count'>{rState.count}</span>
-                            <button className='btn-minus' onClick={() => _handleCount(rState.count - 1)}>-</button>
+                            <button disabled={rState.purchase ? false : true} className='btn-minus' onClick={() => _handleCount(rState.count - 1)}>-</button>
                         </>}
                     </div>
                 </Container>

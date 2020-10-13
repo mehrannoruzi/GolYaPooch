@@ -9,6 +9,7 @@ import toastState from '../../../atom/state/toastState';
 import { useHistory } from 'react-router-dom';
 import { BsCheckCircle } from 'react-icons/bs';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
+import strings from './../../../core/strings';
 
 const useStyles = makeStyles({
     root: {
@@ -61,7 +62,9 @@ const useStyles = makeStyles({
 
     },
     loaderWrapper: {
+        color: '#666',
         display: 'flex',
+        flexDirection: 'column',
         position: 'absolute',
         left: 0,
         right: 0,
@@ -69,7 +72,14 @@ const useStyles = makeStyles({
         top: 0,
         backgroundColor: 'rgba(0,0,0,0.1)',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        '& .MuiCircularProgress-root': {
+            color: '#666!important'
+        },
+        '& span': {
+            paddingTop: 10,
+            fontSize: '0.9rem'
+        }
     }
 });
 
@@ -88,8 +98,6 @@ const Chances = (props) => {
     const getChances = async () => {
         setInProgress(true);
         let get = await purchaseSrv.getActive(12, pageNumber);
-        console.log('chances-------');
-        console.log(get);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
                 setModalState({ ...modal, open: false });
@@ -128,7 +136,8 @@ const Chances = (props) => {
     return (
         <div className={classes.root}>
             {inProgress ? <div className={classes.loaderWrapper}>
-                <CircularProgress size={30} />
+                <CircularProgress size={20} />
+                <span>{strings.pleaseWait}</span>
             </div> : null}
             <Slider {...settings} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
                 {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>

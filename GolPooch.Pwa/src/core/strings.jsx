@@ -74,6 +74,7 @@ const strings = {
     appVersion: 'نسخه اپلیکیشن',
     thereIsNoNotification:'هیچ اعلانی وجود ندارد',
     thereIsNoTicket:'هیچ تیکتی وجود ندارد',
-    sendTicket:'ارسال تیکت'
+    sendTicket:'ارسال تیکت',
+    pleaseWait:'لطفا منتظر یمانید'
 };
 export default strings;
