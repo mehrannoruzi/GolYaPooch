@@ -7,11 +7,11 @@ const Item = (props) => {
     return (
         <li>
             <Container>
-                {props.onClick ? <button onClick={() => props.onClick()} className='item'>
+                {props.onClick ? <a onClick={() => props.onClick()} className='item'>
                     <props.icon className='icon' />
                     <h5 className='hx'>{props.title}</h5>
                     <FiChevronLeft className='arrow-left' />
-                </button> :
+                </a> :
                     <Link to={props.href}  className='item'>
                         <props.icon className='icon' />
                         <h5 className='hx'>{props.title}</h5>

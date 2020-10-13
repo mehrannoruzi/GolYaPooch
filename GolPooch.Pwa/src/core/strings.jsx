@@ -60,7 +60,7 @@ const strings = {
     detailProduct: 'جزییات سفارش',
     logOut:'خروج',
     pageName_store: 'فروشگاه',
-    pageName_activities: 'فعالیت ها',
+    pageName_activities: 'بسته های من',
     pageName_chest: 'بسته ها',
     pageName_leaderboard: 'برنده ها',
     pageName_setting: 'سایر',
@@ -74,6 +74,9 @@ const strings = {
     appVersion: 'نسخه اپلیکیشن',
     thereIsNoNotification:'هیچ اعلانی وجود ندارد',
     thereIsNoTicket:'هیچ تیکتی وجود ندارد',
-    sendTicket:'ارسال تیکت'
+    sendTicket:'ارسال تیکت',
+    pleaseWait:'لطفا منتظر یمانید',
+    thereIsNoActivePackage:'هیچ بسته فعالی وجود ندارد',
+    thereIsNoPackage:'هیچ بسته ای وجود ندارد'
 };
 export default strings;

@@ -15,8 +15,6 @@ import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
     chestComp: {
-        overflowY: 'auto',
-
         '& .heading': {
             textAlign: 'center'
         },
@@ -108,6 +106,7 @@ const Chest = (props) => {
             purchaseId: rState.purchase.purchaseId,
             ChanceCount: rState.count
         });
+        console.log(call)
         if (call.isSuccessful) setSpendChanceResult(call.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
         setIsSending(false);
@@ -137,9 +136,9 @@ const Chest = (props) => {
                     <Chances />
                     <div className={classes.counter}>
                         {inProgress ? <Skeleton className='w-100' variant='rect' height={30} width={120} /> : <>
-                            <button className='btn-plus' onClick={() => _handleCount(rState.count + 1)}>+</button>
+                            <button disabled={rState.purchase ? false : true} className='btn-plus' onClick={() => _handleCount(rState.count + 1)}>+</button>
                             <span className='count'>{rState.count}</span>
-                            <button className='btn-minus' onClick={() => _handleCount(rState.count - 1)}>-</button>
+                            <button disabled={rState.purchase ? false : true} className='btn-minus' onClick={() => _handleCount(rState.count - 1)}>-</button>
                         </>}
                     </div>
                 </Container>
