@@ -58,7 +58,7 @@ const strings = {
     chance: 'شانس برنده شدن',
     discount: 'تخفیف',
     detailProduct: 'جزییات سفارش',
-    logOut:'خروج',
+    logOut: 'خروج',
     pageName_store: 'فروشگاه',
     pageName_activities: 'بسته های من',
     pageName_chest: 'بسته ها',
@@ -72,11 +72,12 @@ const strings = {
     supportCenter: 'مرکز پشتیبانی',
     aboutUs: 'درباره ما',
     appVersion: 'نسخه اپلیکیشن',
-    thereIsNoNotification:'هیچ اعلانی وجود ندارد',
-    thereIsNoTicket:'هیچ تیکتی وجود ندارد',
-    sendTicket:'ارسال تیکت',
-    pleaseWait:'لطفا منتظر یمانید',
-    thereIsNoActivePackage:'هیچ بسته فعالی وجود ندارد',
-    thereIsNoPackage:'هیچ بسته ای وجود ندارد'
+    thereIsNoNotification: 'هیچ اعلانی وجود ندارد',
+    thereIsNoTicket: 'هیچ تیکتی وجود ندارد',
+    sendTicket: 'ارسال تیکت',
+    pleaseWait: 'لطفا منتظر یمانید',
+    thereIsNoActivePackage: 'هیچ بسته فعالی وجود ندارد',
+    thereIsNoPackage: 'هیچ بسته ای وجود ندارد',
+    select: 'انتخاب'
 };
 export default strings;

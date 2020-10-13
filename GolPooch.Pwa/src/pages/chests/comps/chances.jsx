@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, Box, CircularProgress } from '@material-ui/core';
+import { makeStyles, Paper, Box, CircularProgress } from '@material-ui/core';
 import Slider from "react-slick";
 import chestAtom from '../../../atom/state/chestState';
 import purchaseSrv from '../../../services/purchaseSrv';
@@ -10,11 +10,13 @@ import { useHistory } from 'react-router-dom';
 import { BsCheckCircle } from 'react-icons/bs';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 import strings from './../../../core/strings';
+import Button from '../../../atom/comps/Button';
+import { BiCheck } from 'react-icons/bi';
 
 const useStyles = makeStyles({
     root: {
         position: 'relative',
-        minHeight: 295
+        minHeight: 150
     },
     chance: {
         padding: 10,
@@ -22,20 +24,17 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
         boxSizing: 'border-box',
-        '& figure': {
-            margin: 0,
-            width: '100%',
-            boxSizing: 'border-box',
-            border: 'solid 1px #ccc',
-            padding: '12px',
-            borderRadius: '3px',
+
+        '& .wrapper': {
+            boxShadow: "0px 1px 8px 0px #d2d2d2",
             position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+
             '&.selected': {
-                color: 'green',
-                border: 'solid 1px green',
-                boxShadow: '0px 0px 3px 0px #8BC34A'
+                boxShadow: '0px 1px 8px 0px #76b132'
             },
-            '& svg': {
+            '& .select-icon': {
                 top: '-8px',
                 right: '-5px',
                 color: 'green',
@@ -45,17 +44,33 @@ const useStyles = makeStyles({
                 left: '-10px',
                 backgroundColor: '#fff'
             },
-            '& .img-main': {
-                width: '100%',
-                maxHeight: '180px',
-                marginBottom: 5
+            '& .hx': {
+                padding: '7.5px 5px',
+                margin: '0 0 15px 0',
+                fontSize: '11px',
+                textAlign: 'center',
+                borderBottom: '1px solid #ccc',
+                borderRadius: '5px',
+                borderBottomRightRradius: 0,
+                borderBottomLeftRadius: 0,
+
             },
-            '& figcaption': {
-                display: 'flex',
-                flexDirection: 'column',
-                '& label': {
-                    padding: '5px 0',
-                    fontSize: '1.1rem'
+            '& .btn': {
+                textAlign: 'center',
+                color: '#8BC34A',
+                minWidth: 120,
+                marginBottom:15,
+                '& .btnPurchase': {
+                    backgroundColor: '#8BC34A',
+                    minWidth: 120,
+                }
+            },
+            '& label': {
+                padding: 5,
+                '& .chk-icon':{
+                    fontSize: '20px',
+                    color: 'green',
+                    verticalAlign: 'middle'
                 }
             }
         }
@@ -141,14 +156,13 @@ const Chances = (props) => {
             </div> : null}
             <Slider {...settings} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
                 {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
-                    <figure className={item.purchaseId === chestState.purchaseId ? 'selected' : null}>
-                        {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle /> : null}
-                        <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
-                        <figcaption>
-                            <label className='total'>تعداد کل شانس: {item.chance}</label>
-                            <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
-                        </figcaption>
-                    </figure>
+                    <Paper className={`wrapper ${item.purchaseId === chestState.purchase.purchaseId ? 'selected' : null}`}>
+                        {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle className='select-icon' /> : null}
+                        <h4 className='hx'>{item.productOffer.product.text}</h4>
+                        <div className='btn'><Button className='btnPurchase'>{strings.select}</Button></div>
+                        <label className='remained'><BiCheck className='chk-icon' /> شانس باقیمانده: {(item.chance - item.usedChance)}</label>
+                        <label className='total'><BiCheck className='chk-icon' /> تعداد کل شانس: {item.chance}</label>
+                    </Paper>
                 </Box>)}
 
             </Slider>
