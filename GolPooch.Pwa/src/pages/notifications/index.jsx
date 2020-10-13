@@ -33,19 +33,9 @@ const Notifications = () => {
     const [items, setItems] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [isBottom, setIsBottom] = useState(true);
+    const [expanded, setExpanded] = React.useState(false);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
-
-
-    function handleScroll(e) {
-        console.log('it began');
-        let element = e.target
-        if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
-            console.log('fired');
-            setIsBottom(true);
-        }
-
-    }
 
     useEffect(() => {
         if (isBottom && (items.length === 0 || items.length > 10)) {
@@ -67,10 +57,22 @@ const Notifications = () => {
 
     }, [isBottom]);
 
+    function handleScroll(e) {
+        let element = e.target
+        if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
+            console.log('fired');
+            setIsBottom(true);
+        }
+    }
+
+    const _handleItemClick = (panel) => {
+        if(panel===expanded) setExpanded(false);
+        else setExpanded(panel);
+    }
     return (
         <div id='comp-notifications' className={classes.notificationsComp} onScroll={handleScroll}>
             {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
-            {items.map((item, idx) => <Item key={idx} item={item} />)}
+            {items.map((item, idx) => <Item key={idx} item={item} expanded={expanded === `panel${item.notificationId}`} onClick={_handleItemClick} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
                 <Skeleton variant='rect' height={36} width={48} className='avatar' />
                 <Skeleton className='subject' /></Container>) : null}

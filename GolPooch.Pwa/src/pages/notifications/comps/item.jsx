@@ -54,14 +54,18 @@ export default function (props) {
     //Recoil
     const [nLState, setNLState] = useRecoilState(nLAtom);
     const { item } = props;
+    const _handleChange = (panel) => {
+        if (props.onClick) props.onClick(panel);
+    }
     const _handleClick = async (id, isRead) => {
-        if (!isRead) {
+        if (props.expanded !== `panel${item.notificationId}` && !isRead) {
             let call = await notificationSrv.read(id);
             if (call.isSuccessful)
                 setNLState({ ...nLState, newNotificationsCount: call.result });
         }
     }
-    return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}>
+    return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}
+        expanded={props.expanded} onChange={() => _handleChange(`panel${item.notificationId}`)}>
         <AccordionSummary
             onClick={() => _handleClick(item.notificationId, item.isRead)}
             expandIcon={<FcExpand fontSize={15} style={{ color: '#eee' }} fill="#EEE" />}
