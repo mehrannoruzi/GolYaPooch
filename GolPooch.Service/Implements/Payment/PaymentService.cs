@@ -232,7 +232,7 @@ namespace GolPooch.Service.Implements
                         var userChances = await _appUow.PurchaseRepo.GetAsync(
                             new QueryFilter<Purchase>
                             {
-                                Conditions = x => x.UserId == paymentTransaction.UserId && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
+                                Conditions = x => x.UserId == paymentTransaction.UserId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi > now,
                                 IncludeProperties = new List<Expression<Func<Purchase, object>>> { x => x.ProductOffer }
                             });
                         var userChanceCount = userChances.Sum(x => x.Chance) - userChances.Sum(x => x.UsedChance);
