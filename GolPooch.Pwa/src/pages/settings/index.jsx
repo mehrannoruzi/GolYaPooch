@@ -1,15 +1,17 @@
 ﻿import React from 'react';
 import { makeStyles, Container, Avatar } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import userSrv from '../../services/userSrv';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
-import { BsFileEarmarkRuled, BsInfoCircle } from 'react-icons/bs';
+import { BsFileEarmarkRuled, BsInfoCircle, BsPower } from 'react-icons/bs';
 import { BiSupport } from 'react-icons/bi';
 import { AiOutlineAppstore } from 'react-icons/ai';
 import { BiUser } from 'react-icons/bi';
+import { GiTicket } from 'react-icons/gi';
 import strings from '../../core/strings';
 import NavItem from './comps/navItem';
-
+import config from '../../config';
 const useStyles = makeStyles({
     settingsPage: {
         backgroundColor: '#f8faf9',
@@ -29,10 +31,12 @@ const useStyles = makeStyles({
                     }
                 },
                 borderBottom: 'solid 1px #eee',
-                '& a': {
+                '& .item': {
                     display: 'flex',
                     position: 'relative',
                     alignItems: 'center',
+                    padding:0,
+                    width:'100%',
                     '& .hx': {
                         padding: '0 10px',
                         display: 'flex',
@@ -59,16 +63,21 @@ const useStyles = makeStyles({
 });
 
 const Settings = () => {
+    //Hooks
     const classes = useStyles();
+    const history = useHistory();
     //recoil
     const userInfo = userSrv.getInfo();
-    console.log(userInfo);
+    const _handleLogOut = () => {
+        localStorage.removeItem(config.keys.token);
+        history.push('/el/auth');
+    }
     return (
         <div id='page-settings' className={`${classes.settingsPage}`}>
             <ul>
                 <li className='profile'>
                     <Container>
-                        <Link to='/bl/profile'>
+                        <Link to='/bl/profile' className='item'>
                             {userInfo.avatar ? <Avatar src={userInfo.avatar} /> : <BiUser className='icon' />}
                             <h5 className='hx settingMenu'>
                                 {userInfo.firstName ? <span>{userInfo.firstName} {userInfo.lastName}</span> : null}
@@ -82,6 +91,8 @@ const Settings = () => {
                 <NavItem href='/bl/aboutus' icon={BsInfoCircle} title={strings.aboutUs} />
                 <NavItem href='/bl/rules' icon={BsFileEarmarkRuled} title={strings.rules} />
                 <NavItem href='/bl/appversion' icon={AiOutlineAppstore} title={strings.appVersion} />
+                <NavItem href='/bl/sendticket' icon={GiTicket} title={strings.sendTicket} />
+                <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
             </ul>
         </div>
     );

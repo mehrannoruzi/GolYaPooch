@@ -47,7 +47,8 @@ export default function (props) {
     //Recoil
     const [nLState, setNLState] = useRecoilState(nLAtom);
     const { item } = props;
-    console.log(item.insertDate);
+
+
     const _handleClick = async (item) => {
         if (item.answer && !item.isRead) {
             let call = await ticketSrv.read(item.ticketId);
@@ -55,11 +56,17 @@ export default function (props) {
                 setNLState({ ...nLState, newTicketCount: call.result });
         }
     }
-    return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}>
+
+    const _handleChange = (panel) => {
+        if (props.onClick) props.onClick(panel);
+    }
+    
+    return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}
+        expanded={props.expanded} onChange={() => _handleChange(`panel${item.ticketId}`)}>
         <AccordionSummary
             onClick={() => _handleClick(item)}
             expandIcon={<FcExpand fontSize={15} style={{ color: '#eee' }} fill="#EEE" />}
-            id={`summary_${item.notificationId}`}
+            id={`summary_${item.ticketId}`}
         >
             <Typography className='heading' component='h4'>
                 <span className='subject'>{item.text}</span>
