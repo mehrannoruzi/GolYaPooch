@@ -199,6 +199,9 @@ Code: {code}</value>
   <data name="InvalidPurchase" xml:space="preserve">
     <value>محصول خریداری شده معتبر نمی باشد ویا کد محصول خریداری شده اشتباه می باشد.</value>
   </data>
+  <data name="InvalidRefreshToken" xml:space="preserve">
+    <value>توکن ارسالی معتبر نمی باشد ویا زمان استفاده از رفرش توکن به پایان رسیده است.</value>
+  </data>
   <data name="InvalidRound" xml:space="preserve">
     <value>راند قرعه کشی صندوق مورد نظر معتبر نمی باشد ویا کد راند قرعه کشی اشتباه می باشد.</value>
   </data>

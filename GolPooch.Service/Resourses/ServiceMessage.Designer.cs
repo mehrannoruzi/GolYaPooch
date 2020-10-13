@@ -305,6 +305,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to توکن ارسالی معتبر نمی باشد ویا زمان استفاده از رفرش توکن به پایان رسیده است..
+        /// </summary>
+        public static string InvalidRefreshToken {
+            get {
+                return ResourceManager.GetString("InvalidRefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to راند قرعه کشی صندوق مورد نظر معتبر نمی باشد ویا کد راند قرعه کشی اشتباه می باشد..
         /// </summary>
         public static string InvalidRound {
