@@ -141,6 +141,9 @@
   <data name="AuthSecretKey" xml:space="preserve">
     <value>AuthSecretKey</value>
   </data>
+  <data name="Balance" xml:space="preserve">
+    <value>مانده حساب</value>
+  </data>
   <data name="BankName" xml:space="preserve">
     <value>نام بانک</value>
   </data>
@@ -284,6 +287,12 @@
   </data>
   <data name="PushId" xml:space="preserve">
     <value>کد پوش</value>
+  </data>
+  <data name="RefreshToken" xml:space="preserve">
+    <value>RefreshToken</value>
+  </data>
+  <data name="RefreshTokenExpireTime" xml:space="preserve">
+    <value>زمان انقضای رفرش توکن</value>
   </data>
   <data name="Region" xml:space="preserve">
     <value>استان</value>

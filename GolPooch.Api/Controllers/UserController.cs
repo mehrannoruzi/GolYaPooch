@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using GolPooch.Domain.Dto;
-using GolPooch.Domain.Enum;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;

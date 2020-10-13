@@ -2,23 +2,26 @@
 using Elk.Core;
 using Elk.Http;
 using GolPooch.SmsGateway;
+using GolPooch.Domain.Enum;
 using GolPooch.DataAccess.Ef;
 using System.Threading.Tasks;
 using GolPooch.Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using GolPooch.Service.Resourses;
 using GolPooch.Service.Interfaces;
-using GolPooch.Domain.Enum;
+using Microsoft.Extensions.Configuration;
 
 namespace GolPooch.Service.Implements
 {
     public class AuthenticateService : IAuthenticateService
     {
         private AppUnitOfWork _appUow { get; set; }
+        private readonly IConfiguration _configuration;
 
-        public AuthenticateService(AppUnitOfWork appUnitOfWork)
+        public AuthenticateService(AppUnitOfWork appUnitOfWork, IConfiguration configuration)
         {
             _appUow = appUnitOfWork;
+            _configuration = configuration;
         }
 
 
@@ -138,5 +141,58 @@ namespace GolPooch.Service.Implements
                 return response;
             }
         }
+
+
+        public async Task<IResponse<User>> Authenticate(string refreshToken)
+        {
+            var response = new Response<User>();
+            try
+            {
+                var now = DateTime.Now;
+                var user = await _appUow.UserRepo.FirstOrDefaultAsync(
+                    new QueryFilter<User>
+                    {
+                        Conditions = x => x.RefreshToken == refreshToken && x.RefreshTokenExpireTime >= now,
+                    });
+                if (user.IsNull()) return new Response<User> { Message = ServiceMessage.InvalidRefreshToken };
+
+                response.Message = ServiceMessage.Success;
+                response.IsSuccessful = true;
+                response.Result = user;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<bool>> UpdateRefreshToken(int userId, string refreshToken)
+        {
+            var response = new Response<bool>();
+            try
+            {
+                var user = await _appUow.UserRepo.FindAsync(userId);
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpireTime = DateTime.Now.AddMinutes(int.Parse(_configuration["CustomSettings:RefreshTokenValidMinutes"]));
+
+                _appUow.UserRepo.Update(user);
+                var updateResult = await _appUow.ElkSaveChangesAsync();
+
+                response.Message = ServiceMessage.Success;
+                response.Result = updateResult.IsSuccessful;
+                response.IsSuccessful = updateResult.IsSuccessful;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
     }
 }

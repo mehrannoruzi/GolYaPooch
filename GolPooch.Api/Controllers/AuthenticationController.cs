@@ -26,11 +26,11 @@ namespace GolPooch.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetCodeAsync([FromBody] VerifyCodeModel model)
+        public async Task<JsonResult> GetCodeAsync([FromBody] AuthenticationModel model)
             => Json(await _authenticateService.GetCodeAsync(model.MobileNumber));
 
         [HttpPost]
-        public async Task<JsonResult> VerifyCodeAsync([FromBody] VerifyCodeModel model)
+        public async Task<JsonResult> VerifyCodeAsync([FromBody] AuthenticationModel model)
         {
             var response = new Response<JwtToken>();
             var verifyResult = await _authenticateService.VerifyCodeAsync(model.TransactionId, model.PinCode, HttpContext);
@@ -41,9 +41,12 @@ namespace GolPooch.Api.Controllers
                      new Claim("MobileNumber", verifyResult.Result.MobileNumber.ToString()),
                 };
 
-                response.IsSuccessful = true;
-                response.Message = verifyResult.Message;
-                response.Result = _jwtService.CreateToken(userClaims, _jwtSettings);
+                var createTokenResult = _jwtService.CreateToken(userClaims, _jwtSettings);
+                var updateTokenResult = await _authenticateService.UpdateRefreshToken(verifyResult.Result.UserId, createTokenResult.RefreshToken);
+
+                response.Result = createTokenResult;
+                response.Message = updateTokenResult.Message;
+                response.IsSuccessful = updateTokenResult.IsSuccessful;
             }
             else
             {
@@ -54,7 +57,34 @@ namespace GolPooch.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> ResendCodeAsync([FromBody] VerifyCodeModel model)
+        public async Task<JsonResult> ResendCodeAsync([FromBody] AuthenticationModel model)
             => Json(await _authenticateService.GetCodeAsync(model.MobileNumber));
+
+        [HttpPost]
+        public async Task<JsonResult> RefreshTokenAsync([FromBody] AuthenticationModel model)
+        {
+            var response = new Response<JwtToken>();
+            var authenticateResult = await _authenticateService.Authenticate(model.RefreshToken);
+            if (authenticateResult.IsSuccessful)
+            {
+                var userClaims = new List<Claim> {
+                     new Claim("UserId", authenticateResult.Result.UserId.ToString()),
+                     new Claim("MobileNumber", authenticateResult.Result.MobileNumber.ToString()),
+                };
+
+                var createTokenResult = _jwtService.CreateToken(userClaims, _jwtSettings);
+                var updateTokenResult = await _authenticateService.UpdateRefreshToken(authenticateResult.Result.UserId, createTokenResult.RefreshToken);
+
+                response.Result = createTokenResult;
+                response.Message = updateTokenResult.Message;
+                response.IsSuccessful = updateTokenResult.IsSuccessful;
+            }
+            else
+            {
+                response.Message = authenticateResult.Message;
+            }
+
+            return Json(response);
+        }
     }
 }

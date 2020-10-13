@@ -133,6 +133,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مانده حساب.
+        /// </summary>
+        public static string Balance {
+            get {
+                return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام بانک.
         /// </summary>
         public static string BankName {
@@ -561,6 +570,24 @@ namespace GolPooch.Domain.Resources {
         public static string PushId {
             get {
                 return ResourceManager.GetString("PushId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RefreshToken.
+        /// </summary>
+        public static string RefreshToken {
+            get {
+                return ResourceManager.GetString("RefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to زمان انقضای رفرش توکن.
+        /// </summary>
+        public static string RefreshTokenExpireTime {
+            get {
+                return ResourceManager.GetString("RefreshTokenExpireTime", resourceCulture);
             }
         }
         

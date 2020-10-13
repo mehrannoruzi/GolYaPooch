@@ -22,5 +22,9 @@ namespace GolPooch.Service.Interfaces
         /// <param name="httpContext">the httpContext of current request </param>
         /// <returns>User Model</returns>
         Task<IResponse<User>> VerifyCodeAsync(int AuthenticateId, int pinCode, HttpContext httpContext);
+
+
+        Task<IResponse<User>> Authenticate(string refreshToken);
+        Task<IResponse<bool>> UpdateRefreshToken(int userId, string refreshToken);
     }
 }
