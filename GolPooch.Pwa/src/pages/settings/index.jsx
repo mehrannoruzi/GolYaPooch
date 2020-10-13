@@ -12,6 +12,8 @@ import { GiTicket } from 'react-icons/gi';
 import strings from '../../core/strings';
 import NavItem from './comps/navItem';
 import config from '../../config';
+import packageJson from '../../../package.json';
+
 const useStyles = makeStyles({
     settingsPage: {
         backgroundColor: '#f8faf9',
@@ -35,8 +37,8 @@ const useStyles = makeStyles({
                     display: 'flex',
                     position: 'relative',
                     alignItems: 'center',
-                    padding:0,
-                    width:'100%',
+                    padding: 0,
+                    width: '100%',
                     '& .hx': {
                         padding: '0 10px',
                         display: 'flex',
@@ -57,6 +59,13 @@ const useStyles = makeStyles({
             },
             '& .MuiContainer-root': {
                 backgroundColor: '#fff'
+            },
+            '& .version': {
+                textAlign: 'center',
+                padding: '10px',
+                fontSize: '0.8rem',
+                backgroundColor: '#fff',
+                borderBottom: 'none'
             }
         }
     }
@@ -90,9 +99,11 @@ const Settings = () => {
                 <NavItem href='/bl/supportcenter' icon={BiSupport} title={strings.supportCenter} />
                 <NavItem href='/bl/aboutus' icon={BsInfoCircle} title={strings.aboutUs} />
                 <NavItem href='/bl/rules' icon={BsFileEarmarkRuled} title={strings.rules} />
-                <NavItem href='/bl/appversion' icon={AiOutlineAppstore} title={strings.appVersion} />
                 <NavItem href='/bl/sendticket' icon={GiTicket} title={strings.sendTicket} />
                 <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
+                <li className='version'>
+                    <span>{strings.appVersion} {packageJson.version}</span>
+                </li>
             </ul>
         </div>
     );
