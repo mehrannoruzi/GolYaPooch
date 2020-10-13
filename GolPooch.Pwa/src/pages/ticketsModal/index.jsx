@@ -10,6 +10,8 @@ import strings from '../../core/strings';
 
 const useStyles = makeStyles({
     ticketsComp: {
+        boxSizing: 'border-box',
+        paddingBottom: '20px',
         marginTop: 20,
         maxHeight: 'calc(100vh - 50px)',
         overflowY: 'auto'

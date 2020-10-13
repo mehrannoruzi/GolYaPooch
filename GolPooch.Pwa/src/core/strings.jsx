@@ -75,6 +75,8 @@ const strings = {
     thereIsNoNotification:'هیچ اعلانی وجود ندارد',
     thereIsNoTicket:'هیچ تیکتی وجود ندارد',
     sendTicket:'ارسال تیکت',
-    pleaseWait:'لطفا منتظر یمانید'
+    pleaseWait:'لطفا منتظر یمانید',
+    thereIsNoActivePackage:'هیچ بسته فعالی وجود ندارد',
+    thereIsNoPackage:'هیچ بسته ای وجود ندارد'
 };
 export default strings;

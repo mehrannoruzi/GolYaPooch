@@ -10,9 +10,11 @@ import EmptyRecord from '../../atom/comps/EmptyRecord';
 
 const useStyles = makeStyles({
     notificationsComp: {
+        boxSizing: 'border-box',
+        paddingBottom: '20px',
         marginTop: 20,
         maxHeight: 'calc(100vh - 50px)',
-        overflowY: 'auto'
+        overflowY: 'auto',
     },
     loaderItem: {
         display: 'flex',
@@ -66,7 +68,7 @@ const Notifications = () => {
     }
 
     const _handleItemClick = (panel) => {
-        if(panel===expanded) setExpanded(false);
+        if (panel === expanded) setExpanded(false);
         else setExpanded(panel);
     }
     return (
