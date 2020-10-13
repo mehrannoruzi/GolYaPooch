@@ -27,7 +27,7 @@ const useStyles = makeStyles({
             '& .box': {
                 border: 'solid 1px #ccc',
                 padding: '10px',
-                width:65,
+                width: 65,
                 borderRadius: '3px',
                 textAlign: 'center',
                 position: 'relative',
@@ -89,22 +89,22 @@ const Gateways = () => {
         slidesToShow: 3,
     };
     return (
-        <div id='comp-gateways' className={classes.gateways}>
-            <h3 className={classes.gatewayHead}>{strings.gateways}</h3>
-            <Slider
-                {...settings}>
-                {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='gateway'>
-                    <Skeleton key={idx} className='w-100' height={90} variant='rect' />
-                </div>)
-                    : gateways.map((x, idx) => <div key={idx} className='gateway'>
-                        <Box onClick={() => _handleSelect(x.paymentGatewayId)} className={`box  ${(x.paymentGatewayId === productState.gatewatId ? 'selected' : '')}`}>
-                            {x.paymentGatewayId === productState.gatewatId ? <BsCheckCircle /> : null}
-                            <img src={x.imageUrl} style={{ width: 64 }} />
-                        </Box>
-                    </div>)}
+            <div id='comp-gateways' className={classes.gateways}>
+                <h3 className={classes.gatewayHead}>{strings.gateways}</h3>
+                <Slider
+                    {...settings}>
+                    {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className='gateway'>
+                        <Skeleton key={idx} className='w-100' height={90} variant='rect' />
+                    </div>)
+                        : gateways.map((x, idx) => <div key={idx} className='gateway'>
+                            <Box onClick={() => _handleSelect(x.paymentGatewayId)} className={`box  ${(x.paymentGatewayId === productState.gatewatId ? 'selected' : '')}`}>
+                                {x.paymentGatewayId === productState.gatewatId ? <BsCheckCircle /> : null}
+                                <img src={x.imageUrl} style={{ width: 64 }} />
+                            </Box>
+                        </div>)}
 
-            </Slider>
-        </div>
+                </Slider>
+            </div>
     );
 };
 

@@ -27,7 +27,7 @@ const useStyles = makeStyles({
         },
         '&.success': {
             backgroundColor: '#41ce66',
-            color: '#fff'
+            color: '#fff', 
         },
         '&.failed': {
             backgroundColor: 'red',

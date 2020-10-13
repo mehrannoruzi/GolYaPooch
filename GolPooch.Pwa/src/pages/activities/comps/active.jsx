@@ -48,6 +48,7 @@ const Active = () => {
     useEffect(() => {
         if (isBottom && (items.length === 0 || items.length > 12)) {
             const getDate = async () => {
+               
                 setInProgress(true);
                 let get = await purchaseSrv.getActive(12, pageNumber);
                 if (get.isSuccessful) {
