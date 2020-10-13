@@ -565,6 +565,24 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RefreshToken.
+        /// </summary>
+        public static string RefreshToken {
+            get {
+                return ResourceManager.GetString("RefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to زمان انقضای رفرش توکن.
+        /// </summary>
+        public static string RefreshTokenExpireTime {
+            get {
+                return ResourceManager.GetString("RefreshTokenExpireTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to استان.
         /// </summary>
         public static string Region {

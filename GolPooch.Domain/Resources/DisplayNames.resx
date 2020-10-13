@@ -285,6 +285,12 @@
   <data name="PushId" xml:space="preserve">
     <value>کد پوش</value>
   </data>
+  <data name="RefreshToken" xml:space="preserve">
+    <value>RefreshToken</value>
+  </data>
+  <data name="RefreshTokenExpireTime" xml:space="preserve">
+    <value>زمان انقضای رفرش توکن</value>
+  </data>
   <data name="Region" xml:space="preserve">
     <value>استان</value>
   </data>

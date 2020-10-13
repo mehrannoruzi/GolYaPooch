@@ -25,6 +25,9 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.Region), ResourceType = typeof(DisplayNames))]
         public RegionNames Region { get; set; }
 
+        [Display(Name = nameof(DisplayNames.RefreshTokenExpireTime), ResourceType = typeof(DisplayNames))]
+        public DateTime RefreshTokenExpireTime { get; set; }
+
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
 
@@ -40,6 +43,13 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.Birthdate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string BirthdateSh { get; set; }
+
+        [Column(TypeName = "char(32)")]
+        [Display(Name = nameof(DisplayNames.RefreshToken), ResourceType = typeof(DisplayNames))]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [MaxLength(32, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(32, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string RefreshToken { get; set; }
 
         [Display(Name = nameof(DisplayNames.FirstName), ResourceType = typeof(DisplayNames))]
         [MaxLength(25, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
