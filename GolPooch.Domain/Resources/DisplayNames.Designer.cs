@@ -133,6 +133,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مانده حساب.
+        /// </summary>
+        public static string Balance {
+            get {
+                return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام بانک.
         /// </summary>
         public static string BankName {

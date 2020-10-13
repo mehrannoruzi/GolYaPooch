@@ -141,6 +141,9 @@
   <data name="AuthSecretKey" xml:space="preserve">
     <value>AuthSecretKey</value>
   </data>
+  <data name="Balance" xml:space="preserve">
+    <value>مانده حساب</value>
+  </data>
   <data name="BankName" xml:space="preserve">
     <value>نام بانک</value>
   </data>

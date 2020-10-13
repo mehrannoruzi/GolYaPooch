@@ -19,6 +19,9 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.MobileNumber), ResourceType = typeof(DisplayNames))]
         public long MobileNumber { get; set; }
 
+        [Display(Name = nameof(DisplayNames.Balance), ResourceType = typeof(DisplayNames))]
+        public int Balance { get; set; }
+
         [Display(Name = nameof(DisplayNames.Gender), ResourceType = typeof(DisplayNames))]
         public Gender Gender { get; set; }
 
