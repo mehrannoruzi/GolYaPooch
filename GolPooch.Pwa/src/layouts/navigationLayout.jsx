@@ -15,8 +15,8 @@ import { AiOutlineSetting } from 'react-icons/ai';
 import strings from '../core/strings';
 import FullBottomUpModal from '../atom/comps/FullBottomUpModal';
 import fullBottomUpModalState from '../atom/state/fullBottomUpModalState';
-import NotificationsPage from '../pages/notifications';
-import Tickets from '../pages/tickets';
+import NotificationsPage from '../pages/notificationsModal';
+import Tickets from '../pages/ticketsModal';
 
 const navs = [
     {
@@ -151,7 +151,6 @@ const NavigationLayout = () => {
                 <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
                 <PrivateRoute exact path={`${path}/chests`} component={ChestsPage} />
                 <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
-
             </Switch>
             {/* ---------------
             --BUTTONS

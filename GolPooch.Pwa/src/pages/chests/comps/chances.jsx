@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, Box } from '@material-ui/core';
+import { makeStyles, Box, CircularProgress } from '@material-ui/core';
 import Slider from "react-slick";
 import chestAtom from '../../../atom/state/chestState';
 import purchaseSrv from '../../../services/purchaseSrv';
@@ -11,6 +11,10 @@ import { BsCheckCircle } from 'react-icons/bs';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
+    root: {
+        position: 'relative',
+        minHeight: 295
+    },
     chance: {
         padding: 10,
         display: 'flex',
@@ -56,9 +60,16 @@ const useStyles = makeStyles({
         }
 
     },
-    loaderChance: {
-        padding: 10,
-        with: 170
+    loaderWrapper: {
+        display: 'flex',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 15,
+        top: 0,
+        backgroundColor: 'rgba(0,0,0,0.1)',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
@@ -77,16 +88,18 @@ const Chances = (props) => {
     const getChances = async () => {
         setInProgress(true);
         let get = await purchaseSrv.getActive(12, pageNumber);
+        console.log('chances-------');
+        console.log(get);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
                 setModalState({ ...modal, open: false });
                 history.push('/nl/store');
             }
-            else {
-                setChestState({ ...chestState, purchase: get.result.items[0] });
+            else if (get.result.items.length > 0) {
+                if (pageNumber === 1)
+                    setChestState({ ...chestState, purchase: get.result.items[0] });
                 setItems([...items, ...get.result.items]);
-                if (get.result.items.length > 0)
-                    setPageNumber(pageNumber + 1);
+                setPageNumber(pageNumber + 1);
             }
         }
         else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
@@ -102,32 +115,37 @@ const Chances = (props) => {
     }
 
     const settings = {
-        infinite: true,
         slidesToShow: 2,
+        slidesToScroll: 2,
         className: "center mb-15",
-        infinite: false,
+        infinite: true,
         rtl: true,
         afterChange: function (index) {
-            if (index + 2 >= items.length)
+            if (index <= 2)
                 getChances();
         }
     };
     return (
-        <Slider {...settings}>
-            {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
-                <figure className={item.purchaseId === chestState.purchaseId ? 'selected' : null}>
-                    {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle /> : null}
-                    <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
-                    <figcaption>
-                        <label className='total'>تعداد کل شانس: {item.chance}</label>
-                        <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
-                    </figcaption>
-                </figure>
-            </Box>)}
-            {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.loaderChance}>
-                <Skeleton variant='rect' className='w-100' height={320} />
-            </div>) : null}
-        </Slider>
+        <div className={classes.root}>
+            {inProgress ? <div className={classes.loaderWrapper}>
+                <CircularProgress size={30} />
+            </div> : null}
+            <Slider {...settings} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
+                {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
+                    <figure className={item.purchaseId === chestState.purchaseId ? 'selected' : null}>
+                        {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle /> : null}
+                        <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
+                        <figcaption>
+                            <label className='total'>تعداد کل شانس: {item.chance}</label>
+                            <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
+                        </figcaption>
+                    </figure>
+                </Box>)}
+
+            </Slider>
+
+        </div>
+
     );
 }
 export default Chances;

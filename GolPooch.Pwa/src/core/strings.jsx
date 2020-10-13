@@ -60,7 +60,7 @@ const strings = {
     detailProduct: 'جزییات سفارش',
     logOut:'خروج',
     pageName_store: 'فروشگاه',
-    pageName_activities: 'فعالیت ها',
+    pageName_activities: 'بسته های من',
     pageName_chest: 'بسته ها',
     pageName_leaderboard: 'برنده ها',
     pageName_setting: 'سایر',

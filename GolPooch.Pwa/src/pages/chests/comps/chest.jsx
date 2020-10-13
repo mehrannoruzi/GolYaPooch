@@ -15,8 +15,6 @@ import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
 
 const useStyles = makeStyles({
     chestComp: {
-        overflowY: 'auto',
-
         '& .heading': {
             textAlign: 'center'
         },
@@ -108,6 +106,7 @@ const Chest = (props) => {
             purchaseId: rState.purchase.purchaseId,
             ChanceCount: rState.count
         });
+        console.log(call)
         if (call.isSuccessful) setSpendChanceResult(call.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
         setIsSending(false);
