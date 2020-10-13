@@ -58,7 +58,7 @@ const strings = {
     chance: 'شانس برنده شدن',
     discount: 'تخفیف',
     detailProduct: 'جزییات سفارش',
-
+    logOut:'خروج',
     pageName_store: 'فروشگاه',
     pageName_activities: 'فعالیت ها',
     pageName_chest: 'بسته ها',
@@ -73,6 +73,7 @@ const strings = {
     aboutUs: 'درباره ما',
     appVersion: 'نسخه اپلیکیشن',
     thereIsNoNotification:'هیچ اعلانی وجود ندارد',
-    thereIsNoTicket:'هیچ تیکتی وجود ندارد'
+    thereIsNoTicket:'هیچ تیکتی وجود ندارد',
+    sendTicket:'ارسال تیکت'
 };
 export default strings;
