@@ -9,6 +9,12 @@ namespace GolPooch.Domain.Dto
 {
     public class UserDto
     {
+        [Display(Name = nameof(DisplayNames.MobileNumber), ResourceType = typeof(DisplayNames))]
+        public long MobileNumber { get; set; }
+
+        [Display(Name = nameof(DisplayNames.Balance), ResourceType = typeof(DisplayNames))]
+        public int Balance { get; set; }
+
         [Display(Name = nameof(DisplayNames.Gender), ResourceType = typeof(DisplayNames))]
         public Gender Gender { get; set; }
 
@@ -39,5 +45,10 @@ namespace GolPooch.Domain.Dto
         [StringLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Email { get; set; }
 
+        [Column(TypeName = "varchar(250)")]
+        [Display(Name = nameof(DisplayNames.ProfileImgUrl), ResourceType = typeof(DisplayNames))]
+        [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string ProfileImgUrl { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Elk.Core;
 using Elk.Http;
 using System.IO;
+using System.Linq;
 using GolPooch.Domain.Dto;
 using GolPooch.Domain.Enum;
 using GolPooch.CrossCutting;
@@ -156,6 +157,43 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public async Task<Response<UserDto>> GetProfileAsync(int userId)
+        {
+            var response = new Response<UserDto>();
+            try
+            {
+                var user = await _appUow.UserRepo.FirstOrDefaultAsync(
+                    new QueryFilterWithSelector<User, UserDto>
+                    {
+                        Conditions = x => x.UserId == userId,
+                        Selector = x => new UserDto
+                        {
+                            MobileNumber = x.MobileNumber,
+                            Balance = x.Balance,
+                            FirstName = x.FirstName,
+                            LastName = x.LastName,
+                            Gender = x.Gender,
+                            Region = x.Region,
+                            Email = x.Email,
+                            BirthdateSh = x.BirthdateSh,
+                            ProfileImgUrl = _configuration["CustomSettings:ApiAddress"] + x.ProfileImgUrl
+                        }
+                    });
+                if (user.IsNull()) return new Response<UserDto> { Message = ServiceMessage.InvalidParameter };
+
+                response.Result = user;
+                response.IsSuccessful = true;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
         public async Task<IResponse<string>> UploadAwatarAsync(int userId, string fileName, byte[] fileBytes)
         {
             var response = new Response<string>();
@@ -192,6 +230,52 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public async Task<Response<PagingListDetails<object>>> GetTransactionsAsync(int userId, PagingParameter pagingParameter)
+        {
+            var response = new Response<PagingListDetails<object>>();
+            try
+            {
+                var transactions = await _appUow.PaymentTransactionRepo.GetPagingAsync(
+                    new PagingQueryFilterWithSelector<PaymentTransaction, object>
+                    {
+                        Conditions = x => x.UserId == userId,
+                        PagingParameter = pagingParameter,
+                        OrderBy = x => x.OrderByDescending(x => x.PaymentTransactionId),
+                        IncludeProperties = new List<Expression<Func<PaymentTransaction, object>>>
+                        {
+                            x=> x.PaymentGateway,
+                            x=> x.ProductOffer.Product
+                        },
+                        Selector = x => new
+                        {
+                            x.PaymentTransactionId,
+                            GatewayName = x.PaymentGateway.Name,
+                            productSubject = x.ProductOffer.Product.Subject,
+                            productText = x.ProductOffer.Product.Text,
+                            productChance = x.ProductOffer.Chance,
+                            x.Type,
+                            x.Price,
+                            x.IsSuccess,
+                            x.InsertDateMi,
+                            x.InsertDateSh,
+                            x.TrackingId,
+                            x.Description
+                        }
+                    });
+
+                response.IsSuccessful = true;
+                response.Result = transactions;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
         public async Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login)
         {
             var response = new Response<bool>();
@@ -209,10 +293,9 @@ namespace GolPooch.Service.Implements
             {
                 FileLoger.Error(e);
                 response.Message = ServiceMessage.Exception;
-                return response; 
+                return response;
             }
         }
-
 
     }
 }

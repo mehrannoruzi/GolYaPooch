@@ -34,7 +34,7 @@ namespace GolPooch.Service.Implements
                 var purchases = await _appUow.PurchaseRepo.GetPagingAsync(
                     new PagingQueryFilterWithSelector<Purchase, PurchaseDto>
                     {
-                        Conditions = x => x.UserId == userId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi <= now,
+                        Conditions = x => x.UserId == userId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi > now,
                         IncludeProperties = new List<Expression<Func<Purchase, object>>> {
                             x => x.ProductOffer,
                             x => x.ProductOffer.Product,

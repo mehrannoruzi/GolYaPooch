@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Elk.Core;
+using System.IO;
 using GolPooch.Domain.Dto;
 using GolPooch.Domain.Entity;
 using System.Threading.Tasks;
@@ -21,6 +22,10 @@ namespace GolPooch.Api.Controllers
         public async Task<JsonResult> UpdateProfileAsync(User user, [FromBody] UserDto userDto)
             => Json(await _userService.UpdateProfileAsync(user.UserId, userDto));
 
+        [HttpGet]
+        public async Task<JsonResult> ProfileAsync(User user)
+            => Json(await _userService.GetProfileAsync(user.UserId));
+
         [HttpPost]
         public async Task<JsonResult> UploadAwatarAsync(User user, IFormFile Avatar)
         {
@@ -34,6 +39,10 @@ namespace GolPooch.Api.Controllers
             }
             else return Json(new { IsSuccessful = false, Message = "هیچ فایلی آپلود نشده است" });
         }
+
+        [HttpGet]
+        public async Task<JsonResult> TransactionsAsync(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _userService.GetTransactionsAsync(user.UserId, pagingParameter));
 
         [HttpPost]
         public async Task<ActionResult> LogActivityAsync(User user, [FromBody] ActivityLog log)
