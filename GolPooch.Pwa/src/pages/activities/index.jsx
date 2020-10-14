@@ -4,16 +4,35 @@ import { Tabs, Tab, Paper, AppBar, Container } from '@material-ui/core';
 import Banners from '../../atom/comps/Banners';
 import ActivePurchase from './comps/active';
 import AllPurchase from './comps/all';
+import strings from '../../core/strings';
+import { BsListCheck, BsList } from 'react-icons/bs';
 
 const useStyles = makeStyles(() => ({
     root: {
         backgroundColor: '#fff',
-        paddingTop: 7.5,
-        paddingBottom: 7.5,
+        paddingTop: 15,
+        paddingBottom: 15,
         '& .MuiPaper-root': {
             boxShadow: "0px 1px 8px 0px #d2d2d2",
             borderRadius: 5,
+        },
+        '& .MuiTabs-root':{
+            minHeight: 40,
+            '& .MuiTab-labelIcon': {
+                minHeight: 'auto!important',
+                '& .MuiTab-wrapper': {
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    '& svg': {
+                        fontSize: 20,
+                        marginBottom: '0!important',
+                        marginRight: '5px'
+                    }
+                }
+            }
         }
+
     },
 }));
 
@@ -37,8 +56,8 @@ const Activities = () => {
                         onChange={handleChange}
                         indicatorColor="primary"
                         textColor="primary">
-                        <Tab label="بسته های فعال" />
-                        <Tab label="کلیه بسته ها" />
+                        <Tab label={strings.active} icon={<BsListCheck />} />
+                        <Tab label={strings.all} icon={<BsList />} />
                     </Tabs>
                 </Paper>
 
@@ -55,8 +74,8 @@ const Activities = () => {
                         role="tabpanel"
                         index={1}
                         hidden={value !== 1}
-                        id='active-packages'>
-                       <AllPurchase />ّ
+                        id='all-packages'>
+                        <AllPurchase />ّ
 
                 </div>
                 </Paper>

@@ -14,7 +14,8 @@
         products: 'products',
         chests: 'chests',
         fcmToken: 'fcmToken',
-        chances: 'chances'
+        chances: 'chances',
+        clickedBanners:'clicked_banners'
     }
 };
 
@@ -32,7 +33,9 @@ const prod = {
         products: 'products',
         chests: 'chests',
         fcmToken: 'fcmToken',
-        chances: 'chances'
+        chances: 'chances',
+        clickedBanners:'clicked_banners'
+
     }
 };
 

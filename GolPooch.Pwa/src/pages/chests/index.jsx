@@ -1,11 +1,13 @@
 ﻿import React, { useState, useEffect } from 'react';
-import Banners from '../../atom/comps/Banners';
+import { useRecoilState } from 'recoil';
 import { makeStyles, Container } from '@material-ui/core';
 import chestSrv from '../../services/chestSrv';
+import Banners from '../../atom/comps/Banners';
 import Items from './comps/items';
 import toastState from '../../atom/state/toastState';
-import { useRecoilState } from 'recoil';
-
+import nLAtom from '../../atom/state/nLState';
+import ticketSrv from '../..//services/ticketSrv';
+import notificationSrv from '../..//services/notificationSrv';
 
 const useStyles = makeStyles({
     chestPage: {
@@ -47,10 +49,19 @@ const Chest = () => {
     const [inProgress, setInProgress] = useState(true);
     const [items1, setItems1] = useState([]);
     const [items2, setItems2] = useState([]);
-    const [query, setQuery] = useState('');
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
+    const [nLState, setNLState] = useRecoilState(nLAtom);
 
+    const getInitInfo = async () => {
+        let getNewNotifCount = await notificationSrv.getNotReadCount();
+        console.log(getNewNotifCount);
+        if (getNewNotifCount.isSuccessful)
+            setNLState({ ...nLState, newNotificationsCount: getNewNotifCount.result });
+        let getTicketCount = await ticketSrv.getNotReadCount();
+        if (getTicketCount.isSuccessful)
+            setNLState({ ...nLState, newTicketCount: getTicketCount.result });
+    };
     const getDate = async () => {
         setInProgress(true);
         let get = await chestSrv.get();
@@ -69,7 +80,8 @@ const Chest = () => {
 
     useEffect(() => {
         getDate();
-    }, [query]);
+        getInitInfo();
+    }, []);
 
     return (
         <div id='page-chest' className={classes.chestPage}>

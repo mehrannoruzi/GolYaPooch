@@ -78,6 +78,8 @@ const strings = {
     pleaseWait: 'لطفا منتظر یمانید',
     thereIsNoActivePackage: 'هیچ بسته فعالی وجود ندارد',
     thereIsNoPackage: 'هیچ بسته ای وجود ندارد',
-    select: 'انتخاب'
+    select: 'انتخاب',
+    active: 'فعال',
+    all: 'همه'
 };
 export default strings;

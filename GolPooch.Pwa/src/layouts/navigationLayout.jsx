@@ -1,9 +1,10 @@
-﻿import React from 'react';
+﻿import React, { useEffect } from 'react';
 import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
 import ActivitiesPage from '../pages/activities';
 import ChestsPage from '../pages/chests';
-import SettingsPage from '../pages/settings'
+import SettingsPage from '../pages/settings';
+import Winners from '../pages/winners';
 import PrivateRoute from '../atom/comps/PrivateRoute';
 import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge, colors } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
@@ -22,27 +23,32 @@ const navs = [
     {
         label: strings.pageName_store,
         icon: RiDashboardFill,
-        path: 'store'
+        path: 'store',
+        comp: StorePage
     },
     {
         label: strings.pageName_activities,
         icon: RiBarChart2Line,
-        path: 'activities'
+        path: 'mypackages',
+        comp: ActivitiesPage
     },
     {
         label: strings.pageName_chest,
         icon: FiPlusSquare,
-        path: 'chests'
+        path: 'chests',
+        comp: ChestsPage
     },
     {
         label: strings.pageName_leaderboard,
         icon: RiMedalLine,
-        path: 'winners'
+        path: 'winners',
+        comp: Winners
     },
     {
         label: strings.pageName_setting,
         icon: AiOutlineSetting,
-        path: 'settings'
+        path: 'settings',
+        comp: SettingsPage
     }
 ];
 
@@ -97,6 +103,14 @@ const NavigationLayout = () => {
     //Recoil
     const [rState, setNLState] = useRecoilState(nLState);
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
+
+    useEffect(() => {
+        let currentPath = window.location.pathname;
+        let currentNavIndex = navs.findIndex(x => '/nl/' + x.path == currentPath);
+        if (currentNavIndex > -1 && '/nl/' + navs[rState.activeBotton].path !== currentPath) {
+            setNLState({ ...rState, activeBotton: currentNavIndex })
+        }
+    }, []);
     return (
         <div id='layout-nl' className={classes.layoutNL}>
             {/* ---------------
@@ -147,10 +161,7 @@ const NavigationLayout = () => {
             --ROUTES
             ---------------*/}
             <Switch>
-                <PrivateRoute exact path={`${path}/store`} component={StorePage} />
-                <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
-                <PrivateRoute exact path={`${path}/chests`} component={ChestsPage} />
-                <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
+                {navs.map((n, idx) => <PrivateRoute exact path={`${path}/${n.path}`} component={n.comp} key={idx} />)}
             </Switch>
             {/* ---------------
             --BUTTONS

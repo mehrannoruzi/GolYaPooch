@@ -16,7 +16,7 @@ import { BiCheck } from 'react-icons/bi';
 const useStyles = makeStyles({
     root: {
         position: 'relative',
-        minHeight: 150
+        minHeight: 220
     },
     chance: {
         padding: 10,
@@ -162,6 +162,7 @@ const Chances = (props) => {
                         <div className='btn'><Button className='btnPurchase'>{strings.select}</Button></div>
                         <label className='remained'><BiCheck className='chk-icon' /> شانس باقیمانده: {(item.chance - item.usedChance)}</label>
                         <label className='total'><BiCheck className='chk-icon' /> تعداد کل شانس: {item.chance}</label>
+                        <label className='exp-date'><BiCheck className='chk-icon' />انقضا: {item.expireDateSh}</label>
                     </Paper>
                 </Box>)}
 

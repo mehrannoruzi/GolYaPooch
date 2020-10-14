@@ -62,7 +62,7 @@ const useStyles = makeStyles({
             },
             '& .version': {
                 textAlign: 'center',
-                padding: '10px',
+                padding: '20px 0',
                 fontSize: '0.8rem',
                 backgroundColor: '#fff',
                 borderBottom: 'none'
