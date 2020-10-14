@@ -50,23 +50,24 @@ const Chest = () => {
     const [query, setQuery] = useState('');
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
-    
-    useEffect(() => {
-        const getDate = async () => {
-            setInProgress(true);
-            let get = await chestSrv.get();
-            setInProgress(false);
-            if (get.isSuccessful) {
-                let tempItems1 = [], tempItems2 = [];
-                for (let i = 0; i < get.result.length; i++) {
-                    if (i % 2 === 0) tempItems1.push(get.result[i]);
-                    else tempItems2.push(get.result[i]);
-                }
-                setItems1(tempItems1);
-                setItems2(tempItems2);
+
+    const getDate = async () => {
+        setInProgress(true);
+        let get = await chestSrv.get();
+        setInProgress(false);
+        if (get.isSuccessful) {
+            let tempItems1 = [], tempItems2 = [];
+            for (let i = 0; i < get.result.length; i++) {
+                if (i % 2 === 0) tempItems1.push(get.result[i]);
+                else tempItems2.push(get.result[i]);
             }
-            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+            setItems1(tempItems1);
+            setItems2(tempItems2);
         }
+        else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+    }
+
+    useEffect(() => {
         getDate();
     }, [query]);
 

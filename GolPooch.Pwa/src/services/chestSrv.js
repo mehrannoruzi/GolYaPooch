@@ -36,12 +36,11 @@ export default class chestSrv {
     }
     static async getChance(chestId) {
         let call = await http.get(addr.getMyChanceCount(chestId));
-        if (!call.isSuccessful) return call;
         return call;
     }
     static async spendChance(info) {
         let call = await http.post(addr.spendChance, info);
-        if (!call.isSuccessful) return call;
         return call;
+
     }
 }

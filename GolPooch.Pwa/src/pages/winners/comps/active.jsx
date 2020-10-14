@@ -48,7 +48,6 @@ const Active = () => {
     useEffect(() => {
         if (isBottom && (items.length === 0 || items.length > 12)) {
             const getDate = async () => {
-               
                 setInProgress(true);
                 let get = await purchaseSrv.getActive(12, pageNumber);
                 if (get.isSuccessful) {
@@ -67,7 +66,7 @@ const Active = () => {
 
     return (
         <Grid container className={classes.root} onScroll={_handleScroll}>
-            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoActivePackage} /> : null}
+            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
             {(inProgress && pageNumber === 1) ? [0, 1].map((x, idx) => <Grid key={idx} item xs={6} className={classes.loaderChance}>
                 <Skeleton variant='rect' className='w-100' height={300} />

@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useHistory } from "react-router-dom";
+import strings from '../../core/strings';
 
 const useStyles = makeStyles({
     afterGatewayPage: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
         },
         '&.success': {
             backgroundColor: '#41ce66',
-            color: '#fff'
+            color: '#fff', 
         },
         '&.failed': {
             backgroundColor: 'red',
@@ -47,7 +48,7 @@ const AfterGateway = (props) => {
             <AppBar position="static">
                 <Container>
                     <IconButton edge="start" color="inherit" onClick={() => history.push('/nl/store')}>
-                        <ArrowBackIosIcon />
+                        {strings.return} <ArrowBackIosIcon />
                     </IconButton>
                 </Container>
             </AppBar>

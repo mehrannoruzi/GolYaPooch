@@ -36,14 +36,15 @@ const useStyles = makeStyles({
     },
     linkToStore: {
         width:'230px!important',
-        backgroundColor: '#ffffff',
+       
         borderRadius: '3px',
         position: 'fixed',
         left: '50%',
         zIndex: 999,
         bottom: '30px',
         transform: 'translateX(-50%)',
-        boxShadow: '-1px 2px 2px 2px rgba(0,0,0,0.5)',
+        backgroundColor: '#2196F3 !important',
+        boxShadow: '0px 0px 4px 3px rgb(255 255 255 / 50%)',
         padding: 10
 
     },

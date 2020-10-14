@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, Box } from '@material-ui/core';
+import { makeStyles, Paper, Box, CircularProgress } from '@material-ui/core';
 import Slider from "react-slick";
 import chestAtom from '../../../atom/state/chestState';
 import purchaseSrv from '../../../services/purchaseSrv';
@@ -9,28 +9,32 @@ import toastState from '../../../atom/state/toastState';
 import { useHistory } from 'react-router-dom';
 import { BsCheckCircle } from 'react-icons/bs';
 import fullBottomUpModalState from '../../../atom/state/fullBottomUpModalState';
+import strings from './../../../core/strings';
+import Button from '../../../atom/comps/Button';
+import { BiCheck } from 'react-icons/bi';
 
 const useStyles = makeStyles({
+    root: {
+        position: 'relative',
+        minHeight: 150
+    },
     chance: {
         padding: 10,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         boxSizing: 'border-box',
-        '& figure': {
-            margin: 0,
-            width: '100%',
-            boxSizing: 'border-box',
-            border: 'solid 1px #ccc',
-            padding: '12px',
-            borderRadius: '3px',
+
+        '& .wrapper': {
+            boxShadow: "0px 1px 8px 0px #d2d2d2",
             position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+
             '&.selected': {
-                color: 'green',
-                border: 'solid 1px green',
-                boxShadow: '0px 0px 3px 0px #8BC34A'
+                boxShadow: '0px 1px 8px 0px #76b132'
             },
-            '& svg': {
+            '& .select-icon': {
                 top: '-8px',
                 right: '-5px',
                 color: 'green',
@@ -40,25 +44,57 @@ const useStyles = makeStyles({
                 left: '-10px',
                 backgroundColor: '#fff'
             },
-            '& .img-main': {
-                width: '100%',
-                maxHeight: '180px',
-                marginBottom: 5
+            '& .hx': {
+                padding: '7.5px 5px',
+                margin: '0 0 15px 0',
+                fontSize: '11px',
+                textAlign: 'center',
+                borderBottom: '1px solid #ccc',
+                borderRadius: '5px',
+                borderBottomRightRradius: 0,
+                borderBottomLeftRadius: 0,
+
             },
-            '& figcaption': {
-                display: 'flex',
-                flexDirection: 'column',
-                '& label': {
-                    padding: '5px 0',
-                    fontSize: '1.1rem'
+            '& .btn': {
+                textAlign: 'center',
+                color: '#8BC34A',
+                minWidth: 120,
+                marginBottom:15,
+                '& .btnPurchase': {
+                    backgroundColor: '#8BC34A',
+                    minWidth: 120,
+                }
+            },
+            '& label': {
+                padding: 5,
+                '& .chk-icon':{
+                    fontSize: '20px',
+                    color: 'green',
+                    verticalAlign: 'middle'
                 }
             }
         }
 
     },
-    loaderChance: {
-        padding: 10,
-        with: 170
+    loaderWrapper: {
+        color: '#666',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 15,
+        top: 0,
+        backgroundColor: 'rgba(0,0,0,0.1)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        '& .MuiCircularProgress-root': {
+            color: '#666!important'
+        },
+        '& span': {
+            paddingTop: 10,
+            fontSize: '0.9rem'
+        }
     }
 });
 
@@ -82,11 +118,11 @@ const Chances = (props) => {
                 setModalState({ ...modal, open: false });
                 history.push('/nl/store');
             }
-            else {
-                setChestState({ ...chestState, purchase: get.result.items[0] });
+            else if (get.result.items.length > 0) {
+                if (pageNumber === 1)
+                    setChestState({ ...chestState, purchase: get.result.items[0] });
                 setItems([...items, ...get.result.items]);
-                if (get.result.items.length > 0)
-                    setPageNumber(pageNumber + 1);
+                setPageNumber(pageNumber + 1);
             }
         }
         else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
@@ -102,32 +138,37 @@ const Chances = (props) => {
     }
 
     const settings = {
-        infinite: true,
         slidesToShow: 2,
+        slidesToScroll: 2,
         className: "center mb-15",
-        infinite: false,
+        infinite: true,
         rtl: true,
         afterChange: function (index) {
-            if (index + 2 >= items.length)
+            if (index <= 2)
                 getChances();
         }
     };
     return (
-        <Slider {...settings}>
-            {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
-                <figure className={item.purchaseId === chestState.purchaseId ? 'selected' : null}>
-                    {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle /> : null}
-                    <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
-                    <figcaption>
-                        <label className='total'>تعداد کل شانس: {item.chance}</label>
-                        <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
-                    </figcaption>
-                </figure>
-            </Box>)}
-            {inProgress ? [0, 1, 2].map((x, idx) => <div key={idx} className={classes.loaderChance}>
-                <Skeleton variant='rect' className='w-100' height={320} />
-            </div>) : null}
-        </Slider>
+        <div className={classes.root}>
+            {inProgress ? <div className={classes.loaderWrapper}>
+                <CircularProgress size={20} />
+                <span>{strings.pleaseWait}</span>
+            </div> : null}
+            <Slider {...settings} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
+                {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
+                    <Paper className={`wrapper ${item.purchaseId === chestState.purchase.purchaseId ? 'selected' : null}`}>
+                        {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle className='select-icon' /> : null}
+                        <h4 className='hx'>{item.productOffer.product.text}</h4>
+                        <div className='btn'><Button className='btnPurchase'>{strings.select}</Button></div>
+                        <label className='remained'><BiCheck className='chk-icon' /> شانس باقیمانده: {(item.chance - item.usedChance)}</label>
+                        <label className='total'><BiCheck className='chk-icon' /> تعداد کل شانس: {item.chance}</label>
+                    </Paper>
+                </Box>)}
+
+            </Slider>
+
+        </div>
+
     );
 }
 export default Chances;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Container } from '@material-ui/core';
-import { AiOutlineFileSearch } from 'react-icons/ai';
+import { BiMessageSquareX } from 'react-icons/bi';
 
 const useStyles = makeStyles({
     emptyRecordCompa: {
@@ -10,7 +10,8 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-
+        height: 'calc(100vh - 70px)',
+        paddingBottom: 30,
         '& svg': {
             fontSize: '60px',
             marginBottom: '15px'
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 const Heading = (props) => {
     const classes = useStyles();
     return (<Container className={classes.emptyRecordCompa}>
-        {props.icon ? <props.icon /> : <AiOutlineFileSearch />}
+        {props.icon ? <props.icon /> : <BiMessageSquareX />}
         <span>{props.text}</span>
     </Container>);
 }
