@@ -40,10 +40,6 @@ namespace GolPooch.Api.Controllers
             else return Json(new { IsSuccessful = false, Message = "هیچ فایلی آپلود نشده است" });
         }
 
-        [HttpGet]
-        public async Task<JsonResult> TransactionsAsync(User user, [FromQuery] PagingParameter pagingParameter)
-            => Json(await _userService.GetTransactionsAsync(user.UserId, pagingParameter));
-
         [HttpPost]
         public async Task<ActionResult> LogActivityAsync(User user, [FromBody] ActivityLog log)
             => Ok(await _userService.LogActivityAsync(user.MobileNumber, HttpContext, log.Type));

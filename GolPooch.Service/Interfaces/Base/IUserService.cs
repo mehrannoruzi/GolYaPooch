@@ -30,8 +30,6 @@ namespace GolPooch.Service.Interfaces
         /// <returns>address of photo hosted</returns>
         Task<IResponse<string>> UploadAwatarAsync(int userId, string fileExtension, byte[] fileBytes);
 
-        Task<Response<PagingListDetails<object>>> GetTransactionsAsync(int userId, PagingParameter pagingParameter);
-
         Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login);
     }
 }

@@ -8,5 +8,6 @@ namespace GolPooch.Service.Interfaces
     {
         Task<IResponse<PagingListDetails<PurchaseDto>>> GetActivePurchasesAsync(int userId, PagingParameter pagingParameter);
         Task<IResponse<PagingListDetails<PurchaseDto>>> GetAllPurchasesAsync(int userId, PagingParameter pagingParameter);
+        Task<IResponse<object>> ReFoundsAsync(int userId, int purchaseId);
     }
 }

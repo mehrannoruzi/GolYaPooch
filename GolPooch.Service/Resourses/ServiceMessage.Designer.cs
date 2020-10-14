@@ -422,6 +422,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مبلغ محصول خریداری شده شما به دلیل پایان تاریخ استفاده ویا استفاده از شانس های آن در قرعه کشی غیر قابل بازپرداخت می باشد..
+        /// </summary>
+        public static string PurchaseNotReFoundable {
+            get {
+                return ResourceManager.GetString("PurchaseNotReFoundable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to دستگاهی برای ارسال پوش پیدا نشد.
         /// </summary>
         public static string PushSubscriberNotExist {
@@ -445,6 +454,15 @@ namespace GolPooch.Service.Resourses {
         public static string RecoverPassword {
             get {
                 return ResourceManager.GetString("RecoverPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ReFoundPurchase.
+        /// </summary>
+        public static string ReFoundPurchase {
+            get {
+                return ResourceManager.GetString("ReFoundPurchase", resourceCulture);
             }
         }
         
