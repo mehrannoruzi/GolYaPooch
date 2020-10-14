@@ -574,6 +574,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to درصد بازپرداخت.
+        /// </summary>
+        public static string ReFoundsPercent {
+            get {
+                return ResourceManager.GetString("ReFoundsPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RefreshToken.
         /// </summary>
         public static string RefreshToken {
