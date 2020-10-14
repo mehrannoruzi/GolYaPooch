@@ -25,7 +25,9 @@ const useStyles = makeStyles(() => ({
 
             },
             '& label': {
-                padding: 5,
+                padding: 10,
+                display: 'flex',
+                justifyContent: 'space-between',
                 '& .chk-icon': {
                     fontSize: '20px',
                     color: 'green',
@@ -45,10 +47,10 @@ const Item = (props) => {
         <Grid item xs={6} sm={6} lg={4} className={classes.root}>
             <Paper className='wrapper'>
                 <h4 className='hx'>{item.productOffer.product.text}</h4>
-                <label className='exp-date'>تاریخ: {item.expireDateSh}</label>
-                <label className='price'>قیمت: {commaThousondSeperator(item.productOffer.totalPrice)}{strings.moneyCurrency}</label>
-                <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
-                <label className='total'>تعداد کل شانس: {item.chance}</label>
+                <label className='exp-date'><span>تاریخ:</span> {item.expireDateSh}</label>
+                <label className='price'><span>قیمت:</span> {commaThousondSeperator(item.productOffer.totalPrice)}{strings.moneyCurrency}</label>
+                <label className='remained'><span>شانس باقیمانده:</span> {(item.chance - item.usedChance)}</label>
+                <label className='total'><span>تعداد کل شانس:</span> {item.chance}</label>
             </Paper>
         </Grid>
     );
