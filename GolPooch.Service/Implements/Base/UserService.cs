@@ -230,52 +230,6 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<Response<PagingListDetails<object>>> GetTransactionsAsync(int userId, PagingParameter pagingParameter)
-        {
-            var response = new Response<PagingListDetails<object>>();
-            try
-            {
-                var transactions = await _appUow.PaymentTransactionRepo.GetPagingAsync(
-                    new PagingQueryFilterWithSelector<PaymentTransaction, object>
-                    {
-                        Conditions = x => x.UserId == userId,
-                        PagingParameter = pagingParameter,
-                        OrderBy = x => x.OrderByDescending(x => x.PaymentTransactionId),
-                        IncludeProperties = new List<Expression<Func<PaymentTransaction, object>>>
-                        {
-                            x=> x.PaymentGateway,
-                            x=> x.ProductOffer.Product
-                        },
-                        Selector = x => new
-                        {
-                            x.PaymentTransactionId,
-                            GatewayName = x.PaymentGateway.Name,
-                            productSubject = x.ProductOffer.Product.Subject,
-                            productText = x.ProductOffer.Product.Text,
-                            productChance = x.ProductOffer.Chance,
-                            x.Type,
-                            x.Price,
-                            x.IsSuccess,
-                            x.InsertDateMi,
-                            x.InsertDateSh,
-                            x.TrackingId,
-                            x.Description
-                        }
-                    });
-
-                response.IsSuccessful = true;
-                response.Result = transactions;
-                response.Message = ServiceMessage.Success;
-                return response;
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                response.Message = ServiceMessage.Exception;
-                return response;
-            }
-        }
-
         public async Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login)
         {
             var response = new Response<bool>();

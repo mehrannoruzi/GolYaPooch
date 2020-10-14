@@ -23,6 +23,9 @@ namespace GolPooch.Api.Controllers
         public async Task<JsonResult> AllAsync(User user, [FromQuery] PagingParameter pagingParameter)
             => Json(await _purchaseService.GetAllPurchasesAsync(user.UserId, pagingParameter));
 
+        [HttpPost]
+        public async Task<JsonResult> ReFoundsAsync(User user, [FromBody] PurchaseModel model)
+            => Json(await _purchaseService.ReFoundsAsync(user.UserId, model.PurchaseId));
 
     }
 }
