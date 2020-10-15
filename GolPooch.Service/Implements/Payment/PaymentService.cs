@@ -176,6 +176,17 @@ namespace GolPooch.Service.Implements
 
                     if (verifyResult.IsSuccessful)
                     {
+                        #region Get User Chances
+                        var now = DateTime.Now;
+                        var userChances = await _appUow.PurchaseRepo.GetAsync(
+                            new QueryFilter<Purchase>
+                            {
+                                Conditions = x => x.UserId == paymentTransaction.UserId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi > now,
+                                IncludeProperties = new List<Expression<Func<Purchase, object>>> { x => x.ProductOffer }
+                            });
+                        var userChanceCount = userChances.Sum(x => x.Chance) - userChances.Sum(x => x.UsedChance);
+                        #endregion
+
                         #region Add Purchase
                         var purchase = new Purchase
                         {
@@ -225,17 +236,6 @@ namespace GolPooch.Service.Implements
                         }
 
                         await _appUow.SaveChangesAsync();
-                        #endregion
-
-                        #region Get User Chances
-                        var now = DateTime.Now;
-                        var userChances = await _appUow.PurchaseRepo.GetAsync(
-                            new QueryFilter<Purchase>
-                            {
-                                Conditions = x => x.UserId == paymentTransaction.UserId && !x.IsFinished && x.UsedChance < x.Chance && x.ExpireDateMi > now,
-                                IncludeProperties = new List<Expression<Func<Purchase, object>>> { x => x.ProductOffer }
-                            });
-                        var userChanceCount = userChances.Sum(x => x.Chance) - userChances.Sum(x => x.UsedChance);
                         #endregion
 
                         response.Result = $"{_configuration["CustomSettings:ReactPaymentGatewayResultUrl"]}" +
