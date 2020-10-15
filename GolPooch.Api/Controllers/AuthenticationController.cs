@@ -31,7 +31,7 @@ namespace GolPooch.Api.Controllers
 
         [HttpPost]
         public async Task<JsonResult> VerifyCodeAsync([FromBody] AuthenticationModel model)
-        {
+        6{
             var response = new Response<JwtToken>();
             var verifyResult = await _authenticateService.VerifyCodeAsync(model.TransactionId, model.PinCode, HttpContext);
             if (verifyResult.IsSuccessful)

@@ -4,16 +4,8 @@ import config from '../config';
 import strings from '../core/strings';
 
 export default class chestSrv {
-    static async get(ignoreStorage) {
-        let data = localStorage.getItem(config.keys.chests);
-        if (data && !ignoreStorage) {
-            let info = JSON.parse(data);
-            return info;
-        }
+    static async get() {
         let call = await http.get(addr.getChests);
-        if (!call.isSuccessful) return call;
-
-        localStorage.setItem(config.keys.chests, JSON.stringify(call));
         return call;
     }
 
@@ -26,12 +18,8 @@ export default class chestSrv {
                 message: result ? null : strings.recordNotFound
             };
         }
-        let data = localStorage.getItem(config.keys.chests);
-        if (data && !ignoreStorage) return find(JSON.parse(data));
-        
         let call = await http.get(addr.getChests);
         if (!call.isSuccessful) return call;
-        localStorage.setItem(config.keys.chests, JSON.stringify(call));
         return find(call);
     }
     static async getChance(chestId) {
