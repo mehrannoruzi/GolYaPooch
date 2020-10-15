@@ -13,6 +13,7 @@ using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Runtime.InteropServices;
 
 namespace GolPooch.Service.Implements
 {
@@ -67,19 +68,40 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<int>> MyChanceCountAsync(int userId, int ChestId)
+        public async Task<IResponse<int>> MyChanceCountAsync(int userId, int chestId)
         {
             var response = new Response<int>();
             try
             {
+                #region Get Chest & Round
+                var chest = await _appUow.ChestRepo.FirstOrDefaultAsync(
+                    new QueryFilter<Chest>
+                    {
+                        Conditions = x => x.ChestId == chestId
+                    });
+                if (chest.IsNull()) return new Response<int> { Message = ServiceMessage.InvalidChest };
+                if (!chest.IsActive) return new Response<int> { Message = ServiceMessage.ChestNotActive };
+
+                var rounds = await _appUow.RoundRepo.GetAsync(
+                    new QueryFilter<Round>
+                    {
+                        Conditions = x => x.ChestId == chestId
+                    });
+
+                Round currentRound;
+                if (!rounds.Any())
+                    return new Response<int> { Message = ServiceMessage.Success, IsSuccessful = true };
+                else
+                    currentRound = rounds.FirstOrDefault(x => x.State == RoundState.Open);
+                #endregion
+
                 var drawChance = await _appUow.DrawChanceRepo.CountAsync(
                     new QueryFilter<DrawChance>
                     {
-                        Conditions = x => x.UserId == userId && x.Round.Chest.ChestId == ChestId,
+                        Conditions = x => x.UserId == userId && x.Round.RoundId == currentRound.RoundId,
                         IncludeProperties = new List<Expression<Func<DrawChance, object>>>
                         {
-                            x=> x.Round,
-                            x=> x.Round.Chest
+                            x=> x.Round
                         }
                     });
 

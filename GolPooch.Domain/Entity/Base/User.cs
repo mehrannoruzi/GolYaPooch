@@ -29,7 +29,7 @@ namespace GolPooch.Domain.Entity
         public RegionNames Region { get; set; }
 
         [Display(Name = nameof(DisplayNames.RefreshTokenExpireTime), ResourceType = typeof(DisplayNames))]
-        public DateTime RefreshTokenExpireTime { get; set; }
+        public DateTime? RefreshTokenExpireTime { get; set; }
 
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         public DateTime InsertDateMi { get; set; }
@@ -49,7 +49,6 @@ namespace GolPooch.Domain.Entity
 
         [Column(TypeName = "char(32)")]
         [Display(Name = nameof(DisplayNames.RefreshToken), ResourceType = typeof(DisplayNames))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(32, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(32, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string RefreshToken { get; set; }
