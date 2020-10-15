@@ -80,6 +80,7 @@ const strings = {
     thereIsNoPackage: 'هیچ بسته ای وجود ندارد',
     select: 'انتخاب',
     active: 'فعال',
-    all: 'همه'
+    all: 'همه',
+    joinInLottery:'شرکت در قرعه کشی'
 };
 export default strings;

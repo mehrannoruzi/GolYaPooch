@@ -10,8 +10,6 @@ import config from './config';
 import notificationSrv from './services/notificationSrv';
 
 export default function () {
-
-
     useEffect(() => {
         if (navigator && navigator.serviceWorker)
             navigator.serviceWorker.addEventListener("message", (payload) => {

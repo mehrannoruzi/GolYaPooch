@@ -6,7 +6,7 @@ import ChestsPage from '../pages/chests';
 import SettingsPage from '../pages/settings';
 import Winners from '../pages/winners';
 import PrivateRoute from '../atom/comps/PrivateRoute';
-import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge, colors } from '@material-ui/core';
+import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Badge, Container } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";
@@ -74,7 +74,14 @@ const useStyles = makeStyles({
             '& .l-col': {
                 display: 'flex',
                 justifyContent: 'flex-end'
-            }
+            },
+            '& .btn-profile': {
+                paddingLeft: 0
+            },
+            '& .btn-notifs': {
+                paddingRight: 0
+            },
+
         }
     },
     btnNavs: {
@@ -117,45 +124,45 @@ const NavigationLayout = () => {
             --HEADER
             ---------------*/}
             <AppBar position="static" className="appbar">
-                <Grid container className={classes.root} spacing={0}>
-                    <Grid item xs={4}>
-                        <IconButton
-                            className='color-white'
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-haspopup="true"
-                            onClick={() => history.push('/bl/profile')}
-                        >
-                            <FiUser />
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={4} className='c-col'>
-                        <h1 className='hx color-white'> {navs[rState.activeBotton].label}</h1>
-                    </Grid>
-                    <Grid item xs={4} className='l-col'>
-                        <Badge color="secondary" className={rState.newTicketCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
-                            <IconButton className='color-white' aria-label="show 4 new mails" onClick={() => setModalState({
-                                ...modal,
-                                open: true,
-                                title: 'تیکت ها',
-                                children: Tickets
-                            })}>
-                                <FiMessageSquare />
+                <Container>
+                    <Grid container className={classes.root} spacing={0}>
+                        <Grid item xs={4}>
+                            <IconButton
+                                className='color-white btn-profile'
+                                aria-label="account of current user"
+                                aria-haspopup="true"
+                                onClick={() => history.push('/bl/profile')}>
+                                <FiUser />
                             </IconButton>
-                        </Badge>
+                        </Grid>
+                        <Grid item xs={4} className='c-col'>
+                            <h1 className='hx color-white'> {navs[rState.activeBotton].label}</h1>
+                        </Grid>
+                        <Grid item xs={4} className='l-col'>
+                            <Badge color="secondary" className={rState.newTicketCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
+                                <IconButton className='color-white btn-ticket' aria-label="show 4 new mails" onClick={() => setModalState({
+                                    ...modal,
+                                    open: true,
+                                    title: 'تیکت ها',
+                                    children: Tickets
+                                })}>
+                                    <FiMessageSquare />
+                                </IconButton>
+                            </Badge>
 
-                        <Badge color="secondary" className={rState.newNotificationsCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
-                            <IconButton className='color-white' onClick={() => setModalState({
-                                ...modal,
-                                open: true,
-                                title: 'اعلان ها',
-                                children: NotificationsPage
-                            })}>
-                                <RiNotification3Line className="hx" />
-                            </IconButton>
-                        </Badge>
+                            <Badge color="secondary" className={rState.newNotificationsCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
+                                <IconButton className='color-white btn-notifs' onClick={() => setModalState({
+                                    ...modal,
+                                    open: true,
+                                    title: 'اعلان ها',
+                                    children: NotificationsPage
+                                })}>
+                                    <RiNotification3Line className="hx" />
+                                </IconButton>
+                            </Badge>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </Container>
             </AppBar>
             {/* ---------------
             --ROUTES
