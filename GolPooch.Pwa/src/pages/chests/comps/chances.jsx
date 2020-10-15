@@ -59,7 +59,7 @@ const useStyles = makeStyles({
                 textAlign: 'center',
                 color: '#8BC34A',
                 minWidth: 120,
-                marginBottom:15,
+                marginBottom: 15,
                 '& .btnPurchase': {
                     backgroundColor: '#8BC34A',
                     minWidth: 120,
@@ -67,7 +67,7 @@ const useStyles = makeStyles({
             },
             '& label': {
                 padding: 5,
-                '& .chk-icon':{
+                '& .chk-icon': {
                     fontSize: '20px',
                     color: 'green',
                     verticalAlign: 'middle'
@@ -115,8 +115,7 @@ const Chances = (props) => {
         let get = await purchaseSrv.getActive(12, pageNumber);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
-                setModalState({ ...modal, open: false });
-                history.push('/nl/store');
+                setChestState({ ...chestState, withoutChance: true });
             }
             else if (get.result.items.length > 0) {
                 if (pageNumber === 1)

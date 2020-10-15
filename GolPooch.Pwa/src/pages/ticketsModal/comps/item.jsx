@@ -10,6 +10,11 @@ const useStyles = makeStyles({
     notificationComp: {
         margin: 10,
         boxShadow: 'none',
+        '&.not-read': {
+            '& .heading': {
+                fontWeight: '600!important'
+            }
+        },
         '& .heading': {
             display: 'flex',
             alignItems: 'center',
@@ -60,7 +65,7 @@ export default function (props) {
     const _handleChange = (panel) => {
         if (props.onClick) props.onClick(panel);
     }
-    
+
     return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}
         expanded={props.expanded} onChange={() => _handleChange(`panel${item.ticketId}`)}>
         <AccordionSummary

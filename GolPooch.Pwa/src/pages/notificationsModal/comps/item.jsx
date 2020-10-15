@@ -10,6 +10,11 @@ const useStyles = makeStyles({
     notificationComp: {
         margin: 10,
         boxShadow: 'none',
+        '&.not-read': {
+            '& .heading': {
+                fontWeight: '600!important'
+            }
+        },
         '& .heading': {
             display: 'flex',
             alignItems: 'center',
