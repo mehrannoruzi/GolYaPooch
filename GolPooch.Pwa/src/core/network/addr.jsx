@@ -3,6 +3,7 @@
 export default {
     auth_getCode: `${config.apiGateway.URL}Authentication/GetCode`,
     auth_verifyCode: `${config.apiGateway.URL}Authentication/VerifyCode`,
+    getProfile: `${config.apiGateway.URL}User/Profile`,
     getBanners: `${config.apiGateway.URL}Banner/All`,
     getProducts: `${config.apiGateway.URL}Product/All`,
     uploadAvatar: `${config.apiGateway.URL}User/UploadAwatar`,

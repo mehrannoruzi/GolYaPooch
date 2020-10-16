@@ -81,6 +81,7 @@ const strings = {
     select: 'انتخاب',
     active: 'فعال',
     all: 'همه',
-    joinInLottery:'شرکت در قرعه کشی'
+    joinInLottery:'شرکت در قرعه کشی',
+    balance:'بالانس'
 };
 export default strings;

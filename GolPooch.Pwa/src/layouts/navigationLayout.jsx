@@ -66,6 +66,7 @@ const useStyles = makeStyles({
             top: 0,
             left: 0,
             right: 0,
+            zIndex: 998,
             '& .c-col': {
                 display: 'flex',
                 justifyContent: 'center',

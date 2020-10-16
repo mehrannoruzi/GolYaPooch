@@ -10,6 +10,7 @@ import userSrv from '../../../services/userSrv';
 import Countdown from '../../../atom/comps/Countdown';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { Check } from '@material-ui/icons';
+import { convertToEn } from './../../../core/utils';
 
 const useStyles = makeStyles({
     spanNumber: {
@@ -97,6 +98,7 @@ export default function () {
     }
     const _handleVerifyCodeChange = async (e) => {
         let v = e.target.value;
+        if(v) v = convertToEn(v);
         setVerifyCode({ value: v, error: false, errorMessage: '' });
         if (v.length === 4)
             await _submit(v);

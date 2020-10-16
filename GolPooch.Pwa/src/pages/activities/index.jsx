@@ -4,6 +4,7 @@ import { Tabs, Tab, Paper, AppBar, Container } from '@material-ui/core';
 import Banners from '../../atom/comps/Banners';
 import ActivePurchase from './comps/active';
 import AllPurchase from './comps/all';
+import Balance from './comps/balance';
 import strings from '../../core/strings';
 import { BsListCheck, BsList } from 'react-icons/bs';
 
@@ -50,6 +51,7 @@ const Activities = () => {
         <div className={classes.root}>
             <Banners pageName="Activities" location="top" />
             <Container>
+                <Balance />
                 <Paper className='mb-15'>
                     <Tabs
                         value={value}

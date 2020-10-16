@@ -99,3 +99,11 @@ export const toGregorianDate = function(dt){
     let arr = dt.split('/');
     return 
 }
+
+export const convertToEn = function (string) {
+    return string.replace(/[\u0660-\u0669]/g, function (c) {
+        return c.charCodeAt(0) - 0x0660;
+    }).replace(/[\u06f0-\u06f9]/g, function (c) {
+        return c.charCodeAt(0) - 0x06f0;
+    });
+};

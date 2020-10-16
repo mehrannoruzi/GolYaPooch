@@ -40,6 +40,9 @@ const useStyles = makeStyles({
 
             }
         }
+    },
+    noTxtDecoration: {
+        textDecoration: 'none!important'
     }
 });
 
@@ -50,6 +53,7 @@ const Items = (props) => {
     const { item } = props;
     return (<Grid item xs={12} sm={6} md={4} className={classes.chest}>
         <Link
+            className={classes.noTxtDecoration}
             onClick={() => setModalState({
                 ...modal,
                 open: true,

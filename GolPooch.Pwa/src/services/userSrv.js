@@ -56,7 +56,6 @@ export default class userSrv {
     }
 
     static async updateProfile(user) {
-        console.log(user);
         let update = await http.post(addr.updateProfile, user, { errorHandle: false });
         if (!update.isSuccessful) return update;
         return update;
@@ -72,5 +71,9 @@ export default class userSrv {
                 chance: 15
             }
         };
+    }
+
+    static async getProfile() {
+        return await http.get(addr.getProfile);
     }
 }

@@ -40,13 +40,11 @@ const Chest = () => {
     const [nLState, setNLState] = useRecoilState(nLAtom);
 
     const getInitInfo = async () => {
-        let getNewNotifCount = await notificationSrv.getNotReadCount();
-        console.log(getNewNotifCount);
-        if (getNewNotifCount.isSuccessful)
-            setNLState({ ...nLState, newNotificationsCount: getNewNotifCount.result });
+        let getNotifCount = await notificationSrv.getNotReadCount();
+        if (!getNotifCount.isSuccessful) return;
         let getTicketCount = await ticketSrv.getNotReadCount();
-        if (getTicketCount.isSuccessful)
-            setNLState({ ...nLState, newTicketCount: getTicketCount.result });
+        if (!getTicketCount.isSuccessful) return;
+        setNLState({ ...nLState, newNotificationsCount: getNotifCount.result, newTicketCount: getTicketCount.result });
     };
     const getDate = async () => {
         setInProgress(true);
