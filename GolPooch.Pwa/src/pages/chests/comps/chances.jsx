@@ -30,7 +30,7 @@ const useStyles = makeStyles({
             position: 'relative',
             display: 'flex',
             flexDirection: 'column',
-
+            maxWidth: 160,
             '&.selected': {
                 boxShadow: '0px 1px 8px 0px #76b132'
             },
@@ -119,8 +119,9 @@ const Chances = (props) => {
             }
             else if (get.result.items.length > 0) {
                 if (pageNumber === 1)
-                    setChestState({ ...chestState, purchase: get.result.items[0] });
+                    setChestState({ ...chestState, purchase: get.result.items.length === 2 ? get.result.items[1] : get.result.items[0] });
                 setItems([...items, ...get.result.items]);
+                //setItems([get.result.items[0],get.result.items[1]]);
                 setPageNumber(pageNumber + 1);
             }
         }
@@ -138,9 +139,7 @@ const Chances = (props) => {
 
     const settings = {
         slidesToShow: 2,
-        slidesToScroll: 2,
-        className: "center mb-15",
-        infinite: true,
+        slidesToScroll: 1,
         rtl: true,
         afterChange: function (index) {
             if (index <= 2)
@@ -153,7 +152,7 @@ const Chances = (props) => {
                 <CircularProgress size={20} />
                 <span>{strings.pleaseWait}</span>
             </div> : null}
-            <Slider {...settings} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
+            <Slider {...settings} infinite={items.length > 1} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
                 {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
                     <Paper className={`wrapper ${item.purchaseId === chestState.purchase.purchaseId ? 'selected' : null}`}>
                         {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle className='select-icon' /> : null}
@@ -167,7 +166,7 @@ const Chances = (props) => {
 
             </Slider>
 
-        </div>
+        </div >
 
     );
 }

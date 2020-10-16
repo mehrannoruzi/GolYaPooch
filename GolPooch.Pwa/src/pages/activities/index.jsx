@@ -61,7 +61,7 @@ const Activities = () => {
                     </Tabs>
                 </Paper>
 
-                <Paper>
+                <div>
                     <div
                         role="tabpanel"
                         index={0}
@@ -78,7 +78,7 @@ const Activities = () => {
                         <AllPurchase />ّ
 
                 </div>
-                </Paper>
+                </div>
             </Container>
 
             <Banners pageName="Activities" location="bottom" />

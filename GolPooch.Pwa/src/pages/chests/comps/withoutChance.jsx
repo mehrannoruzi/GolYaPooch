@@ -65,10 +65,8 @@ export default function (props) {
 
 
     const settings = {
-        infinite: true,
         slidesToShow: 2,
-        slidesToScroll: 2,
-        className: "mb-15",
+        slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
         rtl: true
@@ -83,7 +81,7 @@ export default function (props) {
                     </p>
                 </Alert>
             </h4>
-            <Slider {...settings}>
+            <Slider {...settings}  infinite={items.length > 1}>
                 {inProgress ? [0, 1, 2].map((x, idx) => <Skeleton key={idx} variant='rect' className='w-100 mb-15' height={110} />) :
                     items.map((item, idx) => <div className={classes.product} key={idx}><Product item={item} /></div>)}
             </Slider>

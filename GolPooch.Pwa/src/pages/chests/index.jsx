@@ -14,7 +14,6 @@ const useStyles = makeStyles({
     chestPage: {
         paddingTop: 15,
         paddingBottom: 15,
-        backgroundColor: '#eee',
     },
     rawPrice: {
         position: 'relative',

@@ -60,7 +60,12 @@ const useStyles = makeStyles({
         minHeight: '100vh',
         paddingBottom: '60px',
         boxSizing: 'border-box',
+        paddingTop: 50,
         '& header': {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
             '& .c-col': {
                 display: 'flex',
                 justifyContent: 'center',
