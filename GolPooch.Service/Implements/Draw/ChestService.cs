@@ -13,7 +13,6 @@ using GolPooch.Service.Resourses;
 using System.Collections.Generic;
 using GolPooch.Service.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System.Runtime.InteropServices;
 
 namespace GolPooch.Service.Implements
 {
@@ -214,7 +213,7 @@ namespace GolPooch.Service.Implements
                         });
 
                     if (lastDrawChance.IsNotNull()) roundCounter = lastDrawChance.Counter;
-                    if ((roundCounter + chanceCount) > currentRound.ParticipantCount) return new Response<SpendChanceResultDto> { Message = ServiceMessage.ParticipantCountOverflow.Fill($"{(roundCounter + chanceCount) - currentRound.ParticipantCount}") };
+                    if ((roundCounter + chanceCount) > currentRound.ParticipantCount) return new Response<SpendChanceResultDto> { Message = ServiceMessage.ParticipantCountOverflow.Fill($"{currentRound.ParticipantCount - roundCounter}") };
 
                     var drawChestCode = new List<string>();
                     var drawChestList = new List<DrawChance>();
@@ -261,9 +260,9 @@ namespace GolPooch.Service.Implements
                     #endregion
 
                     #region Add Spend Chance Notification
-                    var drawCodes = Environment.NewLine;
+                    var drawCodes = Environment.NewLine + $"{ServiceMessage.DrawChestCode}:" + Environment.NewLine;
                     foreach (var code in drawChestCode)
-                        drawCodes += $"{ServiceMessage.DrawChestCode}:{code} {Environment.NewLine}";
+                        drawCodes += $"{code} {Environment.NewLine}";
 
                     var spendChanceNotif = new Notification
                     {
