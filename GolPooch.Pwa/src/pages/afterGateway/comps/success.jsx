@@ -69,7 +69,7 @@ const Success = (props) => {
             <Grid item xs={12} className={classes.traceId}>
                 <Grid container>
                     <Grid xs={7} item className='lbl'>
-                        کد رهگیری:
+                        {strings.trackingId}
                      </Grid>
                     <Grid xs={5} item className='val'>{info.TrackingId}</Grid>
                 </Grid>
@@ -77,11 +77,11 @@ const Success = (props) => {
             <Grid xs={12} item className='info mb-15'>
                 <Grid container>
                     <Grid xs={7} item className='lbl'>
-                        تاریخ پرداخت:
+                        {strings.paymentDate}
                     </Grid>
                     <Grid xs={5} item className='val'>{info.Date}</Grid>
                     <Grid xs={7} item className='lbl'>
-                        ساعت پرداخت:
+                        {strings.paymentTime}
                     </Grid>
                     <Grid xs={5} item className='val'>{info.Time}</Grid>
                 </Grid>
@@ -89,20 +89,20 @@ const Success = (props) => {
             <Grid xs={12} item className='chance'>
                 <Grid container>
                     <Grid xs={7} item className='lbl'>
-                        تعداد شانس قبلی:
+                        { strings.latestChance}
                      </Grid>
                     <Grid xs={5} item className='val'>{info.BeforeChance}</Grid>
                     <Grid xs={7} item className='lbl'>
-                        تعداد شانس اضافه شده:
+                        {strings.addedChance}
                     </Grid>
                     <Grid xs={5} item className='val'>{info.NewChance}</Grid>
                     <Grid xs={7} item className='lbl'>
-                        تعداد شانس موجود:
+                        {strings.currentChance}
                     </Grid>
                     <Grid item xs={5} className='val'>{info.TotalChance}</Grid>
                 </Grid>
             </Grid>
-            <Button onClick={() => history.push('/nl/chests')} className={`btn-purchase ${classes.linkToStore}`}>شانست رو دوباره امتحان کن</Button>
+            <Button onClick={() => history.push('/nl/chests')} className={`btn-purchase ${classes.linkToStore}`}>{ strings.tryChanceButton}</Button>
         </Grid>
     );
 }

@@ -163,11 +163,8 @@ const Chances = (props) => {
                         <label className='exp-date'><BiCheck className='chk-icon' />انقضا: {item.expireDateSh}</label>
                     </Paper>
                 </Box>)}
-
             </Slider>
-
         </div >
-
     );
 }
 export default Chances;

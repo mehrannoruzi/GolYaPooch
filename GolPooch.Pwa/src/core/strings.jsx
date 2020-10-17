@@ -79,9 +79,23 @@ const strings = {
     thereIsNoActivePackage: 'هیچ بسته فعالی وجود ندارد',
     thereIsNoPackage: 'هیچ بسته ای وجود ندارد',
     select: 'انتخاب',
-    active: 'فعال',
-    all: 'همه',
-    joinInLottery:'شرکت در قرعه کشی',
-    balance:'بالانس'
+    activePurchase: 'بسته های فعال',
+    allPurchase: 'کلیه بسته ها',
+    joinInLottery: 'شرکت در قرعه کشی',
+    balance: 'بالانس',
+    trackingId: 'کد رهگیری',
+    paymentDate: 'تاریخ پرداخت',
+    paymentTime: 'ساعت پرداخت',
+    latestChance: 'تعداد شانس قبلی',
+    addedChance: 'تعداد شانس اضافه شده',
+    currentChance: ' تعداد شانس موجود',
+    tryChanceButton: 'شانست رو دوباره امتحان کن',
+    chanceCount: 'تعداد شانس:',
+    paymentPrice: 'مبلغ قابل پرداخت:',
+    retryPayment: 'پرداخت مجدد',
+    yourChance: 'میزان شانس شما در این قرعه کشی',
+    allParticipantCount: 'تعداد کل شرکت کنندگان:',
+    participantRemainCount:'تعداد باقیمانده تا قرعه کشی:'
+
 };
 export default strings;

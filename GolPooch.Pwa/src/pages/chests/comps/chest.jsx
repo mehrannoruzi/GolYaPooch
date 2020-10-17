@@ -83,21 +83,19 @@ const Chest = (props) => {
     const [toast, setToastState] = useRecoilState(toastState);
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     const [rState, setRState] = useRecoilState(chestState);
-    useEffect(() => {
-        const getData = async () => {
-            setInProgress(true);
-            let get = await chestSrv.getSingle(parseInt(props.id));
-            if (get.isSuccessful) {
-                setItem(get.result);
-                let getChance = await chestSrv.getChance(props.id);
-                if (getChance.isSuccessful) setTotalChance(getChance.result);
-                else setToastState({ ...toast, open: true, severity: 'error', message: getChance.message });
-            }
-            else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
-            setInProgress(false);
+
+    const getData = async () => {
+        setInProgress(true);
+        let get = await chestSrv.getSingle(parseInt(props.id));
+        if (get.isSuccessful) {
+            setItem(get.result);
+            let getChance = await chestSrv.getChance(props.id);
+            if (getChance.isSuccessful) setTotalChance(getChance.result);
+            else setToastState({ ...toast, open: true, severity: 'error', message: getChance.message });
         }
-        getData();
-    }, []);
+        else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+        setInProgress(false);
+    }
 
     const _handleSpendChance = async () => {
         if (rState.disabled) {
@@ -110,7 +108,6 @@ const Chest = (props) => {
             purchaseId: rState.purchase.purchaseId,
             ChanceCount: rState.count
         });
-        console.log(call)
         if (call.isSuccessful) setSpendChanceResult(call.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: call.message });
         setIsSending(false);
@@ -120,7 +117,13 @@ const Chest = (props) => {
         if (newCount > (rState.purchase.chance - rState.purchase.usedChance)) return;
         setRState({ ...rState, count: newCount });
     }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     if (spendChanceResult) return <Agreed info={spendChanceResult} />;
+
     return (
         <div id='comp-chest' className={classes.chestComp}>
             <Container>

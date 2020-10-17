@@ -56,7 +56,6 @@ export default function (props) {
             setInProgress(false);
             if (get.isSuccessful) {
                 setItems(get.result);
-
             }
             else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
         }
