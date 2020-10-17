@@ -92,6 +92,8 @@ namespace GolPooch.Service.Implements
                     return new Response<int> { Message = ServiceMessage.Success, IsSuccessful = true };
                 else
                     currentRound = rounds.FirstOrDefault(x => x.State == RoundState.Open);
+                
+                if (currentRound.IsNull()) return new Response<int> { Message = ServiceMessage.Success, IsSuccessful = true };
                 #endregion
 
                 var drawChance = await _appUow.DrawChanceRepo.CountAsync(
