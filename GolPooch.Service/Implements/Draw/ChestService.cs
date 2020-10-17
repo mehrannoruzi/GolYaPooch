@@ -176,13 +176,21 @@ namespace GolPooch.Service.Implements
                         };
                         await _appUow.RoundRepo.AddAsync(newRound);
                         var roundSaveResult = await _appUow.ElkSaveChangesAsync();
-                        if (!roundSaveResult.IsSuccessful) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidRound };
+                        if (!roundSaveResult.IsSuccessful)
+                        {
+                            await trans.RollbackAsync();
+                            return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidRound };
+                        }
                         currentRound = newRound;
                     }
                     else
                     {
                         currentRound = rounds.FirstOrDefault(x => x.State == RoundState.Open);
-                        if (currentRound.IsNull() && rounds.Count() == chest.RoundCount) return new Response<SpendChanceResultDto> { Message = ServiceMessage.AllChestRoundHasFinished };
+                        if (currentRound.IsNull() && rounds.Count() == chest.RoundCount)
+                        {
+                            await trans.RollbackAsync();
+                            return new Response<SpendChanceResultDto> { Message = ServiceMessage.AllChestRoundHasFinished };
+                        }
                         else if (currentRound.IsNull() && rounds.Count() < chest.RoundCount)
                         {
                             newRound = new Round
@@ -198,7 +206,11 @@ namespace GolPooch.Service.Implements
                             };
                             await _appUow.RoundRepo.AddAsync(newRound);
                             var roundSaveResult = await _appUow.ElkSaveChangesAsync();
-                            if (!roundSaveResult.IsSuccessful) return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidRound };
+                            if (!roundSaveResult.IsSuccessful)
+                            {
+                                await trans.RollbackAsync();
+                                return new Response<SpendChanceResultDto> { Message = ServiceMessage.InvalidRound };
+                            }
                             currentRound = newRound;
                         }
                     }
@@ -213,7 +225,11 @@ namespace GolPooch.Service.Implements
                         });
 
                     if (lastDrawChance.IsNotNull()) roundCounter = lastDrawChance.Counter;
-                    if ((roundCounter + chanceCount) > currentRound.ParticipantCount) return new Response<SpendChanceResultDto> { Message = ServiceMessage.ParticipantCountOverflow.Fill($"{currentRound.ParticipantCount - roundCounter}") };
+                    if ((roundCounter + chanceCount) > currentRound.ParticipantCount)
+                    {
+                        await trans.RollbackAsync();
+                        return new Response<SpendChanceResultDto> { Message = ServiceMessage.ParticipantCountOverflow.Fill($"{currentRound.ParticipantCount - roundCounter}") };
+                    }
 
                     var drawChestCode = new List<string>();
                     var drawChestList = new List<DrawChance>();
@@ -355,26 +371,6 @@ namespace GolPooch.Service.Implements
             {
                 var winnerNotifList = new List<Notification>();
                 var winner = await _appUow.UserRepo.FindAsync(user.UserId);
-                foreach (var participant in allParticipants)
-                {
-                    var winnerNotif = new Notification
-                    {
-                        UserId = participant.UserId,
-                        Type = NotificationType.PushNotification,
-                        Action = NotificationAction.NotifyWinners,
-                        Priority = Priority.Low,
-                        IsActive = true,
-                        IsSent = false,
-                        IsSuccess = false,
-                        IsRead = false,
-                        Subject = ServiceMessage.NotifyWinnerSubject,
-                        Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, $"{winner.FirstName} {winner.LastName}"),
-                        IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
-                        ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
-                    };
-                    winnerNotifList.Add(winnerNotif);
-                }
-                await _appUow.NotificationRepo.AddRangeAsync(winnerNotifList);
 
                 var userWinnerNotif = new Notification
                 {
@@ -392,6 +388,27 @@ namespace GolPooch.Service.Implements
                     ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
                 };
                 await _appUow.NotificationRepo.AddAsync(userWinnerNotif);
+
+                foreach (var participantId in allParticipants.Select(x => x.UserId).Distinct())
+                {
+                    var winnerNotif = new Notification
+                    {
+                        UserId = participantId,
+                        Type = NotificationType.PushNotification,
+                        Action = NotificationAction.NotifyWinners,
+                        Priority = Priority.Low,
+                        IsActive = true,
+                        IsSent = false,
+                        IsSuccess = false,
+                        IsRead = false,
+                        Subject = ServiceMessage.NotifyWinnerSubject,
+                        Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, $"{winner.FirstName} {winner.LastName}"),
+                        IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
+                        ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
+                    };
+                    winnerNotifList.Add(winnerNotif);
+                }
+                await _appUow.NotificationRepo.AddRangeAsync(winnerNotifList);
             }
             #endregion
 
