@@ -5,11 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
+    <Compile Remove="src\core\utils\**" />
+    <Content Remove="src\core\utils\**" />
+    <EmbeddedResource Remove="src\core\utils\**" />
+    <None Remove="src\core\utils\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\core\utils\" />
+    <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>

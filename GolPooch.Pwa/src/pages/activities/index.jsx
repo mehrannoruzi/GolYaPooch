@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
             boxShadow: "0px 1px 8px 0px #d2d2d2",
             borderRadius: 5,
         },
-        '& .MuiTabs-root':{
+        '& .MuiTabs-root': {
             minHeight: 40,
             '& .MuiTab-labelIcon': {
                 minHeight: 'auto!important',
@@ -58,8 +58,8 @@ const Activities = () => {
                         onChange={handleChange}
                         indicatorColor="primary"
                         textColor="primary">
-                        <Tab label={strings.active} icon={<BsListCheck />} />
-                        <Tab label={strings.all} icon={<BsList />} />
+                        <Tab label={strings.activePurchase} icon={<BsListCheck />} />
+                        <Tab label={strings.allPurchase} icon={<BsList />} />
                     </Tabs>
                 </Paper>
 
@@ -79,7 +79,7 @@ const Activities = () => {
                         id='all-packages'>
                         <AllPurchase />ّ
 
-                </div>
+                    </div>
                 </div>
             </Container>
 
