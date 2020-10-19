@@ -95,7 +95,17 @@ const strings = {
     retryPayment: 'پرداخت مجدد',
     yourChance: 'میزان شانس شما در این قرعه کشی',
     allParticipantCount: 'تعداد کل شرکت کنندگان:',
-    participantRemainCount:'تعداد باقیمانده تا قرعه کشی:'
-
+    participantRemainCount:'تعداد باقیمانده تا قرعه کشی:',
+    active: 'فعال',
+    all: 'همه',
+    joinInLottery:'شرکت در قرعه کشی',
+    balance:'بالانس',
+    latest:'اخیر',
+    most:'بیشترین',
+    fullName:'نام و نام خانوادگی',
+    participateCount:'تعداد شرکت',
+    winCount:'تعداد یرد',
+    chance:'شانس',
+    thereIsNoWinner:'برنده ای وجود ندارد'
 };
 export default strings;

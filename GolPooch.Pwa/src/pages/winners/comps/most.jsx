@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const Latest = () => {
+const Most = () => {
     //Hooks
     const classes = useStyles();
     const [isBottom, setIsBottom] = useState(true);
@@ -42,7 +42,7 @@ const Latest = () => {
         if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);
-                let get = await winnerSrv.getLatest(12, pageNumber);
+                let get = await winnerSrv.getMost(12, pageNumber);
 
                 if (get.isSuccessful) {
                     setItems([...items, ...get.result]);
@@ -69,4 +69,4 @@ const Latest = () => {
         </Grid>
     </Grid>);
 }
-export default Latest;
+export default Most;

@@ -121,7 +121,6 @@ const Chances = (props) => {
                 if (pageNumber === 1)
                     setChestState({ ...chestState, count: 1, purchase: get.result.items.length === 2 ? get.result.items[1] : get.result.items[0] });
                 setItems([...items, ...get.result.items]);
-                //setItems([get.result.items[0],get.result.items[1]]);
                 setPageNumber(pageNumber + 1);
             }
         }

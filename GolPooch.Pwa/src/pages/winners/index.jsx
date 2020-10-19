@@ -1,9 +1,9 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Tabs, Tab, Paper, AppBar, Container } from '@material-ui/core';
+import { Tabs, Tab, Paper, Container } from '@material-ui/core';
 import Banners from '../../atom/comps/Banners';
 import LatestWinners from './comps/latest';
-// import MostWinners from './comps/most';
+import MostWinners from './comps/most';
 import strings from '../../core/strings';
 import { IoMdFlash } from 'react-icons/io';
 import { HiSortDescending } from 'react-icons/hi';
@@ -75,7 +75,7 @@ const Winners = () => {
                         index={1}
                         hidden={value !== 1}
                         id='all-packages'>
-                        {/* <MostWinners />ّ */}
+                        <MostWinners />ّ
 
                 </div>
                 </div>

@@ -1,13 +1,15 @@
 import React from 'react';
-import { makeStyles, Typography, Grid } from '@material-ui/core';
-import { FcExpand } from 'react-icons/fc';
-import notificationSrv from './../../../services/notificationSrv';
-import { BiTimeFive } from 'react-icons/bi';
-import nLAtom from '../../../atom/state/nLState';
-import { useRecoilState } from 'recoil';
+import { makeStyles, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
-    root: {}
+    root: {
+        '& > div': {
+            padding: '5px 0'
+        }
+    },
+    ltr: {
+        direction: 'rtl'
+    }
 });
 
 
@@ -17,10 +19,10 @@ export default function (props) {
     //Recoil
     const { item } = props;
 
-    return (<Grid item xs={12} className={classes.root}>
-        <Typography className='heading' component='h4'>
-            <img className='img-icon' alt="Remy Sharp" src={item.iconUrl || item.imageUrl} />
-            <span className='subject'>{item.subject}</span>
-        </Typography>
+    return (<Grid container className={classes.root}>
+        <Grid item xs={1}>{item.number}</Grid>
+        <Grid item xs={4} className={classes.ltr}>{item.mobileNumber}</Grid>
+        <Grid item xs={4} className={classes.ltr}>{item.chanceCount}</Grid>
+        <Grid item xs={3} className={classes.ltr}>{item.winCount}</Grid>
     </Grid>);
 }
