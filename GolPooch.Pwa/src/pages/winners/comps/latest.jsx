@@ -11,58 +11,50 @@ import Item from './item';
 
 const useStyles = makeStyles(() => ({
     root: {
-        backgroundColor: '#fff',
-        paddingTop: 7.5,
-        paddingBottom: 7.5,
-        height: 'calc(100vh - 205px)',
-        overflowY: 'auto',
-        '& .MuiPaper-root': {
-            boxShadow: "0px 1px 8px 0px #d2d2d2",
-            borderRadius: 5,
-        }
+
     },
-    loaderChance: {
-        padding: 10,
-        with: 170
-    }
+
 }));
 
 
-const All = () => {
+const Latest = () => {
     //Hooks
     const classes = useStyles();
     const [isBottom, setIsBottom] = useState(true);
     const [items, setItems] = useState([]);
     const [inProgress, setInProgress] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
+    
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
 
     function _handleScroll(e) {
         let element = e.target
         if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
+            console.log('fired');
             setIsBottom(true);
         }
     }
 
-    useEffect(() => {
-        if (isBottom && (items.length === 0 || items.length > 12)) {
-            const getDate = async () => {
-                setInProgress(true);
-                let get = await purchaseSrv.getAll(12, pageNumber);
-                if (get.isSuccessful) {
-                    setItems([...items, ...get.result.items]);
-                    if (get.result.items.length > 0)
-                        setPageNumber(pageNumber + 1);
-                }
-                else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
-                setInProgress(false);
-                setIsBottom(false);
-            }
-            getDate();
-        }
+    // useEffect(() => {
+    //     if (isBottom && (items.length === 0 || items.length > 10)) {
+    //         const getDate = async () => {
+    //             setInProgress(true);
+    //             let get = await notificationSrv.get(12, pageNumber);
 
-    }, [isBottom]);
+    //             if (get.isSuccessful) {
+    //                 setItems([...items, ...get.result.items]);
+    //                 if (get.result.items.length > 0)
+    //                     setPageNumber(pageNumber + 1);
+    //             }
+    //             else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
+    //             setInProgress(false);
+    //             setIsBottom(false);
+    //         }
+    //         getDate();
+    //     }
+
+    // }, [isBottom]);
 
     return (
         <Grid container className={classes.root} onScroll={_handleScroll}>
@@ -75,4 +67,4 @@ const All = () => {
     );
 };
 
-export default All;
+export default Latest;

@@ -2,23 +2,42 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, Paper, AppBar, Container } from '@material-ui/core';
 import Banners from '../../atom/comps/Banners';
-import ActivePurchase from './comps/active';
-import AllPurchase from './comps/all';
-
+import LatestWinners from './comps/latest';
+// import MostWinners from './comps/most';
+import strings from '../../core/strings';
+import { IoMdFlash } from 'react-icons/io';
+import { HiSortDescending } from 'react-icons/hi';
 const useStyles = makeStyles(() => ({
     root: {
         backgroundColor: '#fff',
-        paddingTop: 7.5,
-        paddingBottom: 7.5,
+        paddingTop: 15,
+        paddingBottom: 15,
         '& .MuiPaper-root': {
             boxShadow: "0px 1px 8px 0px #d2d2d2",
             borderRadius: 5,
+        },
+        '& .MuiTabs-root':{
+            minHeight: 40,
+            '& .MuiTab-labelIcon': {
+                minHeight: 'auto!important',
+                '& .MuiTab-wrapper': {
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    '& svg': {
+                        fontSize: 20,
+                        marginBottom: '0!important',
+                        marginRight: '5px'
+                    }
+                }
+            }
         }
+
     },
 }));
 
 
-const Activities = () => {
+const Winners = () => {
     //Hooks
     const classes = useStyles();
     const [value, setValue] = useState(0);
@@ -29,7 +48,7 @@ const Activities = () => {
 
     return (
         <div className={classes.root}>
-            <Banners pageName="Activities" location="top" />
+            <Banners pageName="Winners" location="top" />
             <Container>
                 <Paper className='mb-15'>
                     <Tabs
@@ -37,34 +56,34 @@ const Activities = () => {
                         onChange={handleChange}
                         indicatorColor="primary"
                         textColor="primary">
-                        <Tab label="بسته های فعال" />
-                        <Tab label="کلیه بسته ها" />
+                        <Tab label={strings.latest} icon={<IoMdFlash />} />
+                        <Tab label={strings.most} icon={<HiSortDescending />} />
                     </Tabs>
                 </Paper>
 
-                <Paper>
+                <div>
                     <div
                         role="tabpanel"
                         index={0}
                         hidden={value !== 0}
                         id='active-packages'>
-                        <ActivePurchase />
+                        <LatestWinners />
 
                     </div>
                     <div
                         role="tabpanel"
                         index={1}
                         hidden={value !== 1}
-                        id='active-packages'>
-                       <AllPurchase />ّ
+                        id='all-packages'>
+                        {/* <MostWinners />ّ */}
 
                 </div>
-                </Paper>
+                </div>
             </Container>
 
-            <Banners pageName="Activities" location="bottom" />
+            <Banners pageName="Winners" location="bottom" />
         </div>
     );
 };
 
-export default Activities;
+export default Winners;

@@ -1,64 +1,26 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { makeStyles, Typography, Grid } from '@material-ui/core';
+import { FcExpand } from 'react-icons/fc';
+import notificationSrv from './../../../services/notificationSrv';
+import { BiTimeFive } from 'react-icons/bi';
+import nLAtom from '../../../atom/state/nLState';
+import { useRecoilState } from 'recoil';
 
-const useStyles = makeStyles(() => ({
-    root: {
-        padding: 10,
-        boxSizing: 'border-box',
-
-        '& figure': {
-            margin: 0,
-            width: '100%',
-            boxSizing: 'border-box',
-            border: 'solid 1px #ccc',
-            padding: '12px',
-            borderRadius: '3px',
-            position: 'relative',
-            '& svg': {
-                top: '-8px',
-                right: '-5px',
-                color: 'green',
-                fontSize: '20px',
-                position: 'absolute',
-                top: '-10px',
-                left: '-10px',
-                backgroundColor: '#fff'
-            },
-            '& .img-main': {
-                width: '100%',
-                maxHeight: '180px',
-                marginBottom: 5
-            },
-            '& figcaption': {
-                display: 'flex',
-                flexDirection: 'column',
-                '& label': {
-                    padding: '5px 0',
-                    fontSize: '1.1rem'
-                }
-            }
-        }
-
-    }
-}));
+const useStyles = makeStyles({
+    root: {}
+});
 
 
-const Item = (props) => {
+export default function (props) {
     //Hooks
     const classes = useStyles();
-    const {item} = props;
-    return (
-        <Grid item xs={6} sm={6} lg={4} className={classes.root}>
-            <figure>
-                <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
-                <figcaption>
-                    <label className='total'>تعداد کل شانس: {item.chance}</label>
-                    <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
-                </figcaption>
-            </figure>
-        </Grid>
-    );
-};
+    //Recoil
+    const { item } = props;
 
-export default Item;
+    return (<Grid item xs={12} className={classes.root}>
+        <Typography className='heading' component='h4'>
+            <img className='img-icon' alt="Remy Sharp" src={item.iconUrl || item.imageUrl} />
+            <span className='subject'>{item.subject}</span>
+        </Typography>
+    </Grid>);
+}

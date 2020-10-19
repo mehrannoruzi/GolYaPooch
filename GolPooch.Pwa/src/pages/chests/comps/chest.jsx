@@ -84,6 +84,7 @@ const Chest = (props) => {
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     const [rState, setRState] = useRecoilState(chestState);
     useEffect(() => {
+        console.log('useEffect')
         const getData = async () => {
             setInProgress(true);
             let get = await chestSrv.getSingle(parseInt(props.id));
