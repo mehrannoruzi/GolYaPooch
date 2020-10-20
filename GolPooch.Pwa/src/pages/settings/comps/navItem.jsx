@@ -12,11 +12,16 @@ const Item = (props) => {
                     <h5 className='hx'>{props.title}</h5>
                     <FiChevronLeft className='arrow-left' />
                 </a> :
-                    <Link to={props.href}  className='item'>
+                    props.redirect ? <a href={props.href} className='item'>
                         <props.icon className='icon' />
                         <h5 className='hx'>{props.title}</h5>
                         <FiChevronLeft className='arrow-left' />
-                    </Link>}
+                    </a> :
+                        <Link to={props.href} className='item'>
+                            <props.icon className='icon' />
+                            <h5 className='hx'>{props.title}</h5>
+                            <FiChevronLeft className='arrow-left' />
+                        </Link>}
 
             </Container>
         </li>

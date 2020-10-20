@@ -26,7 +26,7 @@ export default function (props) {
     //Recoil
     const { item } = props;
 
-    return (<Link className={classes.root} to={`/bl/ticket?add=false&text=${item.text}&answer=${item.answer||'تست پاسخ'}`}>
+    return (<Link className={classes.root} to={`/bl/ticket?add=false&text=${item.text}&answer=${item.answer||''}`}>
         <Container className='row'>
             <span className='text'>{item.text}</span>
             <FiChevronLeft className='arrow-left' />

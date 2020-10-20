@@ -53,9 +53,12 @@ const Chest = () => {
         if (get.isSuccessful) setItems(get.result);
         else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
     }
-
+    const requestNotification = async () => {
+        let res = await notificationSrv.requestPermission();
+    }
     useEffect(() => {
         getDate();
+        requestNotification();
         getInitInfo();
     }, []);
 

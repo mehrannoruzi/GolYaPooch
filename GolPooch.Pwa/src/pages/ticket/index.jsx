@@ -11,14 +11,14 @@ import queryString from 'query-string';
 import { BiSend } from 'react-icons/bi';
 import bLState from '../../atom/state/bLState';
 import { useSetRecoilState } from 'recoil';
-
+import SupportImage from '../../assets/images/support.png';
 const useStyles = makeStyles({
     root: {
         backgroundColor: '#eee',
         paddingBottom: 60,
         minHeight: 'calc(100vh - 50px)',
         boxSizing: 'border-box',
-
+        backgroundImage: 'url(/ticket-bg.png)',
         '& .container': {
             overflow: 'hidden',
             display: 'flex',
@@ -34,8 +34,8 @@ const useStyles = makeStyles({
                 lineHeight: '22px'
             }
         },
-        '& .answer-wrapper':{
-            display:'flex',
+        '& .answer-wrapper': {
+            display: 'flex',
             justifyContent: 'flex-end',
         },
         '& .answer': {
@@ -68,6 +68,11 @@ const useStyles = makeStyles({
                     transform: 'rotate(180deg)'
                 }
             }
+        },
+        '& .img-support': {
+            width: '30px',
+            height: '30px',
+            margin: '15px 0 15px 10px'
         }
     },
     arrowRight: {
@@ -141,6 +146,7 @@ const Ticket = () => {
                         <p>{answer}</p>
                         <div className={classes.arrowLeft}></div>
                     </Paper>
+                    <img className='img-support' src={SupportImage} />
                 </div> : null}
             </Container>
             {isEmpty ?

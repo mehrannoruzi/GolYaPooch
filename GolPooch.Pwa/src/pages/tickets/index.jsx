@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     btnAdd: {
         position: 'fixed',
         bottom: '15px',
-        left: '15px',
+        right: '15px',
         '& svg': {
             fontSize: '20px'
         }
