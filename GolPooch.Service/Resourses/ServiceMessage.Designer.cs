@@ -377,7 +377,10 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to قرعه کشی صندوق {0} انجام شد و آقا/خانوم {1} به عنوان برنده این قرعه کشی انتخاب شد. برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید..
+        ///   Looks up a localized string similar to کاربر گرامی 
+        ///قرعه کشی {0} انجام شد
+        ///کاربر {1} به عنوان برنده این قرعه کشی انتخاب شد.
+        ///برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید..
         /// </summary>
         public static string NotifyWinnerText {
             get {
@@ -386,11 +389,49 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to تعداد شانس های انتخابی شما بیشتر از تعداد شانس های باقیمانده در این صندوق می باشد. تعداد شانس های باقیمانده در این صندوق {0} عدد می باشد..
+        ///   Looks up a localized string similar to تعداد شانس های باقیمانده در این صندوق {0} عدد می باشد..
         /// </summary>
         public static string ParticipantCountOverflow {
             get {
                 return ResourceManager.GetString("ParticipantCountOverflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assets/NotificationIcon/PayBackIcon.png.
+        /// </summary>
+        public static string PayBackPurchaseIconUrl {
+            get {
+                return ResourceManager.GetString("PayBackPurchaseIconUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assets/NotificationIcon/PayBackImage.png.
+        /// </summary>
+        public static string PayBackPurchaseImageUrl {
+            get {
+                return ResourceManager.GetString("PayBackPurchaseImageUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to شارژ حساب کاربری.
+        /// </summary>
+        public static string PayBackSubject {
+            get {
+                return ResourceManager.GetString("PayBackSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کاربر گرامی {0}
+        ///حساب کاربری شما به مبلغ {1} تومان بابت محصول خریداری شده با نام {2} و عدم استفاده شانس های آن در قرعه کشی ها شارژ شد.
+        ///مانده حساب کاربری شما : {3}.
+        /// </summary>
+        public static string PayBackText {
+            get {
+                return ResourceManager.GetString("PayBackText", resourceCulture);
             }
         }
         
@@ -422,7 +463,8 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to مبلغ محصول خریداری شده شما به دلیل پایان تاریخ استفاده ویا استفاده از شانس های آن در قرعه کشی غیر قابل بازپرداخت می باشد..
+        ///   Looks up a localized string similar to کاربر گرامی
+        ///محصول خریداری شده شما به دلیل استفاده از شانس های آن در قرعه کشی غیر قابل بازپرداخت می باشد..
         /// </summary>
         public static string PurchaseNotReFoundable {
             get {
@@ -476,7 +518,10 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to کاربر گرامی، شما در قرعه کشی سبد {0} شرکت کرده اید. شانس های قرعه کشی شما عبارتند از : {1}.
+        ///   Looks up a localized string similar to کاربر گرامی
+        ///شما در قرعه کشی سبد {0} شرکت کرده اید.
+        ///شانس های قرعه کشی شما عبارتند از : 
+        ///{1}.
         /// </summary>
         public static string SpendChanceText {
             get {
@@ -521,7 +566,11 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to کاربر گرامی از خریدتان سپاسگذاریم. شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. کد تخفیف : {2}.
+        ///   Looks up a localized string similar to کاربر گرامی
+        ///از خریدتان سپاسگذاریم.
+        ///شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. 
+        ///کد تخفیف : 
+        ///{2}.
         /// </summary>
         public static string SuccessPurchaseText {
             get {

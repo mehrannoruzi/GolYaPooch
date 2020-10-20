@@ -224,10 +224,27 @@ Code: {code}</value>
     <value>نتیجه قرعه کشی</value>
   </data>
   <data name="NotifyWinnerText" xml:space="preserve">
-    <value>قرعه کشی صندوق {0} انجام شد و آقا/خانوم {1} به عنوان برنده این قرعه کشی انتخاب شد. برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید.</value>
+    <value>کاربر گرامی 
+قرعه کشی {0} انجام شد
+کاربر {1} به عنوان برنده این قرعه کشی انتخاب شد.
+برای مشاهده نتیجه تمامی قرعه کشی ها به پنل خود مراجعه نمایید.</value>
   </data>
   <data name="ParticipantCountOverflow" xml:space="preserve">
-    <value>تعداد شانس های انتخابی شما بیشتر از تعداد شانس های باقیمانده در این صندوق می باشد. تعداد شانس های باقیمانده در این صندوق {0} عدد می باشد.</value>
+    <value>تعداد شانس های باقیمانده در این صندوق {0} عدد می باشد.</value>
+  </data>
+  <data name="PayBackPurchaseIconUrl" xml:space="preserve">
+    <value>Assets/NotificationIcon/PayBackIcon.png</value>
+  </data>
+  <data name="PayBackPurchaseImageUrl" xml:space="preserve">
+    <value>Assets/NotificationIcon/PayBackImage.png</value>
+  </data>
+  <data name="PayBackSubject" xml:space="preserve">
+    <value>شارژ حساب کاربری</value>
+  </data>
+  <data name="PayBackText" xml:space="preserve">
+    <value>کاربر گرامی {0}
+حساب کاربری شما به مبلغ {1} تومان بابت محصول خریداری شده با نام {2} و عدم استفاده شانس های آن در قرعه کشی ها شارژ شد.
+مانده حساب کاربری شما : {3}</value>
   </data>
   <data name="PuchaseNotForCurrentUser" xml:space="preserve">
     <value>محصول خریداری شده برای کاربر جاری نمی باشد.</value>
@@ -239,7 +256,8 @@ Code: {code}</value>
     <value>محصول خریداری شده شانس استفاده نشده ای ندارد.</value>
   </data>
   <data name="PurchaseNotReFoundable" xml:space="preserve">
-    <value>مبلغ محصول خریداری شده شما به دلیل پایان تاریخ استفاده ویا استفاده از شانس های آن در قرعه کشی غیر قابل بازپرداخت می باشد.</value>
+    <value>کاربر گرامی
+محصول خریداری شده شما به دلیل استفاده از شانس های آن در قرعه کشی غیر قابل بازپرداخت می باشد.</value>
   </data>
   <data name="PushSubscriberNotExist" xml:space="preserve">
     <value>دستگاهی برای ارسال پوش پیدا نشد</value>
@@ -257,7 +275,10 @@ Code: {code}</value>
     <value>شرکت در قرعه کشی</value>
   </data>
   <data name="SpendChanceText" xml:space="preserve">
-    <value>کاربر گرامی، شما در قرعه کشی سبد {0} شرکت کرده اید. شانس های قرعه کشی شما عبارتند از : {1}</value>
+    <value>کاربر گرامی
+شما در قرعه کشی سبد {0} شرکت کرده اید.
+شانس های قرعه کشی شما عبارتند از : 
+{1}</value>
   </data>
   <data name="SubscriptionAllReadyExist" xml:space="preserve">
     <value>کاربری با این مشخصات قبلا ثبت نام کرده است.</value>
@@ -272,7 +293,11 @@ Code: {code}</value>
     <value>خرید محصول {0}</value>
   </data>
   <data name="SuccessPurchaseText" xml:space="preserve">
-    <value>کاربر گرامی از خریدتان سپاسگذاریم. شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. کد تخفیف : {2}</value>
+    <value>کاربر گرامی
+از خریدتان سپاسگذاریم.
+شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. 
+کد تخفیف : 
+{2}</value>
   </data>
   <data name="UsedPinCode" xml:space="preserve">
     <value>این کد قبلا استفاده شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید.</value>
