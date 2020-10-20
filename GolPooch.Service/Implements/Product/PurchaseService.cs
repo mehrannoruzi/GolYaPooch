@@ -18,6 +18,7 @@ namespace GolPooch.Service.Implements
     {
         private AppUnitOfWork _appUow { get; set; }
         private readonly IConfiguration _configuration;
+        private static object lockObject = new object();
 
         public PurchaseService(AppUnitOfWork appUnitOfWork, IConfiguration configuration)
         {
@@ -151,75 +152,135 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<object>> ReFoundsAsync(int userId, int purchaseId)
+        private IEnumerable<Purchase> GetPaybackblePurchase()
         {
-            var response = new Response<object>();
-            using (var trans = await _appUow.Database.BeginTransactionAsync())
+            var purchases = new List<Purchase>();
+            try
+            {
+                var now = DateTime.Now.Date;
+                lock (lockObject)
+                {
+                    purchases = _appUow.PurchaseRepo.GetAsync(
+                    new QueryFilter<Purchase>
+                    {
+                        AsNoTracking = false,
+                        Conditions = x => x.IsReFoundable && x.ExpireDateMi < now,
+                        OrderBy = x => x.OrderByDescending(x => x.PurchaseId),
+                        IncludeProperties = new List<Expression<Func<Purchase, object>>> {
+                            x => x.User,
+                            x=> x.ProductOffer,
+                            x=> x.ProductOffer.Product
+                        }
+                    }).Result;
+
+                    if (purchases.Any())
+                    {
+                        foreach (var item in purchases)
+                            item.IsLock = true;
+
+                        _appUow.PurchaseRepo.UpdateRange(purchases);
+                        _appUow.SaveChanges();
+                    }
+
+                    return purchases;
+                }
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                return new List<Purchase>();
+            }
+        }
+
+        private async Task DoPaybackAsync(Purchase item, AppUnitOfWork appUow)
+        {
+            using (var trans = await appUow.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    #region Get Purchase & User
-                    var now = DateTime.Now;
-                    var purchase = await _appUow.PurchaseRepo.FindAsync(purchaseId);
-                    if (purchase.IsNull()) return new Response<object> { Message = ServiceMessage.InvalidPurchase };
-                    if (purchase.UsedChance != 0 && purchase.ExpireDateMi < now && purchase.IsFinished) return new Response<object> { Message = ServiceMessage.PurchaseNotReFoundable };
-
-                    var user = await _appUow.UserRepo.FindAsync(userId);
-                    if (user.IsNull()) return new Response<object> { Message = ServiceMessage.InvalidUserId };
-                    #endregion
-
-                    #region ReFounds Purchase
-                    var defaultPaymentGateway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
+                    #region Get Default Gateway & Create Transaction
+                    var defaultPaymentGateway = await appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
                         new QueryFilter<PaymentGateway>
                         {
                             Conditions = x => x.IsActive && x.IsDefault
                         });
 
-                    var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
-                        new QueryFilter<ProductOffer>
-                        {
-                            Conditions = x => x.ProductOfferId == purchase.ProductOfferId,
-                        });
-
                     var transaction = new PaymentTransaction
                     {
-                        UserId = user.UserId,
+                        UserId = item.UserId,
                         IsSuccess = true,
                         TrackingId = "0",
                         Status = ServiceMessage.Success,
-                        Type = TransactionType.Refound,
-                        Price = (int)(productOffer.TotalPrice * productOffer.ReFoundsPercent),
-                        ProductOfferId = productOffer.ProductOfferId,
+                        Type = TransactionType.Payback,
+                        Price = (int)(item.ProductOffer.TotalPrice * item.ProductOffer.ReFoundsPercent),
+                        ProductOfferId = item.ProductOffer.ProductOfferId,
                         PaymentGatewayId = defaultPaymentGateway.PaymentGatewayId,
                         Description = ServiceMessage.ReFoundPurchase
                     };
-                    await _appUow.PaymentTransactionRepo.AddAsync(transaction);
+                    await appUow.PaymentTransactionRepo.AddAsync(transaction);
                     #endregion
 
-                    purchase.IsFinished = true;
-                    purchase.IsReFoundable = false;
-                    _appUow.PurchaseRepo.Update(purchase);
+                    item.IsFinished = true;
+                    item.IsReFoundable = false;
+                    appUow.PurchaseRepo.Update(item);
 
-                    var oldBalance = user.Balance;
-                    user.Balance += transaction.Price;
-                    _appUow.UserRepo.Update(user);
+                    var oldBalance = item.User.Balance;
+                    item.User.Balance += transaction.Price;
+                    _appUow.UserRepo.Update(item.User);
+                    var saveResult = await appUow.ElkSaveChangesAsync();
+                    if (saveResult.IsSuccessful)
+                    {
+                        #region Insert PayBack Notification
+                        var notif = new Notification
+                        {
+                            UserId = item.UserId,
+                            Type = NotificationType.PushNotification,
+                            Action = NotificationAction.PayBackPurchase,
+                            Priority = Priority.Low,
+                            IsActive = true,
+                            IsSent = false,
+                            IsSuccess = false,
+                            IsRead = false,
+                            Subject = ServiceMessage.PayBackSubject,
+                            Text = ServiceMessage.PayBackText.Fill($"{item.User.FirstName} {item.User.LastName}".Trim(), transaction.Price.To3DigitSplited(), item.ProductOffer.Product.Text, item.User.Balance.To3DigitSplited()),
+                            IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.PayBackPurchaseIconUrl,
+                            ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.PayBackPurchaseImageUrl
+                        };
+                        await appUow.NotificationRepo.AddAsync(notif);
+                        await appUow.SaveChangesAsync();
+                        #endregion
 
-                    var saveResult = await _appUow.ElkSaveChangesAsync();
-                    response.Result = saveResult.IsSuccessful ? new { OldBalance = oldBalance, newBalance = user.Balance } : null;
-                    response.IsSuccessful = saveResult.IsSuccessful;
-                    response.Message = saveResult.Message;
-                    await trans.CommitAsync();
-                    return response;
+                        await trans.CommitAsync();
+                    }
+                    else
+                        await trans.RollbackAsync();
+
+                    await Task.CompletedTask;
                 }
                 catch (Exception e)
                 {
                     await trans.RollbackAsync();
                     FileLoger.Error(e);
-                    response.Message = ServiceMessage.Exception;
-                    return response;
+                    await Task.FromException(e);
                 }
             }
         }
 
+        public async Task ProccessPaybackblePurchaseAsync()
+        {
+            try
+            {
+                var PaybackblePurchase = GetPaybackblePurchase();
+                foreach (var item in PaybackblePurchase)
+                    await DoPaybackAsync(item, _appUow);
+
+                await Task.CompletedTask;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                await Task.FromException(e);
+            }
+        }
     }
 }

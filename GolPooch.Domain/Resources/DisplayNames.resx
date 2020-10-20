@@ -222,6 +222,9 @@
   <data name="IsFinished" xml:space="preserve">
     <value>پایان یافته است؟</value>
   </data>
+  <data name="IsLock" xml:space="preserve">
+    <value>قفل شده ؟</value>
+  </data>
   <data name="IsMobile" xml:space="preserve">
     <value>موبایل است؟</value>
   </data>

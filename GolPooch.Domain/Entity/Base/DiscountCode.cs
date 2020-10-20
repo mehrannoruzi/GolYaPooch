@@ -34,7 +34,7 @@ namespace GolPooch.Domain.Entity
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.InsertDate), ResourceType = typeof(DisplayNames))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string? UsedDateSh { get; set; }
+        public string UsedDateSh { get; set; }
 
         [Column(TypeName = "varchar(16)")]
         [Display(Name = nameof(DisplayNames.Code), ResourceType = typeof(DisplayNames))]
