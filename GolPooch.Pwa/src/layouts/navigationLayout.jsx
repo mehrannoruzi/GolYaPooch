@@ -1,11 +1,12 @@
-﻿import React from 'react';
+﻿import React, { useEffect } from 'react';
 import { Switch, useRouteMatch } from 'react-router-dom';
 import StorePage from '../pages/store';
 import ActivitiesPage from '../pages/activities';
 import ChestsPage from '../pages/chests';
-import SettingsPage from '../pages/settings'
+import SettingsPage from '../pages/settings';
+import Winners from '../pages/winners';
 import PrivateRoute from '../atom/comps/PrivateRoute';
-import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Typography, Badge, colors } from '@material-ui/core';
+import { Grid, AppBar, makeStyles, BottomNavigation, BottomNavigationAction, IconButton, Badge, Container } from '@material-ui/core';
 import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";
@@ -22,27 +23,32 @@ const navs = [
     {
         label: strings.pageName_store,
         icon: RiDashboardFill,
-        path: 'store'
+        path: 'store',
+        comp: StorePage
     },
     {
         label: strings.pageName_activities,
         icon: RiBarChart2Line,
-        path: 'activities'
+        path: 'mypackages',
+        comp: ActivitiesPage
     },
     {
         label: strings.pageName_chest,
         icon: FiPlusSquare,
-        path: 'chests'
+        path: 'chests',
+        comp: ChestsPage
     },
     {
         label: strings.pageName_leaderboard,
         icon: RiMedalLine,
-        path: 'winners'
+        path: 'winners',
+        comp: Winners
     },
     {
         label: strings.pageName_setting,
         icon: AiOutlineSetting,
-        path: 'settings'
+        path: 'settings',
+        comp: SettingsPage
     }
 ];
 
@@ -54,7 +60,13 @@ const useStyles = makeStyles({
         minHeight: '100vh',
         paddingBottom: '60px',
         boxSizing: 'border-box',
+        paddingTop: 50,
         '& header': {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 998,
             '& .c-col': {
                 display: 'flex',
                 justifyContent: 'center',
@@ -68,7 +80,14 @@ const useStyles = makeStyles({
             '& .l-col': {
                 display: 'flex',
                 justifyContent: 'flex-end'
-            }
+            },
+            '& .btn-profile': {
+                paddingLeft: 0
+            },
+            '& .btn-notifs': {
+                paddingRight: 0
+            },
+
         }
     },
     btnNavs: {
@@ -97,60 +116,65 @@ const NavigationLayout = () => {
     //Recoil
     const [rState, setNLState] = useRecoilState(nLState);
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
+
+    useEffect(() => {
+        let currentPath = window.location.pathname;
+        let currentNavIndex = navs.findIndex(x => '/nl/' + x.path == currentPath);
+        if (currentNavIndex > -1 && '/nl/' + navs[rState.activeBotton].path !== currentPath) {
+            setNLState({ ...rState, activeBotton: currentNavIndex })
+        }
+    }, []);
     return (
         <div id='layout-nl' className={classes.layoutNL}>
             {/* ---------------
             --HEADER
             ---------------*/}
             <AppBar position="static" className="appbar">
-                <Grid container className={classes.root} spacing={0}>
-                    <Grid item xs={4}>
-                        <IconButton
-                            className='color-white'
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-haspopup="true"
-                            onClick={() => history.push('/bl/profile')}
-                        >
-                            <FiUser />
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={4} className='c-col'>
-                        <h1 className='hx color-white'> {navs[rState.activeBotton].label}</h1>
-                    </Grid>
-                    <Grid item xs={4} className='l-col'>
-                        <Badge color="secondary" className={rState.newTicketCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
-                            <IconButton className='color-white' aria-label="show 4 new mails" onClick={() => setModalState({
-                                ...modal,
-                                open: true,
-                                title: 'تیکت ها',
-                                children: Tickets
-                            })}>
-                                <FiMessageSquare />
+                <Container>
+                    <Grid container className={classes.root} spacing={0}>
+                        <Grid item xs={4}>
+                            <IconButton
+                                className='color-white btn-profile'
+                                aria-label="account of current user"
+                                aria-haspopup="true"
+                                onClick={() => history.push('/bl/profile')}>
+                                <FiUser />
                             </IconButton>
-                        </Badge>
+                        </Grid>
+                        <Grid item xs={4} className='c-col'>
+                            <h1 className='hx color-white'> {navs[rState.activeBotton].label}</h1>
+                        </Grid>
+                        <Grid item xs={4} className='l-col'>
+                            <Badge color="secondary" className={rState.newTicketCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
+                                <IconButton className='color-white btn-ticket' aria-label="show 4 new mails" onClick={() => setModalState({
+                                    ...modal,
+                                    open: true,
+                                    title: 'تیکت ها',
+                                    children: Tickets
+                                })}>
+                                    <FiMessageSquare />
+                                </IconButton>
+                            </Badge>
 
-                        <Badge color="secondary" className={rState.newNotificationsCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
-                            <IconButton className='color-white' onClick={() => setModalState({
-                                ...modal,
-                                open: true,
-                                title: 'اعلان ها',
-                                children: NotificationsPage
-                            })}>
-                                <RiNotification3Line className="hx" />
-                            </IconButton>
-                        </Badge>
+                            <Badge color="secondary" className={rState.newNotificationsCount === 0 ? "emptyBadge" : "successBadge"} variant="dot">
+                                <IconButton className='color-white btn-notifs' onClick={() => setModalState({
+                                    ...modal,
+                                    open: true,
+                                    title: 'اعلان ها',
+                                    children: NotificationsPage
+                                })}>
+                                    <RiNotification3Line className="hx" />
+                                </IconButton>
+                            </Badge>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </Container>
             </AppBar>
             {/* ---------------
             --ROUTES
             ---------------*/}
             <Switch>
-                <PrivateRoute exact path={`${path}/store`} component={StorePage} />
-                <PrivateRoute exact path={`${path}/activities`} component={ActivitiesPage} />
-                <PrivateRoute exact path={`${path}/chests`} component={ChestsPage} />
-                <PrivateRoute exact path={`${path}/settings`} component={SettingsPage} />
+                {navs.map((n, idx) => <PrivateRoute exact path={`${path}/${n.path}`} component={n.comp} key={idx} />)}
             </Switch>
             {/* ---------------
             --BUTTONS

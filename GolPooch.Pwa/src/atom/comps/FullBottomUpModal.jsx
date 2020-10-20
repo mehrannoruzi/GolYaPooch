@@ -12,6 +12,7 @@ const useStyles = makeStyles({
         left: 0,
         backgroundColor: '#fff',
         zIndex: 999,
+        overflow: 'hidden',
         '& .header': {
             position: 'relative',
             '& .MuiContainer-root': {

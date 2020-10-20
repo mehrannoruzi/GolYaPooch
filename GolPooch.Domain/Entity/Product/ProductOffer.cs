@@ -24,6 +24,9 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.Price), ResourceType = typeof(DisplayNames))]
         public int Price { get; set; }
 
+        [Display(Name = nameof(DisplayNames.ReFoundsPercent), ResourceType = typeof(DisplayNames))]
+        public float ReFoundsPercent { get; set; }
+
         [Display(Name = nameof(DisplayNames.Discount), ResourceType = typeof(DisplayNames))]
         public int Discount { get; set; }
 

@@ -10,6 +10,11 @@ const useStyles = makeStyles({
     notificationComp: {
         margin: 10,
         boxShadow: 'none',
+        '&.not-read': {
+            '& .heading': {
+                fontWeight: '600!important'
+            }
+        },
         '& .heading': {
             display: 'flex',
             alignItems: 'center',
@@ -49,25 +54,27 @@ const useStyles = makeStyles({
 
 
 export default function (props) {
+    const { item } = props;
     //Hooks
     const classes = useStyles();
+    const [itemIsRead, setIsRead] = React.useState(item.isRead);
     //Recoil
     const [nLState, setNLState] = useRecoilState(nLAtom);
-    const { item } = props;
     const _handleChange = (panel) => {
         if (props.onClick) props.onClick(panel);
     }
-    const _handleClick = async (id, isRead) => {
-        if (props.expanded !== `panel${item.notificationId}` && !isRead) {
+    const _handleClick = async (id) => {
+        if (props.expanded !== `panel${id}` && !itemIsRead) {
+            setIsRead(true);
             let call = await notificationSrv.read(id);
             if (call.isSuccessful)
                 setNLState({ ...nLState, newNotificationsCount: call.result });
         }
     }
-    return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}
+    return (<Accordion className={`${classes.notificationComp} ${(itemIsRead ? 'read' : 'not-read')}`}
         expanded={props.expanded} onChange={() => _handleChange(`panel${item.notificationId}`)}>
         <AccordionSummary
-            onClick={() => _handleClick(item.notificationId, item.isRead)}
+            onClick={() => _handleClick(item.notificationId)}
             expandIcon={<FcExpand fontSize={15} style={{ color: '#eee' }} fill="#EEE" />}
             id={`summary_${item.notificationId}`}
         >

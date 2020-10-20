@@ -16,7 +16,7 @@ import { BiCheck } from 'react-icons/bi';
 const useStyles = makeStyles({
     root: {
         position: 'relative',
-        minHeight: 150
+        minHeight: 220
     },
     chance: {
         padding: 10,
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
             position: 'relative',
             display: 'flex',
             flexDirection: 'column',
-
+            maxWidth: 160,
             '&.selected': {
                 boxShadow: '0px 1px 8px 0px #76b132'
             },
@@ -59,7 +59,7 @@ const useStyles = makeStyles({
                 textAlign: 'center',
                 color: '#8BC34A',
                 minWidth: 120,
-                marginBottom:15,
+                marginBottom: 15,
                 '& .btnPurchase': {
                     backgroundColor: '#8BC34A',
                     minWidth: 120,
@@ -67,7 +67,7 @@ const useStyles = makeStyles({
             },
             '& label': {
                 padding: 5,
-                '& .chk-icon':{
+                '& .chk-icon': {
                     fontSize: '20px',
                     color: 'green',
                     verticalAlign: 'middle'
@@ -115,12 +115,11 @@ const Chances = (props) => {
         let get = await purchaseSrv.getActive(12, pageNumber);
         if (get.isSuccessful) {
             if (get.result.items.length === 0 && pageNumber === 1) {
-                setModalState({ ...modal, open: false });
-                history.push('/nl/store');
+                setChestState({ ...chestState, withoutChance: true });
             }
             else if (get.result.items.length > 0) {
                 if (pageNumber === 1)
-                    setChestState({ ...chestState, purchase: get.result.items[0] });
+                    setChestState({ ...chestState, count: 1, purchase: get.result.items.length === 2 ? get.result.items[1] : get.result.items[0] });
                 setItems([...items, ...get.result.items]);
                 setPageNumber(pageNumber + 1);
             }
@@ -139,9 +138,7 @@ const Chances = (props) => {
 
     const settings = {
         slidesToShow: 2,
-        slidesToScroll: 2,
-        className: "center mb-15",
-        infinite: true,
+        slidesToScroll: 1,
         rtl: true,
         afterChange: function (index) {
             if (index <= 2)
@@ -154,7 +151,7 @@ const Chances = (props) => {
                 <CircularProgress size={20} />
                 <span>{strings.pleaseWait}</span>
             </div> : null}
-            <Slider {...settings} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
+            <Slider {...settings} infinite={items.length > 1} style={{ visibility: inProgress ? 'hidden' : 'visible' }}>
                 {items.map((item, idx) => <Box className={classes.chance} key={idx} onClick={() => _handleSelect(item)}>
                     <Paper className={`wrapper ${item.purchaseId === chestState.purchase.purchaseId ? 'selected' : null}`}>
                         {item.purchaseId === chestState.purchase.purchaseId ? <BsCheckCircle className='select-icon' /> : null}
@@ -162,13 +159,11 @@ const Chances = (props) => {
                         <div className='btn'><Button className='btnPurchase'>{strings.select}</Button></div>
                         <label className='remained'><BiCheck className='chk-icon' /> شانس باقیمانده: {(item.chance - item.usedChance)}</label>
                         <label className='total'><BiCheck className='chk-icon' /> تعداد کل شانس: {item.chance}</label>
+                        <label className='exp-date'><BiCheck className='chk-icon' />انقضا: {item.expireDateSh}</label>
                     </Paper>
                 </Box>)}
-
             </Slider>
-
-        </div>
-
+        </div >
     );
 }
 export default Chances;

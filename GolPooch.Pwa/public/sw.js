@@ -1,9 +1,7 @@
 importScripts("https://www.gstatic.com/firebasejs/6.6.2/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/6.6.2/firebase-messaging.js");
-// importScripts('https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js');
-// importScripts('https://www.gstatic.com/firebasejs/5.7.2/firebase-messaging.js');
 
-var CACHE_NAME = 'golpooch-catch-1';
+var CACHE_NAME = 'golpooch-catch-0.1.5';
 var urlsToCache = [
   '/',
   './favicon.ico',

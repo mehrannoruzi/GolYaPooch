@@ -10,8 +10,8 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 'calc(100vh - 70px)',
-        paddingBottom: 30,
+        //height: 'calc(100vh - 70px)',
+        //paddingBottom: 30,
         '& svg': {
             fontSize: '60px',
             marginBottom: '15px'

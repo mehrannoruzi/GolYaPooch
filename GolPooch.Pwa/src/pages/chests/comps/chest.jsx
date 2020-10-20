@@ -40,9 +40,13 @@ const useStyles = makeStyles({
                 fontSize: '1.2rem',
                 width: '130px'
             },
-            '& .reject': {
+            '& .agree': {
                 display: 'flex',
                 justifyContent: 'flex-end',
+            },
+            '& .reject': {
+                display: 'flex',
+                justifyContent: 'flex-start',
                 '& button': {
                     backgroundColor: 'red'
                 }
@@ -80,6 +84,7 @@ const Chest = (props) => {
     const [modal, setModalState] = useRecoilState(fullBottomUpModalState);
     const [rState, setRState] = useRecoilState(chestState);
     useEffect(() => {
+        console.log('useEffect')
         const getData = async () => {
             setInProgress(true);
             let get = await chestSrv.getSingle(parseInt(props.id));
@@ -145,11 +150,11 @@ const Chest = (props) => {
                 <Paper className='btns'>
                     <Container>
                         <Grid container>
-                            <Grid item xs={6} className='agree'>
-                                <Button loading={sending} disabled={inProgress} onClick={() => _handleSpendChance()}>{strings.iAgree}</Button>
-                            </Grid>
                             <Grid item xs={6} className='reject'>
                                 <Button onClick={() => setModalState({ ...modal, open: false })} disabled={inProgress}>{strings.iReject}</Button>
+                            </Grid>
+                            <Grid item xs={6} className='agree'>
+                                <Button loading={sending} disabled={inProgress} onClick={() => _handleSpendChance()}>{strings.iAgree}</Button>
                             </Grid>
                         </Grid>
                     </Container>

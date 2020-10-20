@@ -238,6 +238,9 @@ Code: {code}</value>
   <data name="PurchaseNotAnyChanse" xml:space="preserve">
     <value>محصول خریداری شده شانس استفاده نشده ای ندارد.</value>
   </data>
+  <data name="PurchaseNotReFoundable" xml:space="preserve">
+    <value>مبلغ محصول خریداری شده شما به دلیل پایان تاریخ استفاده ویا استفاده از شانس های آن در قرعه کشی غیر قابل بازپرداخت می باشد.</value>
+  </data>
   <data name="PushSubscriberNotExist" xml:space="preserve">
     <value>دستگاهی برای ارسال پوش پیدا نشد</value>
   </data>
@@ -246,6 +249,9 @@ Code: {code}</value>
   </data>
   <data name="RecoverPassword" xml:space="preserve">
     <value>بازیابی رمز عبور</value>
+  </data>
+  <data name="ReFoundPurchase" xml:space="preserve">
+    <value>ReFoundPurchase</value>
   </data>
   <data name="SpendChanceSubject" xml:space="preserve">
     <value>شرکت در قرعه کشی</value>

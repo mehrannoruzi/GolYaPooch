@@ -8,25 +8,8 @@ import BottomUpModal from './atom/comps/BottomUpModal';
 import Start from './pages/start';
 import config from './config';
 import notificationSrv from './services/notificationSrv';
-import ticketSrv from './services/ticketSrv';
-import { useRecoilState } from 'recoil';
-import nLAtom from './atom/state/nLState';
 
 export default function () {
-    const [nLState, setNLState] = useRecoilState(nLAtom);
-    const getInitInfo = async () => {
-        if (localStorage.getItem(config.keys.token) == null)
-            return;
-
-        let getNewNotifCount = await notificationSrv.getNotReadCount();
-        console.log(getNewNotifCount);
-        if (getNewNotifCount.isSuccessful)
-            setNLState({ ...nLState, newNotificationsCount: getNewNotifCount.result });
-        let getTicketCount = await ticketSrv.getNotReadCount();
-        if (getTicketCount.isSuccessful)
-            setNLState({ ...nLState, newTicketCount: getTicketCount.result });
-    };
-
     useEffect(() => {
         if (navigator && navigator.serviceWorker)
             navigator.serviceWorker.addEventListener("message", (payload) => {
@@ -40,7 +23,6 @@ export default function () {
             });
         localStorage.removeItem(config.keys.banners);
         localStorage.removeItem(config.keys.chests);
-        getInitInfo();
     }, []);
 
     return (

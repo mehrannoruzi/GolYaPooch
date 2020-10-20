@@ -1,45 +1,40 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
+import { commaThousondSeperator } from '../../../core/utils';
+import strings from '../../../core/strings';
 
 const useStyles = makeStyles(() => ({
     root: {
         padding: 10,
         boxSizing: 'border-box',
-
-        '& figure': {
-            margin: 0,
-            width: '100%',
-            boxSizing: 'border-box',
-            border: 'solid 1px #ccc',
-            padding: '12px',
-            borderRadius: '3px',
+        '& .wrapper': {
+            boxShadow: "0px 1px 8px 0px #d2d2d2",
             position: 'relative',
-            '& svg': {
-                top: '-8px',
-                right: '-5px',
-                color: 'green',
-                fontSize: '20px',
-                position: 'absolute',
-                top: '-10px',
-                left: '-10px',
-                backgroundColor: '#fff'
+            display: 'flex',
+            flexDirection: 'column',
+            '& .hx': {
+                padding: '7.5px 5px',
+                margin: '0 0 5px 0',
+                fontSize: '11px',
+                textAlign: 'center',
+                borderBottom: '1px solid #ccc',
+                borderRadius: '5px',
+                borderBottomRightRradius: 0,
+                borderBottomLeftRadius: 0,
+
             },
-            '& .img-main': {
-                width: '100%',
-                maxHeight: '180px',
-                marginBottom: 5
-            },
-            '& figcaption': {
+            '& label': {
+                padding: 10,
                 display: 'flex',
-                flexDirection: 'column',
-                '& label': {
-                    padding: '5px 0',
-                    fontSize: '1.1rem'
+                justifyContent: 'space-between',
+                '& .chk-icon': {
+                    fontSize: '20px',
+                    color: 'green',
+                    verticalAlign: 'middle'
                 }
             }
         }
-
     }
 }));
 
@@ -47,16 +42,16 @@ const useStyles = makeStyles(() => ({
 const Item = (props) => {
     //Hooks
     const classes = useStyles();
-    const {item} = props;
+    const { item } = props;
     return (
         <Grid item xs={6} sm={6} lg={4} className={classes.root}>
-            <figure>
-                <img className='img-main' src={item.productOffer.imageUrl} alt={item.productOffer.product.text} />
-                <figcaption>
-                    <label className='total'>تعداد کل شانس: {item.chance}</label>
-                    <label className='remained'>شانس باقیمانده: {(item.chance - item.usedChance)}</label>
-                </figcaption>
-            </figure>
+            <Paper className='wrapper'>
+                <h4 className='hx'>{item.productOffer.product.text}</h4>
+                <label className='exp-date'><span>تاریخ:</span> {item.insertDateSh}</label>
+                <label className='price'><span>قیمت:</span> {commaThousondSeperator(item.productOffer.totalPrice)}{strings.moneyCurrency}</label>
+                <label className='remained'><span>شانس باقیمانده:</span> {(item.chance - item.usedChance)}</label>
+                <label className='total'><span>تعداد کل شانس:</span> {item.chance}</label>
+            </Paper>
         </Grid>
     );
 };

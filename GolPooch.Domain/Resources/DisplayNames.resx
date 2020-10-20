@@ -288,6 +288,9 @@
   <data name="PushId" xml:space="preserve">
     <value>کد پوش</value>
   </data>
+  <data name="ReFoundsPercent" xml:space="preserve">
+    <value>درصد بازپرداخت</value>
+  </data>
   <data name="RefreshToken" xml:space="preserve">
     <value>RefreshToken</value>
   </data>

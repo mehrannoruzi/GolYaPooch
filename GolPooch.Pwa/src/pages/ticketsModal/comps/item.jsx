@@ -10,6 +10,11 @@ const useStyles = makeStyles({
     notificationComp: {
         margin: 10,
         boxShadow: 'none',
+        '&.not-read': {
+            '& .heading': {
+                fontWeight: '600!important'
+            }
+        },
         '& .heading': {
             display: 'flex',
             alignItems: 'center',
@@ -42,26 +47,27 @@ const useStyles = makeStyles({
 
 
 export default function (props) {
+    const { item } = props;
     //Hooks
     const classes = useStyles();
+    const [itemIsRead, setIsRead] = React.useState(item.isRead);
     //Recoil
     const [nLState, setNLState] = useRecoilState(nLAtom);
-    const { item } = props;
 
+    const _handleChange = (panel) => {
+        if (props.onClick) props.onClick(panel);
+    }
 
     const _handleClick = async (item) => {
-        if (item.answer && !item.isRead) {
+        if (props.expanded !== `panel${item.ticketId}` && item.answer && !itemIsRead) {
+            setIsRead(true);
             let call = await ticketSrv.read(item.ticketId);
             if (call.isSuccessful)
                 setNLState({ ...nLState, newTicketCount: call.result });
         }
     }
 
-    const _handleChange = (panel) => {
-        if (props.onClick) props.onClick(panel);
-    }
-    
-    return (<Accordion className={`${classes.notificationComp} ${(item.isRead ? 'read' : 'not-read')}`}
+    return (<Accordion className={`${classes.notificationComp} ${(itemIsRead ? 'read' : 'not-read')}`}
         expanded={props.expanded} onChange={() => _handleChange(`panel${item.ticketId}`)}>
         <AccordionSummary
             onClick={() => _handleClick(item)}

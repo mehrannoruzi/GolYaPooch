@@ -2,8 +2,8 @@
     apiGateway: {
         API_KEY: "F7192259-AC89-4FBB-8033-ACE703B659FB",
         URL: "https://localhost:44367/",
-        //URL: "https://localhost:44318/",
-         //URL: "https://api.golpooch.com/"
+        //URL: "https://localhost:44300/",
+        //URL: "https://api.golpooch.com/"
     },
     salt: 'shahrooz_bazrafshan',
     keys: {
@@ -14,7 +14,8 @@
         products: 'products',
         chests: 'chests',
         fcmToken: 'fcmToken',
-        chances: 'chances'
+        chances: 'chances',
+        clickedBanners:'clicked_banners'
     }
 };
 
@@ -32,7 +33,9 @@ const prod = {
         products: 'products',
         chests: 'chests',
         fcmToken: 'fcmToken',
-        chances: 'chances'
+        chances: 'chances',
+        clickedBanners:'clicked_banners'
+
     }
 };
 

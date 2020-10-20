@@ -69,21 +69,21 @@ const Failed = (props) => {
             <Grid xs={12} item className='product mb-15'>
                 <Grid container>
                     <Grid item xs={12}>
-                        <h4>جزییات خرید</h4>
+                        <h4>{strings.detailProduct}</h4>
                     </Grid>
                     <Grid xs={4} item className='pic'>
                         <img className='img' src={info.ProductImageUrl} />
                     </Grid>
                     <Grid xs={8} item className='info'>
-                            <label className='mb-15'>{info.ProductText}</label>
-                            <label>تعداد شانس: {info.NewChance}</label>
+                        <label className='mb-15'>{info.ProductText}</label>
+                        <label>{strings.chanceCount} {info.NewChance}</label>
                     </Grid>
                     <Grid item xs={12} className='price'>
-                        <label>مبلغ قابل پرداخت: {commaThousondSeperator(info.Price)} {strings.moneyCurrency}</label>
+                        <label>{ strings.paymentPrice} {commaThousondSeperator(info.Price)} {strings.moneyCurrency}</label>
                     </Grid>
                 </Grid>
             </Grid>
-            <Link to='/nl/store' className={classes.linkToStore}>پرداخت مجدد</Link>
+            <Link to='/nl/store' className={classes.linkToStore}>{ strings.retryPayment}</Link>
         </Grid>
     );
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, FormControlLabel, Checkbox, Link, Box } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import strings, { validationStrings } from './../../../core/strings';
-import { validate } from './../../../core/utils';
+import { validate, convertToEn } from './../../../core/utils';
 import Button from './../../../atom/comps/Button';
 import userSrv from '../../../services/userSrv';
 import toastState from '../../../atom/state/toastState';
@@ -44,8 +44,7 @@ export default function () {
         var response = await userSrv.login(mobileNumber.value).finally(() => {
             setInProgress(false);
         });
-        if (!response.isSuccessful)
-            setToastState({ ...toast, open: true, severity: 'error', message: response.message });
+        if (!response.isSuccessful) setToastState({ ...toast, open: true, severity: 'error', message: response.message });
         else setAuthPageState({ activePanel: 'verify', mobileNumber: mobileNumber.value, transactionId: response.result });
     }
 
@@ -53,6 +52,14 @@ export default function () {
         setBottomUpModalState({ ...bottomUpModal, open: true, title: strings.rules, children: function () { return <p className='rules'>{strings.ruelsText}</p> } })
     }
 
+    const _handleMobileChange = (e) => {
+        let v = e.target.value;
+        if (v) {
+            v = convertToEn(v);
+            setMobileNumber({ value: v, error: false, errorMessage: '' })
+        }
+
+    }
     return (
         <div id='comp-login' className='container'>
             <Box mb={4} lineHeight={2}>
@@ -68,7 +75,7 @@ export default function () {
                     type="tel"
                     label={strings.mobileNumber}
                     value={mobileNumber.value}
-                    onChange={(e) => setMobileNumber({ value: e.target.value, error: false, errorMessage: '' })}
+                    onChange={_handleMobileChange}
                     helperText={mobileNumber.errorMessage}
                     style={{ fontFamily: 'iransans' }}
                 />

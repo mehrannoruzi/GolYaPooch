@@ -19,6 +19,8 @@ const theme = createMuiTheme({
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 function RTL(props) {
+  //Redirect http to https
+  //if (window.location.origin.startsWith("http://")) window.location.replace(window.location.href.replace("http://", "https://"));
   return (
     <StylesProvider jss={jss}>
       {props.children}
