@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
     root: {
         '& .t-body': {
             overflowY: 'auto',
-            maxHeight: 'calc(100vh - 224px)'
+            maxHeight: 'calc(100vh - 235px)'
         }
     },
 
@@ -63,9 +63,7 @@ const Most = () => {
         <Grid xs={12} item className='t-body' onScroll={_handleScroll}>
             {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoWinner} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
-            {(inProgress && pageNumber === 1) ? [0, 1].map((x, idx) => <Grid key={idx} item xs={6} className={classes.loaderChance}>
-                <Skeleton variant='rect' className='w-100' height={45} />
-            </Grid>) : null}
+            {(inProgress && pageNumber === 1) ? [0, 1].map((x, idx) => <Skeleton key={idx} variant='rect' className='w-100 mb-15' height={45} />) : null}
         </Grid>
     </Grid>);
 }

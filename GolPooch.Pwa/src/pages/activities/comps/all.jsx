@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
         backgroundColor: '#fff',
         paddingTop: 7.5,
         paddingBottom: 7.5,
-        height: 'calc(100vh - 205px)',
+        height: 'calc(100vh - 250px)',
         overflowY: 'auto',
         '& .MuiPaper-root': {
             boxShadow: "0px 1px 8px 0px #d2d2d2",
@@ -68,9 +68,7 @@ const All = () => {
         <Grid container className={classes.root} onScroll={_handleScroll}>
             {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoPackage} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
-            {(inProgress && pageNumber === 1) ? [0, 1, 2, 3].map((x, idx) => <Grid key={idx} item xs={6} className={classes.loaderChance}>
-                <Skeleton variant='rect' className='w-100' height={164} />
-            </Grid>) : null}
+            {(inProgress && pageNumber === 1) ? [0, 1, 2, 3].map((x, idx) =>  <Skeleton key={idx} variant='rect' className='w-100 mb-15' height={45} />) : null}
         </Grid>
     );
 };

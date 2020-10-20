@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, Paper, Container } from '@material-ui/core';
 import Banners from '../../atom/comps/Banners';
@@ -7,6 +7,7 @@ import MostWinners from './comps/most';
 import strings from '../../core/strings';
 import { IoMdFlash } from 'react-icons/io';
 import { HiSortDescending } from 'react-icons/hi';
+
 const useStyles = makeStyles(() => ({
     root: {
         backgroundColor: '#fff',
@@ -75,9 +76,7 @@ const Winners = () => {
                         index={1}
                         hidden={value !== 1}
                         id='all-packages'>
-                        <MostWinners />ّ
-
-                </div>
+                        <MostWinners /></div>
                 </div>
             </Container>
 

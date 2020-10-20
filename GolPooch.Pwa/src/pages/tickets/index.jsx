@@ -1,39 +1,59 @@
-﻿import React, { useState, useReducer, useEffect } from 'react';
-//import DatePicker from 'react-datepicker2';
-import EditIcon from '@material-ui/icons/Edit';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { makeStyles, Paper, Container, Grid, TextField, InputLabel, Select, MenuItem, FormControl, FormHelperText, Box } from '@material-ui/core';
-import toastState from '../../atom/state/toastState';
-import strings, { validationStrings } from './../../core/strings';
+﻿import React, { useState, useEffect } from 'react';
+import { BsPlus } from 'react-icons/bs';
+import { useRecoilState } from 'recoil';
 import bLState from '../../atom/state/bLState';
-import { validate } from './../../core/utils';
-import Button from './../../atom/comps/Button';
-import userSrv from '../../services/userSrv';
+import { useSetRecoilState } from 'recoil';
+import { makeStyles, Container, Fab } from '@material-ui/core';
+import toastState from '../../atom/state/toastState';
+import strings from './../../core/strings';
+import ticketSrv from '../../services/ticketSrv';
+import EmptyRecord from '../../atom/comps/EmptyRecord';
+import Item from './comps/item';
+import { Skeleton } from '@material-ui/lab';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
-
+        padding: '7.5px 0',
+        maxHeight: 'calc(100vh - 50px)',
+        boxSizing: 'border-box',
+        overflowY: 'auto'
+    },
+    loaderItem: {
+        width: '100%',
+        margin: '10px 0',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    btnAdd: {
+        position: 'fixed',
+        bottom: '15px',
+        left: '15px',
+        '& svg': {
+            fontSize: '20px'
+        }
     }
 });
 
-
-const inputs = ["firstName", "lastName", "email", "region", "gender", "birthdateSh", "intruducerId"];
-const Profile = () => {
+const Tickets = () => {
     const classes = useStyles();
+    const history = useHistory();
     const [inProgress, setInProgress] = useState(true);
     const [items, setItems] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [isBottom, setIsBottom] = useState(true);
-    const [toast, setToastState] = useRecoilState(toastState);
-    const [inProgress, setInProgress] = useState(false);
+    const setBLState = useSetRecoilState(bLState);
+
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
 
     useEffect(() => {
+        setBLState((state) => ({ ...state, title: strings.tickets }));
         if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);
-                let get = await notificationSrv.get(12, pageNumber);
+                let get = await ticketSrv.get(12, pageNumber);
 
                 if (get.isSuccessful) {
                     setItems([...items, ...get.result.items]);
@@ -49,23 +69,25 @@ const Profile = () => {
 
     }, [isBottom]);
 
-    function handleScroll(e) {
-        let element = e.target
+    function _handleScroll(e) {
+        let element = e.target;
         if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
-            console.log('fired');
             setIsBottom(true);
         }
     }
 
     return (
-        <div id='page-profile' className={classes.profilePage}>
+        <div className={classes.root} onScroll={_handleScroll}>
             {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
-            {items.map((item, idx) => <Item key={idx} item={item} expanded={expanded === `panel${item.notificationId}`} onClick={_handleItemClick} />)}
+            {items.map((item, idx) => <Item key={idx} item={item} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
-                <Skeleton variant='rect' height={36} width={48} className='avatar' />
-                <Skeleton className='subject' /></Container>) : null}
+                <Skeleton className='w-100' />
+            </Container>) : null}
+            <Fab className={classes.btnAdd} color="primary" aria-label="add" onClick={() => history.push('/bl/ticket?add=true')}>
+                <BsPlus />
+            </Fab>
         </div>
     );
 };
 
-export default Profile;
+export default Tickets

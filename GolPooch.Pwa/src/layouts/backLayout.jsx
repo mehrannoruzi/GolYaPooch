@@ -9,7 +9,8 @@ import ProductPage from '../pages/product';
 import { useHistory } from "react-router-dom";
 import strings from '../core/strings';
 import PrivateRoute from '../atom/comps/PrivateRoute';
-
+import TicketsPage from '../pages/tickets';
+import TicketPage from '../pages/ticket';
 const useStyles = makeStyles({
     layoutBL: {
         minHeight: '100vh',
@@ -63,6 +64,8 @@ const BackLayout = () => {
             <Switch>
                 <PrivateRoute exact path={`${path}/profile`} component={Profile} />
                 <PrivateRoute exact path={`${path}/product/:id`} component={ProductPage} />
+                <PrivateRoute exact path={`${path}/ticket`} component={TicketPage} />
+                <PrivateRoute exact path={`${path}/tickets`} component={TicketsPage} />
             </Switch>
         </div >
 
