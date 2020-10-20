@@ -97,9 +97,9 @@ const Settings = () => {
                     </Container>
                 </li>
                 <NavItem href='/bl/supportcenter' icon={BiSupport} title={strings.supportCenter} />
-                <NavItem href='/bl/aboutus' icon={BsInfoCircle} title={strings.aboutUs} />
-                <NavItem href='/bl/rules' icon={BsFileEarmarkRuled} title={strings.rules} />
-                <NavItem href='/bl/sendticket' icon={GiTicket} title={strings.sendTicket} />
+                <NavItem href='/aboutus.html' redirect={true} icon={BsInfoCircle} title={strings.aboutUs} />
+                <NavItem href='/rules.html' redirect={true} icon={BsFileEarmarkRuled} title={strings.rules} />
+                <NavItem href='/bl/tickets' icon={GiTicket} title={strings.sendTicket} />
                 <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
                 <li className='version'>
                     <span>{strings.appVersion} {packageJson.version}</span>

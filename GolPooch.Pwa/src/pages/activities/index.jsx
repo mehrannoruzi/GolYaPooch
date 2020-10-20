@@ -69,17 +69,13 @@ const Activities = () => {
                         index={0}
                         hidden={value !== 0}
                         id='active-packages'>
-                        <ActivePurchase />
-
-                    </div>
+                        <ActivePurchase /></div>
                     <div
                         role="tabpanel"
                         index={1}
                         hidden={value !== 1}
                         id='all-packages'>
-                        <AllPurchase />ّ
-
-                    </div>
+                        <AllPurchase /></div>
                 </div>
             </Container>
 

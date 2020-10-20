@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
         backgroundColor: '#fff',
         paddingTop: 7.5,
         paddingBottom: 7.5,
-        height: 'calc(100vh - 205px)',
+        height: 'calc(100vh - 250px)',
         overflowY: 'auto',
         '& .MuiPaper-root': {
             boxShadow: "0px 1px 8px 0px #d2d2d2",

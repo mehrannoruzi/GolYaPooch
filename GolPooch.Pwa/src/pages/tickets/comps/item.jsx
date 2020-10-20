@@ -1,48 +1,20 @@
 import React from 'react';
-import { makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails, Button } from '@material-ui/core';
-import { FcExpand } from 'react-icons/fc';
-import notificationSrv from './../../../services/notificationSrv';
-import { BiTimeFive } from 'react-icons/bi';
-import nLAtom from '../../../atom/state/nLState';
-import { useRecoilState } from 'recoil';
+import { makeStyles, Container } from '@material-ui/core';
+import { useHistory, Link } from 'react-router-dom';
+import { FiChevronLeft } from 'react-icons/fi';
 
 const useStyles = makeStyles({
-    notificationComp: {
-        margin: 10,
-        boxShadow: 'none',
-        '& .heading': {
+    root: {
+        '& .row': {
+            paddingTop: 10,
+            paddingBottom: 10,
             display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
             alignItems: 'center',
-            '& .img-icon': {
-                width: 36
-            },
-            '& .subject': {
-                margin: '0 10px'
+            '& svg': {
+                fontSize: 20
             }
-        },
-        '& .MuiAccordionDetails-root': {
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            '& .txt': {
-                textAlign: 'justify',
-                width: '100%',
-                marginBottom: '15px',
-                fontSize: '11px'
-            },
-            '& .img-full': {
-                width: '100%',
-                marginBottom: '15px'
-            }
-        },
-
-    },
-    time: {
-        textAlign: 'right',
-        width: '100%',
-        direction: 'rtl',
-        '& svg': {
-            verticalAlign: 'middle'
         }
     }
 });
@@ -54,14 +26,10 @@ export default function (props) {
     //Recoil
     const { item } = props;
 
-    const _handleClick = async (id, isRead) => {
-
-    }
-    
-    return (<Grid item xs={12} className={classes.root} onClick={}>
-        <Typography className='heading' component='h4'>
-            <img className='img-icon' alt="Remy Sharp" src={item.iconUrl || item.imageUrl} />
-            <span className='subject'>{item.subject}</span>
-        </Typography>
-    </Grid>);
+    return (<Link className={classes.root} to={`/bl/ticket?add=false&text=${item.text}&answer=${item.answer||''}`}>
+        <Container className='row'>
+            <span className='text'>{item.text}</span>
+            <FiChevronLeft className='arrow-left' />
+        </Container>
+    </Link>);
 }

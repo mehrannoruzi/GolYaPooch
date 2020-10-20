@@ -28,25 +28,6 @@ function RTL(props) {
   );
 }
 
-//========================================================
-//==== register service worker
-//========================================================
-
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', function () {
-//     //var currentUrl = window.location;
-//     navigator.serviceWorker.register(process.env.PUBLIC_URL + '/sw.js', { scope: '/' }).then(function (registration) {
-//       console.log('Worker registration successful', registration.scope);
-//     }, function (err) {
-//       console.log('Worker registration failed', err);
-//     }).catch(function (err) {
-//       console.log(err);
-//     });
-//   });
-// } else {
-//   console.log('Service Worker is not supported by browser.');
-// }
-
 
 ReactDOM.render(
   <RecoilRoot>

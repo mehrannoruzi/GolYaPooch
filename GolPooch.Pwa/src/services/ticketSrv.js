@@ -2,7 +2,7 @@ import http from '../core/network';
 import addr from '../core/network/addr';
 
 export default class notificationSrv {
-    
+
     static async get(pageSize, pageNumber) {
         let call = await http.get(addr.getTickets(pageSize, pageNumber));
         return call;
@@ -15,6 +15,11 @@ export default class notificationSrv {
 
     static async getNotReadCount() {
         let call = await http.get(addr.getUnReadTicketCount);
+        return call;
+    }
+
+    static async add(text) {
+        let call = await http.post(addr.addTicket, { text: text });
         return call;
     }
 }

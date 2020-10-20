@@ -3,38 +3,31 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useRecoilState } from 'recoil';
 import { Skeleton } from '@material-ui/lab';
 import { Grid } from '@material-ui/core';
-import purchaseSrv from '../../../services/purchaseSrv';
 import toastState from '../../../atom/state/toastState';
 import EmptyRecord from '../../../atom/comps/EmptyRecord';
 import strings from '../../../core/strings';
 import Item from './item';
-
+import winnerSrv from './../../../services/winnerSrv';
+import TableHeader from '../comps/header';
 const useStyles = makeStyles(() => ({
     root: {
-        backgroundColor: '#fff',
-        paddingTop: 7.5,
-        paddingBottom: 7.5,
-        height: 'calc(100vh - 205px)',
-        overflowY: 'auto',
-        '& .MuiPaper-root': {
-            boxShadow: "0px 1px 8px 0px #d2d2d2",
-            borderRadius: 5,
+        '& .t-body': {
+            overflowY: 'auto',
+            maxHeight: 'calc(100vh - 234px)'
         }
     },
-    loaderChance: {
-        padding: 10,
-        with: 170
-    }
+
 }));
 
 
-const Active = () => {
+const Latest = () => {
     //Hooks
     const classes = useStyles();
     const [isBottom, setIsBottom] = useState(true);
     const [items, setItems] = useState([]);
     const [inProgress, setInProgress] = useState(true);
     const [pageNumber, setPageNumber] = useState(1);
+
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
 
@@ -46,17 +39,18 @@ const Active = () => {
     }
 
     useEffect(() => {
-        if (isBottom && (items.length === 0 || items.length > 12)) {
+        if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);
-                let get = await purchaseSrv.getActive(12, pageNumber);
+                let get = await winnerSrv.getLatest(12, pageNumber);
+
                 if (get.isSuccessful) {
-                    setItems([...items, ...get.result.items]);
-                    if (get.result.items.length > 0)
+                    setItems([...items, ...get.result]);
+                    if (get.result.length > 0)
                         setPageNumber(pageNumber + 1);
                 }
                 else setToastState({ ...toast, open: true, severity: 'error', message: get.message });
-                setInProgress(false);
+                //setInProgress(false);
                 setIsBottom(false);
             }
             getDate();
@@ -64,15 +58,13 @@ const Active = () => {
 
     }, [isBottom]);
 
-    return (
-        <Grid container className={classes.root} onScroll={_handleScroll}>
-            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
+    return (<Grid container className={classes.root}>
+        <TableHeader />
+        <Grid xs={12} item className='t-body' onScroll={_handleScroll}>
+            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoWinner} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
-            {(inProgress && pageNumber === 1) ? [0, 1].map((x, idx) => <Grid key={idx} item xs={6} className={classes.loaderChance}>
-                <Skeleton variant='rect' className='w-100' height={300} />
-            </Grid>) : null}
+            {(inProgress && pageNumber === 1) ? [0, 1, 2].map((x, idx) => <Skeleton key={idx} variant='rect' className='w-100 mb-15' height={45} />) : null}
         </Grid>
-    );
-};
-
-export default Active;
+    </Grid>);
+}
+export default Latest;
