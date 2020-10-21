@@ -24,6 +24,7 @@ namespace GolPooch.Service.Implements
             try
             {
                 model.UserId = userId;
+                model.IsRead = true;
                 await _appUow.TicketRepo.AddAsync(model);
                 var saveResult = await _appUow.ElkSaveChangesAsync();
                 response.Message = saveResult.Message;
@@ -102,7 +103,7 @@ namespace GolPooch.Service.Implements
                 response.Result = await _appUow.TicketRepo.CountAsync(
                     new QueryFilter<Ticket>
                     {
-                        Conditions = x => x.UserId == userId && !x.IsRead && x.AnswerAdminId == null
+                        Conditions = x => x.UserId == userId && !x.IsRead
                     });
 
                 response.IsSuccessful = true;
