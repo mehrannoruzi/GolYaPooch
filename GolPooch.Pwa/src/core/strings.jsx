@@ -95,26 +95,30 @@ const strings = {
     retryPayment: 'پرداخت مجدد',
     yourChance: 'میزان شانس شما در این قرعه کشی',
     allParticipantCount: 'تعداد کل شرکت کنندگان:',
-    participantRemainCount:'تعداد باقیمانده تا قرعه کشی:',
+    participantRemainCount: 'تعداد باقیمانده تا قرعه کشی:',
     active: 'فعال',
     all: 'همه',
-    joinInLottery:'شرکت در قرعه کشی',
-    balance:'بالانس',
-    latest:'اخیر',
-    most:'بیشترین',
-    fullName:'نام و نام خانوادگی',
-    participateCount:'تعداد شرکت',
-    winCount:'تعداد برد',
-    chance:'شانس',
-    thereIsNoWinner:'برنده ای وجود ندارد',
-    defaultTicketText:`کاربر گرامی
-    شما میتنوانید در این بخش سوالات خود و نکاتی که برای شما ابهام انگیر است را بپرسید تادر اسرع وقت پاسخ خود را دریافت نمایید
+    joinInLottery: 'شرکت در قرعه کشی',
+    balance: 'بالانس',
+    latest: 'اخیر',
+    most: 'بیشترین',
+    fullName: 'نام و نام خانوادگی',
+    participateCount: 'تعداد شرکت',
+    winCount: 'تعداد برد',
+    chance: 'شانس',
+    thereIsNoWinner: 'برنده ای وجود ندارد',
+    defaultTicketText: `کاربر گرامی
+    شما میتوانید در این بخش سوالات خود و نکاتی که برای شما ابهام انگیر است را بپرسید تادر اسرع وقت پاسخ خود را دریافت نمایید
     با تشکر`,
-    messgae:'پیغام',
-    send:'ارسال',
-    yourAnswerAppearsHere:'پاسخ شما بزودی در همینجا قابل رویت خواهد بود',
-    tickets:'تیکت ها',
-    addTicket:'افزودن تیکت',
-    viewTicket:'مشاهده تیکت'
+    addTicketPlaceHolder: 'پیامی بنویسید ...',
+    send: 'ارسال',
+    yourAnswerAppearsHere: `این پیام توسط سیستم ارسال شده است
+---------------------------------
+
+    پاسخ شما بزودی در همینجا قابل رویت خواهد بود
+    `,
+    tickets: 'تیکت ها',
+    addTicket: 'افزودن تیکت',
+    viewTicket: 'مشاهده تیکت'
 };
 export default strings;

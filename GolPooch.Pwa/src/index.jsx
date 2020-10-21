@@ -10,6 +10,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { create } from 'jss';
 import rtl from 'jss-rtl';
+import { Integrations } from "@sentry/tracing";
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+    dsn: "https://cbec6b43c62c468baa0cb14f4ed5b238@o463020.ingest.sentry.io/5467716",
+    integrations: [
+        new Integrations.BrowserTracing(),
+    ],
+    tracesSampleRate: 1.0,
+});
 
 const theme = createMuiTheme({
   direction: 'rtl',

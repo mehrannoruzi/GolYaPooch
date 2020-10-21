@@ -12,6 +12,7 @@ import { BiSend } from 'react-icons/bi';
 import bLState from '../../atom/state/bLState';
 import { useSetRecoilState } from 'recoil';
 import SupportImage from '../../assets/images/support.png';
+
 const useStyles = makeStyles({
     root: {
         backgroundColor: '#eee',
@@ -39,8 +40,8 @@ const useStyles = makeStyles({
             justifyContent: 'flex-end',
         },
         '& .answer': {
-            backgroundColor: '#d4edda',
-            color: '#155724'
+            backgroundColor: '#FFFDE7',
+            color: '#000'
         },
         '& .add-box': {
             position: 'fixed',
@@ -49,12 +50,18 @@ const useStyles = makeStyles({
             bottom: 0,
             display: 'flex',
             flexDirection: 'row',
-            borderTop: 'solid 1px #ccc',
+            height: 40,
+            background: '#fff',
+            padding: 5,
+
             '& textarea': {
                 flex: 1,
                 border: 'none',
-                borderRight: 'solid 1px #ccc',
-                padding: '7.5px 5px'
+                float: 'none',
+                boxShadow: 'none',
+                borderRadius: 0,
+                padding: 8,
+                resize: 'none',
 
             },
             '& .btn-add': {
@@ -63,6 +70,7 @@ const useStyles = makeStyles({
                 color: '#666',
                 width: 50,
                 padding: 5,
+                boxShadow: 'none',
                 '& svg': {
                     fontSize: 20,
                     transform: 'rotate(180deg)'
@@ -70,8 +78,8 @@ const useStyles = makeStyles({
             }
         },
         '& .img-support': {
-            width: '30px',
-            height: '30px',
+            width: '48px',
+            height: '48px',
             margin: '15px 0 15px 10px'
         }
     },
@@ -144,14 +152,13 @@ const Ticket = () => {
                 {answer ? <div className='answer-wrapper'>
                     <Paper className='comment answer'>
                         <p>{answer}</p>
-                        <div className={classes.arrowLeft}></div>
                     </Paper>
                     <img className='img-support' src={SupportImage} />
                 </div> : null}
             </Container>
             {isEmpty ?
                 <div className='add-box'>
-                    <TextareaAutosize onChange={_handleChange} placeholder={strings.messgae} />
+                    <textarea onChange={_handleChange} placeholder={strings.addTicketPlaceHolder} />
                     <Button disabled={inProgress} loading={inProgress} className='btn-add' onClick={_handleSubmit}>
                         <BiSend />
                     </Button>

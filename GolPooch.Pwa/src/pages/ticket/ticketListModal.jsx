@@ -1,60 +1,50 @@
-﻿import React, { useState, useEffect } from 'react';
-import { BsPlus } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
-import bLState from '../../atom/state/bLState';
-import { useSetRecoilState } from 'recoil';
-import { makeStyles, Container, Fab } from '@material-ui/core';
-import toastState from '../../atom/state/toastState';
-import strings from './../../core/strings';
-import ticketSrv from '../../services/ticketSrv';
-import EmptyRecord from '../../atom/comps/EmptyRecord';
-import Item from './comps/item';
+import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { useHistory } from 'react-router-dom';
+import { makeStyles, Container } from '@material-ui/core';
+import { useRecoilState } from 'recoil';
+import ticketSrv from '../../services/ticketSrv';
+import toastState from '../../atom/state/toastState';
+import Item from './comps/ticketListModalItem';
+import EmptyRecord from '../../atom/comps/EmptyRecord';
+import strings from '../../core/strings';
 
 const useStyles = makeStyles({
-    root: {
-        padding: '7.5px 0',
-        maxHeight: 'calc(100vh - 50px)',
+    ticketsComp: {
         boxSizing: 'border-box',
+        paddingBottom: '20px',
+        marginTop: 20,
+        maxHeight: 'calc(100vh - 50px)',
         overflowY: 'auto'
     },
     loaderItem: {
-        width: '100%',
-        margin: '10px 0',
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    btnAdd: {
-        position: 'fixed',
-        bottom: '15px',
-        right: '15px',
-        '& svg': {
-            fontSize: '20px'
+        alignItems: 'center',
+        marginBottom: 15,
+        '& .subject': {
+            margin: '0 15px',
+            width: '100%',
+            height: 20
         }
     }
 });
 
-const Tickets = () => {
+const TicketListModal = () => {
+    //Hooks
     const classes = useStyles();
-    const history = useHistory();
     const [inProgress, setInProgress] = useState(true);
     const [items, setItems] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [isBottom, setIsBottom] = useState(true);
-    const setBLState = useSetRecoilState(bLState);
-
+    const [expanded, setExpanded] = React.useState(false);
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
 
     useEffect(() => {
-        setBLState((state) => ({ ...state, title: strings.tickets }));
         if (isBottom && (items.length === 0 || items.length > 10)) {
             const getDate = async () => {
                 setInProgress(true);
                 let get = await ticketSrv.get(12, pageNumber);
-
+                console.log(get);
                 if (get.isSuccessful) {
                     setItems([...items, ...get.result.items]);
                     if (get.result.items.length > 0)
@@ -69,25 +59,28 @@ const Tickets = () => {
 
     }, [isBottom]);
 
-    function _handleScroll(e) {
-        let element = e.target;
+    function handleScroll(e) {
+        let element = e.target
         if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
             setIsBottom(true);
         }
     }
 
+    const _handleItemClick = (panel) => {
+        if(panel===expanded) setExpanded(false);
+        else setExpanded(panel);
+    }
+
     return (
-        <div className={classes.root} onScroll={_handleScroll}>
-            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
-            {items.map((item, idx) => <Item key={idx} item={item} />)}
+        <div id='comp-tickets' className={classes.ticketsComp} onScroll={handleScroll}>
+            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoTicket} /> : null}
+            {items.map((item, idx) => <Item key={idx} item={item}  expanded={expanded === `panel${item.ticketId}`} onClick={_handleItemClick} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
-                <Skeleton className='w-100' />
-            </Container>) : null}
-            <Fab className={classes.btnAdd} color="primary" aria-label="add" onClick={() => history.push('/bl/ticket?add=true')}>
-                <BsPlus />
-            </Fab>
+                <Skeleton variant='rect' height={36} width={48} className='avatar' />
+                <Skeleton className='subject' /></Container>) : null}
         </div>
+
     );
 };
 
-export default Tickets
+export default TicketListModal;

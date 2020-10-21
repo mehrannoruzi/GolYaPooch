@@ -9,14 +9,15 @@ import ProductPage from '../pages/product';
 import { useHistory } from "react-router-dom";
 import strings from '../core/strings';
 import PrivateRoute from '../atom/comps/PrivateRoute';
-import TicketsPage from '../pages/tickets';
-import TicketPage from '../pages/ticket';
+import TicketList from '../pages/ticket/ticketList';
+import Ticket from '../pages/ticket';
+ 
 const useStyles = makeStyles({
     layoutBL: {
         minHeight: '100vh',
         boxSizing: 'border-box',
         '& header': {
-            backgroundColor: '#212a5f',
+            backgroundColor: '#172434',
             color: '#FFF',
             height: 50,
             justifyContent: 'center',
@@ -64,8 +65,8 @@ const BackLayout = () => {
             <Switch>
                 <PrivateRoute exact path={`${path}/profile`} component={Profile} />
                 <PrivateRoute exact path={`${path}/product/:id`} component={ProductPage} />
-                <PrivateRoute exact path={`${path}/ticket`} component={TicketPage} />
-                <PrivateRoute exact path={`${path}/tickets`} component={TicketsPage} />
+                <PrivateRoute exact path={`${path}/addTicket`} component={Ticket} />
+                <PrivateRoute exact path={`${path}/ticketList`} component={TicketList} />
             </Switch>
         </div >
 

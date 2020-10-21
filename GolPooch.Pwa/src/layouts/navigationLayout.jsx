@@ -11,24 +11,27 @@ import nLState from '../atom/state/nLState';
 import { useRecoilState } from 'recoil';
 import { useHistory } from "react-router-dom";
 import { FiUser, FiMessageSquare, FiPlusSquare } from 'react-icons/fi';
-import { RiNotification3Line, RiDashboardFill, RiBarChart2Line, RiMedalLine } from 'react-icons/ri';
+import { GoListOrdered } from 'react-icons/go';
+import { RiNotification3Line, RiDashboardFill, RiBarChart2Line, RiMedalLine, RiShoppingBasket2Line } from 'react-icons/ri';
 import { AiOutlineSetting } from 'react-icons/ai';
 import strings from '../core/strings';
 import FullBottomUpModal from '../atom/comps/FullBottomUpModal';
 import fullBottomUpModalState from '../atom/state/fullBottomUpModalState';
 import NotificationsPage from '../pages/notificationsModal';
-import Tickets from '../pages/ticketsModal';
+import TicketListModal from '../pages/ticket/ticketListModal';
+import { BiPurchaseTagAlt } from 'react-icons/bi';
+ 
 
 const navs = [
     {
         label: strings.pageName_store,
-        icon: RiDashboardFill,
+        icon: RiShoppingBasket2Line,
         path: 'store',
         comp: StorePage
     },
     {
         label: strings.pageName_activities,
-        icon: RiBarChart2Line,
+        icon: BiPurchaseTagAlt,
         path: 'mypackages',
         comp: ActivitiesPage
     },
@@ -40,7 +43,7 @@ const navs = [
     },
     {
         label: strings.pageName_leaderboard,
-        icon: RiMedalLine,
+        icon: GoListOrdered,
         path: 'winners',
         comp: Winners
     },
@@ -150,7 +153,7 @@ const NavigationLayout = () => {
                                     ...modal,
                                     open: true,
                                     title: 'تیکت ها',
-                                    children: Tickets
+                                    children: TicketListModal
                                 })}>
                                     <FiMessageSquare />
                                 </IconButton>
