@@ -7,6 +7,7 @@ import AllPurchase from './comps/all';
 import Balance from './comps/balance';
 import strings from '../../core/strings';
 import { BsListCheck, BsList } from 'react-icons/bs';
+import { FiShoppingCart, FiShoppingBag } from 'react-icons/fi';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -52,25 +53,22 @@ const Activities = () => {
             <Banners pageName="Activities" location="top" />
             <Container>
                 <Balance />
-                <Paper className='mb-15'>
-                    <Tabs
-                        value={value}
-                        onChange={handleChange}
-                        indicatorColor="primary"
-                        textColor="primary">
-                        <Tab label={strings.activePurchase} icon={<BsListCheck />} />
-                        <Tab label={strings.allPurchase} icon={<BsList />} />
-                    </Tabs>
-                </Paper>
-
-                <div>
+                <Tabs
+                    value={value}
+                    className='mb-15'
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="primary">
+                    <Tab label={strings.activePurchase} icon={<FiShoppingCart />} />
+                    <Tab label={strings.allPurchase} icon={<FiShoppingBag />} />
+                </Tabs>
+                <>
                     <div
                         role="tabpanel"
                         index={0}
                         hidden={value !== 0}
                         id='active-packages'>
                         <ActivePurchase />
-
                     </div>
                     <div
                         role="tabpanel"
@@ -78,9 +76,8 @@ const Activities = () => {
                         hidden={value !== 1}
                         id='all-packages'>
                         <AllPurchase />ّ
-
                     </div>
-                </div>
+                </>
             </Container>
 
             <Banners pageName="Activities" location="bottom" />

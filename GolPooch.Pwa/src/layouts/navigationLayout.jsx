@@ -94,7 +94,7 @@ const useStyles = makeStyles({
         width: '100%',
         boxShadow: '0px 1px 7px 0px rgb(167 167 167 / 50%)',
         position: 'fixed',
-        bottom: 0,
+        bottom: -1,
         left: 0,
         right: 0,
         '& button': {

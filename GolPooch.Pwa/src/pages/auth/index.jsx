@@ -26,6 +26,7 @@ const Authorization = () => {
     //Recoil
     const authState = useRecoilValue(authPageState);
     const [nlState, setNLState] = useRecoilState(nLAtom);
+
     useEffect(() => {
         setNLState({ ...nlState, activeBotton: 2 });
     }, []);

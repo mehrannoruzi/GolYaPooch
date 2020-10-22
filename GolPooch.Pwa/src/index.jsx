@@ -10,22 +10,30 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { create } from 'jss';
 import rtl from 'jss-rtl';
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+
+Sentry.init({
+    dsn: "https://cbec6b43c62c468baa0cb14f4ed5b238@o463020.ingest.sentry.io/5467716",
+    integrations: [
+        new Integrations.BrowserTracing(),
+    ],
+    tracesSampleRate: 1.0,
+});
 
 const theme = createMuiTheme({
-  direction: 'rtl',
+    direction: 'rtl',
 });
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 function RTL(props) {
-  //Redirect http to https
-  //if (window.location.origin.startsWith("http://")) window.location.replace(window.location.href.replace("http://", "https://"));
-  return (
-    <StylesProvider jss={jss}>
-      {props.children}
-    </StylesProvider>
-  );
+    return (
+        <StylesProvider jss={jss}>
+            {props.children}
+        </StylesProvider>
+    );
 }
 
 //========================================================
@@ -49,13 +57,13 @@ function RTL(props) {
 
 
 ReactDOM.render(
-  <RecoilRoot>
-    <RTL>
-      <MuiThemeProvider theme={theme}>
-        <App />
-      </MuiThemeProvider>
-    </RTL>
-  </RecoilRoot>,
-  document.getElementById('root'));
+    <RecoilRoot>
+        <RTL>
+            <MuiThemeProvider theme={theme}>
+                <App />
+            </MuiThemeProvider>
+        </RTL>
+    </RecoilRoot>,
+    document.getElementById('root'));
 
 //registerServiceWorker();

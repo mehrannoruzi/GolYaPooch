@@ -15,7 +15,7 @@
         chests: 'chests',
         fcmToken: 'fcmToken',
         chances: 'chances',
-        clickedBanners:'clicked_banners'
+        clickedBanners: 'clicked_banners'
     }
 };
 
@@ -34,7 +34,7 @@ const prod = {
         chests: 'chests',
         fcmToken: 'fcmToken',
         chances: 'chances',
-        clickedBanners:'clicked_banners'
+        clickedBanners: 'clicked_banners'
 
     }
 };
@@ -43,6 +43,9 @@ const config = process.env.REACT_APP_STAGE === 'production'
     ? prod
     : dev;
 
+if (process.env.REACT_APP_STAGE === 'production') {
+    console.log = function () { };
+}
 export default {
     LOGIN_PAGE: "/el/auth",
     ...config

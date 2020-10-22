@@ -45,7 +45,7 @@ export default function () {
     //Hooks
     const [counterSetting, setCountSetting] = useState({
         minutes: 0,
-        seconds: 4,
+        seconds: 59,
         done: () => { setResendActive(true); }
     });
     const [redirectTo, setRedirectTo] = useState('');

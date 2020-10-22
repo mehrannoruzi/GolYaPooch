@@ -13,7 +13,6 @@ export default class Countdown extends Component {
        
         this.myInterval = setInterval(() => {
             const { seconds, minutes } = this.state
-            console.log(this.state);
             if (seconds > 0) {
                 this.setState(({ seconds }) => ({
                     seconds: seconds - 1
