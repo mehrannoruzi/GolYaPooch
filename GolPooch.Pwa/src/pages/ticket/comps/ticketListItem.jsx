@@ -15,7 +15,10 @@ const useStyles = makeStyles({
         backgroundColor: red[500],
     },
     root: {
-        marginTop: 10
+        marginTop: 10,
+        '& .icon': {
+            fontSize: 20
+        }
     },
     cardContent: {
         padding: 16,
@@ -34,11 +37,7 @@ export default function (props) {
         <Link to={`/bl/addticket?add=false&text=${item.text}&answer=${item.answer || ''}`}>
             <Card className={classes.root}>
                 <CardHeader
-                    avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar}>
-                            R
-                        </Avatar>
-                    }
+                    avatar={userInfo.avatar ? <Avatar src={userInfo.avatar} /> : <BiUser className='icon' />}
                     title={`${strings.ticketTitle} #${item.ticketId}`}
                     subheader={`${date.getHours()}:${date.getMinutes()} ${item.insertDateSh}`}
                 />
@@ -49,7 +48,7 @@ export default function (props) {
                 </CardContent>
 
                 {item.answer == null ?
-                    <Alert severity="error">{ strings.ticketNotAnswered}</Alert>
+                    <Alert severity="error">{strings.ticketNotAnswered}</Alert>
                     :
                     <Alert severity="success">{strings.ticketAnswered}</Alert>
                 }

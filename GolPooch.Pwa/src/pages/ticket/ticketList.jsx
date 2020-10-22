@@ -78,7 +78,7 @@ const TicketList = () => {
 
     return (
         <div className={classes.root} onScroll={_handleScroll}>
-            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoNotification} /> : null}
+            {!inProgress && items.length === 0 ? <EmptyRecord text={strings.thereIsNoTicket} /> : null}
             {items.map((item, idx) => <Item key={idx} item={item} />)}
             {(inProgress && pageNumber === 1) ? [0, 1, 2, 3, 4, 5, 6, 7, 9, 10].map((x, idx) => <Container key={idx} className={classes.loaderItem}>
                 <Skeleton className='w-100 ' height={100} />
