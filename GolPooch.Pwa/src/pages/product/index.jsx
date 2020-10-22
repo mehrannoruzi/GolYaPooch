@@ -13,6 +13,7 @@ import productAtom from '../../atom/state/productState';
 import bLState from '../../atom/state/bLState';
 import { useSetRecoilState } from 'recoil';
 
+
 const useStyles = makeStyles({
     productPage: {
         position: 'relative',
@@ -120,6 +121,7 @@ const Product = () => {
 
     return (
         <div id='page-product' className={classes.productPage}>
+            
             <Container>
                 <Grid container className='mb-15'>
                     <Grid item xs={12} className='info-wrapper'>

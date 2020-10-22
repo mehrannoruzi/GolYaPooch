@@ -39,6 +39,9 @@ namespace GolPooch.Domain.Entity
         [Display(Name = nameof(DisplayNames.IsFinished), ResourceType = typeof(DisplayNames))]
         public bool IsFinished { get; set; }
 
+        [Display(Name = nameof(DisplayNames.IsLock), ResourceType = typeof(DisplayNames))]
+        public bool IsLock { get; set; } = false;
+
         [Display(Name = nameof(DisplayNames.ExpirationDate), ResourceType = typeof(DisplayNames))]
         public DateTime ExpireDateMi { get; set; }
 

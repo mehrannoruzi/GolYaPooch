@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import userSrv from '../../services/userSrv';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
-import { BsFileEarmarkRuled, BsInfoCircle, BsPower } from 'react-icons/bs';
-import { BiSupport } from 'react-icons/bi';
+import { BsFileEarmarkRuled, BsInfoCircle, BsPower, BsFileText } from 'react-icons/bs';
+import { BiSupport, BiMessageSquareAdd } from 'react-icons/bi';
 import { AiOutlineAppstore } from 'react-icons/ai';
 import { BiUser } from 'react-icons/bi';
 import { GiTicket } from 'react-icons/gi';
@@ -97,9 +97,9 @@ const Settings = () => {
                     </Container>
                 </li>
                 <NavItem href='/bl/supportcenter' icon={BiSupport} title={strings.supportCenter} />
-                <NavItem href='/bl/aboutus' icon={BsInfoCircle} title={strings.aboutUs} />
-                <NavItem href='/bl/rules' icon={BsFileEarmarkRuled} title={strings.rules} />
-                <NavItem href='/bl/sendticket' icon={GiTicket} title={strings.sendTicket} />
+                <NavItem href='/aboutus.html' redirect={true} icon={BsInfoCircle} title={strings.aboutUs} />
+                <NavItem href='/rules.html' redirect={true} icon={BsFileText} title={strings.rules} />
+                <NavItem href='/bl/addTicket' icon={BiMessageSquareAdd} title={strings.sendTicket} />
                 <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
                 <li className='version'>
                     <span>{strings.appVersion} {packageJson.version}</span>

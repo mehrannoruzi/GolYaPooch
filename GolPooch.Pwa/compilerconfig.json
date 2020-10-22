@@ -6,5 +6,13 @@
   {
     "outputFile": "src/assets/styles/index.css",
     "inputFile": "src/assets/styles/index.scss"
+  },
+  {
+    "outputFile": "src/pages/product/style/index.css",
+    "inputFile": "src/pages/product/style/index.scss"
+  },
+  {
+    "outputFile": "src/pages/store/style/index.css",
+    "inputFile": "src/pages/store/style/index.scss"
   }
 ]

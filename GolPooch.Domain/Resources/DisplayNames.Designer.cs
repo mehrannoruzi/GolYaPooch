@@ -376,6 +376,15 @@ namespace GolPooch.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قفل شده ؟.
+        /// </summary>
+        public static string IsLock {
+            get {
+                return ResourceManager.GetString("IsLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to موبایل است؟.
         /// </summary>
         public static string IsMobile {

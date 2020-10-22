@@ -92,6 +92,8 @@ namespace GolPooch.Service.Implements
                     return new Response<int> { Message = ServiceMessage.Success, IsSuccessful = true };
                 else
                     currentRound = rounds.FirstOrDefault(x => x.State == RoundState.Open);
+
+                if (currentRound.IsNull()) return new Response<int> { Message = ServiceMessage.Success, IsSuccessful = true };
                 #endregion
 
                 var drawChance = await _appUow.DrawChanceRepo.CountAsync(
@@ -371,6 +373,10 @@ namespace GolPooch.Service.Implements
             {
                 var winnerNotifList = new List<Notification>();
                 var winner = await _appUow.UserRepo.FindAsync(user.UserId);
+                var winnerName = $"{winner.FirstName} {winner.LastName}".Trim();
+                winnerName = string.IsNullOrEmpty(winnerName)
+                    ? winner.MobileNumber.ToString().CustomMask(new MaskOption { MaskLength = 3, MaskWith = '*', Mode = MaskMode.Middle })
+                    : winnerName;
 
                 var userWinnerNotif = new Notification
                 {
@@ -383,7 +389,7 @@ namespace GolPooch.Service.Implements
                     IsSuccess = false,
                     IsRead = false,
                     Subject = ServiceMessage.NotifyWinnerSubject,
-                    Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, $"{winner.FirstName} {winner.LastName}"),
+                    Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, winnerName),
                     IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
                     ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
                 };
@@ -402,7 +408,7 @@ namespace GolPooch.Service.Implements
                         IsSuccess = false,
                         IsRead = false,
                         Subject = ServiceMessage.NotifyWinnerSubject,
-                        Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, $"{winner.FirstName} {winner.LastName}"),
+                        Text = ServiceMessage.NotifyWinnerText.Fill(chest.Title, winnerName),
                         IconUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl,
                         ImageUrl = _configuration["CustomSettings:CdnAddress"] + ServiceMessage.NotifyWinnerIconUrl
                     };

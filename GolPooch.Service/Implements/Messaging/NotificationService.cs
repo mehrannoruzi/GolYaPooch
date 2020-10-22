@@ -139,7 +139,7 @@ namespace GolPooch.Service.Implements
                 var notifications = await _appUow.NotificationRepo.GetPagingAsync(
                     new PagingQueryFilterWithSelector<Notification, NotificationDto>
                     {
-                        Conditions = x => x.UserId == userId && x.IsActive,
+                        Conditions = x => x.UserId == userId && x.IsActive && x.Type == NotificationType.PushNotification,
                         PagingParameter = pagingParameter,
                         OrderBy = x => x.OrderByDescending(x => x.NotificationId),
                         Selector = x => new NotificationDto
@@ -179,7 +179,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public PagingListDetails<Notification> GetUnProccesedNotifications()
+        private PagingListDetails<Notification> GetUnProccesedNotifications()
         {
             var notifs = new PagingListDetails<Notification>();
             try
@@ -193,7 +193,7 @@ namespace GolPooch.Service.Implements
                         Conditions = x => x.IsActive && !x.IsSent,
                         OrderBy = x => x.OrderByDescending(x => x.Priority),
                         IncludeProperties = new List<Expression<Func<Notification, object>>> { x => x.User },
-                        PagingParameter = new PagingParameter { PageNumber = 1, PageSize = int.Parse(_configuration["CustomSettings:SendNotificationThreadCount"]) }
+                        PagingParameter = new PagingParameter { PageNumber = 1, PageSize = int.Parse(_configuration["CustomSettings:SendNotificationPagingCount"]) }
                     }).Result;
 
                     if (notifs.Items.Any())

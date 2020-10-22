@@ -7,6 +7,7 @@
         SuccessPayment = 3,
 
         SpendChance = 9,
-        NotifyWinners = 10
+        NotifyWinners = 10,
+        PayBackPurchase = 11
     }
 }
