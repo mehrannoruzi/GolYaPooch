@@ -34,7 +34,7 @@ export default function (props) {
     const { item } = props;
     const date = new Date(item.insertDateMi);
     return (
-        <Link to={`/bl/addticket?add=false&text=${item.text}&answer=${item.answer || ''}`}>
+        <Link to={`/bl/addticket?add=false&ticketId=${item.ticketId}&isRead=${item.isRead}&text=${item.text}&answer=${item.answer || ''}`}>
             <Card className={classes.root}>
                 <CardHeader
                     avatar={userInfo.avatar ? <Avatar src={userInfo.avatar} /> : <BiUser className='icon' />}
@@ -50,7 +50,7 @@ export default function (props) {
                 {item.answer == null ?
                     <Alert severity="error">{strings.ticketNotAnswered}</Alert>
                     :
-                    <Alert severity="success">{strings.ticketAnswered}</Alert>
+                    item.isRead ? null : <Alert severity="success">{strings.ticketAnswered}</Alert>
                 }
 
             </Card>

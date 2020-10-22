@@ -11,6 +11,7 @@ import strings from '../core/strings';
 import PrivateRoute from '../atom/comps/PrivateRoute';
 import TicketList from '../pages/ticket/ticketList';
 import Ticket from '../pages/ticket';
+import Transactions from '../pages/transactions';
  
 const useStyles = makeStyles({
     layoutBL: {
@@ -67,6 +68,7 @@ const BackLayout = () => {
                 <PrivateRoute exact path={`${path}/product/:id`} component={ProductPage} />
                 <PrivateRoute exact path={`${path}/addTicket`} component={Ticket} />
                 <PrivateRoute exact path={`${path}/ticketList`} component={TicketList} />
+                <PrivateRoute exact path={`${path}/transactions`} component={Transactions} />
             </Switch>
         </div >
 

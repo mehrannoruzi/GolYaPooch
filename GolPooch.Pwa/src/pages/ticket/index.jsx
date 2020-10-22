@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@material-ui/lab';
-import { makeStyles, Container, Paper, TextareaAutosize } from '@material-ui/core';
+import { makeStyles, Container, Paper } from '@material-ui/core';
 import strings from '../../core/strings';
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from 'recoil';
@@ -10,6 +10,7 @@ import toastState from '../../atom/state/toastState';
 import queryString from 'query-string';
 import { BiSend } from 'react-icons/bi';
 import bLState from '../../atom/state/bLState';
+import nLAtom from '../../atom/state/nLState';
 import { useSetRecoilState } from 'recoil';
 import SupportImage from '../../assets/images/support.png';
 
@@ -118,9 +119,22 @@ const Ticket = () => {
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const setBLState = useSetRecoilState(bLState);
+    const [nLState, setNLState] = useRecoilState(nLAtom);
+
+    const checkIsRead = async () => {
+        console.log(`params||isRead:${qParams.isRead}`);
+        if (qParams.isRead === 'false' && qParams.answer) {
+            console.log('called');
+            let call = await ticketSrv.read(qParams.ticketId);
+            console.log(call);
+            if (call.isSuccessful)
+                setNLState({ ...nLState, newTicketCount: call.result });
+        }
+    }
 
     useEffect(() => {
         setBLState((state) => ({ ...state, title: text ? strings.viewTicket : strings.addTicket }));
+        checkIsRead();
     }, []);
 
     const _handleChange = (e) => {
