@@ -75,8 +75,8 @@ const Settings = () => {
     //Hooks
     const classes = useStyles();
     const history = useHistory();
-    //recoil
     const userInfo = userSrv.getInfo();
+
     const _handleLogOut = () => {
         localStorage.removeItem(config.keys.token);
         history.push('/el/auth');
@@ -99,7 +99,7 @@ const Settings = () => {
                 <NavItem href='/bl/supportcenter' icon={BiSupport} title={strings.supportCenter} />
                 <NavItem href='/aboutus.html' redirect={true} icon={BsInfoCircle} title={strings.aboutUs} />
                 <NavItem href='/rules.html' redirect={true} icon={BsFileText} title={strings.rules} />
-                <NavItem href='/bl/addTicket' icon={BiMessageSquareAdd} title={strings.sendTicket} />
+                <NavItem href='/bl/ticketList' icon={BiMessageSquareAdd} title={strings.sendTicket} />
                 <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
                 <li className='version'>
                     <span>{strings.appVersion} {packageJson.version}</span>

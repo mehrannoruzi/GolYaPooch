@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { RecoilRoot } from 'recoil';
@@ -20,33 +20,28 @@ Sentry.init({
     ],
     tracesSampleRate: 1.0,
 });
-
 const theme = createMuiTheme({
-  direction: 'rtl',
+    direction: 'rtl',
 });
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 function RTL(props) {
-  //Redirect http to https
-  //if (window.location.origin.startsWith("http://")) window.location.replace(window.location.href.replace("http://", "https://"));
-  return (
-    <StylesProvider jss={jss}>
-      {props.children}
-    </StylesProvider>
-  );
+    return (
+        <StylesProvider jss={jss}>
+            {props.children}
+        </StylesProvider>
+    );
 }
 
 
 ReactDOM.render(
-  <RecoilRoot>
-    <RTL>
-      <MuiThemeProvider theme={theme}>
-        <App />
-      </MuiThemeProvider>
-    </RTL>
-  </RecoilRoot>,
-  document.getElementById('root'));
-
-//registerServiceWorker();
+    <RecoilRoot>
+        <RTL>
+            <MuiThemeProvider theme={theme}>
+                <App />
+            </MuiThemeProvider>
+        </RTL>
+    </RecoilRoot>,
+    document.getElementById('root'));

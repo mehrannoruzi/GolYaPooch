@@ -50,7 +50,7 @@ const CustomButton = (props) => {
         </Button>);
     else
         return (<Button variant="contained" color={props.color || 'primary'} disabled={props.disabled || props.loading} className={`${classes.btnWithoutIcon} ${props.className}`} onClick={props.onClick}>
-            {props.children}&nbsp;{props.loading ? <CircularProgress size={20} className='va-middle' /> : ''}
+           {props.loading ? <CircularProgress size={20} className='va-middle' /> : props.children}
         </Button>);
 }
 export default CustomButton;

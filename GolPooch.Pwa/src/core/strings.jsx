@@ -119,6 +119,9 @@ const strings = {
     `,
     tickets: 'تیکت ها',
     addTicket: 'افزودن تیکت',
-    viewTicket: 'مشاهده تیکت'
+    viewTicket: 'مشاهده تیکت',
+    ticketTitle: 'تیکت شماره ',
+    ticketNotAnswered: 'تیکت شما هنوز پاسخ داده نشده است',
+    ticketAnswered: 'تیکت شما پاسخ داده شده است برای مشاهده کلیک نمایید'
 };
 export default strings;

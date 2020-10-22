@@ -5,7 +5,6 @@ import productSrv from '../../services/productSrv';
 import Items from './comps/items';
 import toastState from '../../atom/state/toastState';
 import { useRecoilState } from 'recoil';
-import '../../pages/store/style/index.css';
 
 const useStyles = makeStyles({
     storePage: {
@@ -58,32 +57,8 @@ const Store = () => {
 
     return (
         <div id='page-store' className={classes.storePage}>
-
-
             <Banners pageName="Store" location="top" />
             <Container className={classes.products}>
-
-                <div className="cardWrap">
-                    <div className="card cardRight">
-
-                        <h1>تعداد شانس</h1>
-                        <div className="number">
-                            <h3>156</h3>
-                            
-                        </div>
-                        <div className="barcode">
-                            <button>خرید</button>
-                        </div>
-                    </div>
-                    <div className="card cardLeft">
-                        <h1>بسته طلایی</h1>
-                       
-
-                    </div>
-
-
-                </div>
-
                 <div className={`r-col ${classes.col2}`}>
                     {<Items items={items1} inProgress={inProgress} />}
                 </div>
