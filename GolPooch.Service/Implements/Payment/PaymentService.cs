@@ -301,7 +301,7 @@ namespace GolPooch.Service.Implements
                             x.Type,
                             x.Price,
                             x.IsSuccess,
-                            x.InsertDateMi,
+                            Time = x.InsertDateMi.ToLongTimeString(),
                             x.InsertDateSh,
                             x.TrackingId,
                             x.Description
