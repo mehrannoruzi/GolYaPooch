@@ -46,5 +46,10 @@ namespace GolPooch.Api.Controllers
             else
                 return Json(new Response<string> { Message = verifyPaymentResult.Message });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> TransactionsAsync(User user, [FromQuery] PagingParameter pagingParameter)
+        => Json(await _paymentService.GetTransactionsAsync(user.UserId, pagingParameter));
+
     }
 }
