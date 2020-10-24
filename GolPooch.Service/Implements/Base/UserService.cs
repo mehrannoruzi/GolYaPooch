@@ -266,7 +266,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<IResponse<PagingListDetails<ActivityLog>>> GetActivityAsync(long mobileNumber, PagingParameter pagingParameter)
+        public async Task<IResponse<PagingListDetails<ActivityLog>>> GetActivitiesAsync(long mobileNumber, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<ActivityLog>>();
             try

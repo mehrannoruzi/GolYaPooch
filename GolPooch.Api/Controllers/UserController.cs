@@ -45,7 +45,8 @@ namespace GolPooch.Api.Controllers
             => Ok(await _userService.LogActivityAsync(user.MobileNumber, HttpContext, log.Type));
 
         [HttpGet]
-        public async Task<JsonResult> ActivityAsync(User user, [FromQuery] PagingParameter pagingParameter)
-            => Json(await _userService.GetActivityAsync(user.MobileNumber, pagingParameter));
+        public async Task<JsonResult> ActivitiesAsync(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _userService.GetActivitiesAsync(user.MobileNumber, pagingParameter));
+
     }
 }

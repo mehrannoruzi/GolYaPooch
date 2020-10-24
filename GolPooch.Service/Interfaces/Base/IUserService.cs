@@ -31,6 +31,6 @@ namespace GolPooch.Service.Interfaces
         Task<IResponse<string>> UploadAwatarAsync(int userId, string fileExtension, byte[] fileBytes);
 
         Task<IResponse<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login);
-        Task<IResponse<PagingListDetails<ActivityLog>>> GetActivityAsync(long mobileNumber, PagingParameter pagingParameter);
+        Task<IResponse<PagingListDetails<ActivityLog>>> GetActivitiesAsync(long mobileNumber, PagingParameter pagingParameter);
     }
 }
