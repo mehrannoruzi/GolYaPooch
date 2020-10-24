@@ -51,21 +51,23 @@ namespace GolPooch.Service.Implements
             };
         }
 
-        public async Task<IResponse<int>> UpdateProfileAsync(int userId, UserDto userDto)
+        public async Task<IResponse<bool>> UpdateProfileAsync(User user, UserDto userDto)
         {
-            var response = new Response<int>();
+            var response = new Response<bool>();
             using (var trans = await _appUow.Database.BeginTransactionAsync())
             {
                 try
                 {
                     #region Update User Profile
+                    userDto.Balance = user.Balance;
+                    userDto.MobileNumber = user.MobileNumber;
                     var existedUser = await _appUow.UserRepo.FirstOrDefaultAsync(
                         new QueryFilter<User>
                         {
                             AsNoTracking = false,
-                            Conditions = x => x.UserId == userId
+                            Conditions = x => x.UserId == user.UserId
                         });
-                    if (existedUser.IsNull()) return new Response<int> { Message = ServiceMessage.InvalidParameter };
+                    if (existedUser.IsNull()) return new Response<bool> { Message = ServiceMessage.InvalidParameter };
 
                     existedUser.UpdateWith(userDto);
                     _appUow.UserRepo.Update(existedUser);
@@ -86,11 +88,11 @@ namespace GolPooch.Service.Implements
                     {
                         await _appUow.SaveChangesAsync();
                         await trans.CommitAsync();
-                        return new Response<int>
+                        return new Response<bool>
                         {
+                            Result = true,
                             IsSuccessful = true,
-                            Result = existedUser.UserId,
-                            Message = ServiceMessage.Success
+                            Message = ServiceMessage.UpdateProfile
                         };
                     }
                     #endregion
@@ -123,7 +125,12 @@ namespace GolPooch.Service.Implements
                         Description = ServiceMessage.CompleteProfile
                     };
                     await _appUow.PaymentTransactionRepo.AddAsync(transaction);
-                    await _appUow.ElkSaveChangesAsync();
+                    var transactionResult = await _appUow.ElkSaveChangesAsync();
+                    if (!transactionResult.IsSuccessful)
+                    {
+                        await trans.RollbackAsync();
+                        return new Response<bool> { Message = ServiceMessage.Error };
+                    }
 
                     var purchase = new Purchase
                     {
@@ -141,10 +148,18 @@ namespace GolPooch.Service.Implements
                     #endregion
 
                     var saveResult = await _appUow.ElkSaveChangesAsync();
-                    response.Message = saveResult.Message;
                     response.IsSuccessful = saveResult.IsSuccessful;
-                    response.Result = saveResult.IsSuccessful ? existedUser.UserId : 0;
-                    await trans.CommitAsync();
+                    response.Result = saveResult.IsSuccessful;
+                    if (saveResult.IsSuccessful)
+                    {
+                        response.Message = ServiceMessage.InsertProfile.Fill(productOffer.Chance.ToString());
+                        await trans.CommitAsync();
+                    }
+                    else
+                    {
+                        response.Message = ServiceMessage.Error;
+                        await trans.RollbackAsync();
+                    }
                     return response;
                 }
                 catch (Exception e)
@@ -157,7 +172,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<Response<UserDto>> GetProfileAsync(int userId)
+        public async Task<IResponse<UserDto>> GetProfileAsync(int userId)
         {
             var response = new Response<UserDto>();
             try
@@ -230,7 +245,7 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login)
+        public async Task<IResponse<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login)
         {
             var response = new Response<bool>();
             try
@@ -251,5 +266,30 @@ namespace GolPooch.Service.Implements
             }
         }
 
+        public async Task<IResponse<PagingListDetails<ActivityLog>>> GetActivityAsync(long mobileNumber, PagingParameter pagingParameter)
+        {
+            var response = new Response<PagingListDetails<ActivityLog>>();
+            try
+            {
+                var activities = await _appUow.ActivityLogRepo.GetPagingAsync(
+                    new PagingQueryFilter<ActivityLog>
+                    {
+                        Conditions = x => x.MobileNumber == mobileNumber,
+                        OrderBy = x => x.OrderByDescending(x => x.ActivityLogId),
+                        PagingParameter = pagingParameter
+                    });
+
+                response.Result = activities;
+                response.IsSuccessful = true;
+                response.Message = ServiceMessage.Success;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
     }
 }

@@ -18,9 +18,9 @@ namespace GolPooch.Service.Interfaces
         /// <param name="userId">userid ( are sent by jwt )</param>
         /// <param name="userDto">user information </param>
         /// <returns>user id</returns>
-        Task<IResponse<int>> UpdateProfileAsync(int userId, UserDto userDto);
+        Task<IResponse<bool>> UpdateProfileAsync(User user, UserDto userDto);
 
-        Task<Response<UserDto>> GetProfileAsync(int userId);
+        Task<IResponse<UserDto>> GetProfileAsync(int userId);
 
         /// <summary>
         /// Upload awatar and save in host, and update user with awatar address
@@ -30,6 +30,7 @@ namespace GolPooch.Service.Interfaces
         /// <returns>address of photo hosted</returns>
         Task<IResponse<string>> UploadAwatarAsync(int userId, string fileExtension, byte[] fileBytes);
 
-        Task<Response<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login);
+        Task<IResponse<bool>> LogActivityAsync(long mobileNumber, HttpContext httpContext, ActivityLogType type = ActivityLogType.Login);
+        Task<IResponse<PagingListDetails<ActivityLog>>> GetActivityAsync(long mobileNumber, PagingParameter pagingParameter);
     }
 }
