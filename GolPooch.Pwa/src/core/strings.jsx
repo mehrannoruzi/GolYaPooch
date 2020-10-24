@@ -131,6 +131,10 @@ const strings = {
     successful: 'موفق',
     purchaseFromStore: 'خرید از فروشگاه',
     returnedToUserAccount: 'بازگشت به حساب کاربری',
-    depositeToAccount:'واریز به حساب'
+    depositeToAccount:'واریز به حساب',
+    addToHomeScreenTitle:'برای تجربه بهتر و سریعتر و استفاده از تمام امکانات گل یا پوچ، از نسخه وب اپ آن استفاده کنید',
+    addToHomeScreenInstall:'بدون نیاز به نصب و تنها با دو کلیک',
+    iWant:'بله، میخواهم',
+    iDontWant:'نه، فعلا نمی خواهم'
 };
 export default strings;

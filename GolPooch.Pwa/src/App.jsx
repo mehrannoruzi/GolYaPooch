@@ -10,10 +10,10 @@ import config from './config';
 import notificationSrv from './services/notificationSrv';
 
 export default function () {
+
     useEffect(() => {
         if (navigator && navigator.serviceWorker)
             navigator.serviceWorker.addEventListener("message", (payload) => {
-                console.log(payload);
                 let notif = payload.data['firebase-messaging-msg-data'].notification;
                 let notifData = payload.data['firebase-messaging-msg-data'].data;
                 navigator.serviceWorker.ready.then(async (registration) => {
