@@ -7,11 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 namespace GolPooch.Service.Quartz
 {
     [DisallowConcurrentExecution]
-    public class SendNotificationJob : IJob
+    public class PaybackPurchaseJob : IJob
     {
         private IServiceProvider _serviceProvider { get; }
 
-        public SendNotificationJob(IServiceProvider serviceProvider)
+        public PaybackPurchaseJob(IServiceProvider serviceProvider)
             => _serviceProvider = serviceProvider;
 
 
@@ -19,8 +19,8 @@ namespace GolPooch.Service.Quartz
         {
             using (var scope = _serviceProvider.CreateScope())
             {
-                var notificationService = scope.ServiceProvider.GetService<INotificationService>();
-                await notificationService.SendNotificationsAsync();
+                var purchaseService = scope.ServiceProvider.GetService<IPurchaseService>();
+                await purchaseService.ProccessPaybackblePurchaseAsync();
             }
 
             await Task.CompletedTask;
