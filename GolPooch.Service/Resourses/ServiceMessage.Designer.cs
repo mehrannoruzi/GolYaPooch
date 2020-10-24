@@ -518,6 +518,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نام و نام خانوادگی : {0}.
+        /// </summary>
+        public static string ReFoundTransaction {
+            get {
+                return ResourceManager.GetString("ReFoundTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to شرکت در قرعه کشی.
         /// </summary>
         public static string SpendChanceSubject {

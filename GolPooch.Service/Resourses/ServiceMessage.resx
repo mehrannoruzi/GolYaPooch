@@ -274,6 +274,9 @@ Code: {code}</value>
   <data name="ReFoundPurchase" xml:space="preserve">
     <value>ReFoundPurchase</value>
   </data>
+  <data name="ReFoundTransaction" xml:space="preserve">
+    <value>نام و نام خانوادگی : {0}</value>
+  </data>
   <data name="SpendChanceSubject" xml:space="preserve">
     <value>شرکت در قرعه کشی</value>
   </data>

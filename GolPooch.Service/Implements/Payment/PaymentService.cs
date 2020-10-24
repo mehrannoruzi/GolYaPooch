@@ -275,7 +275,66 @@ namespace GolPooch.Service.Implements
             }
         }
 
-        public async Task<Response<PagingListDetails<object>>> GetTransactionsAsync(int userId, PagingParameter pagingParameter)
+        public async Task<IResponse<object>> ReFoundAsync(int userId, int price, string shebaCode, string fullName)
+        {
+            var response = new Response<object>();
+            try
+            {
+                #region Get Default Gateway & ProductOffer & User
+                var now = DateTime.Now;
+                var paymentGatway = await _appUow.PaymentGatewayRepo.FirstOrDefaultAsync(
+                    new QueryFilter<PaymentGateway>
+                    {
+                        Conditions = x => x.IsActive && x.IsDefault
+                    });
+                if (paymentGatway.IsNull()) return new Response<object> { Message = ServiceMessage.InvalidPaymentGateway };
+
+                var productOffer = await _appUow.ProductOfferRepo.FirstOrDefaultAsync(
+                    new QueryFilter<ProductOffer>
+                    {
+                        Conditions = x => x.IsActive && x.Product.Type == ProductType.Refound && !x.Product.IsShow,
+                        IncludeProperties = new List<Expression<Func<ProductOffer, object>>> { x => x.Product }
+                    });
+                if (paymentGatway.IsNull()) return new Response<object> { Message = ServiceMessage.InvalidProductOfferId };
+
+                var user = await _appUow.UserRepo.FindAsync(userId);
+                if (user.IsNull()) return new Response<object> { Message = ServiceMessage.InvalidUserId };
+                #endregion
+
+                var transaction = new PaymentTransaction
+                {
+                    UserId = userId,
+                    IsSuccess = true,
+                    TrackingId = "0",
+                    Status = ServiceMessage.Success,
+                    Type = TransactionType.Refound,
+                    Price = price,
+                    UserSheba = shebaCode,
+                    ProductOfferId = productOffer.ProductOfferId,
+                    PaymentGatewayId = paymentGatway.PaymentGatewayId,
+                    Description = ServiceMessage.ReFoundTransaction.Fill(fullName)
+                };
+                await _appUow.PaymentTransactionRepo.AddAsync(transaction);
+
+                var oldBalance = user.Balance;
+                user.Balance -= transaction.Price;
+                _appUow.UserRepo.Update(user);
+                var saveResult = await _appUow.ElkSaveChangesAsync();
+
+                response.Result = new { oldBalance = oldBalance, newBalance = user.Balance };
+                response.IsSuccessful = saveResult.IsSuccessful;
+                response.Message = saveResult.IsSuccessful ? ServiceMessage.Success : ServiceMessage.Error;
+                return response;
+            }
+            catch (Exception e)
+            {
+                FileLoger.Error(e);
+                response.Message = ServiceMessage.Exception;
+                return response;
+            }
+        }
+
+        public async Task<IResponse<PagingListDetails<object>>> GetTransactionsAsync(int userId, PagingParameter pagingParameter)
         {
             var response = new Response<PagingListDetails<object>>();
             try

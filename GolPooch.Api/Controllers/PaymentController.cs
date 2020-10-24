@@ -51,5 +51,9 @@ namespace GolPooch.Api.Controllers
         public async Task<IActionResult> TransactionsAsync(User user, [FromQuery] PagingParameter pagingParameter)
         => Json(await _paymentService.GetTransactionsAsync(user.UserId, pagingParameter));
 
+        [HttpPost]
+        public async Task<IActionResult> ReFoundAsync(User user, [FromBody] PaymentRefoundModel refoundModel)
+            => Json(await _paymentService.ReFoundAsync(user.UserId, refoundModel.Price, refoundModel.Sheba, refoundModel.FullName));
+
     }
 }
