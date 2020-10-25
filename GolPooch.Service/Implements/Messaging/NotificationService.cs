@@ -139,7 +139,7 @@ namespace GolPooch.Service.Implements
                 var notifications = await _appUow.NotificationRepo.GetPagingAsync(
                     new PagingQueryFilterWithSelector<Notification, NotificationDto>
                     {
-                        Conditions = x => x.UserId == userId && x.IsActive && x.Type == NotificationType.PushNotification,
+                        Conditions = x => x.UserId == userId && x.IsActive,
                         PagingParameter = pagingParameter,
                         OrderBy = x => x.OrderByDescending(x => x.NotificationId),
                         Selector = x => new NotificationDto
