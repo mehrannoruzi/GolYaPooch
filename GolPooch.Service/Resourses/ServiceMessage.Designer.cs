@@ -197,6 +197,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تکمیل پروفایل انجام شد، و شما {0} شانس شرکت در قرعه کشی دریافت کردید..
+        /// </summary>
+        public static string InsertProfile {
+            get {
+                return ResourceManager.GetString("InsertProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to تعداد شانس های انتخابی معتبر نمی باشد ویا تعداد شانس های انتخابی بیشتر از تعداد شانس های باقیمانده شما می باشد..
         /// </summary>
         public static string InvalidChanceCount {
@@ -509,6 +518,15 @@ namespace GolPooch.Service.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نام و نام خانوادگی : {0}.
+        /// </summary>
+        public static string ReFoundTransaction {
+            get {
+                return ResourceManager.GetString("ReFoundTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to شرکت در قرعه کشی.
         /// </summary>
         public static string SpendChanceSubject {
@@ -575,6 +593,15 @@ namespace GolPooch.Service.Resourses {
         public static string SuccessPurchaseText {
             get {
                 return ResourceManager.GetString("SuccessPurchaseText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ویرایش اطلاعات پروفایل با موفقیت انجام شد..
+        /// </summary>
+        public static string UpdateProfile {
+            get {
+                return ResourceManager.GetString("UpdateProfile", resourceCulture);
             }
         }
         

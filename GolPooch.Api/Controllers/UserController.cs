@@ -20,7 +20,7 @@ namespace GolPooch.Api.Controllers
 
         [HttpPost]
         public async Task<JsonResult> UpdateProfileAsync(User user, [FromBody] UserDto userDto)
-            => Json(await _userService.UpdateProfileAsync(user.UserId, userDto));
+            => Json(await _userService.UpdateProfileAsync(user, userDto));
 
         [HttpGet]
         public async Task<JsonResult> ProfileAsync(User user)
@@ -43,5 +43,10 @@ namespace GolPooch.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> LogActivityAsync(User user, [FromBody] ActivityLog log)
             => Ok(await _userService.LogActivityAsync(user.MobileNumber, HttpContext, log.Type));
+
+        [HttpGet]
+        public async Task<JsonResult> ActivitiesAsync(User user, [FromQuery] PagingParameter pagingParameter)
+            => Json(await _userService.GetActivitiesAsync(user.MobileNumber, pagingParameter));
+
     }
 }

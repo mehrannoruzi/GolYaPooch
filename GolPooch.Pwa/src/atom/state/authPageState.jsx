@@ -5,7 +5,8 @@ const authPageState = atom({
     default: {
         activePanel: 'login',
         mobileNumber: '',
-        transactionId: null
+        transactionId: null,
+        inputFocused: false
     }
 });
 export default authPageState;

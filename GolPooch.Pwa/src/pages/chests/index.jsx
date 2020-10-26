@@ -9,6 +9,8 @@ import toastState from '../../atom/state/toastState';
 import nLAtom from '../../atom/state/nLState';
 import ticketSrv from '../..//services/ticketSrv';
 import notificationSrv from '../..//services/notificationSrv';
+import modalAtom from '../../atom/state/bottomUpModalState';
+import AddToHomeScreen from '../../atom/comps/AddToHomeScreen';
 
 const useStyles = makeStyles({
     chestPage: {
@@ -38,6 +40,7 @@ const Chest = () => {
     //recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const [nLState, setNLState] = useRecoilState(nLAtom);
+    const [bottomUpModal, setBottomUpModalState] = useRecoilState(modalAtom);
 
     const getInitInfo = async () => {
         let getNotifCount = await notificationSrv.getNotReadCount();
@@ -56,7 +59,44 @@ const Chest = () => {
     const requestNotification = async () => {
         let res = await notificationSrv.requestPermission();
     }
+    const a2hs = () => {
+        console.log('a2hs');
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt');
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            let deferredPrompt = e;
+            setBottomUpModalState({
+                ...bottomUpModal,
+                open: true,
+                showHeader: false,
+                children: AddToHomeScreen,
+                props: {
+                    deferredPrompt: deferredPrompt
+                }
+            })
+            // addBtn.style.display = 'block';
+
+            // addBtn.addEventListener('click', (e) => {
+            //   // hide our user interface that shows our A2HS button
+            //   addBtn.style.display = 'none';
+            //   // Show the prompt
+            //   deferredPrompt.prompt();
+            //   // Wait for the user to respond to the prompt
+            //   deferredPrompt.userChoice.then((choiceResult) => {
+            //       if (choiceResult.outcome === 'accepted') {
+            //         console.log('User accepted the A2HS prompt');
+            //       } else {
+            //         console.log('User dismissed the A2HS prompt');
+            //       }
+            //       deferredPrompt = null;
+            //     });
+            // });
+        });
+    }
     useEffect(() => {
+        a2hs();
         getDate();
         requestNotification();
         getInitInfo();

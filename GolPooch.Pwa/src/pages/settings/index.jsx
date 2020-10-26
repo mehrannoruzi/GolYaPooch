@@ -5,6 +5,7 @@ import userSrv from '../../services/userSrv';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft } from 'react-icons/fi';
 import { BsFileEarmarkRuled, BsInfoCircle, BsPower, BsFileText } from 'react-icons/bs';
+import { GrTransaction } from 'react-icons/gr';
 import { BiSupport, BiMessageSquareAdd } from 'react-icons/bi';
 import { AiOutlineAppstore } from 'react-icons/ai';
 import { BiUser } from 'react-icons/bi';
@@ -108,6 +109,7 @@ const Settings = () => {
                 <Confetti active={clicks == 5} config={config.confettiConfig} />
                 <NavItem href='/aboutus.html' redirect={true} icon={BsInfoCircle} title={strings.aboutUs} />
                 <NavItem href='/rules.html' redirect={true} icon={BsFileText} title={strings.rules} />
+                <NavItem href='/bl/transactions' icon={GrTransaction} title={strings.transactions} />
                 <NavItem href='/bl/ticketList' icon={BiMessageSquareAdd} title={strings.sendTicket} />
                 <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
                 <li className='version'>

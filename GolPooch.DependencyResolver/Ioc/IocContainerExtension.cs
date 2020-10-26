@@ -79,6 +79,10 @@ namespace GolPooch.DependencyResolver.Ioc
             services.AddSingleton(new JobSchedule(
                                     jobType: typeof(SendNotificationJob),
                                     cronExpression: _configuration["CustomSettings:SendNotificationCron"]));
+            services.AddSingleton<PaybackPurchaseJob>();
+            services.AddSingleton(new JobSchedule(
+                                    jobType: typeof(PaybackPurchaseJob),
+                                    cronExpression: _configuration["CustomSettings:PaybackPurchaseCron"]));
 
 
             return services;

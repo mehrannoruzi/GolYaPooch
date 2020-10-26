@@ -5,7 +5,7 @@ import { Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
     compBottomUpModal: {
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         bottom: 0,
         right: 0,
@@ -21,6 +21,8 @@ const useStyles = makeStyles({
             padding: '0 15px 15px 15px',
             borderTopRightRadius: '5px',
             borderTopLeftRadius: '5px',
+            left: 0,
+            right: 0,
 
             '& .header': {
                 position: 'relative',
@@ -49,11 +51,12 @@ export default function () {
     const [rState, setRState] = useRecoilState(buttomUpModalState);
     return (<div id="comp-bottom-up-modal" className={`${classes.compBottomUpModal} ${(rState.open ? '' : 'd-none')}`}>
         <div className='content '>
-            <div className='header'>
+            {rState.header ? <div className='header'>
                 <h4 className='hx'>{rState.title}</h4>
-                <button className='btn-close' onClick={() => setRState({ ...rState, open: false, message: '' })}><i className='icon zmdi zmdi-close'></i></button>
-            </div>
-            {rState.children ? <rState.children /> : null}
+                <button className='btn-close' onClick={() => setRState({ ...rState, open: false, children: null, message: '' })}><i className='icon zmdi zmdi-close'></i></button>
+            </div> : null}
+
+            {rState.children ? <rState.children {...rState.props} /> : null}
         </div>
     </div>);
 }

@@ -163,6 +163,9 @@ Code: {code}</value>
   <data name="FileNotSaved" xml:space="preserve">
     <value>ذخیره فایل ارسالی با خطا رو به رو شده است ویا فایل ارسالی معتبر نمی باشد.</value>
   </data>
+  <data name="InsertProfile" xml:space="preserve">
+    <value>تکمیل پروفایل انجام شد، و شما {0} شانس شرکت در قرعه کشی دریافت کردید.</value>
+  </data>
   <data name="InvalidChanceCount" xml:space="preserve">
     <value>تعداد شانس های انتخابی معتبر نمی باشد ویا تعداد شانس های انتخابی بیشتر از تعداد شانس های باقیمانده شما می باشد.</value>
   </data>
@@ -271,6 +274,9 @@ Code: {code}</value>
   <data name="ReFoundPurchase" xml:space="preserve">
     <value>ReFoundPurchase</value>
   </data>
+  <data name="ReFoundTransaction" xml:space="preserve">
+    <value>نام و نام خانوادگی : {0}</value>
+  </data>
   <data name="SpendChanceSubject" xml:space="preserve">
     <value>شرکت در قرعه کشی</value>
   </data>
@@ -298,6 +304,9 @@ Code: {code}</value>
 شما بابت خرید محصول {0} تعداد {1} عدد شانس برای شرکت در قرعه کشی دریافت کردید. 
 کد تخفیف : 
 {2}</value>
+  </data>
+  <data name="UpdateProfile" xml:space="preserve">
+    <value>ویرایش اطلاعات پروفایل با موفقیت انجام شد.</value>
   </data>
   <data name="UsedPinCode" xml:space="preserve">
     <value>این کد قبلا استفاده شده است و معتبر نمی باشد، لطفا مجدد تلاش کنید.</value>

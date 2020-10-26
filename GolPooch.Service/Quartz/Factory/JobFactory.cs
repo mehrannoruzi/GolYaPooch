@@ -10,9 +10,7 @@ namespace GolPooch.Service.Quartz
         private readonly IServiceProvider _serviceProvider;
 
         public JobFactory(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+            => _serviceProvider = serviceProvider;
 
 
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)

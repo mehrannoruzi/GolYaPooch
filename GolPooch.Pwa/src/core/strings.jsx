@@ -99,7 +99,7 @@ const strings = {
     active: 'فعال',
     all: 'همه',
     joinInLottery: 'شرکت در قرعه کشی',
-    balance: 'بالانس',
+    balance: 'موجودی حساب کاربری',
     latest: 'اخیر',
     most: 'بیشترین',
     fullName: 'نام و نام خانوادگی',
@@ -122,6 +122,19 @@ const strings = {
     viewTicket: 'مشاهده تیکت',
     ticketTitle: 'تیکت شماره ',
     ticketNotAnswered: 'تیکت شما هنوز پاسخ داده نشده است',
-    ticketAnswered: 'تیکت شما پاسخ داده شده است برای مشاهده کلیک نمایید'
+    ticketAnswered: 'تیکت شما پاسخ داده شده است برای مشاهده کلیک نمایید',
+    transactions: 'تراکنش ها',
+    thereIsNoTransaction: 'تراکنشی وجود ندارد',
+    balanceReduce: 'کاهش موجودی',
+    balanceIncrease: 'افزایش موجودی',
+    failed: 'ناموفق',
+    successful: 'موفق',
+    purchaseFromStore: 'خرید از فروشگاه',
+    returnedToUserAccount: 'بازگشت به حساب کاربری',
+    depositeToAccount:'واریز به حساب',
+    addToHomeScreenTitle:'برای تجربه بهتر و سریعتر و استفاده از تمام امکانات گل یا پوچ، از نسخه وب اپ آن استفاده کنید',
+    addToHomeScreenInstall:'بدون نیاز به نصب و تنها با دو کلیک',
+    iWant:'بله، میخواهم',
+    iDontWant:'نه، فعلا نمی خواهم'
 };
 export default strings;

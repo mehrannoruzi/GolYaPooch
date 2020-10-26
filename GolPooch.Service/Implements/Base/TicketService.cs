@@ -126,7 +126,7 @@ namespace GolPooch.Service.Implements
                 var tickets = await _appUow.TicketRepo.GetPagingAsync(
                     new PagingQueryFilter<Ticket>
                     {
-                        Conditions = x => x.UserId == userId,
+                        Conditions = x => x.UserId == userId && !x.IsRead,
                         PagingParameter = pagingParameter,
                         OrderBy = x => x.OrderByDescending(x => x.TicketId)
                     });

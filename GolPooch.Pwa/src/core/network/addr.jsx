@@ -24,6 +24,7 @@ export default {
     spendChance: `${config.apiGateway.URL}chest/SpendChance`,
     getMyChanceCount: (chestId) => `${config.apiGateway.URL}chest/MyChanceCount?chestId=${chestId}`,
     purchaseProduct: `${config.apiGateway.URL}Payment/Create`,
-    getLatestWinners: (pageSize, pageNumber) =>`${config.apiGateway.URL}RoundWinner/LastWinners?pageSize=${pageSize}&pageNumber=${pageNumber}`,
-    getMostWinners: (pageSize, pageNumber) =>`${config.apiGateway.URL}RoundWinner/MustWinners?pageSize=${pageSize}&pageNumber=${pageNumber}`
+    getLatestWinners: (pageSize, pageNumber) => `${config.apiGateway.URL}RoundWinner/LastWinners?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+    getMostWinners: (pageSize, pageNumber) => `${config.apiGateway.URL}RoundWinner/MustWinners?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+    getTransactions: (pageSize, pageNumber) => `${config.apiGateway.URL}Payment/Transactions?pageSize=${pageSize}&pageNumber=${pageNumber}`,
 }
