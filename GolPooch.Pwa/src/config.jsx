@@ -1,9 +1,9 @@
 ﻿const dev = {
     apiGateway: {
         API_KEY: "F7192259-AC89-4FBB-8033-ACE703B659FB",
-        //URL: "https://localhost:44367/",
+        URL: "https://localhost:44367/",
         //  URL: "https://localhost:44300/",
-        URL: "https://api.golpooch.com/"
+        //URL: "https://api.golpooch.com/"
     },
     salt: 'shahrooz_bazrafshan',
     keys: {
@@ -61,5 +61,5 @@ export default {
         height: "10px",
         perspective: "739px",
         colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-    };
+    }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, Badge, Avatar, Link, CircularProgress } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
 import toastState from '../../../atom/state/toastState';
@@ -31,10 +31,10 @@ const useStyles = makeStyles({
             boxShadow: " 0px 0px 3px 1px #d4d4d4",
             backgroundColor: '#eee',
             marginRight: 10,
-            '& .MuiAvatar-img':{
+            '& .MuiAvatar-img': {
                 width: '50px!important',
                 height: '50px!important',
-                borderRadius:'50%' 
+                borderRadius: '50%'
             }
         }
     }
@@ -44,7 +44,7 @@ export default function (props) {
     const maxFileSize = 5;
     const classes = useStyles();
     const [inProgress, setInProgress] = useState(false);
-    const [avatar, setAvatar] = useState(props.avatar || avatarImage);
+    const [avatar, setAvatar] = useState('');
     const [toast, setToastState] = useRecoilState(toastState);
     let inputFile = null;
 
@@ -68,8 +68,6 @@ export default function (props) {
         else setToastState({ ...toast, open: true, severity: 'error', message: upload.message });
 
     }
-
-
     return (
         <div id='comp-avatar' className='container'>
             <Link onClick={() => inputFile.click()} color="inherit" className={classes.avatar}>
@@ -77,7 +75,7 @@ export default function (props) {
                     vertical: 'bottom',
                     horizontal: 'left',
                 }} badgeContent={inProgress ? <CircularProgress /> : <BsPlusCircleFill style={{ fontSize: 20, color: red[600] }} />}>
-                    <Avatar src={avatar} alt='avatar' />
+                    <Avatar src={avatar||props.avatar||avatarImage} alt='avatar' />
                 </Badge>
                 {props.mobileNumber}
             </Link>

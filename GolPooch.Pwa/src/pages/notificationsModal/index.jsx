@@ -44,7 +44,7 @@ const Notifications = () => {
             const getDate = async () => {
                 setInProgress(true);
                 let get = await notificationSrv.get(12, pageNumber);
-
+                console.log(get.result)
                 if (get.isSuccessful) {
                     setItems([...items, ...get.result.items]);
                     if (get.result.items.length > 0)
@@ -62,7 +62,6 @@ const Notifications = () => {
     function handleScroll(e) {
         let element = e.target
         if (!inProgress && element.scrollHeight - element.scrollTop === element.clientHeight) {
-            console.log('fired');
             setIsBottom(true);
         }
     }

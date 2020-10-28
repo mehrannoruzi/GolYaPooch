@@ -78,6 +78,7 @@ const Profile = () => {
             setToastState({ ...toast, open: true, severity: 'error', message: getProf.message });
             return;
         }
+        console.log(getProf.result);
         setAvatar(getProf.result.profileImgUrl);
         setMobileNumber(getProf.result.mobileNumber);
         for (let i = 0; i < inputs.length; i++) {
@@ -101,7 +102,6 @@ const Profile = () => {
     }, []);
 
     const _submit = async () => {
-        console.log(input.birthdateSh.value);
         if (!input.firstName.value) {
             setInput({ firstName: { ...input.firstName, error: true, errorMessage: validationStrings.required } });
             return;
@@ -132,6 +132,7 @@ const Profile = () => {
             model[k] = input[k].value;
         var response = await userSrv.updateProfile({
             ...model,
+            birthdateSh: input.birthdateSh.value ? input.birthdateSh.value : null,
             region: parseInt(model.region),
             gender: parseInt(model.gender)
         });
@@ -157,7 +158,7 @@ const Profile = () => {
             <Container>
                 <Grid container spacing={1}>
                     <Grid item xs={12} className='mb-15'>
-                        <Avatar mobileNumber={loading ? "9XXXXXXXX" : mobileNumber} avatar={avatar || null} />
+                        <Avatar mobileNumber={loading ? "9XXXXXXXX" : mobileNumber} avatar={loading ? null : avatar} />
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
