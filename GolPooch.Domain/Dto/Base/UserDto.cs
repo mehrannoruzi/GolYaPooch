@@ -22,7 +22,7 @@ namespace GolPooch.Domain.Dto
         public RegionNames Region { get; set; }
 
         [Display(Name = nameof(DisplayNames.Birthdate), ResourceType = typeof(DisplayNames))]
-        public DateTime BirthdateMi => string.IsNullOrEmpty(BirthdateSh.Trim()) ? DateTime.Now : PersianDateTime.Parse(BirthdateSh).ToDateTime(); 
+        public DateTime BirthdateMi => string.IsNullOrEmpty(BirthdateSh?.Trim()) ? DateTime.Now : PersianDateTime.Parse(BirthdateSh).ToDateTime(); 
 
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(DisplayNames.Birthdate), ResourceType = typeof(DisplayNames))]
