@@ -12,6 +12,7 @@ import Avatar from './comps/avatar';
 import userSrv from '../../services/userSrv';
 import { toPersianDate } from '../../core/utils';
 import DatePicker from '../../atom/comps/DatePicker';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles({
     profilePage: {
@@ -52,25 +53,55 @@ const regions = [
 
 const inputs = ["firstName", "lastName", "email", "region", "gender", "birthdateSh", "intruducerId"];
 const Profile = () => {
+    //Hooks
     const classes = useStyles();
+    const [loading, setLoading] = useState(true);
+    const [inProgress, setInProgress] = useState(false);
+    const [avatar, setAvatar] = useState('');
+    const [mobileNumber, setMobileNumber] = useState('9xxxxxxxxx');
+    //Recoil
     const [toast, setToastState] = useRecoilState(toastState);
     const setBLState = useSetRecoilState(bLState);
-    const info = userSrv.getInfo();
     var states = {};
     for (let i = 0; i < inputs.length; i++)
         states[inputs[i]] = {
-            value: info[inputs[i]] || '',
+            value: '',
             error: false,
             errorMessage: ''
         };
     const [input, setInput] = useReducer((state, newState) => ({ ...state, ...newState }), states);
-    const [inProgress, setInProgress] = useState(false);
+
+    const getProfile = async () => {
+        setLoading(true);
+        let getProf = await userSrv.getProfile();
+        if (!getProf.isSuccessful) {
+            setToastState({ ...toast, open: true, severity: 'error', message: getProf.message });
+            return;
+        }
+        setAvatar(getProf.result.profileImgUrl);
+        setMobileNumber(getProf.result.mobileNumber);
+        for (let i = 0; i < inputs.length; i++) {
+            if (getProf.result[inputs[i]]) {
+                setInput({
+                    [inputs[i]]: {
+                        value: getProf.result[inputs[i]],
+                        error: false,
+                        errorMessage: ''
+                    }
+                });
+            }
+
+        }
+        setLoading(false);
+    }
 
     useEffect(() => {
-        setBLState((state) => ({ ...state, title: strings.profile }))
+        setBLState((state) => ({ ...state, title: strings.profile }));
+        getProfile();
     }, []);
 
     const _submit = async () => {
+        console.log(input.birthdateSh.value);
         if (!input.firstName.value) {
             setInput({ firstName: { ...input.firstName, error: true, errorMessage: validationStrings.required } });
             return;
@@ -126,55 +157,60 @@ const Profile = () => {
             <Container>
                 <Grid container spacing={1}>
                     <Grid item xs={12} className='mb-15'>
-                        <Avatar mobileNumber={info.mobileNumber} avatar={info.avatar || null} />
+                        <Avatar mobileNumber={loading ? "9XXXXXXXX" : mobileNumber} avatar={avatar || null} />
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
-                            <TextField
-                                id="firstName"
-                                name="firstName"
-                                label={strings.firstName}
-                                onChange={_handleChange}
-                                style={{ fontFamily: 'iransans' }}
-                                value={input.firstName.value}
-                                error={input.firstName.error}
-                                helperText={input.firstName.errorMessage}
-                            />
+                            {
+                                loading ? <Skeleton variant='rect' height={54} /> : <TextField
+                                    id="firstName"
+                                    name="firstName"
+                                    label={strings.firstName}
+                                    onChange={_handleChange}
+                                    style={{ fontFamily: 'iransans' }}
+                                    value={input.firstName.value}
+                                    error={input.firstName.error}
+                                    helperText={input.firstName.errorMessage}
+                                />
+                            }
+
                         </div>
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
-                            <TextField
-                                id="lastName"
-                                name="lastName"
-                                label={strings.lastName}
-                                onChange={_handleChange}
-                                style={{ fontFamily: 'iransans' }}
-                                value={input.lastName.value}
-                                error={input.lastName.error}
-                                helperText={input.lastName.errorMessage}
-                            />
+                            {
+                                loading ? <Skeleton variant='rect' height={54} /> : <TextField
+                                    id="lastName"
+                                    name="lastName"
+                                    label={strings.lastName}
+                                    onChange={_handleChange}
+                                    style={{ fontFamily: 'iransans' }}
+                                    value={input.lastName.value}
+                                    error={input.lastName.error}
+                                    helperText={input.lastName.errorMessage}
+                                />}
                         </div>
                     </Grid>
                     <Grid item xs={12}>
                         <div className="form-group">
-                            <TextField
-                                className='ltr-elm'
-                                id="email"
-                                name="email"
-                                placeholder="me@company.com"
-                                label={strings.email}
-                                onChange={_handleChange}
-                                style={{ fontFamily: 'iransans' }}
-                                value={input.email.value}
-                                error={input.email.error}
-                                helperText={input.email.errorMessage}
-                            />
+                            {loading ? <Skeleton variant='rect' height={54} /> :
+                                <TextField
+                                    className='ltr-elm'
+                                    id="email"
+                                    name="email"
+                                    placeholder="me@company.com"
+                                    label={strings.email}
+                                    onChange={_handleChange}
+                                    style={{ fontFamily: 'iransans' }}
+                                    value={input.email.value}
+                                    error={input.email.error}
+                                    helperText={input.email.errorMessage}
+                                />}
                         </div>
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
-                            <FormControl error={input.region.error}>
+                            {loading ? <Skeleton variant='rect' height={54} /> : <FormControl error={input.region.error}>
                                 <InputLabel id="lbl-region">{strings.region}</InputLabel>
                                 <Select
                                     labelId="lbl-region"
@@ -185,13 +221,12 @@ const Profile = () => {
                                     {regions.map((x, idx) => <MenuItem key={idx} value={x.id}>{x.name}</MenuItem>)}
                                 </Select>
                                 <FormHelperText>{input.region.errorMessage}</FormHelperText>
-                            </FormControl>
-
+                            </FormControl>}
                         </div>
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
-                            <FormControl error={input.gender.error}>
+                            {loading ? <Skeleton variant='rect' height={54} /> : <FormControl error={input.gender.error}>
                                 <InputLabel id="demo-simple-select-label">{strings.gender}</InputLabel>
                                 <Select
                                     labelId="lbl-gender"
@@ -203,16 +238,16 @@ const Profile = () => {
                                     <MenuItem value="1">{strings.men}</MenuItem>
                                 </Select>
                                 <FormHelperText>{input.gender.errorMessage}</FormHelperText>
-                            </FormControl>
+                            </FormControl>}
 
                         </div>
                     </Grid>
                     <Grid item xs={6}>
-                        <DatePicker id='birthdateSh' value={input.birthdateSh.value} label={strings.birthday} onChange={_dateChanged} />
+                        {loading ? <Skeleton variant='rect' height={54} /> : <DatePicker id='birthdateSh' value={input.birthdateSh.value} label={strings.birthday} onChange={_dateChanged} />}
                     </Grid>
                     <Grid item xs={6}>
                         <div className="form-group">
-                            <TextField
+                            {loading ? <Skeleton variant='rect' height={54} /> : <TextField
                                 id="intruducerId"
                                 name="intruducerId"
                                 label={strings.intruducerId}
@@ -221,13 +256,14 @@ const Profile = () => {
                                 value={input.intruducerId.value}
                                 error={input.intruducerId.error}
                                 helperText={input.intruducerId.errorMessage}
-                            />
+                            />}
                         </div>
+
                     </Grid>
                 </Grid>
             </Container>
             <Box textAlign="right" className='btn-wrapper btn-BottomFixed'>
-                <Button icon={EditIcon} onClick={() => _submit()} loading={inProgress} disabled={inProgress} className='btn-purchase'>{strings.edit}</Button>
+                <Button icon={EditIcon} onClick={() => _submit()} loading={inProgress} disabled={loading} className='btn-purchase'>{strings.edit}</Button>
             </Box>
         </div>
     );
