@@ -38,11 +38,11 @@ const Balance = () => {
     }, []);
 
     return (
-        <div className={classes.root}>
+        <Paper className={classes.root}>
             <span>{strings.balance}:</span>
             {inProgress ? <Skeleton width={50} /> :
                 <span>{commaThousondSeperator(info.balance)} {strings.moneyCurrency}</span>}
-        </div>
+        </Paper>
     );
 };
 

@@ -32,7 +32,8 @@ const useStyles = makeStyles({
         flexDirection: 'row',
         justifyContent: 'space-between',
         '& .want': {
-            width: 130
+            width: 130,
+            backgroundColor: '#8BC34A',
         },
         '& .dont-want': {
             width: 130,
@@ -51,9 +52,9 @@ const Heading = (props) => {
     const _handleAgree = () => {
         // Show the prompt
         deferredPrompt.prompt();
+        setBottomUpModalState((state) => ({ ...state, open: false, children: null, message: '' }));
         // Wait for the user to respond to the prompt
         deferredPrompt.userChoice.then((choiceResult) => {
-            _handleReject();
             if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted the A2HS prompt');
             } else {
@@ -62,7 +63,7 @@ const Heading = (props) => {
         });
     }
     const _handleReject = () => {
-        setBottomUpModalState((state)=>({ ...state, open: false, children: null, message: ''}))
+        setBottomUpModalState((state) => ({ ...state, open: false, children: null, message: '' }));
     }
 
     return (<div className={classes.root}>
@@ -76,8 +77,8 @@ const Heading = (props) => {
             </div>
         </div>
         <div className={classes.navs}>
-            <Button className='want' onClick={_handleAgree}>{strings.iWant}</Button>
             <Button className='dont-want' onClick={_handleReject}>{strings.iDontWant}</Button>
+            <Button className='want' onClick={_handleAgree}>{strings.iWant}</Button>
         </div>
     </div>);
 }
