@@ -1,9 +1,9 @@
 ﻿const dev = {
     apiGateway: {
         API_KEY: "F7192259-AC89-4FBB-8033-ACE703B659FB",
-        URL: "https://localhost:44367/",
-        //URL: "https://localhost:44300/",
-        //URL: "https://api.golpooch.com/"
+        //URL: "https://localhost:44367/",
+        //  URL: "https://localhost:44300/",
+        URL: "https://api.golpooch.com/"
     },
     salt: 'shahrooz_bazrafshan',
     keys: {
@@ -50,16 +50,16 @@ export default {
     LOGIN_PAGE: "/el/auth",
     ...config,
     confettiConfig: {
-        angle: 360,
-        spread: 360,
-        startVelocity: 40,
-        elementCount: 100,
-        dragFriction: 0.12,
-        duration: 5000,
-        stagger: 3,
+        angle: "360",
+        spread: "360",
+        startVelocity: "29",
+        elementCount: "102",
+        dragFriction: "0.07",
+        duration: "5100",
+        stagger: "6",
         width: "10px",
         height: "10px",
-        perspective: "500px",
+        perspective: "739px",
         colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-    }
+    };
 };

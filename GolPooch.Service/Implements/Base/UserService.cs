@@ -61,6 +61,7 @@ namespace GolPooch.Service.Implements
                     #region Update User Profile
                     userDto.Balance = user.Balance;
                     userDto.MobileNumber = user.MobileNumber;
+                    userDto.BirthdateSh = string.IsNullOrWhiteSpace(userDto.BirthdateSh) ? null : userDto.BirthdateSh.Trim(); 
                     var existedUser = await _appUow.UserRepo.FirstOrDefaultAsync(
                         new QueryFilter<User>
                         {
