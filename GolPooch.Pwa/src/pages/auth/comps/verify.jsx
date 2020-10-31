@@ -98,10 +98,13 @@ export default function () {
     }
     const _handleVerifyCodeChange = async (e) => {
         let v = e.target.value;
-        if(v) v = convertToEn(v);
-        setVerifyCode({ value: v, error: false, errorMessage: '' });
-        if (v.length === 4)
-            await _submit(v);
+        if (v) {
+            v = convertToEn(v);
+            setVerifyCode({ value: v, error: false, errorMessage: '' });
+            if (v.length === 4)
+                await _submit(v);
+        }
+        else setVerifyCode({ value: '', error: false, errorMessage: '' });
     }
 
     if (redirectTo) return <Redirect to={redirectTo} />
@@ -120,7 +123,7 @@ export default function () {
                         error={verifyCode.error}
                         id="verifyCode"
                         name="verifyCode"
-                        type="text"
+                        type="tel"
                         value={verifyCode.value}
                         onChange={(e) => _handleVerifyCodeChange(e)}
                         helperText={verifyCode.errorMessage}

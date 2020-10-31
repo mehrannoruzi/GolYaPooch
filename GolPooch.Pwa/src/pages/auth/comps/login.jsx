@@ -31,7 +31,7 @@ export default function () {
             setMobileNumber({ ...mobileNumber, error: true, errorMessage: validationStrings.required });
             return;
         }
-        if (validate.mobileNumber()) {
+        if (!validate.mobileNumber(mobileNumber.value)) {
             setMobileNumber({ ...mobileNumber, error: true, errorMessage: validationStrings.invalidMobileNumber });
             return;
         }
@@ -56,8 +56,9 @@ export default function () {
         let v = e.target.value;
         if (v) {
             v = convertToEn(v);
-            setMobileNumber({ value: v, error: false, errorMessage: '' })
+            setMobileNumber({ value: v, error: false, errorMessage: '' });
         }
+        else  setMobileNumber({ value: '', error: false, errorMessage: '' });
 
     }
     return (

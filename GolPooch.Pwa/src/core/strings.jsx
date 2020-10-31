@@ -135,6 +135,8 @@ const strings = {
     addToHomeScreenTitle:'برای تجربه بهتر و سریعتر و استفاده از تمام امکانات گل یا پوچ، از نسخه وب اپ آن استفاده کنید',
     addToHomeScreenInstall:'بدون نیاز به نصب و تنها با دو کلیک',
     iWant:'بله، میخواهم',
-    iDontWant:'نه، فعلا نمی خواهم'
+    iDontWant:'نه، فعلا نمی خواهم',
+    offlineText:'شما به اینترنت متصل نیستید، لطفا پس از اتصال دوباره تلاش نمایید',
+    retry:'تلاش مجدد'
 };
 export default strings;

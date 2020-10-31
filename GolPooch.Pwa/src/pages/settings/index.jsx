@@ -15,8 +15,8 @@ import NavItem from './comps/navItem';
 import config from '../../config';
 import packageJson from '../../../package.json';
 import Confetti from 'react-dom-confetti';
-import { useEffect } from 'react';
-
+import authPageAtom from '../../atom/state/authPageState';
+import { useRecoilState } from 'recoil';
 
 const useStyles = makeStyles({
     settingsPage: {
@@ -82,16 +82,19 @@ const Settings = () => {
     const userInfo = userSrv.getInfo();
     const [clicks, setClick] = useState(0);
     const [confettiIsActive, setConfettiIsActive] = useState(false);
+    //Recoil
+    const [authPageState, setAuthPageState] = useRecoilState(authPageAtom);
 
     const _handleLogOut = () => {
         localStorage.removeItem(config.keys.token);
+        setAuthPageState((state) => ({ ...state, activePanel: 'login' }))
         history.push('/el/auth');
     }
 
 
     return (
         <div id='page-settings' className={`${classes.settingsPage}`}>
-          
+
             <ul>
                 <li className='profile'>
                     <Container>
@@ -113,7 +116,7 @@ const Settings = () => {
                 <NavItem href='/bl/ticketList' icon={BiMessageSquareAdd} title={strings.sendTicket} />
                 <NavItem onClick={() => _handleLogOut()} icon={BsPower} title={strings.logOut} />
                 <li className='version'>
-                    <span onClick={() => { setClick( clicks + 1);}}>{strings.appVersion} {packageJson.version}</span>
+                    <span onClick={() => { setClick(clicks + 1); }}>{strings.appVersion} {packageJson.version}</span>
 
                 </li>
             </ul>
